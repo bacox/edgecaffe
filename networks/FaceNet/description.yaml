@@ -1,0 +1,37 @@
+---
+name: "FaceNet"
+network-file: "face_full_conv.prototxt"
+model-file: "face_full_conv.caffemodel"
+mean-scalar: [104.00698793, 116.66876762, 122.67891434]
+uses-result-vector: false
+input-scale: [227, 227]
+base-path: "networks/FaceNet/"
+partials-location: "face_full_conv_partials"
+has-input-layer: false
+num-conv-layers: 15
+num-fc-layers: 8
+conv-layers:
+  - "face_full_conv00.partial.caffemodel"
+  - "face_full_conv01.partial.caffemodel"
+  - "face_full_conv02.partial.caffemodel"
+  - "face_full_conv03.partial.caffemodel"
+  - "face_full_conv04.partial.caffemodel"
+  - "face_full_conv05.partial.caffemodel"
+  - "face_full_conv06.partial.caffemodel"
+  - "face_full_conv07.partial.caffemodel"
+  - "face_full_conv08.partial.caffemodel"
+  - "face_full_conv09.partial.caffemodel"
+  - "face_full_conv10.partial.caffemodel"
+  - "face_full_conv11.partial.caffemodel"
+  - "face_full_conv12.partial.caffemodel"
+  - "face_full_conv13.partial.caffemodel"
+  - "face_full_conv14.partial.caffemodel"
+fc-layers:
+  - "face_full_conv15.partial.caffemodel"
+  - "face_full_conv16.partial.caffemodel"
+  - "face_full_conv17.partial.caffemodel"
+  - "face_full_conv18.partial.caffemodel"
+  - "face_full_conv19.partial.caffemodel"
+  - "face_full_conv20.partial.caffemodel"
+  - "face_full_conv21.partial.caffemodel"
+  - "face_full_conv22.partial.caffemodel"

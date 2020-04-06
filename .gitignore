@@ -1,0 +1,14 @@
+.idea
+cmake-build-debug
+build
+*/images/*
+images
+*.caffemodel
+resources/*
+thirdparty/caffe
+/thirdparty/caffe/
+.ipynb_checkpoints
+*.png
+*.ipynb
+*.csv
+analysis

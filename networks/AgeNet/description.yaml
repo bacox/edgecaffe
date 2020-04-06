@@ -1,0 +1,35 @@
+---
+name: "AgeNet"
+network-file: "age_deploy.prototxt"
+model-file: "age_net.caffemodel"
+mean-scalar: [78.4263377603, 87.7689143744, 114.895847746]
+result-vector: ["(0-2)", "(4-6)", "(8-12)", "(15-20)", "(25-32)", "(38-43)", "(48-53)", "(60-100)"]
+uses-result-vector: true
+input-scale: [227, 227]
+base-path: "networks/AgeNet/"
+partials-location: "age_net_partials"
+has-input-layer: true
+num-conv-layers: 12
+num-fc-layers: 8
+conv-layers:
+  - "age_net00.partial.caffemodel"
+  - "age_net01.partial.caffemodel"
+  - "age_net02.partial.caffemodel"
+  - "age_net03.partial.caffemodel"
+  - "age_net04.partial.caffemodel"
+  - "age_net05.partial.caffemodel"
+  - "age_net06.partial.caffemodel"
+  - "age_net07.partial.caffemodel"
+  - "age_net08.partial.caffemodel"
+  - "age_net09.partial.caffemodel"
+  - "age_net10.partial.caffemodel"
+  - "age_net11.partial.caffemodel"
+fc-layers:
+  - "age_net12.partial.caffemodel"
+  - "age_net13.partial.caffemodel"
+  - "age_net14.partial.caffemodel"
+  - "age_net15.partial.caffemodel"
+  - "age_net16.partial.caffemodel"
+  - "age_net17.partial.caffemodel"
+  - "age_net18.partial.caffemodel"
+  - "age_net19.partial.caffemodel"
