@@ -55,7 +55,6 @@ target_include_directories(ScheduledPipeline
         ${INCLUDE_ORIG_CAFFE}
         )
 target_link_libraries(ScheduledPipeline
-        EdgeCaffeCore
         caffe
         ${PROTOBUF_LIBRARY}
         # Use pixed paths for now
@@ -67,7 +66,26 @@ target_link_libraries(ScheduledPipeline
         Threads::Threads
         stdc++fs
         ${YAML_CPP_LINK_LIBRARIES}
+        EdgeCaffeCore
         )
 
 # Copy resourcess
 file(COPY ${CMAKE_SOURCE_DIR}/networks DESTINATION ${CMAKE_BINARY_DIR})
+
+message(STATUS "YAML include ${YAML_CPP_INCLUDEDIR}")
+message(STATUS "YAML link ${YAML_CPP_LINK_LIBRARIES}")
+message(STATUS "YAML link 2 ${YAML_CPP_LIBRARIES}")
+
+add_custom_target(EdgeCaffe_build_all
+        COMMAND
+        ${CMAKE_COMMAND} -E echo Finished building build_all targets
+        VERBATIM
+        )
+
+add_dependencies(EdgeCaffe_build_all
+        ModelSplitter
+        ScheduledPipeline
+        EdgeCaffeCore
+        __pycaffe
+        pycaffe
+        )

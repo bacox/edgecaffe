@@ -3,7 +3,7 @@
 Draw a graph of the net architecture.
 """
 
-import caffe
+import edgecaffe
 from caffe.proto import caffe_pb2
 import numpy as np
 import cv2
@@ -16,8 +16,8 @@ def main():
     # Using cv2.imread() method
     img = cv2.imread(path)
 
-    ageNet = caffe.BaseNet("../cmake-build-debug/networks/AgeNet")
-    genderNet = caffe.BaseNet("../cmake-build-debug//networks/GenderNet")
+    ageNet = edgecaffe.BaseNet("../cmake-build-debug/networks/AgeNet")
+    genderNet = edgecaffe.BaseNet("../cmake-build-debug//networks/GenderNet")
     networks = [ageNet, genderNet]
 
     print("Number of layers in AgeNet is {}".format(ageNet.numLayers()))

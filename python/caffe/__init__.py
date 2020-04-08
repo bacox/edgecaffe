@@ -6,4 +6,5 @@
 # from .detector import Detector
 # from . import io
 # from .net_spec import layers, params, NetSpec, to_proto
-from ._edge_caffe import BaseNet
+# # import ._edge_caffe as EdgeCaffe
+# from ._edge_caffe import BaseNet

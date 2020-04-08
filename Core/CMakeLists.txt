@@ -107,10 +107,6 @@ endfunction()
 file(GLOB_RECURSE hdrs ${CMAKE_CURRENT_SOURCE_DIR}/include/*.h)
 file(GLOB_RECURSE srcs ${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp)
 
-
-message(STATUS "SOURCES: ${srcs}")
-message(STATUS "INCLUDES: ${hdrs}")
-
 add_library(${PROJECT_NAME} STATIC ${srcs})
 add_dependencies(${PROJECT_NAME} caffe)
 
@@ -136,37 +132,4 @@ target_link_libraries(${PROJECT_NAME}
         ${YAML_CPP_LINK_LIBRARIES}
         )
 
-#add_custom_target(combined ALL
-#        COMMAND ${CMAKE_CXX_ARCHIVE_CREATE} libcombined.a $<TARGET_FILE:caffe> $<TARGET_FILE:${PROJECT_NAME}>)
-
-#set(EdgeCaffe_Lib ${CMAKE_BINARY_DIR}/lib/libEdgeCaffe.a)
-#
-#add_custom_target(LibEdgeCaffe
-#        COMMAND ar -x $<TARGET_FILE:caffe>
-#        COMMAND ar -x $<TARGET_FILE:${PROJECT_NAME}>
-#        COMMAND ar -qcs ${C_LIB} *.o
-#        WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
-#        DEPENDS caffe ${PROJECT_NAME}
-#        )
-#
-#add_library(EdgeCaffe STATIC IMPORTED GLOBAL)
-#add_dependencies(EdgeCaffe LibEdgeCaffe)
-#
-#set_target_properties(EdgeCaffe
-#        PROPERTIES
-#        IMPORTED_LOCATION ${EdgeCaffe_Lib}
-#        )
-
-#add_library(awesome_lib STATIC ...);
-
 bundle_static_library(${PROJECT_NAME} ${PROJECT_NAME}_bundled)
-
-#add_custom_target(EdgeCaffe ALL
-#        COMMAND ${CMAKE_AR} qc  EdgeCaffe.a $<TARGET_FILE:caffe> $<TARGET_FILE:${PROJECT_NAME}>)
-#set_property(TARGET EdgeCaffe PROPERTY ENABLE_EXPORTS 1)
-#
-#set_target_properties(EdgeCaffe PROPERTIES
-#        VERSION   ${EDGECAFFE_TARGET_VERSION}
-#        SOVERSION ${EDGECAFFE_TARGET_SOVERSION}
-#        )
-#add_dependencies(EdgeCaffe ${PROJECT_NAME})

@@ -12,3 +12,5 @@ thirdparty/caffe
 *.ipynb
 *.csv
 analysis
+*/__pycache__/*
+*.pyc
