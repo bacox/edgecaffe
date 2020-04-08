@@ -16,6 +16,8 @@ private:
 
 public:
 
+    int poolId = -1;
+
     std::list<Task*> pool;
 
     void addTask(Task* t_ptr);

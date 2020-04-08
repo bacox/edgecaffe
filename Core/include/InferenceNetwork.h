@@ -67,6 +67,9 @@ public:
 
 
     void createTasks();
+    void createTasksConvFC();
+    void createTasksBulk();
+    void createTasks(int splittingPolicy);
 
     void showResult();
 

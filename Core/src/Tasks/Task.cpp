@@ -25,3 +25,15 @@ void Task::addTaskDependency(Task *t) {
 
 Task::Task(int id, int executionTime) : id(id), executionTime(executionTime) {}
 Task::Task() : executionTime(0) {}
+
+bool Task::hasPoolAssigned() {
+    return assignedPoolId > -1;
+}
+
+int Task::getAssignedPoolId() {
+    return assignedPoolId;
+}
+
+std::string Task::getTaskDescription() {
+    return "General Task";
+}

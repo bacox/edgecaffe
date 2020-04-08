@@ -15,6 +15,8 @@ public:
     std::string partialName;
     std::string pathToPartial;
 
+    std::string getTaskDescription() override;
+
     void run() override;
 
     bool needsLoading = true;

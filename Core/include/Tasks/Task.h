@@ -18,6 +18,7 @@ public:
     int executionTime = 0;
     std::string taskName;
     int layerId;
+    int assignedPoolId = -1;
     std::vector<Task*> dependsOn;
 
     bool waitsForOtherTasks();
@@ -28,6 +29,12 @@ public:
     Task();
 
     void addTaskDependency(Task * t);
+
+    bool hasPoolAssigned();
+
+    int getAssignedPoolId();
+
+    virtual std::string getTaskDescription();
 
 //  Virtual function to implement in subclasses
     virtual void run() = 0;

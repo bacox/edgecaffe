@@ -14,6 +14,8 @@ public:
     ExecTask(int id, int executionTime) : Task(id, executionTime) {}
 
     ExecTask() {}
+
+    std::string getTaskDescription() override;
 };
 
 

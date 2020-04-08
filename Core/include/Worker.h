@@ -17,6 +17,8 @@ public:
     TaskPool* pool;
     TaskPool* outpool;
 
+    int workerId = -1;
+
     void printMessage();
     void Execution();
     void run();
@@ -24,6 +26,9 @@ public:
     bool AllowedToStop();
 
     Worker(TaskPool *pool, TaskPool *outpool);
+    Worker(TaskPool *pool, TaskPool *outpool, int workerId);
+
+    void registerTaskPool(TaskPool *pool);
 };
 
 

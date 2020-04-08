@@ -16,7 +16,7 @@ void Worker::Execution() {
         Task *task = nullptr;
         if(pool->getNext(&task))
         {
-            std::cout << std::this_thread::get_id() << " -> Running task " << task->id << std::endl;
+            std::cout << std::this_thread::get_id()  << " ["<< workerId << "]"<< " -> Running task " << task->id << " = '" << task->getTaskDescription() << "'" << std::endl;
             task->run();
             outpool->addTask(task);
             task->executed = true;
@@ -35,6 +35,10 @@ Worker::Worker(TaskPool *pool, TaskPool *outpool) : pool(pool), outpool(outpool)
 
 }
 
+Worker::Worker(TaskPool *pool, TaskPool *outpool, int workerId) : pool(pool), outpool(outpool), workerId(workerId){
+
+}
+
 bool Worker::AllowedToStop() {
     if(pool != nullptr)
     {
@@ -45,4 +49,8 @@ bool Worker::AllowedToStop() {
     return allowed_to_stop;
 
 
+}
+
+void Worker::registerTaskPool(TaskPool *pool) {
+    this->pool = pool;
 }

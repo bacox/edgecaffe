@@ -69,6 +69,33 @@ target_link_libraries(ScheduledPipeline
         EdgeCaffeCore
         )
 
+
+add_executable(RunPipeline
+        RunPipeline.cpp)
+add_dependencies(RunPipeline
+        EdgeCaffeCore
+        )
+
+target_include_directories(RunPipeline
+        PUBLIC
+        Core/include
+        ${INCLUDE_ORIG_CAFFE}
+        )
+target_link_libraries(RunPipeline
+        caffe
+        ${PROTOBUF_LIBRARY}
+        # Use pixed paths for now
+        /usr/local/lib/libprotobuf.so
+        ${OpenCV_LIBRARIES}
+        ${Boost_LIBRARIES}
+        # Use pixed paths for now
+        /usr/lib/x86_64-linux-gnu/libglog.so
+        Threads::Threads
+        stdc++fs
+        ${YAML_CPP_LINK_LIBRARIES}
+        EdgeCaffeCore
+        )
+
 # Copy resourcess
 file(COPY ${CMAKE_SOURCE_DIR}/networks DESTINATION ${CMAKE_BINARY_DIR})
 

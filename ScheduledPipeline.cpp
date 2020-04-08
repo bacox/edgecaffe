@@ -68,7 +68,7 @@ int main(int argc, char *argv[]) {
     int numberOfWorkers = 1;
     for(int i = 0; i < numberOfWorkers; ++i) {
         std::cout << "Creating new worker[" << i << "]" << std::endl;
-        workers.push_back(Worker(&pool, &outPool));
+        workers.push_back(Worker(&pool, &outPool, i));
     }
 
     for(Worker &w: workers){
