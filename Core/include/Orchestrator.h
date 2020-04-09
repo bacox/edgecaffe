@@ -32,7 +32,8 @@ public:
     enum MODEL_SPLIT_MODE {
         BULK = 0,
         DEEPEYE = 1,
-        PARTIAL = 2
+        PARTIAL = 2,
+        LINEAR = 3
     };
 
     std::vector<Worker*> workers;
@@ -54,6 +55,7 @@ public:
     // Setup Bulk mode
     // Setup Partial loading mode
     void setupBulkMode();
+    void setupLinearMode();
     void setupDeepEyeMode();
     void setupPartialMode(int numberOfWorkers);
 

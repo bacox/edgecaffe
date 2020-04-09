@@ -30,6 +30,8 @@ public:
 
     void addTaskDependency(Task * t);
 
+    virtual ~Task();
+
     bool hasPoolAssigned();
 
     int getAssignedPoolId();

@@ -20,15 +20,19 @@ private:
 public:
     const std::vector<Task *> &getTasks() const;
 
-private:
     std::vector<InferenceSubTask*> subTasks;
+private:
 
     std::string pathToDescription;
 
     void preprocess(bool use_scales = false);
 
-
 public:
+
+
+    static int TASKID_COUNTER;
+
+    virtual ~InferenceNetwork();
 
     /**
  *  @Brief: The data transform from OpenCV to caffe Blob
@@ -69,6 +73,7 @@ public:
     void createTasks();
     void createTasksConvFC();
     void createTasksBulk();
+    void createTasksLinear();
     void createTasks(int splittingPolicy);
 
     void showResult();

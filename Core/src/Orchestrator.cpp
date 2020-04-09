@@ -9,7 +9,7 @@ void Orchestrator::setupBulkMode() {
     TaskPool *taskPool  = new TaskPool;
     taskPools.push_back(taskPool);
     int i = 0;
-    std::cout << "Creating new convolution worker[" << i << "]" << std::endl;
+    std::cout << "Creating new bulk worker[" << i << "]" << std::endl;
     workers.push_back(new Worker(taskPool, &outPool, i++));
 
 }
@@ -36,6 +36,15 @@ void Orchestrator::setupPartialMode(int numberOfWorkers) {
         std::cout << "Creating new worker[" << i << "]" << std::endl;
         workers.push_back(new Worker(taskPool, &outPool, i));
     }
+}
+
+void Orchestrator::setupLinearMode() {
+    TaskPool *taskPool = new TaskPool;
+    taskPools.push_back(taskPool);
+
+    int i = 0;
+    std::cout << "Creating new linear worker[" << i << "]" << std::endl;
+    workers.push_back(new Worker(taskPool, &outPool, i++));
 }
 
 void Orchestrator::start() {

@@ -73,6 +73,8 @@ std::string updatePrototxt(int rows, int cols, std::string pathToProtoText, std:
 
 InferenceNetwork::InferenceNetwork(const std::string &pathToDescription) : pathToDescription(pathToDescription) {}
 
+int InferenceNetwork::TASKID_COUNTER = 0;
+
 void InferenceNetwork::init() {
     std::string pathToYaml = pathToDescription + "/description.yaml";
     YAML::Node description = YAML::LoadFile(pathToYaml);
@@ -161,7 +163,7 @@ void InferenceNetwork::preprocess(bool use_scales) {
 }
 
 void InferenceNetwork::createTasks() {
-    int taskCounter = 0;
+//    int taskCounter = TASKID_COUNTER++;
 
     InferenceSubTask *dnn = subTasks.front();
     int numLayers = dnn->net_ptr->layers().size();
@@ -200,7 +202,10 @@ void InferenceNetwork::createTasks() {
             load->needsLoading = hasInputLayer;
         }
 //        load->layer = dnn->net_ptr->layers()[i].get();
-        load->id = taskCounter++;
+        load->id = TASKID_COUNTER++;
+        if(dnn->firstTask == nullptr){
+            dnn->firstTask = load;
+        }
 
 
 //        if(lastTask != nullptr) {
@@ -218,7 +223,7 @@ void InferenceNetwork::createTasks() {
         exec->taskName = dnn->networkName + "-exec-" + dnn->net_ptr->layer_names()[i];
         exec->layerId = i;
 //        exec->layer = dnn->net_ptr->layers()[i].get();
-        exec->id = taskCounter++;
+        exec->id = TASKID_COUNTER++;
         if(lastTask != nullptr) {
             exec->addTaskDependency(lastTask);
         }
@@ -233,6 +238,289 @@ void InferenceNetwork::createTasks() {
 const std::vector<Task *> &InferenceNetwork::getTasks() const {
     return tasks;
 }
+
+void InferenceNetwork::createTasksLinear() {
+    InferenceSubTask *dnn = subTasks.front();
+    int numLayers = dnn->net_ptr->layers().size();
+    Task * lastTask = nullptr;
+//    Task * lastExecTask = nullptr;
+//    Task * firstExecTask = nullptr;
+
+    bool hasInputLayer = dnn->hasInputLayer;
+    bool firstLayer = true;
+    int layerOffset = 0;
+    if(!hasInputLayer) {
+        layerOffset = -1;
+    }
+    for(int i = 0; i < numLayers; ++i)
+    {
+//        LoadTask t_l;
+//        ExecTask t_e;
+//        std::cout << "This is layer " << i << std::endl;
+
+        LoadTask *load = new LoadTask;
+
+        load->network_ptr = dnn->net_ptr;
+//        load->network_ptr = dnn->net_ptr;
+        load->taskName = dnn->networkName + "-load-" + dnn->net_ptr->layer_names()[i];
+        load->layerId = i + layerOffset;
+
+        if(load->layerId >= 0)
+        {
+            load->pathToPartial = dnn->partialNames[load->layerId];
+        }
+//        load->pathToPartial = dnn->partialNames[load->layerId];
+//        load->layer = dnn->net_ptr->layers()[i].get();
+        load->id = TASKID_COUNTER++;
+
+        if(firstLayer)
+        {
+            firstLayer = false;
+            load->needsLoading = hasInputLayer;
+        }
+
+//        if(lastTask != nullptr) {
+//            load->addTaskDependency(lastTask);
+//        }
+//        lastTask = load;
+
+        if(lastTask != nullptr)
+        {
+            load->addTaskDependency(lastTask);
+        }
+        lastTask = load;
+
+        tasks.push_back(load);
+        if(dnn->firstTask == nullptr){
+            dnn->firstTask = load;
+        }
+
+
+        ExecTask *exec = new ExecTask;
+
+        exec->network_ptr = dnn->net_ptr;
+//        exec->network_ptr = dnn->net_ptr;
+        exec->taskName = dnn->networkName + "-exec-" + dnn->net_ptr->layer_names()[i];
+        exec->layerId = i;
+//        exec->layer = dnn->net_ptr->layers()[i].get();
+        exec->id = TASKID_COUNTER++;
+
+
+        if(lastTask != nullptr) {
+            exec->addTaskDependency(lastTask);
+        }
+//        exec->addTaskDependency(load);
+        lastTask = exec;
+        tasks.push_back(exec);
+    }
+    dnn->lastTask = lastTask;
+
+}
+void InferenceNetwork::createTasksConvFC() {\
+//    int taskCounter = 0;
+
+        InferenceSubTask *dnn = subTasks.front();
+        int numLayers = dnn->net_ptr->layers().size();
+
+        int numConv = dnn->num_conv;
+        int numFC = dnn->num_fc;
+        Task * lastTask = nullptr;
+
+        bool hasInputLayer = dnn->hasInputLayer;
+        bool firstLayer = true;
+        int layerOffset = 0;
+        if(!hasInputLayer) {
+            layerOffset = -1;
+        }
+        int poolId = 0;
+        for(int i = 0; i < numLayers; ++i)
+        {
+            if(i < numConv)
+            {
+                poolId = 0;
+            } else {
+                poolId = 1;
+            }
+//        std::cout << "This is layer " << i << std::endl;
+
+            LoadTask *load = new LoadTask;
+
+            load->network_ptr = dnn->net_ptr;
+//        load->network_ptr = dnn->net_ptr;
+            load->taskName = dnn->networkName + "-load-" + dnn->net_ptr->layer_names()[i];
+            load->layerId = i + layerOffset;
+
+            if(load->layerId >= 0)
+            {
+                load->pathToPartial = dnn->partialNames[load->layerId];
+            }
+//        load->pathToPartial = dnn->partialNames[load->layerId];
+//        load->layer = dnn->net_ptr->layers()[i].get();
+            load->id = TASKID_COUNTER++;
+
+            if(firstLayer)
+            {
+                firstLayer = false;
+                load->needsLoading = hasInputLayer;
+            }
+
+//        if(lastTask != nullptr) {
+//            load->addTaskDependency(lastTask);
+//        }
+//        lastTask = load;
+
+            load->assignedPoolId = poolId;
+
+            tasks.push_back(load);
+            if(dnn->firstTask == nullptr){
+                dnn->firstTask = load;
+            }
+
+
+            ExecTask *exec = new ExecTask;
+
+            exec->network_ptr = dnn->net_ptr;
+//        exec->network_ptr = dnn->net_ptr;
+            exec->taskName = dnn->networkName + "-exec-" + dnn->net_ptr->layer_names()[i];
+            exec->layerId = i;
+//        exec->layer = dnn->net_ptr->layers()[i].get();
+            exec->id = TASKID_COUNTER++;
+            if(lastTask != nullptr) {
+                exec->addTaskDependency(lastTask);
+            }
+            exec->addTaskDependency(load);
+            exec->assignedPoolId = poolId;
+            lastTask = exec;
+            tasks.push_back(exec);
+        }
+        dnn->lastTask = lastTask;
+    }
+
+    void InferenceNetwork::createTasksBulk() {
+//    int taskCounter = 0;
+
+        InferenceSubTask *dnn = subTasks.front();
+        int numLayers = dnn->net_ptr->layers().size();
+        Task * lastLoadTask = nullptr;
+        Task * lastExecTask = nullptr;
+        Task * firstExecTask = nullptr;
+
+        bool hasInputLayer = dnn->hasInputLayer;
+        bool firstLayer = true;
+        int layerOffset = 0;
+        if(!hasInputLayer) {
+            layerOffset = -1;
+        }
+        for(int i = 0; i < numLayers; ++i)
+        {
+//        LoadTask t_l;
+//        ExecTask t_e;
+//        std::cout << "This is layer " << i << std::endl;
+
+            LoadTask *load = new LoadTask;
+
+            load->network_ptr = dnn->net_ptr;
+//        load->network_ptr = dnn->net_ptr;
+            load->taskName = dnn->networkName + "-load-" + dnn->net_ptr->layer_names()[i];
+            load->layerId = i + layerOffset;
+
+            if(load->layerId >= 0)
+            {
+                load->pathToPartial = dnn->partialNames[load->layerId];
+            }
+//        load->pathToPartial = dnn->partialNames[load->layerId];
+//        load->layer = dnn->net_ptr->layers()[i].get();
+            load->id = TASKID_COUNTER++;
+
+            if(firstLayer)
+            {
+                firstLayer = false;
+                load->needsLoading = hasInputLayer;
+            }
+
+//        if(lastTask != nullptr) {
+//            load->addTaskDependency(lastTask);
+//        }
+//        lastTask = load;
+
+            if(lastLoadTask == nullptr)
+            {
+                load->addTaskDependency(lastLoadTask);
+            }
+            lastLoadTask = load;
+
+            tasks.push_back(load);
+            if(dnn->firstTask != nullptr){
+                dnn->firstTask = load;
+            }
+
+
+            ExecTask *exec = new ExecTask;
+
+            exec->network_ptr = dnn->net_ptr;
+//        exec->network_ptr = dnn->net_ptr;
+            exec->taskName = dnn->networkName + "-exec-" + dnn->net_ptr->layer_names()[i];
+            exec->layerId = i;
+//        exec->layer = dnn->net_ptr->layers()[i].get();
+            exec->id = TASKID_COUNTER++;
+
+            if(firstExecTask == nullptr)
+            {
+                firstExecTask = exec;
+            }
+
+            if(lastExecTask != nullptr) {
+                exec->addTaskDependency(lastExecTask);
+            }
+//        exec->addTaskDependency(load);
+            lastExecTask = exec;
+            tasks.push_back(exec);
+        }
+        if(firstExecTask != nullptr)
+            firstExecTask->addTaskDependency(lastLoadTask);
+        dnn->lastTask = lastExecTask;
+    }
+
+    bool InferenceNetwork::isFinished() {
+        bool finished = true;
+
+        for(InferenceSubTask *subTask : subTasks)
+        {
+            if(subTask->lastTask  && !subTask->lastTask->executed) {
+                finished = false;
+            }
+        }
+        return finished;
+    }
+
+
+
+    void InferenceNetwork::createTasks(int splittingPolicy) {
+        std::string policyName = "";
+        if(splittingPolicy == 0)
+        {
+            policyName = "Bulk";
+        } else if ( splittingPolicy == 1) {
+            policyName = "DeepEye";
+        } else if( splittingPolicy == 3) {
+            policyName = "Linear";
+        } else {
+            policyName = "Partial";
+        }
+        std::cout << "Splitting policy is '" << policyName << "'" << std::endl;
+
+        if(splittingPolicy == 0) // bulk
+        {
+            createTasksBulk();
+        } else if ( splittingPolicy == 1) { // conv-fc | deepeye
+            createTasksConvFC();
+        } else if( splittingPolicy == 3) { // Linear
+            createTasksLinear();
+        } else { // Partial
+            createTasks();
+        }
+
+    }
 
 void InferenceNetwork::showResult() {
         InferenceSubTask *ptr = subTasks.front();
@@ -260,196 +548,15 @@ void InferenceNetwork::showResult() {
 
 }
 
-void InferenceNetwork::createTasks(int splittingPolicy) {
-    std::string policyName = "";
-    if(splittingPolicy == 0)
-    {
-        policyName = "Bulk";
-    } else if ( splittingPolicy == 1) {
-        policyName = "DeepEye";
-    } else {
-        policyName = "Partial";
-    }
-    std::cout << "Splitting policy is '" << policyName << "'" << std::endl;
+InferenceNetwork::~InferenceNetwork() {
+    std::cout << "Dealloc InferenceNetwork" << std::endl;
+    // Delete all the subtasks
+    for(auto subtask : subTasks)
+        if(subtask != nullptr)
+            delete subtask;
 
-    if(splittingPolicy == 0) // bulk
-    {
-        createTasksBulk();
-    } else if ( splittingPolicy == 1) { // conv-fc | deepeye
-        createTasksConvFC();
-    } else { // Partial
-        createTasks();
-    }
-
-}
-
-void InferenceNetwork::createTasksConvFC() {\
-    int taskCounter = 0;
-
-    InferenceSubTask *dnn = subTasks.front();
-    int numLayers = dnn->net_ptr->layers().size();
-
-    int numConv = dnn->num_conv;
-    int numFC = dnn->num_fc;
-    Task * lastTask = nullptr;
-
-    bool hasInputLayer = dnn->hasInputLayer;
-    bool firstLayer = true;
-    int layerOffset = 0;
-    if(!hasInputLayer) {
-        layerOffset = -1;
-    }
-    int poolId = 0;
-    for(int i = 0; i < numLayers; ++i)
-    {
-        if(i < numConv)
-        {
-            poolId = 0;
-        } else {
-            poolId = 1;
-        }
-//        std::cout << "This is layer " << i << std::endl;
-
-        LoadTask *load = new LoadTask;
-
-        load->network_ptr = dnn->net_ptr;
-//        load->network_ptr = dnn->net_ptr;
-        load->taskName = dnn->networkName + "-load-" + dnn->net_ptr->layer_names()[i];
-        load->layerId = i + layerOffset;
-
-        if(load->layerId >= 0)
-        {
-            load->pathToPartial = dnn->partialNames[load->layerId];
-        }
-//        load->pathToPartial = dnn->partialNames[load->layerId];
-//        load->layer = dnn->net_ptr->layers()[i].get();
-        load->id = taskCounter++;
-
-        if(firstLayer)
-        {
-            firstLayer = false;
-            load->needsLoading = hasInputLayer;
-        }
-
-//        if(lastTask != nullptr) {
-//            load->addTaskDependency(lastTask);
-//        }
-//        lastTask = load;
-
-        load->assignedPoolId = poolId;
-
-        tasks.push_back(load);
-
-
-        ExecTask *exec = new ExecTask;
-
-        exec->network_ptr = dnn->net_ptr;
-//        exec->network_ptr = dnn->net_ptr;
-        exec->taskName = dnn->networkName + "-exec-" + dnn->net_ptr->layer_names()[i];
-        exec->layerId = i;
-//        exec->layer = dnn->net_ptr->layers()[i].get();
-        exec->id = taskCounter++;
-        if(lastTask != nullptr) {
-            exec->addTaskDependency(lastTask);
-        }
-        exec->addTaskDependency(load);
-        exec->assignedPoolId = poolId;
-        lastTask = exec;
-        tasks.push_back(exec);
-    }
-    dnn->lastTask = lastTask;
-}
-
-void InferenceNetwork::createTasksBulk() {
-    int taskCounter = 0;
-
-    InferenceSubTask *dnn = subTasks.front();
-    int numLayers = dnn->net_ptr->layers().size();
-    Task * lastLoadTask = nullptr;
-    Task * lastExecTask = nullptr;
-    Task * firstExecTask = nullptr;
-
-    bool hasInputLayer = dnn->hasInputLayer;
-    bool firstLayer = true;
-    int layerOffset = 0;
-    if(!hasInputLayer) {
-        layerOffset = -1;
-    }
-    for(int i = 0; i < numLayers; ++i)
-    {
-//        LoadTask t_l;
-//        ExecTask t_e;
-//        std::cout << "This is layer " << i << std::endl;
-
-        LoadTask *load = new LoadTask;
-
-        load->network_ptr = dnn->net_ptr;
-//        load->network_ptr = dnn->net_ptr;
-        load->taskName = dnn->networkName + "-load-" + dnn->net_ptr->layer_names()[i];
-        load->layerId = i + layerOffset;
-
-        if(load->layerId >= 0)
-        {
-            load->pathToPartial = dnn->partialNames[load->layerId];
-        }
-//        load->pathToPartial = dnn->partialNames[load->layerId];
-//        load->layer = dnn->net_ptr->layers()[i].get();
-        load->id = taskCounter++;
-
-        if(firstLayer)
-        {
-            firstLayer = false;
-            load->needsLoading = hasInputLayer;
-        }
-
-//        if(lastTask != nullptr) {
-//            load->addTaskDependency(lastTask);
-//        }
-//        lastTask = load;
-
-        if(lastLoadTask != nullptr)
-        {
-            load->addTaskDependency(lastLoadTask);
-        }
-        lastLoadTask = load;
-
-        tasks.push_back(load);
-
-
-        ExecTask *exec = new ExecTask;
-
-        exec->network_ptr = dnn->net_ptr;
-//        exec->network_ptr = dnn->net_ptr;
-        exec->taskName = dnn->networkName + "-exec-" + dnn->net_ptr->layer_names()[i];
-        exec->layerId = i;
-//        exec->layer = dnn->net_ptr->layers()[i].get();
-        exec->id = taskCounter++;
-
-        if(firstExecTask == nullptr)
-        {
-            firstExecTask = exec;
-        }
-
-        if(lastExecTask != nullptr) {
-            exec->addTaskDependency(lastExecTask);
-        }
-//        exec->addTaskDependency(load);
-        lastExecTask = exec;
-        tasks.push_back(exec);
-    }
-    if(firstExecTask != nullptr)
-        firstExecTask->addTaskDependency(lastLoadTask);
-    dnn->lastTask = lastExecTask;
-}
-
-bool InferenceNetwork::isFinished() {
-    bool finished = true;
-
-    for(InferenceSubTask *subTask : subTasks)
-    {
-        if(subTask->lastTask  && !subTask->lastTask->executed) {
-            finished = false;
-        }
-    }
-    return finished;
+    // Delete tasks is needed
+    for(auto task : tasks)
+        if(task != nullptr)
+            delete task;
 }

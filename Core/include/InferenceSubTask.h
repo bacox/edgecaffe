@@ -24,7 +24,7 @@ public:
     cv::Scalar modelMeanValues;
     std::string networkName;
     std::string basePath;
-    bool hasInputLayer;
+    bool hasInputLayer; // maybe set to explicit value?
     int num_layers;
     int num_conv;
     int num_fc;
@@ -33,7 +33,11 @@ public:
     cv::Mat inputData;
     cv::Mat origInputData;
     std::vector<Task*> tasks;
+
+    virtual ~InferenceSubTask();
+
     Task *lastTask;
+    Task *firstTask = nullptr;
 
 };
 

@@ -37,3 +37,9 @@ int Task::getAssignedPoolId() {
 std::string Task::getTaskDescription() {
     return "General Task";
 }
+
+Task::~Task() {
+//    std::cout << "Dealloc Task" << std::endl;
+//    if(network_ptr != nullptr)
+//        delete network_ptr;
+}

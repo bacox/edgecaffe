@@ -3,3 +3,13 @@
 //
 
 #include "../include/InferenceSubTask.h"
+
+InferenceSubTask::~InferenceSubTask() {
+    std::cout << "Dealloc InferenceSubTask" << std::endl;
+    if(net_ptr != nullptr)
+        delete net_ptr;
+
+//    for(auto task : tasks)
+//        if(task != nullptr)
+//            delete task;
+}
