@@ -1,0 +1,35 @@
+---
+name: "GenderNet"
+network-file: "gender_deploy.prototxt"
+model-file: "gender_net.caffemodel"
+mean-scalar: [78.4263377603, 87.7689143744, 114.895847746]
+uses-result-vector: true
+result-vector: ["Male", "Female"]
+input-scale: [227, 227]
+base-path: "networks/GenderNet/"
+partials-location: "gender_net_partials"
+has-input-layer: true
+num-conv-layers: 12
+num-fc-layers: 8
+conv-layers:
+  - "gender_net00.partial.caffemodel"
+  - "gender_net01.partial.caffemodel"
+  - "gender_net02.partial.caffemodel"
+  - "gender_net03.partial.caffemodel"
+  - "gender_net04.partial.caffemodel"
+  - "gender_net05.partial.caffemodel"
+  - "gender_net06.partial.caffemodel"
+  - "gender_net07.partial.caffemodel"
+  - "gender_net08.partial.caffemodel"
+  - "gender_net09.partial.caffemodel"
+  - "gender_net10.partial.caffemodel"
+  - "gender_net11.partial.caffemodel"
+fc-layers:
+  - "gender_net12.partial.caffemodel"
+  - "gender_net13.partial.caffemodel"
+  - "gender_net14.partial.caffemodel"
+  - "gender_net15.partial.caffemodel"
+  - "gender_net16.partial.caffemodel"
+  - "gender_net17.partial.caffemodel"
+  - "gender_net18.partial.caffemodel"
+  - "gender_net19.partial.caffemodel"

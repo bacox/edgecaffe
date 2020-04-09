@@ -73,6 +73,8 @@ public:
 
     void showResult();
 
+    bool isFinished();
+
 };
 
 

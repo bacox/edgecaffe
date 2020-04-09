@@ -17,6 +17,8 @@ struct InferenceTask{
     InferenceNetwork *net;
     cv::Mat input_img;
 
+    bool finished = false;
+
     void dealloc() {
         delete net;
     };
@@ -25,6 +27,14 @@ struct InferenceTask{
 
 class Orchestrator {
 public:
+    Orchestrator();
+
+    enum MODEL_SPLIT_MODE {
+        BULK = 0,
+        DEEPEYE = 1,
+        PARTIAL = 2
+    };
+
     std::vector<Worker*> workers;
     std::vector<TaskPool*> taskPools;
     std::vector<InferenceNetwork*> networks;
@@ -35,9 +45,10 @@ public:
 
     std::vector<InferenceTask *> inferenceTasks;
 
-
+    bool allFinished();
 
     // Set mode
+    MODEL_SPLIT_MODE splitMode = PARTIAL;
 
     // Setup DeepEye mode
     // Setup Bulk mode
@@ -50,7 +61,7 @@ public:
 
     void waitForStop();
 
-    void submitInferenceTask(const std::string& networkPath, const std::string& dataPath);
+    void submitInferenceTask(const std::string& networkPath, const std::string& dataPath, bool use_scales = false);
 
     void processTasks();
 

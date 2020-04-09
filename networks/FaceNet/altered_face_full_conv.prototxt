@@ -3,8 +3,8 @@ name: "CaffeNetConv"
 input: "data"
 input_dim: 1
 input_dim: 3
-input_dim: 3660
-input_dim: 2745
+input_dim: 1340
+input_dim: 1340
 layer {
   name: "conv1"
   type: "Convolution"

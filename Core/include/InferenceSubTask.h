@@ -33,6 +33,7 @@ public:
     cv::Mat inputData;
     cv::Mat origInputData;
     std::vector<Task*> tasks;
+    Task *lastTask;
 
 };
 

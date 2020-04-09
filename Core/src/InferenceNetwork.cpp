@@ -9,6 +9,68 @@
 #include <opencv2/imgproc.hpp>
 #include <cv.hpp>
 
+std::vector<double> scale_list(const cv::Mat &img)
+{
+    int min             = 0;
+    int max             = 0;
+    double delim        = 5;
+    double factor       = 0.7937;
+    double factor_count = 0;
+
+    std::vector<double> scales;
+
+    max = MAX(img.cols, img.rows);
+    min = MIN(img.cols, img.rows);
+
+    //        delim = 2500 / max;
+    while (delim > 1 + 1e-4)
+    {
+        scales.push_back(delim);
+        delim *= factor;
+    }
+
+    while (min >= 227)
+    {
+        scales.push_back(pow(factor, factor_count++));
+        min *= factor;
+    }
+
+    std::cout << "Image size: " << img.cols << "(Width)" << ' ' << img.rows <<  "(Height)" <<'\n';
+    std::cout << "Scaling: ";
+    std::for_each(scales.begin(), scales.end(), [](double scale){ std::cout << scale << ' '; });
+    std::cout << '\n';
+    return scales;
+}
+
+std::string updatePrototxt(int rows, int cols, std::string pathToProtoText, std::string fileName)
+{
+    std::string orig_proto = "../" + pathToProtoText + fileName;
+    std::string changed_proto = "../" + pathToProtoText + "altered_" + fileName;
+    std::cout << "Changing " << orig_proto << " to " << changed_proto << std::endl;
+    std::ifstream fin(orig_proto, std::ios::in);
+    std::ofstream fout(changed_proto, std::ios::out);
+    int index = 0;
+    for (std::string line; std::getline(fin, line); index++)
+    {
+        if (index == 5)
+        {
+            fout << "input_dim: " << rows << '\n';
+        }
+        else if (index == 6)
+        {
+            fout << "input_dim: " << cols << '\n';
+        }
+        else
+        {
+            fout << line << '\n';
+        }
+    }
+    fin.close();
+    fout.close();
+    return changed_proto;
+}
+
+
 InferenceNetwork::InferenceNetwork(const std::string &pathToDescription) : pathToDescription(pathToDescription) {}
 
 void InferenceNetwork::init() {
@@ -75,7 +137,7 @@ void InferenceNetwork::loadInputToNetwork() {
     channels[2] -= ptr->modelMeanValues[2];
 
     OpenCV2Blob(channels, *(ptr->net_ptr));
-
+//    bool temp = true;
 }
 
 void InferenceNetwork::loadNetworkStructure() {
@@ -87,7 +149,11 @@ void InferenceNetwork::preprocess(bool use_scales) {
     InferenceSubTask *ptr = subTasks.front();
     if(use_scales)
     {
-        // Fix later
+        // Temporary fix
+        std::vector<double> scales(scale_list(ptr->inputData));
+        cv::resize(ptr->inputData, ptr->inputData, cv::Size(ptr->inputData.cols * scales[0], ptr->inputData.rows * scales[0]));
+        ptr->pathToModelFile = updatePrototxt(ptr->inputData.rows, ptr->inputData.cols, ptr->basePath, ptr->modelFileName);
+
     } else {
         cv::resize(ptr->inputData, ptr->inputData, ptr->inputSize);
     }
@@ -111,7 +177,7 @@ void InferenceNetwork::createTasks() {
     {
 //        LoadTask t_l;
 //        ExecTask t_e;
-        std::cout << "This is layer " << i << std::endl;
+//        std::cout << "This is layer " << i << std::endl;
 
         LoadTask *load = new LoadTask;
 
@@ -119,15 +185,23 @@ void InferenceNetwork::createTasks() {
 //        load->network_ptr = dnn->net_ptr;
         load->taskName = dnn->networkName + "-load-" + dnn->net_ptr->layer_names()[i];
         load->layerId = i + layerOffset;
-        load->pathToPartial = dnn->partialNames[load->layerId];
-//        load->layer = dnn->net_ptr->layers()[i].get();
-        load->id = taskCounter++;
 
+        // Load layer if there is anything to load?
+        if(load->layerId >= 0)
+        {
+            load->pathToPartial = dnn->partialNames[load->layerId];
+        }
+
+//        if(firstLayer && hasInputLayer)
+//            load->pathToPartial = dnn->partialNames[load->layerId];
         if(firstLayer)
         {
             firstLayer = false;
             load->needsLoading = hasInputLayer;
         }
+//        load->layer = dnn->net_ptr->layers()[i].get();
+        load->id = taskCounter++;
+
 
 //        if(lastTask != nullptr) {
 //            load->addTaskDependency(lastTask);
@@ -152,6 +226,7 @@ void InferenceNetwork::createTasks() {
         lastTask = exec;
         tasks.push_back(exec);
     }
+    dnn->lastTask = lastTask;
 
 }
 
@@ -189,21 +264,21 @@ void InferenceNetwork::createTasks(int splittingPolicy) {
     std::string policyName = "";
     if(splittingPolicy == 0)
     {
-        policyName = "Partial";
-    } else if ( splittingPolicy == 1) {
-        policyName = "conv-fc";
-    } else {
         policyName = "Bulk";
+    } else if ( splittingPolicy == 1) {
+        policyName = "DeepEye";
+    } else {
+        policyName = "Partial";
     }
     std::cout << "Splitting policy is '" << policyName << "'" << std::endl;
 
-    if(splittingPolicy == 0) // partial
+    if(splittingPolicy == 0) // bulk
     {
-        createTasks();
-    } else if ( splittingPolicy == 1) { // conv-fc
-        createTasksConvFC();
-    } else { // bulk
         createTasksBulk();
+    } else if ( splittingPolicy == 1) { // conv-fc | deepeye
+        createTasksConvFC();
+    } else { // Partial
+        createTasks();
     }
 
 }
@@ -233,7 +308,7 @@ void InferenceNetwork::createTasksConvFC() {\
         } else {
             poolId = 1;
         }
-        std::cout << "This is layer " << i << std::endl;
+//        std::cout << "This is layer " << i << std::endl;
 
         LoadTask *load = new LoadTask;
 
@@ -241,7 +316,12 @@ void InferenceNetwork::createTasksConvFC() {\
 //        load->network_ptr = dnn->net_ptr;
         load->taskName = dnn->networkName + "-load-" + dnn->net_ptr->layer_names()[i];
         load->layerId = i + layerOffset;
-        load->pathToPartial = dnn->partialNames[load->layerId];
+
+        if(load->layerId >= 0)
+        {
+            load->pathToPartial = dnn->partialNames[load->layerId];
+        }
+//        load->pathToPartial = dnn->partialNames[load->layerId];
 //        load->layer = dnn->net_ptr->layers()[i].get();
         load->id = taskCounter++;
 
@@ -277,6 +357,7 @@ void InferenceNetwork::createTasksConvFC() {\
         lastTask = exec;
         tasks.push_back(exec);
     }
+    dnn->lastTask = lastTask;
 }
 
 void InferenceNetwork::createTasksBulk() {
@@ -298,7 +379,7 @@ void InferenceNetwork::createTasksBulk() {
     {
 //        LoadTask t_l;
 //        ExecTask t_e;
-        std::cout << "This is layer " << i << std::endl;
+//        std::cout << "This is layer " << i << std::endl;
 
         LoadTask *load = new LoadTask;
 
@@ -306,7 +387,12 @@ void InferenceNetwork::createTasksBulk() {
 //        load->network_ptr = dnn->net_ptr;
         load->taskName = dnn->networkName + "-load-" + dnn->net_ptr->layer_names()[i];
         load->layerId = i + layerOffset;
-        load->pathToPartial = dnn->partialNames[load->layerId];
+
+        if(load->layerId >= 0)
+        {
+            load->pathToPartial = dnn->partialNames[load->layerId];
+        }
+//        load->pathToPartial = dnn->partialNames[load->layerId];
 //        load->layer = dnn->net_ptr->layers()[i].get();
         load->id = taskCounter++;
 
@@ -353,4 +439,17 @@ void InferenceNetwork::createTasksBulk() {
     }
     if(firstExecTask != nullptr)
         firstExecTask->addTaskDependency(lastLoadTask);
+    dnn->lastTask = lastExecTask;
+}
+
+bool InferenceNetwork::isFinished() {
+    bool finished = true;
+
+    for(InferenceSubTask *subTask : subTasks)
+    {
+        if(subTask->lastTask  && !subTask->lastTask->executed) {
+            finished = false;
+        }
+    }
+    return finished;
 }
