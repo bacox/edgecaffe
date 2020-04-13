@@ -81,10 +81,12 @@ void Orchestrator::submitInferenceTask(const std::string &networkPath, const std
     iTask->net = new InferenceNetwork(networkPath);
 
 
+
     inferenceTasks.push_back(iTask);
 
 
     iTask->net->init();
+    iTask->output.networkName = iTask->net->subTasks.front()->networkName;
     iTask->net->setInput(iTask->input_img, use_scales);
     iTask->net->loadNetworkStructure();
     iTask->net->loadInputToNetwork();
@@ -134,6 +136,7 @@ void Orchestrator::processTasks() {
 
                 // deallocate
                 std::cout << "Deallocating " << inferenceTask->pathToNetwork << std::endl;
+                inferenceTask->output.policy = splitModeAsString;
                 inferenceTask->dealloc();
             }
         }

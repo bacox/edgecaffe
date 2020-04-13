@@ -43,3 +43,9 @@ Task::~Task() {
 //    if(network_ptr != nullptr)
 //        delete network_ptr;
 }
+
+void Task::execute() {
+    profileLine.start();
+    run();
+    profileLine.stop();
+}

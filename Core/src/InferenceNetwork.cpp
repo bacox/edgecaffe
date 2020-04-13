@@ -186,21 +186,20 @@ void InferenceNetwork::createTasks() {
         load->network_ptr = dnn->net_ptr;
 //        load->network_ptr = dnn->net_ptr;
         load->taskName = dnn->networkName + "-load-" + dnn->net_ptr->layer_names()[i];
-        load->layerId = i + layerOffset;
+        load->layerId = i;
 
-        // Load layer if there is anything to load?
-        if(load->layerId >= 0)
-        {
-            load->pathToPartial = dnn->partialNames[load->layerId];
-        }
-
-//        if(firstLayer && hasInputLayer)
-//            load->pathToPartial = dnn->partialNames[load->layerId];
         if(firstLayer)
         {
             firstLayer = false;
             load->needsLoading = hasInputLayer;
         }
+
+        // Load layer if there is anything to load?
+        if(load->layerId >= 0 && load->needsLoading)
+        {
+            load->pathToPartial = dnn->partialNames[i + layerOffset];
+        }
+
 //        load->layer = dnn->net_ptr->layers()[i].get();
         load->id = TASKID_COUNTER++;
         if(dnn->firstTask == nullptr){
@@ -263,21 +262,22 @@ void InferenceNetwork::createTasksLinear() {
         load->network_ptr = dnn->net_ptr;
 //        load->network_ptr = dnn->net_ptr;
         load->taskName = dnn->networkName + "-load-" + dnn->net_ptr->layer_names()[i];
-        load->layerId = i + layerOffset;
-
-        if(load->layerId >= 0)
-        {
-            load->pathToPartial = dnn->partialNames[load->layerId];
-        }
-//        load->pathToPartial = dnn->partialNames[load->layerId];
-//        load->layer = dnn->net_ptr->layers()[i].get();
-        load->id = TASKID_COUNTER++;
+        load->layerId = i;
 
         if(firstLayer)
         {
             firstLayer = false;
             load->needsLoading = hasInputLayer;
         }
+
+        if(load->layerId >= 0 && load->needsLoading)
+        {
+            load->pathToPartial = dnn->partialNames[i + layerOffset];
+        }
+//        load->pathToPartial = dnn->partialNames[load->layerId];
+//        load->layer = dnn->net_ptr->layers()[i].get();
+        load->id = TASKID_COUNTER++;
+
 
 //        if(lastTask != nullptr) {
 //            load->addTaskDependency(lastTask);
@@ -348,21 +348,23 @@ void InferenceNetwork::createTasksConvFC() {\
             load->network_ptr = dnn->net_ptr;
 //        load->network_ptr = dnn->net_ptr;
             load->taskName = dnn->networkName + "-load-" + dnn->net_ptr->layer_names()[i];
-            load->layerId = i + layerOffset;
-
-            if(load->layerId >= 0)
-            {
-                load->pathToPartial = dnn->partialNames[load->layerId];
-            }
-//        load->pathToPartial = dnn->partialNames[load->layerId];
-//        load->layer = dnn->net_ptr->layers()[i].get();
-            load->id = TASKID_COUNTER++;
+            load->layerId = i;
 
             if(firstLayer)
             {
                 firstLayer = false;
                 load->needsLoading = hasInputLayer;
             }
+
+            if(load->layerId >= 0 && load->needsLoading)
+            {
+                load->pathToPartial = dnn->partialNames[i + layerOffset];
+            }
+//        load->pathToPartial = dnn->partialNames[load->layerId];
+//        load->layer = dnn->net_ptr->layers()[i].get();
+            load->id = TASKID_COUNTER++;
+
+
 
 //        if(lastTask != nullptr) {
 //            load->addTaskDependency(lastTask);
@@ -422,21 +424,23 @@ void InferenceNetwork::createTasksConvFC() {\
             load->network_ptr = dnn->net_ptr;
 //        load->network_ptr = dnn->net_ptr;
             load->taskName = dnn->networkName + "-load-" + dnn->net_ptr->layer_names()[i];
-            load->layerId = i + layerOffset;
-
-            if(load->layerId >= 0)
-            {
-                load->pathToPartial = dnn->partialNames[load->layerId];
-            }
-//        load->pathToPartial = dnn->partialNames[load->layerId];
-//        load->layer = dnn->net_ptr->layers()[i].get();
-            load->id = TASKID_COUNTER++;
+            load->layerId = i;
 
             if(firstLayer)
             {
                 firstLayer = false;
                 load->needsLoading = hasInputLayer;
             }
+
+            if(load->layerId >= 0 && load->needsLoading)
+            {
+                load->pathToPartial = dnn->partialNames[i + layerOffset];
+            }
+//        load->pathToPartial = dnn->partialNames[load->layerId];
+//        load->layer = dnn->net_ptr->layers()[i].get();
+            load->id = TASKID_COUNTER++;
+
+
 
 //        if(lastTask != nullptr) {
 //            load->addTaskDependency(lastTask);

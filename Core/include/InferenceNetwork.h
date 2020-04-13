@@ -16,8 +16,8 @@
 
 class InferenceNetwork {
 private:
-    std::vector<Task*> tasks;
 public:
+    std::vector<Task*> tasks;
     const std::vector<Task *> &getTasks() const;
 
     std::vector<InferenceSubTask*> subTasks;

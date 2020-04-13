@@ -6,6 +6,7 @@
 #define PIPELINE_TASK_H
 
 #include <caffe/net.hpp>
+#include <Profiler/NetworkProfiler.h>
 
 class Task {
 public:
@@ -20,6 +21,8 @@ public:
     int layerId;
     int assignedPoolId = -1;
     std::vector<Task*> dependsOn;
+
+    ProfileLine profileLine;
 
     bool waitsForOtherTasks();
 
@@ -38,6 +41,9 @@ public:
 
     virtual std::string getTaskDescription();
 
+    void execute();
+
+protected:
 //  Virtual function to implement in subclasses
     virtual void run() = 0;
 };

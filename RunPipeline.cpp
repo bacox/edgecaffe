@@ -6,10 +6,11 @@
 #include <chrono>
 
 void printUsage(){
-    std::cout << "RunPipeline [options] <mode>" << std::endl;
+    std::cout << "RunPipeline [options] <mode> [outputfile]" << std::endl;
     std::cout << "Allowed arguments" << std::endl;
     std::cout << "\t--help\t\t : Print usage" << std::endl;
     std::cout << "\tmode\t\t : bulk|deepeye|partial" << std::endl;
+    std::cout << "\toutputfile\t\t : output.csv" << std::endl;
 }
 
 int main(int argc, char *argv[]) {
@@ -40,6 +41,15 @@ int main(int argc, char *argv[]) {
         modeAsString = "linear";
     }
 
+    std::string outputFile = "output.csv";
+    std::string outputLocation = "../analysis/";
+    if(argc > 3){
+        outputFile = argv[2];
+    }
+
+    int repetitions = 1;
+
+
     std::cout << "Running\t'RunPipeline'" << std::endl;
     std::cout << "Mode: \t " << modeAsString << std::endl;
 
@@ -60,12 +70,13 @@ int main(int argc, char *argv[]) {
         orchestrator.setupPartialMode(2);
     }
     orchestrator.splitMode = mode;
+    orchestrator.splitModeAsString = modeAsString;
 
     std::string pathToAgeNet = "networks/AgeNet";
     std::string pathToGenderNet = "networks/GenderNet";
     std::string pathToFaceNet = "networks/FaceNet";
 
-    for(int ii = 0; ii < 1; ++ii) {
+    for(int ii = 0; ii < repetitions; ++ii) {
         std::string pathToImg = "../resources/test_1.jpg";
         orchestrator.submitInferenceTask(pathToAgeNet, pathToImg);
         orchestrator.submitInferenceTask(pathToGenderNet, pathToImg);
@@ -75,7 +86,7 @@ int main(int argc, char *argv[]) {
         orchestrator.submitInferenceTask(pathToAgeNet, pathToImg);
         orchestrator.submitInferenceTask(pathToGenderNet, pathToImg);
         orchestrator.submitInferenceTask(pathToFaceNet, pathToImg, true);
-//
+
         pathToImg = "../resources/test_3.jpg";
         orchestrator.submitInferenceTask(pathToAgeNet, pathToImg);
         orchestrator.submitInferenceTask(pathToGenderNet, pathToImg);
@@ -110,6 +121,20 @@ int main(int argc, char *argv[]) {
     auto duration = std::chrono::duration_cast<std::chrono::milliseconds>( endTime - startTime).count();
 //
     std::cout << duration << " milliseconds" << std::endl;
+
+    std::ofstream fout(outputLocation + outputFile, std::ios::out);
+    std::string csvHeaders = "networkName,layerId,layerName,Loading_ns,execution_ns,policy";
+    fout << csvHeaders << std::endl;
+    for(auto inferenceTasks : orchestrator.inferenceTasks)
+    {
+        std::vector<std::string> lines = inferenceTasks->output.toCsvLines();
+        for(std::string line : lines)
+        {
+            fout << line << std::endl;
+        }
+    }
+    fout.close();
+
 ////    for( auto inferenceTask : orchestrator.inferenceTasks)
 ////    {
 ////        inferenceTask->net->showResult();

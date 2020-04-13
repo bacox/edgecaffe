@@ -7,9 +7,12 @@
 
 
 #include <vector>
+#include <Tasks/LoadTask.h>
+#include <Tasks/ExecTask.h>
 #include "TaskPool.h"
 #include "Worker.h"
 #include "InferenceNetwork.h"
+#include "InferenceOutput.h"
 
 struct InferenceTask{
     std::string pathToNetwork;
@@ -19,7 +22,28 @@ struct InferenceTask{
 
     bool finished = false;
 
+    InferenceOutput output;
+
     void dealloc() {
+        std::vector<std::string> layerNames = net->subTasks.front()->net_ptr->layer_names();
+        output.initFromLayerVector(layerNames);
+//
+        for(auto task : net->tasks)
+        {
+//            if (dynamic_cast<LoadTask *>(task))
+//            {
+//                // Load Task
+                output.setLoadingTime(task);
+//            }
+//            if (dynamic_cast<ExecTask *>(task))
+//            {
+////                // Load Task
+////                output.setExecutionTime(task);
+//            }
+
+        }
+
+
         delete net;
     };
 };
@@ -50,6 +74,7 @@ public:
 
     // Set mode
     MODEL_SPLIT_MODE splitMode = PARTIAL;
+    std::string splitModeAsString;
 
     // Setup DeepEye mode
     // Setup Bulk mode
