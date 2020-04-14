@@ -7,46 +7,47 @@
 
 #include <caffe/net.hpp>
 #include <Profiler/NetworkProfiler.h>
-
-class Task {
-public:
+namespace EdgeCaffe {
+    class Task {
+    public:
 //    InferenceSubTask *network;
-    caffe::Net<float> *network_ptr;
+        caffe::Net<float> *network_ptr;
 //    caffe::Layer<float> *layer;
 //    std::shared_ptr<GenericDNN> network;
-    bool executed = false;
-    int id = 0;
-    int executionTime = 0;
-    std::string taskName;
-    int layerId;
-    int assignedPoolId = -1;
-    std::vector<Task*> dependsOn;
+        bool executed = false;
+        int id = 0;
+        int executionTime = 0;
+        std::string taskName;
+        int layerId;
+        int assignedPoolId = -1;
+        std::vector<Task *> dependsOn;
 
-    ProfileLine profileLine;
+        ProfileLine profileLine;
 
-    bool waitsForOtherTasks();
+        bool waitsForOtherTasks();
 
-    std::vector<Task*> getDependencies();
+        std::vector<Task *> getDependencies();
 
-    Task(int id, int executionTime);
-    Task();
+        Task(int id, int executionTime);
 
-    void addTaskDependency(Task * t);
+        Task();
 
-    virtual ~Task();
+        void addTaskDependency(Task *t);
 
-    bool hasPoolAssigned();
+        virtual ~Task();
 
-    int getAssignedPoolId();
+        bool hasPoolAssigned();
 
-    virtual std::string getTaskDescription();
+        int getAssignedPoolId();
 
-    void execute();
+        virtual std::string getTaskDescription();
 
-protected:
+        void execute();
+
+    protected:
 //  Virtual function to implement in subclasses
-    virtual void run() = 0;
-};
-
+        virtual void run() = 0;
+    };
+}
 
 #endif //PIPELINE_TASK_H

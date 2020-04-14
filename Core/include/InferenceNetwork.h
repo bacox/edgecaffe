@@ -14,73 +14,79 @@
 //#include "../thirdparty/caffe/include/caffe/caffe.hpp"
 #include <memory>
 
-class InferenceNetwork {
-private:
-public:
-    std::vector<Task*> tasks;
-    const std::vector<Task *> &getTasks() const;
+namespace EdgeCaffe {
+    class InferenceNetwork {
+    private:
+    public:
+        std::vector<Task *> tasks;
 
-    std::vector<InferenceSubTask*> subTasks;
-private:
+        const std::vector<Task *> &getTasks() const;
 
-    std::string pathToDescription;
+        std::vector<InferenceSubTask *> subTasks;
+    private:
 
-    void preprocess(bool use_scales = false);
+        std::string pathToDescription;
 
-public:
+        void preprocess(bool use_scales = false);
+
+    public:
 
 
-    static int TASKID_COUNTER;
+        static int TASKID_COUNTER;
 
-    virtual ~InferenceNetwork();
+        virtual ~InferenceNetwork();
 
-    /**
- *  @Brief: The data transform from OpenCV to caffe Blob
- *
- *  @param image: OpenCV Mat data vector
- *  @Warning: Template function must be defined in the .hpp file to avoid
- *            linking error
- */
-    template <typename DType>
+        /**
+     *  @Brief: The data transform from OpenCV to caffe Blob
+     *
+     *  @param image: OpenCV Mat data vector
+     *  @Warning: Template function must be defined in the .hpp file to avoid
+     *            linking error
+     */
+        template<typename DType>
 
-    void OpenCV2Blob(const std::vector<cv::Mat> &channels,
-                     caffe::Net<DType> &net)
+        void OpenCV2Blob(const std::vector<cv::Mat> &channels,
+                         caffe::Net<DType> &net)
 //                     std::shared_ptr<caffe::Net<DType>> &net)
-    {
-        caffe::Blob<DType> *input_layer = net.input_blobs()[0];
-        DType *input_data = input_layer->mutable_cpu_data();
-
-        for (const cv::Mat &ch: channels)
         {
-            for (auto i = 0; i != ch.rows; ++i)
-            {
-                std::memcpy(input_data, ch.ptr<DType>(i), sizeof(DType) * ch.cols);
-                input_data += ch.cols;
+            caffe::Blob<DType> *input_layer = net.input_blobs()[0];
+            DType *input_data = input_layer->mutable_cpu_data();
+
+            for (const cv::Mat &ch: channels) {
+                for (auto i = 0; i != ch.rows; ++i) {
+                    std::memcpy(input_data, ch.ptr<DType>(i), sizeof(DType) * ch.cols);
+                    input_data += ch.cols;
+                }
             }
         }
-    }
 
 
-    InferenceNetwork(const std::string &pathToDescription);
+        InferenceNetwork(const std::string &pathToDescription);
 
-    void init();
+        void init();
 
-    void setInput(cv::Mat &input, bool use_scales = false);
-    void loadInputToNetwork();
-    void loadNetworkStructure();
+        void setInput(cv::Mat &input, bool use_scales = false);
+
+        void loadInputToNetwork();
+
+        void loadNetworkStructure();
 
 
-    void createTasks();
-    void createTasksConvFC();
-    void createTasksBulk();
-    void createTasksLinear();
-    void createTasks(int splittingPolicy);
+        void createTasks();
 
-    void showResult();
+        void createTasksConvFC();
 
-    bool isFinished();
+        void createTasksBulk();
 
-};
+        void createTasksLinear();
 
+        void createTasks(int splittingPolicy);
+
+        void showResult();
+
+        bool isFinished();
+
+    };
+}
 
 #endif //PIPELINE_INFERENCENETWORK_H

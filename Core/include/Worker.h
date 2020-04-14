@@ -8,28 +8,31 @@
 
 #include "TaskPool.h"
 #include <thread>
+namespace EdgeCaffe {
+    class Worker {
+    public:
+        bool action_stop = false;
+        bool allowed_to_stop = false;
+        std::thread _thread;
+        TaskPool *pool;
+        TaskPool *outpool;
 
-class Worker {
-public:
-    bool action_stop = false;
-    bool allowed_to_stop = false;
-    std::thread _thread;
-    TaskPool* pool;
-    TaskPool* outpool;
+        int workerId = -1;
 
-    int workerId = -1;
+        void printMessage();
 
-    void printMessage();
-    void Execution();
-    void run();
+        void Execution();
 
-    bool AllowedToStop();
+        void run();
 
-    Worker(TaskPool *pool, TaskPool *outpool);
-    Worker(TaskPool *pool, TaskPool *outpool, int workerId);
+        bool AllowedToStop();
 
-    void registerTaskPool(TaskPool *pool);
-};
+        Worker(TaskPool *pool, TaskPool *outpool);
 
+        Worker(TaskPool *pool, TaskPool *outpool, int workerId);
+
+        void registerTaskPool(TaskPool *pool);
+    };
+}
 
 #endif //PIPELINE_WORKER_H

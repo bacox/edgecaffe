@@ -14,87 +14,91 @@
 #include "InferenceNetwork.h"
 #include "InferenceOutput.h"
 
-struct InferenceTask{
-    std::string pathToNetwork;
-    std::string pathToData;
-    InferenceNetwork *net;
-    cv::Mat input_img;
+namespace EdgeCaffe {
+    struct InferenceTask {
+        std::string pathToNetwork;
+        std::string pathToData;
+        InferenceNetwork *net;
+        cv::Mat input_img;
 
-    bool finished = false;
+        bool finished = false;
 
-    InferenceOutput output;
+        InferenceOutput output;
 
-    void dealloc() {
-        std::vector<std::string> layerNames = net->subTasks.front()->net_ptr->layer_names();
-        output.initFromLayerVector(layerNames);
+        void dealloc() {
+            std::vector<std::string> layerNames = net->subTasks.front()->net_ptr->layer_names();
+            output.initFromLayerVector(layerNames);
 //
-        for(auto task : net->tasks)
-        {
-//            if (dynamic_cast<LoadTask *>(task))
-//            {
+            for (auto task : net->tasks) {
+            if (dynamic_cast<LoadTask *>(task))
+            {
 //                // Load Task
                 output.setLoadingTime(task);
-//            }
-//            if (dynamic_cast<ExecTask *>(task))
-//            {
-////                // Load Task
-////                output.setExecutionTime(task);
-//            }
+            }
+            if (dynamic_cast<ExecTask *>(task))
+            {
+//                // Load Task
+                output.setExecutionTime(task);
+            }
 
-        }
-
-
-        delete net;
-    };
-};
+            }
 
 
-class Orchestrator {
-public:
-    Orchestrator();
-
-    enum MODEL_SPLIT_MODE {
-        BULK = 0,
-        DEEPEYE = 1,
-        PARTIAL = 2,
-        LINEAR = 3
+            delete net;
+        };
     };
 
-    std::vector<Worker*> workers;
-    std::vector<TaskPool*> taskPools;
-    std::vector<InferenceNetwork*> networks;
 
-    TaskPool outPool;
+    class Orchestrator {
+    public:
+        Orchestrator();
 
-    std::vector<Task*> bagOfTasks;
+        enum MODEL_SPLIT_MODE {
+            BULK = 0,
+            DEEPEYE = 1,
+            PARTIAL = 2,
+            LINEAR = 3
+        };
 
-    std::vector<InferenceTask *> inferenceTasks;
+        std::vector<Worker *> workers;
+        std::vector<TaskPool *> taskPools;
+        std::vector<InferenceNetwork *> networks;
 
-    bool allFinished();
+        TaskPool outPool;
 
-    // Set mode
-    MODEL_SPLIT_MODE splitMode = PARTIAL;
-    std::string splitModeAsString;
+        std::vector<Task *> bagOfTasks;
 
-    // Setup DeepEye mode
-    // Setup Bulk mode
-    // Setup Partial loading mode
-    void setupBulkMode();
-    void setupLinearMode();
-    void setupDeepEyeMode();
-    void setupPartialMode(int numberOfWorkers);
+        std::vector<InferenceTask *> inferenceTasks;
 
-    void start();
+        bool allFinished();
 
-    void waitForStop();
+        // Set mode
+        MODEL_SPLIT_MODE splitMode = PARTIAL;
+        std::string splitModeAsString;
 
-    void submitInferenceTask(const std::string& networkPath, const std::string& dataPath, bool use_scales = false);
+        // Setup DeepEye mode
+        // Setup Bulk mode
+        // Setup Partial loading mode
+        void setupBulkMode();
 
-    void processTasks();
+        void setupLinearMode();
 
-public:
-    virtual ~Orchestrator();
-};
+        void setupDeepEyeMode();
+
+        void setupPartialMode(int numberOfWorkers);
+
+        void start();
+
+        void waitForStop();
+
+        void submitInferenceTask(const std::string &networkPath, const std::string &dataPath, bool use_scales = false);
+
+        void processTasks();
+
+    public:
+        virtual ~Orchestrator();
+    };
+}
 
 
 #endif //EDGECAFFE_ORCHESTRATOR_H

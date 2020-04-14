@@ -9,25 +9,26 @@
 #include <list>
 #include <mutex>
 #include "Tasks/Task.h"
+namespace EdgeCaffe {
+    class TaskPool {
+    private:
+        std::mutex mtx;
 
-class TaskPool {
-private:
-    std::mutex mtx;
+    public:
 
-public:
+        int poolId = -1;
 
-    int poolId = -1;
+        std::list<Task *> pool;
 
-    std::list<Task*> pool;
+        void addTask(Task *t_ptr);
 
-    void addTask(Task* t_ptr);
+        bool isEmpty();
 
-    bool isEmpty();
+        Task *getNext();
 
-    Task* getNext();
-
-    bool getNext(Task **task);
-};
+        bool getNext(Task **task);
+    };
+}
 
 
 #endif //PIPELINE_TASKPOOL_H

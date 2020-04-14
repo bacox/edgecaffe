@@ -2,7 +2,8 @@
 // Created by bacox on 08/04/2020.
 //
 #include <iostream>
-#include <Orchestrator.h>
+//#include <Orchestrator.h>
+#include <EdgeCaffe.h>
 #include <chrono>
 
 void printUsage(){
@@ -28,28 +29,28 @@ int main(int argc, char *argv[]) {
         return 0;
     }
 
-    Orchestrator::MODEL_SPLIT_MODE mode = Orchestrator::MODEL_SPLIT_MODE::PARTIAL;
+    EdgeCaffe::Orchestrator::MODEL_SPLIT_MODE mode = EdgeCaffe::Orchestrator::MODEL_SPLIT_MODE::PARTIAL;
     std::string modeAsString = "partial";
     if(arg1 == "bulk") {
-        mode = Orchestrator::MODEL_SPLIT_MODE::BULK;
+        mode = EdgeCaffe::Orchestrator::MODEL_SPLIT_MODE::BULK;
         modeAsString = "bulk";
     } else if (arg1 == "deepeye") {
-        mode = Orchestrator::MODEL_SPLIT_MODE::DEEPEYE;
+        mode = EdgeCaffe::Orchestrator::MODEL_SPLIT_MODE::DEEPEYE;
         modeAsString = "deepeye";
     } else if(arg1 == "linear") {
-        mode = Orchestrator::MODEL_SPLIT_MODE::LINEAR;
+        mode = EdgeCaffe::Orchestrator::MODEL_SPLIT_MODE::LINEAR;
         modeAsString = "linear";
     }
 
     std::string outputFile = "output.csv";
     std::string outputLocation = "../analysis/";
-    if(argc > 3){
+    if(argc >= 3){
         outputFile = argv[2];
     }
 
     int repetitions = 1;
 
-
+    std::cout << "=========================" << std::endl;
     std::cout << "Running\t'RunPipeline'" << std::endl;
     std::cout << "Mode: \t " << modeAsString << std::endl;
 
@@ -57,14 +58,14 @@ int main(int argc, char *argv[]) {
     ::google::InitGoogleLogging(argv[0]);
 //    std::cout << "Scheduled Pipeline" << std::endl;
 
-    Orchestrator orchestrator;
+    EdgeCaffe::Orchestrator orchestrator;
     auto startTime = std::chrono::high_resolution_clock::now();
 
-    if(mode == Orchestrator::BULK) {
+    if(mode == EdgeCaffe::Orchestrator::BULK) {
         orchestrator.setupBulkMode();
-    } else if (mode == Orchestrator::DEEPEYE) {
+    } else if (mode == EdgeCaffe::Orchestrator::DEEPEYE) {
         orchestrator.setupDeepEyeMode();
-    } else if (mode == Orchestrator::LINEAR){
+    } else if (mode == EdgeCaffe::Orchestrator::LINEAR){
         orchestrator.setupLinearMode();
     } else { // Partial
         orchestrator.setupPartialMode(2);
@@ -92,13 +93,9 @@ int main(int argc, char *argv[]) {
         orchestrator.submitInferenceTask(pathToGenderNet, pathToImg);
         orchestrator.submitInferenceTask(pathToFaceNet, pathToImg, true);
     }
-//    std::string pathToImg = "../resources/test_1.jpg";
-//
-//    orchestrator.submitInferenceTask(pathToAgeNet, pathToImg);
-//    orchestrator.submitInferenceTask(pathToGenderNet, pathToImg);
 
-    if(mode == Orchestrator::MODEL_SPLIT_MODE::LINEAR) {
-        Task* last = nullptr;
+    if(mode == EdgeCaffe::Orchestrator::MODEL_SPLIT_MODE::LINEAR) {
+        EdgeCaffe::Task* last = nullptr;
         for(auto iTask : orchestrator.inferenceTasks)
         {
             if(last != nullptr)
