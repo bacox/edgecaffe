@@ -40,7 +40,7 @@ void splitModel(std::string modelPath) {
         caffe::LayerParameter *newLayer = partial.add_layer();
         newLayer->CopyFrom(source_layer);
         caffe::WriteProtoToBinaryFile(partial, partialPath);
-        std::cout << ">\t\tLayer["<< i << "] -> \t" << source_layer.name() << "\t\tCreated partial model: " << partialName << ".partial.caffemodel" << std::endl;
+        std::cout << ">\t\tLayer["<< i << "] -> \t" << source_layer.name() << " [" << source_layer.type() << "]" << "\t\tCreated partial model: " << partialName << ".partial.caffemodel" << std::endl;
 //        std::cout <<  partialName << ".partial.caffemodel" << std::endl;
     }
 
@@ -56,7 +56,7 @@ void splitModel(std::string modelPath) {
         caffe::V1LayerParameter *newLayer = partial.add_layers();
         newLayer->CopyFrom(origLayer);
         caffe::WriteProtoToBinaryFile(partial, partialModelPath);
-        std::cout << ">\t\tLayer["<< counter << "] -> \t" << origLayer.name() << "\t\tCreated partial model: " << partialModelPath << std::endl;
+        std::cout << ">\t\tLayer["<< counter << "] -> \t" << origLayer.name() << " [" << origLayer.type() << "]" << "\t\tCreated partial model: " << partialModelPath << std::endl;
         counter++;
     }
 }

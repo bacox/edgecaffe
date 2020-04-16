@@ -76,22 +76,30 @@ int main(int argc, char *argv[]) {
     std::string pathToAgeNet = "networks/AgeNet";
     std::string pathToGenderNet = "networks/GenderNet";
     std::string pathToFaceNet = "networks/FaceNet";
+    std::string pathToSoS_Alex = "networks/SoS";
+    std::string pathToSoS_Google = "networks/SoS_GoogleNet";
 
     for(int ii = 0; ii < repetitions; ++ii) {
         std::string pathToImg = "../resources/test_1.jpg";
-        orchestrator.submitInferenceTask(pathToAgeNet, pathToImg);
-        orchestrator.submitInferenceTask(pathToGenderNet, pathToImg);
-        orchestrator.submitInferenceTask(pathToFaceNet, pathToImg, true);
-
+        orchestrator.submitInferenceTask(pathToSoS_Alex, pathToImg);
+        orchestrator.submitInferenceTask(pathToSoS_Google, pathToImg);
+//        orchestrator.submitInferenceTask(pathToAgeNet, pathToImg);
+//        orchestrator.submitInferenceTask(pathToGenderNet, pathToImg);
+//        orchestrator.submitInferenceTask(pathToFaceNet, pathToImg, true);
+//
         pathToImg = "../resources/test_2.jpg";
-        orchestrator.submitInferenceTask(pathToAgeNet, pathToImg);
-        orchestrator.submitInferenceTask(pathToGenderNet, pathToImg);
-        orchestrator.submitInferenceTask(pathToFaceNet, pathToImg, true);
-
+        orchestrator.submitInferenceTask(pathToSoS_Alex, pathToImg);
+        orchestrator.submitInferenceTask(pathToSoS_Google, pathToImg);
+//        orchestrator.submitInferenceTask(pathToAgeNet, pathToImg);
+//        orchestrator.submitInferenceTask(pathToGenderNet, pathToImg);
+//        orchestrator.submitInferenceTask(pathToFaceNet, pathToImg, true);
+//
         pathToImg = "../resources/test_3.jpg";
-        orchestrator.submitInferenceTask(pathToAgeNet, pathToImg);
-        orchestrator.submitInferenceTask(pathToGenderNet, pathToImg);
-        orchestrator.submitInferenceTask(pathToFaceNet, pathToImg, true);
+        orchestrator.submitInferenceTask(pathToSoS_Alex, pathToImg);
+        orchestrator.submitInferenceTask(pathToSoS_Google, pathToImg);
+//        orchestrator.submitInferenceTask(pathToAgeNet, pathToImg);
+//        orchestrator.submitInferenceTask(pathToGenderNet, pathToImg);
+//        orchestrator.submitInferenceTask(pathToFaceNet, pathToImg, true);
     }
 
     if(mode == EdgeCaffe::Orchestrator::MODEL_SPLIT_MODE::LINEAR) {
