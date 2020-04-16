@@ -8,7 +8,7 @@ set(CMAKE_BUILD_TYPE Debug)
 set(THREADS_PREFER_PTHREAD_FLAG ON)
 find_package(Threads REQUIRED)
 
-add_definitions( -DBOOST_ALL_DYN_LINK )
+add_definitions(-DBOOST_ALL_DYN_LINK)
 
 add_executable(${PROJECT_NAME}
         ModelSplitter.cpp

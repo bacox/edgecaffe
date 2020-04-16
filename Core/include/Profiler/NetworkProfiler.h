@@ -10,9 +10,11 @@
 #include <chrono>
 #include <vector>
 
-namespace EdgeCaffe {
+namespace EdgeCaffe
+{
 
-    struct ProfileLine {
+    struct ProfileLine
+    {
         std::chrono::time_point<std::chrono::system_clock> startTime;
         std::chrono::time_point<std::chrono::system_clock> endTime;
         long duration = 0;
@@ -22,7 +24,8 @@ namespace EdgeCaffe {
         void stop();
     };
 
-    struct LayerProfile {
+    struct LayerProfile
+    {
         int layerId;
         std::string layerName;
         ProfileLine loading;
@@ -39,9 +42,11 @@ namespace EdgeCaffe {
         static std::string csvHeaders();
     };
 
-    class NetworkProfiler {
+    class NetworkProfiler
+    {
     public:
-        enum LAYER_PROFILE_TYPE {
+        enum LAYER_PROFILE_TYPE
+        {
             LOAD,
             EXEC,
             UNLOAD

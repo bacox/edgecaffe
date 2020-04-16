@@ -7,8 +7,11 @@
 
 #include <caffe/net.hpp>
 #include <Profiler/NetworkProfiler.h>
-namespace EdgeCaffe {
-    class Task {
+
+namespace EdgeCaffe
+{
+    class Task
+    {
     public:
 //    InferenceSubTask *network;
         caffe::Net<float> *network_ptr;

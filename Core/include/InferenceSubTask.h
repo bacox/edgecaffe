@@ -12,8 +12,10 @@
 #include <opencv2/core/mat.hpp>
 #include "Tasks/Task.h"
 
-namespace EdgeCaffe {
-    class InferenceSubTask {
+namespace EdgeCaffe
+{
+    class InferenceSubTask
+    {
     public:
         caffe::Net<float> *net_ptr;
         std::string pathToDescription;

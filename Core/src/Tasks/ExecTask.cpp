@@ -6,9 +6,11 @@
 #include <chrono>
 #include "../../include/Tasks/ExecTask.h"
 
-namespace EdgeCaffe {
+namespace EdgeCaffe
+{
 
-    void ExecTask::run() {
+    void ExecTask::run()
+    {
 //    std::cout << "Running the Exec task" << std::endl;
 
         // Exec the partial layer implementation
@@ -22,7 +24,8 @@ namespace EdgeCaffe {
         std::this_thread::sleep_for(std::chrono::milliseconds(executionTime));
     }
 
-    std::string ExecTask::getTaskDescription() {
+    std::string ExecTask::getTaskDescription()
+    {
         return "Exec Task layer " + std::to_string(layerId);
     }
 }

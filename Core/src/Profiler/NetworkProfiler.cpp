@@ -5,25 +5,31 @@
 #include <filesystem>
 #include "../../include/Profiler/NetworkProfiler.h"
 
-namespace EdgeCaffe {
+namespace EdgeCaffe
+{
 
-    void NetworkProfiler::start() {
+    void NetworkProfiler::start()
+    {
         networkProfile.start();
     }
 
-    void NetworkProfiler::end() {
+    void NetworkProfiler::end()
+    {
         networkProfile.stop();
 
     }
 
-    void NetworkProfiler::profileNewLayer(std::string layerName, int layerid) {
+    void NetworkProfiler::profileNewLayer(std::string layerName, int layerid)
+    {
         currentLayer = LayerProfile();
         currentLayer.layerName = layerName;
         currentLayer.layerId = layerid;
     }
 
-    void NetworkProfiler::start(NetworkProfiler::LAYER_PROFILE_TYPE type) {
-        switch (type) {
+    void NetworkProfiler::start(NetworkProfiler::LAYER_PROFILE_TYPE type)
+    {
+        switch (type)
+        {
             case LAYER_PROFILE_TYPE::LOAD :
                 currentLayer.loading.start();
             case LAYER_PROFILE_TYPE::EXEC :
@@ -33,8 +39,10 @@ namespace EdgeCaffe {
         }
     }
 
-    void NetworkProfiler::end(NetworkProfiler::LAYER_PROFILE_TYPE type) {
-        switch (type) {
+    void NetworkProfiler::end(NetworkProfiler::LAYER_PROFILE_TYPE type)
+    {
+        switch (type)
+        {
             case LAYER_PROFILE_TYPE::LOAD :
                 currentLayer.loading.stop();
             case LAYER_PROFILE_TYPE::EXEC :
@@ -44,36 +52,43 @@ namespace EdgeCaffe {
         }
     }
 
-    NetworkProfiler::NetworkProfiler(const std::string &networkName) : networkName(networkName) {
+    NetworkProfiler::NetworkProfiler(const std::string &networkName) : networkName(networkName)
+    {
 
     }
 
-    void NetworkProfiler::saveLayerProfile() {
+    void NetworkProfiler::saveLayerProfile()
+    {
         layerProfiles.push_back(currentLayer);
 
     }
 
-    std::vector<std::string> NetworkProfiler::layerCsvLines(bool header) {
+    std::vector<std::string> NetworkProfiler::layerCsvLines(bool header)
+    {
         std::vector<std::string> lines;
         if (header)
             lines.push_back(LayerProfile::csvHeaders());
-        for (auto i : layerProfiles) {
+        for (auto i : layerProfiles)
+        {
             lines.push_back(i.toCsv());
         }
         return lines;
     }
 
 
-    void ProfileLine::start() {
+    void ProfileLine::start()
+    {
         startTime = std::chrono::high_resolution_clock::now();
     }
 
-    void ProfileLine::stop() {
+    void ProfileLine::stop()
+    {
         endTime = std::chrono::high_resolution_clock::now();
         duration = std::chrono::duration_cast<std::chrono::nanoseconds>(endTime - startTime).count();
     }
 
-    std::string LayerProfile::toCsv() {
+    std::string LayerProfile::toCsv()
+    {
         std::string sep = ",";
 
         return layerName + sep + std::to_string(layerId) + sep + std::to_string(loading.duration) + sep +
@@ -81,13 +96,15 @@ namespace EdgeCaffe {
                std::to_string(paramFileSize);
     }
 
-    std::string LayerProfile::csvHeaders() {
+    std::string LayerProfile::csvHeaders()
+    {
         std::string sep = ",";
         return "layerName" + sep + "layerId" + sep + "loading_ns" + sep + "exec_ns" + sep + "unload_ns" + sep +
                "param_file_bytes";
     }
 
-    void LayerProfile::estimateParamFileSize(const std::string &file) {
+    void LayerProfile::estimateParamFileSize(const std::string &file)
+    {
         paramFileSize = std::filesystem::file_size(file);
     }
 }

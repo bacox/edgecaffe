@@ -14,8 +14,10 @@
 #include "InferenceNetwork.h"
 #include "InferenceOutput.h"
 
-namespace EdgeCaffe {
-    struct InferenceTask {
+namespace EdgeCaffe
+{
+    struct InferenceTask
+    {
         std::string pathToNetwork;
         std::string pathToData;
         InferenceNetwork *net;
@@ -25,21 +27,23 @@ namespace EdgeCaffe {
 
         InferenceOutput output;
 
-        void dealloc() {
+        void dealloc()
+        {
             std::vector<std::string> layerNames = net->subTasks.front()->net_ptr->layer_names();
             output.initFromLayerVector(layerNames);
 //
-            for (auto task : net->tasks) {
-            if (dynamic_cast<LoadTask *>(task))
+            for (auto task : net->tasks)
             {
+                if (dynamic_cast<LoadTask *>(task))
+                {
 //                // Load Task
-                output.setLoadingTime(task);
-            }
-            if (dynamic_cast<ExecTask *>(task))
-            {
+                    output.setLoadingTime(task);
+                }
+                if (dynamic_cast<ExecTask *>(task))
+                {
 //                // Load Task
-                output.setExecutionTime(task);
-            }
+                    output.setExecutionTime(task);
+                }
 
             }
 
@@ -49,11 +53,13 @@ namespace EdgeCaffe {
     };
 
 
-    class Orchestrator {
+    class Orchestrator
+    {
     public:
         Orchestrator();
 
-        enum MODEL_SPLIT_MODE {
+        enum MODEL_SPLIT_MODE
+        {
             BULK = 0,
             DEEPEYE = 1,
             PARTIAL = 2,

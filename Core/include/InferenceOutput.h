@@ -10,20 +10,24 @@
 #include <opencv2/core/types.hpp>
 #include <Tasks/Task.h>
 
-namespace EdgeCaffe {
-    struct OutputData {
+namespace EdgeCaffe
+{
+    struct OutputData
+    {
 //    Eigen::Matrix<float, Eigen::Dynamic, Eigen::Dynamic, Eigen::RowMajor> data;
         int rows = 0;
         int columns = 0;
 
-        int numItems() {
+        int numItems()
+        {
             return rows * columns;
         }
 
 
     };
 
-    struct _LayerProfile {
+    struct _LayerProfile
+    {
         ProfileLine loadingProfile;
         ProfileLine ExecutionProfile;
         int layerId;
@@ -31,7 +35,8 @@ namespace EdgeCaffe {
     };
 
 
-    class InferenceOutput {
+    class InferenceOutput
+    {
         cv::Size inputDim = cv::Size(0, 0);
         size_t inputSize = 0;
         std::vector<_LayerProfile> networkProfile;

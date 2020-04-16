@@ -7,9 +7,6 @@
 #endif
 
 #include <iostream>
-//#include "core/InferenceNetwork.h"
-//#include "core/TaskPool.h"
-//#include "core/Worker.h"
 #include <opencv2/imgcodecs.hpp>
 #include <thread>
 #include <InferenceNetwork.h>
@@ -17,7 +14,8 @@
 #include <Worker.h>
 
 
-int main(int argc, char *argv[]) {
+int main(int argc, char *argv[])
+{
 
     std::cout << "Scheduled Pipeline" << std::endl;
 
@@ -52,13 +50,13 @@ int main(int argc, char *argv[]) {
     genderNet.createTasks();
     ageNet.createTasks();
 
-    std::vector<EdgeCaffe::Task*> genderNetTasks = genderNet.getTasks();
-    std::vector<EdgeCaffe::Task*> ageNetTasks = ageNet.getTasks();
+    std::vector<EdgeCaffe::Task *> genderNetTasks = genderNet.getTasks();
+    std::vector<EdgeCaffe::Task *> ageNetTasks = ageNet.getTasks();
 
-    std::vector<EdgeCaffe::Task*> bagOfTasks;
-    bagOfTasks.reserve( genderNetTasks.size() + ageNetTasks.size() ); // preallocate memory
-    bagOfTasks.insert( bagOfTasks.end(), genderNetTasks.begin(), genderNetTasks.end() );
-    bagOfTasks.insert( bagOfTasks.end(), ageNetTasks.begin(), ageNetTasks.end() );
+    std::vector<EdgeCaffe::Task *> bagOfTasks;
+    bagOfTasks.reserve(genderNetTasks.size() + ageNetTasks.size()); // preallocate memory
+    bagOfTasks.insert(bagOfTasks.end(), genderNetTasks.begin(), genderNetTasks.end());
+    bagOfTasks.insert(bagOfTasks.end(), ageNetTasks.begin(), ageNetTasks.end());
 
     EdgeCaffe::TaskPool pool;
 
@@ -66,21 +64,25 @@ int main(int argc, char *argv[]) {
 
     std::vector<EdgeCaffe::Worker> workers;
     int numberOfWorkers = 1;
-    for(int i = 0; i < numberOfWorkers; ++i) {
+    for (int i = 0; i < numberOfWorkers; ++i)
+    {
         std::cout << "Creating new worker[" << i << "]" << std::endl;
         workers.push_back(EdgeCaffe::Worker(&pool, &outPool, i));
     }
 
-    for(EdgeCaffe::Worker &w: workers){
+    for (EdgeCaffe::Worker &w: workers)
+    {
         w.run();
     }
 
-    while(bagOfTasks.size() > 0)
+    while (bagOfTasks.size() > 0)
     {
-        for (auto it = bagOfTasks.begin(); it != bagOfTasks.end(); it++) {
+        for (auto it = bagOfTasks.begin(); it != bagOfTasks.end(); it++)
+        {
             // remove odd numbers
             EdgeCaffe::Task *task = *it;
-            if(!task->waitsForOtherTasks()){
+            if (!task->waitsForOtherTasks())
+            {
                 bagOfTasks.erase(it--);
                 pool.addTask(task);
             }
@@ -88,12 +90,12 @@ int main(int argc, char *argv[]) {
         std::this_thread::sleep_for(std::chrono::milliseconds(1));
     }
 
-    for(EdgeCaffe::Worker &w: workers)
+    for (EdgeCaffe::Worker &w: workers)
     {
         w.allowed_to_stop = true;
     }
     std::cout << "Waiting for worker to stop running" << std::endl;
-    for(EdgeCaffe::Worker &w : workers)
+    for (EdgeCaffe::Worker &w : workers)
     {
         w._thread.join();
     }

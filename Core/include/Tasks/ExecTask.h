@@ -6,14 +6,19 @@
 #define PIPELINE_EXECTASK_H
 
 #include "Task.h"
-namespace EdgeCaffe {
-    class ExecTask : public Task {
+
+namespace EdgeCaffe
+{
+    class ExecTask : public Task
+    {
     public:
         void run() override;
 
-        ExecTask(int id, int executionTime) : Task(id, executionTime) {}
+        ExecTask(int id, int executionTime) : Task(id, executionTime)
+        {}
 
-        ExecTask() {}
+        ExecTask()
+        {}
 
         std::string getTaskDescription() override;
     };

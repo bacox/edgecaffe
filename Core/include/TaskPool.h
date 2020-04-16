@@ -9,8 +9,11 @@
 #include <list>
 #include <mutex>
 #include "Tasks/Task.h"
-namespace EdgeCaffe {
-    class TaskPool {
+
+namespace EdgeCaffe
+{
+    class TaskPool
+    {
     private:
         std::mutex mtx;
 

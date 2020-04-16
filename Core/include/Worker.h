@@ -8,8 +8,11 @@
 
 #include "TaskPool.h"
 #include <thread>
-namespace EdgeCaffe {
-    class Worker {
+
+namespace EdgeCaffe
+{
+    class Worker
+    {
     public:
         bool action_stop = false;
         bool allowed_to_stop = false;

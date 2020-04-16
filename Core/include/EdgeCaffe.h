@@ -13,7 +13,6 @@
 #include "Profiler/NetworkProfiler.h"
 
 
-
 #include "BaseNet.h"
 #include "GenericDNN.h"
 #include "InferenceNetwork.h"
@@ -22,4 +21,5 @@
 #include "Orchestrator.h"
 #include "TaskPool.h"
 #include "Worker.h"
+
 #endif //EDGECAFFE_EDGECAFFE_H

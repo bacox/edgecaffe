@@ -6,12 +6,17 @@
 #define PIPELINE_LOADTASK_H
 
 #include "Task.h"
-namespace EdgeCaffe {
-    class LoadTask : public Task {
-    public:
-        LoadTask(int id, int executionTime) : Task(id, executionTime) {}
 
-        LoadTask() {}
+namespace EdgeCaffe
+{
+    class LoadTask : public Task
+    {
+    public:
+        LoadTask(int id, int executionTime) : Task(id, executionTime)
+        {}
+
+        LoadTask()
+        {}
 
         std::string partialName;
         std::string pathToPartial;

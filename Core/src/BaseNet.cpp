@@ -7,9 +7,11 @@
 #include <cv.hpp>
 #include <memory>
 
-namespace EdgeCaffe {
+namespace EdgeCaffe
+{
 
-    std::vector<double> scale_list(const cv::Mat &img) {
+    std::vector<double> scale_list(const cv::Mat &img)
+    {
         int min = 0;
         int max = 0;
         double delim = 5;
@@ -22,12 +24,14 @@ namespace EdgeCaffe {
         min = MIN(img.cols, img.rows);
 
         //        delim = 2500 / max;
-        while (delim > 1 + 1e-4) {
+        while (delim > 1 + 1e-4)
+        {
             scales.push_back(delim);
             delim *= factor;
         }
 
-        while (min >= 227) {
+        while (min >= 227)
+        {
             scales.push_back(pow(factor, factor_count++));
             min *= factor;
         }
@@ -39,19 +43,24 @@ namespace EdgeCaffe {
         return scales;
     }
 
-    std::string updatePrototxt(int rows, int cols, std::string pathToProtoText, std::string fileName) {
+    std::string updatePrototxt(int rows, int cols, std::string pathToProtoText, std::string fileName)
+    {
         std::string orig_proto = "../" + pathToProtoText + fileName;
         std::string changed_proto = "../" + pathToProtoText + "altered_" + fileName;
 //        std::cout << "Changing " << orig_proto << " to " << changed_proto << std::endl;
         std::ifstream fin(orig_proto, std::ios::in);
         std::ofstream fout(changed_proto, std::ios::out);
         int index = 0;
-        for (std::string line; std::getline(fin, line); index++) {
-            if (index == 5) {
+        for (std::string line; std::getline(fin, line); index++)
+        {
+            if (index == 5)
+            {
                 fout << "input_dim: " << rows << '\n';
-            } else if (index == 6) {
+            } else if (index == 6)
+            {
                 fout << "input_dim: " << cols << '\n';
-            } else {
+            } else
+            {
                 fout << line << '\n';
             }
         }
@@ -60,12 +69,14 @@ namespace EdgeCaffe {
         return changed_proto;
     }
 
-    BaseNet::BaseNet(std::string pathToDescription) : pathToDescription(pathToDescription) {
+    BaseNet::BaseNet(std::string pathToDescription) : pathToDescription(pathToDescription)
+    {
         init();
         profiler = NetworkProfiler(networkName);
     }
 
-    void BaseNet::init() {
+    void BaseNet::init()
+    {
         std::string pathToYaml = pathToDescription + "/description.yaml";
         YAML::Node description = YAML::LoadFile(pathToYaml);
 
@@ -94,39 +105,47 @@ namespace EdgeCaffe {
         auto convLayers = description["conv-layers"].as<std::vector<std::string>>();
         auto fcLayers = description["fc-layers"].as<std::vector<std::string>>();
 
-        for (std::string partialName : convLayers) {
+        for (std::string partialName : convLayers)
+        {
             partialNames.push_back(pathToPartials + "/" + partialName);
         }
 
-        for (std::string partialName : fcLayers) {
+        for (std::string partialName : fcLayers)
+        {
             partialNames.push_back(pathToPartials + "/" + partialName);
         }
 
         bool usesResultVector = description["uses-result-vector"].as<bool>();
-        if (usesResultVector) {
+        if (usesResultVector)
+        {
             resultVector = description["result-vector"].as<std::vector<std::string>>();
         }
 
     }
 
-    void BaseNet::setInput(cv::Mat &input, bool use_scales) {
+    void BaseNet::setInput(cv::Mat &input, bool use_scales)
+    {
         inputData = input;
         preprocess(use_scales);
     }
 
-    void BaseNet::preprocess(bool use_scales) {
+    void BaseNet::preprocess(bool use_scales)
+    {
 
-        if (use_scales) {
+        if (use_scales)
+        {
             std::vector<double> scales(scale_list(inputData));
             cv::resize(inputData, inputData, cv::Size(inputData.cols * scales[0], inputData.rows * scales[0]));
             pathToModelFile = updatePrototxt(inputData.rows, inputData.cols, basePath, modelFileName);
-        } else {
+        } else
+        {
             cv::resize(inputData, inputData, inputSize);
         }
         inputData.convertTo(inputData, CV_32FC3);
     }
 
-    void BaseNet::loadInputToNetwork() {
+    void BaseNet::loadInputToNetwork()
+    {
         std::vector<cv::Mat> channels;
         cv::split(inputData, channels);
         channels[0] -= modelMeanValues[0];
@@ -136,46 +155,56 @@ namespace EdgeCaffe {
         OpenCV2Blob(channels, *net);
     }
 
-    void BaseNet::loadNetworkStructure() {
+    void BaseNet::loadNetworkStructure()
+    {
         net = new caffe::Net<float>(pathToModelFile, caffe::Phase::TEST);
     }
 
-    void BaseNet::loadPartialLayer(int i) {
+    void BaseNet::loadPartialLayer(int i)
+    {
         std::cout << "Loading the " << i << "th layer! |-> " << net->layer_names()[i] << std::endl;
         std::cout << "Loading file  " << partialNames[i] << std::endl;
 
         net->CopyTrainedLayersFrom(partialNames[i]); // layer 12
     }
 
-    void BaseNet::runPartialLayer(int i) {
+    void BaseNet::runPartialLayer(int i)
+    {
         std::cout << "Running the " << i << "th layer! |-> " << net->layer_names()[i] << std::endl;
         net->layers()[i]->Forward(net->bottom_vecs()[i], net->top_vecs()[i]);
     }
 
-    void BaseNet::unloadLayer(int i) {
+    void BaseNet::unloadLayer(int i)
+    {
 
         std::cout << "Unloading layer " << i << std::endl;
         net->layers_unsafe()[i].reset();
 
     }
 
-    void BaseNet::bulkLoadLayers() {
+    void BaseNet::bulkLoadLayers()
+    {
         net->CopyTrainedLayersFrom(pathToParamFile);
     }
 
-    void BaseNet::bulkRunLayers() {
+    void BaseNet::bulkRunLayers()
+    {
         net->Forward();
 
     }
 
-    void BaseNet::runNetwork(bool bulk) {
+    void BaseNet::runNetwork(bool bulk)
+    {
         profiler.start();
-        if (bulk) {
+        if (bulk)
+        {
             bulkLoadLayers();
             bulkRunLayers();
-        } else {
+        } else
+        {
             int numLayers = net->layers().size();
-            for (int i = 0; i < numLayers; ++i) {
+            for (int i = 0; i < numLayers; ++i)
+            {
                 std::string layerName = net->layer_names()[i];
                 profiler.profileNewLayer(layerName, i);
 
@@ -199,18 +228,22 @@ namespace EdgeCaffe {
         profiler.end();
     }
 
-    void BaseNet::createNewProfiler() {
+    void BaseNet::createNewProfiler()
+    {
         profiler = NetworkProfiler(networkName);
 
     }
 
-    NetworkProfiler BaseNet::getProfiler() {
+    NetworkProfiler BaseNet::getProfiler()
+    {
         return profiler;
     }
 
-    void BaseNet::showResult() {
+    void BaseNet::showResult()
+    {
 
-        if (resultVector.size() == 0) {
+        if (resultVector.size() == 0)
+        {
             std::cout << "No resultvector to show results from " << std::endl;
             return;
         }
@@ -230,7 +263,8 @@ namespace EdgeCaffe {
 
     }
 
-    BaseNet::~BaseNet() {
+    BaseNet::~BaseNet()
+    {
         std::cout << "Dealloc baseNet" << std::endl;
         delete net;
     }

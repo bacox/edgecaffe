@@ -6,18 +6,23 @@
 #include <thread>
 #include "../include/Worker.h"
 
-namespace EdgeCaffe {
+namespace EdgeCaffe
+{
 
 
-    void Worker::printMessage() {
+    void Worker::printMessage()
+    {
         std::cout << "In thread loop of thread " << std::this_thread::get_id() << std::endl;
     }
 
-    void Worker::Execution() {
-        while (!action_stop && !AllowedToStop()) {
+    void Worker::Execution()
+    {
+        while (!action_stop && !AllowedToStop())
+        {
             // Checking the pool to execute a new task
             Task *task = nullptr;
-            if (pool->getNext(&task)) {
+            if (pool->getNext(&task))
+            {
 //                std::cout << std::this_thread::get_id() << " [" << workerId << "]" << " -> Running task " << task->id
 //                          << " = '" << task->getTaskDescription() << "'" << std::endl;
                 task->execute();
@@ -30,20 +35,25 @@ namespace EdgeCaffe {
         }
     }
 
-    void Worker::run() {
+    void Worker::run()
+    {
         _thread = std::thread(&Worker::Execution, this);
     }
 
-    Worker::Worker(TaskPool *pool, TaskPool *outpool) : pool(pool), outpool(outpool) {
+    Worker::Worker(TaskPool *pool, TaskPool *outpool) : pool(pool), outpool(outpool)
+    {
 
     }
 
-    Worker::Worker(TaskPool *pool, TaskPool *outpool, int workerId) : pool(pool), outpool(outpool), workerId(workerId) {
+    Worker::Worker(TaskPool *pool, TaskPool *outpool, int workerId) : pool(pool), outpool(outpool), workerId(workerId)
+    {
 
     }
 
-    bool Worker::AllowedToStop() {
-        if (pool != nullptr) {
+    bool Worker::AllowedToStop()
+    {
+        if (pool != nullptr)
+        {
             if (pool->isEmpty())
                 return allowed_to_stop;
             return false;
@@ -53,7 +63,8 @@ namespace EdgeCaffe {
 
     }
 
-    void Worker::registerTaskPool(TaskPool *pool) {
+    void Worker::registerTaskPool(TaskPool *pool)
+    {
         this->pool = pool;
     }
 }

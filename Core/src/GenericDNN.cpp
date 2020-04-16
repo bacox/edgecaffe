@@ -7,9 +7,11 @@
 #include "../include/GenericDNN.h"
 #include <memory>
 
-namespace EdgeCaffe {
+namespace EdgeCaffe
+{
 
-    std::vector<double> scale_list(const cv::Mat &img) {
+    std::vector<double> scale_list(const cv::Mat &img)
+    {
         int min = 0;
         int max = 0;
         double delim = 5;
@@ -22,36 +24,46 @@ namespace EdgeCaffe {
         min = MIN(img.cols, img.rows);
 
         //        delim = 2500 / max;
-        while (delim > 1 + 1e-4) {
+        while (delim > 1 + 1e-4)
+        {
             scales.push_back(delim);
             delim *= factor;
         }
 
-        while (min >= 227) {
+        while (min >= 227)
+        {
             scales.push_back(pow(factor, factor_count++));
             min *= factor;
         }
 
         std::cout << "Image size: " << img.cols << "(Width)" << ' ' << img.rows << "(Height)" << '\n';
         std::cout << "Scaling: ";
-        std::for_each(scales.begin(), scales.end(), [](double scale) { std::cout << scale << ' '; });
+        std::for_each(
+                scales.begin(), scales.end(), [](double scale)
+                { std::cout << scale << ' '; }
+        );
         std::cout << '\n';
         return scales;
     }
 
-    std::string updatePrototxt(int rows, int cols, std::string pathToProtoText, std::string fileName) {
+    std::string updatePrototxt(int rows, int cols, std::string pathToProtoText, std::string fileName)
+    {
         std::string orig_proto = "../" + pathToProtoText + fileName;
         std::string changed_proto = "../" + pathToProtoText + "altered_" + fileName;
         std::cout << "Changing " << orig_proto << " to " << changed_proto << std::endl;
         std::ifstream fin(orig_proto, std::ios::in);
         std::ofstream fout(changed_proto, std::ios::out);
         int index = 0;
-        for (std::string line; std::getline(fin, line); index++) {
-            if (index == 5) {
+        for (std::string line; std::getline(fin, line); index++)
+        {
+            if (index == 5)
+            {
                 fout << "input_dim: " << rows << '\n';
-            } else if (index == 6) {
+            } else if (index == 6)
+            {
                 fout << "input_dim: " << cols << '\n';
-            } else {
+            } else
+            {
                 fout << line << '\n';
             }
         }
@@ -60,11 +72,13 @@ namespace EdgeCaffe {
         return changed_proto;
     }
 
-    GenericDNN::GenericDNN(std::string pathToDescription) : pathToDescription(pathToDescription) {
+    GenericDNN::GenericDNN(std::string pathToDescription) : pathToDescription(pathToDescription)
+    {
         init();
     }
 
-    void GenericDNN::init() {
+    void GenericDNN::init()
+    {
         std::string pathToYaml = pathToDescription + "/description.yaml";
         YAML::Node description = YAML::LoadFile(pathToYaml);
 
@@ -93,34 +107,41 @@ namespace EdgeCaffe {
         auto convLayers = description["conv-layers"].as<std::vector<std::string>>();
         auto fcLayers = description["fc-layers"].as<std::vector<std::string>>();
 
-        for (std::string partialName : convLayers) {
+        for (std::string partialName : convLayers)
+        {
             partialNames.push_back(pathToPartials + "/" + partialName);
         }
 
-        for (std::string partialName : fcLayers) {
+        for (std::string partialName : fcLayers)
+        {
             partialNames.push_back(pathToPartials + "/" + partialName);
         }
 
     }
 
-    void GenericDNN::setInput(cv::Mat &input, bool use_scales) {
+    void GenericDNN::setInput(cv::Mat &input, bool use_scales)
+    {
         inputData = input;
         preprocess(use_scales);
     }
 
-    void GenericDNN::preprocess(bool use_scales) {
+    void GenericDNN::preprocess(bool use_scales)
+    {
 
-        if (use_scales) {
+        if (use_scales)
+        {
             std::vector<double> scales(scale_list(inputData));
             cv::resize(inputData, inputData, cv::Size(inputData.cols * scales[0], inputData.rows * scales[0]));
             pathToModelFile = updatePrototxt(inputData.rows, inputData.cols, basePath, modelFileName);
-        } else {
+        } else
+        {
             cv::resize(inputData, inputData, inputSize);
         }
         inputData.convertTo(inputData, CV_32FC3);
     }
 
-    void GenericDNN::loadInputToNetwork() {
+    void GenericDNN::loadInputToNetwork()
+    {
         std::vector<cv::Mat> channels;
         cv::split(inputData, channels);
         channels[0] -= modelMeanValues[0];
@@ -130,20 +151,23 @@ namespace EdgeCaffe {
         OpenCV2Blob(channels, *net);
     }
 
-    void GenericDNN::loadNetworkStructure() {
+    void GenericDNN::loadNetworkStructure()
+    {
 //    net(new caffe::Net<float>(pathToModelFile, caffe::Phase::TEST));
 //    net = std::make_shared<caffe::Net<float>>(pathToModelFile, caffe::Phase::TEST);
         net = new caffe::Net<float>(pathToModelFile, caffe::Phase::TEST);
     }
 
-    void GenericDNN::loadPartialLayer(int i) {
+    void GenericDNN::loadPartialLayer(int i)
+    {
         std::cout << "Loading the " << i << "th layer! |-> " << net->layer_names()[i] << std::endl;
         std::cout << "Loading file  " << partialNames[i] << std::endl;
 
         net->CopyTrainedLayersFrom(partialNames[i]); // layer 12
     }
 
-    void GenericDNN::runPartialLayer(int i) {
+    void GenericDNN::runPartialLayer(int i)
+    {
         std::cout << "Running the " << i << "th layer! |-> " << net->layer_names()[i] << std::endl;
         auto layer = net->layers()[i];
         auto bottom = net->bottom_vecs()[i];
@@ -154,12 +178,14 @@ namespace EdgeCaffe {
         net->layers()[i]->Forward(net->bottom_vecs()[i], net->top_vecs()[i]);
     }
 
-    void GenericDNN::runPartialLayer(caffe::Layer<float> *layer, int i) {
+    void GenericDNN::runPartialLayer(caffe::Layer<float> *layer, int i)
+    {
         std::cout << "Running the " << i << "th layer version 2! |-> " << net->layer_names()[i] << std::endl;
         layer->Forward(net->bottom_vecs()[i], net->top_vecs()[i]);
     }
 
-    void GenericDNN::unloadLayer(int i) {
+    void GenericDNN::unloadLayer(int i)
+    {
 //    std::make_unique<caffe::Layer<float>>(net->layers_unsafe()[i]);
 //    net->layers_unsafe()[i].;
 //    net->layers_unsafe().erase(net->layers_unsafe().begin() + i);
