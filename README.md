@@ -136,6 +136,15 @@ The examples folder at `python/examples` holds some basic python example scripts
 
 The model files of the networks can be downloaded using the following link: https://bartcox.stackstorage.com/s/GmO0bKJb4JV5Qvd
 
-The modelfiles needs to be placed in the networks folder in their respective networkfolder. For example: the file `age_net.caffemodel` needs to be placed as `networks/AgeNet/age_net.caffemodel`.
+The model files needs to be placed in the networks folder in their respective network folder. For example: the file `age_net.caffemodel` needs to be placed as `networks/AgeNet/age_net.caffemodel`.
 
 After placing the models, run `cmake ..` in the build folder to copy the model resources to the build directory.
+
+## Contribute
+
+The following work-flow is used for contributions:
+
+* Clone repository
+* Checkout `master` branch: `git checkout master`
+* Create a new branch to work in: `git checkout -b <branch-name>`
+* Create a Merge Request to merge to master when done.
