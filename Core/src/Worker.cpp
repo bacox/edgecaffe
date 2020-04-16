@@ -23,8 +23,8 @@ namespace EdgeCaffe
             Task *task = nullptr;
             if (pool->getNext(&task))
             {
-//                std::cout << std::this_thread::get_id() << " [" << workerId << "]" << " -> Running task " << task->id
-//                          << " = '" << task->getTaskDescription() << "'" << std::endl;
+                std::cout << std::this_thread::get_id() << " [" << workerId << "]" << " -> Running task " << task->id
+                          << " = '" << task->getTaskDescription() << "'" << std::endl;
                 task->execute();
                 outpool->addTask(task);
                 task->executed = true;
