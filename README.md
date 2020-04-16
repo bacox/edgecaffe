@@ -6,7 +6,7 @@ The main codebase is written in C++, although there are limited bindings to Pyth
 
 ## Project organization
 
-The project is divided in four sections:
+The project is divided in five sections:
 
 * `./caffe`: This holds the original caffe code.
 * `./Core`: The code extension to facilitate the partial loading and execution.
@@ -15,6 +15,7 @@ The project is divided in four sections:
   * `.prototxt` file that describes the network architecture
   * `.caffemodel` file that holds all the trained parameters
 * `./tools`: The ModelSplitter tool
+* `./analysis`: This folder is empty on initialization of the project but will hold the output data of executable `RunPipeline`.
 
 ## Install dependencies
 
@@ -102,8 +103,14 @@ build ModelSplitter
 The targets can be build with `Cmake`. There 3 binary examples in this project:
 
 * **RunPipeline**: The main executable to run and profile DNNs.
+  * Build: `make RunPipeline`
+  * Usage: `./RunPipeline <mode> [outputfile.csv]`. The mode can be one of the scheduling policies: `linear`, `bulk`, `deepeye` or `partial`. The output file argument is optional and can be set to define the name of the output file used to write the profiling data towards. The default value of the output file is `output.csv` in the analysis folder.
 * **Modelsplitter**: A tool used to split caffemodel files in smaller model files.
+  * Build: `make ModelSplitter`
+  * Usage: `./ModelSplitter pathToModel1 [pathToModel2] ...`
 * **ScheduledPipeline**: Provides almost the same functionality as **RunPipeline** but the implementation is more exposed. 
+  * Build: `make ScheduledPipeline`
+  * Usage: `./ScheduledPipeline`
 
 ### Python
 
