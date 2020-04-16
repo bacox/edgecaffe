@@ -6,7 +6,7 @@ The main codebase is written in C++, although there are limited bindings to Pyth
 
 ## Project organization
 
-The project is divided in five sections:
+The project is divided in six sections:
 
 * `./caffe`: This holds the original caffe code.
 * `./Core`: The code extension to facilitate the partial loading and execution.
@@ -16,6 +16,7 @@ The project is divided in five sections:
   * `.caffemodel` file that holds all the trained parameters
 * `./tools`: The ModelSplitter tool
 * `./analysis`: This folder is empty on initialization of the project but will hold the output data of executable `RunPipeline`.
+* `./resources`: Holds the test data files.
 
 ## Install dependencies
 
