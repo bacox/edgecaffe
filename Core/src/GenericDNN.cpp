@@ -186,13 +186,8 @@ namespace EdgeCaffe
 
     void GenericDNN::unloadLayer(int i)
     {
-//    std::make_unique<caffe::Layer<float>>(net->layers_unsafe()[i]);
-//    net->layers_unsafe()[i].;
-//    net->layers_unsafe().erase(net->layers_unsafe().begin() + i);
         std::cout << "Unloading layer " << i << std::endl;
-//    delete net->layers()[i].get();
         net->layers_unsafe()[i].reset();
-//    net->layers()[i].reset();
 
     }
 }

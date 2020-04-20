@@ -13,10 +13,7 @@ namespace EdgeCaffe
     class Task
     {
     public:
-//    InferenceSubTask *network;
         caffe::Net<float> *network_ptr;
-//    caffe::Layer<float> *layer;
-//    std::shared_ptr<GenericDNN> network;
         bool executed = false;
         int id = 0;
         int executionTime = 0;

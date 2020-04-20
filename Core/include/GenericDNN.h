@@ -16,9 +16,6 @@ namespace EdgeCaffe
     {
     public:
         std::string pathToDescription;
-//    boost::shared_ptr<caffe::Net<float>> net;
-//    obj(new Obj);
-//    std::shared_ptr<caffe::Net<float>> net;
         caffe::Net<float> *net;
         std::string pathToModelFile;
         std::string modelFileName;

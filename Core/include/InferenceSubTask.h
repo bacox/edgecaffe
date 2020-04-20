@@ -17,7 +17,7 @@ namespace EdgeCaffe
     class InferenceSubTask
     {
     public:
-        caffe::Net<float> *net_ptr;
+        caffe::Net<float> *net_ptr = nullptr;
         std::string pathToDescription;
         std::string pathToModelFile;
         std::string modelFileName;

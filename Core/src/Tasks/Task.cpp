@@ -51,12 +51,7 @@ namespace EdgeCaffe
         return "General Task";
     }
 
-    Task::~Task()
-    {
-//    std::cout << "Dealloc Task" << std::endl;
-//    if(network_ptr != nullptr)
-//        delete network_ptr;
-    }
+    Task::~Task(){}
 
     void Task::execute()
     {

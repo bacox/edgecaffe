@@ -6,8 +6,6 @@
 
 namespace EdgeCaffe
 {
-
-
     void TaskPool::addTask(Task *t_ptr)
     {
         std::lock_guard guard(mtx);
