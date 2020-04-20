@@ -1,0 +1,45 @@
+---
+name: "Generated-Network"
+type: "generated"
+base-path: "networks/GeneratedNetwork/"
+num-conv-layers: 4
+num-fc-layers: 4
+layers:
+  - name: "layer0"
+    loading-duration: 500
+    execution-duration: 1000
+    id: 0
+  - name: "layer1"
+    loading-duration: 900
+    execution-duration: 900
+    id: 1
+    dependsOn: [0]
+  - name: "layer2"
+    loading-duration: 10
+    execution-duration: 10
+    id: 2
+    dependsOn: [1]
+  - name: "layer3"
+    loading-duration: 100
+    execution-duration: 100
+    id: 3
+    dependsOn: [2]
+  - name: "layer4"
+    loading-duration: 1000
+    execution-duration: 1000
+    id: 4
+  - name: "layer5"
+    loading-duration: 1000
+    execution-duration: 1000
+    id: 5
+    dependsOn: [0]
+  - name: "layer6"
+    loading-duration: 1000
+    execution-duration: 1000
+    id: 6
+    dependsOn: [1]
+  - name: "layer7"
+    loading-duration: 1000
+    execution-duration: 1000
+    id: 7
+    dependsOn: [2]

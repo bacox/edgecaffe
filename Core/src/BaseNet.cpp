@@ -35,11 +35,6 @@ namespace EdgeCaffe
             scales.push_back(pow(factor, factor_count++));
             min *= factor;
         }
-
-//        std::cout << "Image size: " << img.cols << "(Width)" << ' ' << img.rows << "(Height)" << '\n';
-//        std::cout << "Scaling: ";
-//        std::for_each(scales.begin(), scales.end(), [](double scale) { std::cout << scale << ' '; });
-//        std::cout << '\n';
         return scales;
     }
 
@@ -47,7 +42,6 @@ namespace EdgeCaffe
     {
         std::string orig_proto = "../" + pathToProtoText + fileName;
         std::string changed_proto = "../" + pathToProtoText + "altered_" + fileName;
-//        std::cout << "Changing " << orig_proto << " to " << changed_proto << std::endl;
         std::ifstream fin(orig_proto, std::ios::in);
         std::ofstream fout(changed_proto, std::ios::out);
         int index = 0;

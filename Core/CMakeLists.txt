@@ -120,16 +120,7 @@ target_include_directories(${PROJECT_NAME}
 
 target_link_libraries(${PROJECT_NAME}
         caffe
-        ${PROTOBUF_LIBRARY}
-        # Use pixed paths for now
-        /usr/local/lib/libprotobuf.a
-        ${OpenCV_LIBRARIES}
-        ${Boost_LIBRARIES}
-        # Use pixed paths for now
-        /usr/lib/x86_64-linux-gnu/libglog.a
-        Threads::Threads
-        stdc++fs
-        ${YAML_CPP_LINK_LIBRARIES}
+        ${EDGECAFFE_LINK}
         )
 
 bundle_static_library(${PROJECT_NAME} ${PROJECT_NAME}_bundled)

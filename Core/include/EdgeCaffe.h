@@ -14,7 +14,6 @@
 
 
 #include "BaseNet.h"
-#include "GenericDNN.h"
 #include "InferenceNetwork.h"
 #include "InferenceOutput.h"
 #include "InferenceSubTask.h"

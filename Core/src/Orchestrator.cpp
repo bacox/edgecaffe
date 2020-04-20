@@ -3,6 +3,7 @@
 //
 
 #include <opencv2/imgcodecs.hpp>
+#include <GeneratedNetwork.h>
 #include "../include/Orchestrator.h"
 
 namespace EdgeCaffe
@@ -14,7 +15,6 @@ namespace EdgeCaffe
         TaskPool *taskPool = new TaskPool;
         taskPools.push_back(taskPool);
         int i = 0;
-//        std::cout << "Creating new bulk worker[" << i << "]" << std::endl;
         workers.push_back(new Worker(taskPool, &outPool, i++));
 
     }
@@ -26,10 +26,7 @@ namespace EdgeCaffe
         taskPools.push_back(convPool);
         taskPools.push_back(fcPool);
         int i = 0;
-//        std::cout << "Creating new convolution worker[" << i << "]" << std::endl;
         workers.push_back(new Worker(convPool, &outPool, i++));
-
-//        std::cout << "Creating new fc worker[" << i << "]" << std::endl;
         workers.push_back(new Worker(fcPool, &outPool, i++));
     }
 
@@ -41,7 +38,6 @@ namespace EdgeCaffe
 
         for (int i = 0; i < numberOfWorkers; ++i)
         {
-//            std::cout << "Creating new worker[" << i << "]" << std::endl;
             workers.push_back(new Worker(taskPool, &outPool, i));
         }
     }
@@ -52,7 +48,6 @@ namespace EdgeCaffe
         taskPools.push_back(taskPool);
 
         int i = 0;
-//        std::cout << "Creating new linear worker[" << i << "]" << std::endl;
         workers.push_back(new Worker(taskPool, &outPool, i++));
     }
 
@@ -77,7 +72,43 @@ namespace EdgeCaffe
         {
             delete worker;
         }
+    }
 
+    void Orchestrator::submitInferenceTask(Arrival arrivalTask, bool use_scales)
+    {
+        InferenceTask *iTask = new InferenceTask;
+        iTask->pathToNetwork = arrivalTask.pathToNetwork;
+        iTask->pathToData = arrivalTask.pathToData;
+        // Load yaml
+        std::string pathToDescription = arrivalTask.pathToNetwork;
+        std::string pathToYaml = pathToDescription + "/description.yaml";
+        YAML::Node description = YAML::LoadFile(pathToYaml);
+
+        if(description["type"].as<std::string>("normal") == "generated")
+        {
+            // Generated network
+            iTask->net = new GeneratedNetwork(arrivalTask.pathToNetwork);
+            iTask->net->init(description);
+            iTask->output.networkName = iTask->net->subTasks.front()->networkName;
+        } else {
+            // Default network
+            iTask->net = new InferenceNetwork(arrivalTask.pathToNetwork);
+            iTask->net->init(description);
+            iTask->output.networkName = iTask->net->subTasks.front()->networkName;
+
+            cv::Mat inputData = cv::imread(arrivalTask.pathToData);
+            iTask->net->setInput(inputData, use_scales);
+            iTask->net->loadNetworkStructure();
+            iTask->net->loadInputToNetwork();
+        }
+
+
+        inferenceTasks.push_back(iTask);
+
+        iTask->net->createTasks(splitMode);
+        std::vector<Task *> listOfTasks = iTask->net->getTasks();
+        bagOfTasks.reserve(listOfTasks.size()); // preallocate memory
+        bagOfTasks.insert(bagOfTasks.end(), listOfTasks.begin(), listOfTasks.end());
 
     }
 
@@ -88,7 +119,7 @@ namespace EdgeCaffe
         InferenceTask *iTask = new InferenceTask;
         iTask->pathToNetwork = networkPath;
         iTask->pathToData = dataPath;
-        iTask->input_img = cv::imread(dataPath);
+        cv::Mat input_img = cv::imread(dataPath);
 
         iTask->net = new InferenceNetwork(networkPath);
 
@@ -98,10 +129,9 @@ namespace EdgeCaffe
 
         iTask->net->init();
         iTask->output.networkName = iTask->net->subTasks.front()->networkName;
-        iTask->net->setInput(iTask->input_img, use_scales);
+        iTask->net->setInput(input_img, use_scales);
         iTask->net->loadNetworkStructure();
         iTask->net->loadInputToNetwork();
-//    iTask->net->createTasks();
         iTask->net->createTasks(splitMode);
         std::vector<Task *> listOfTasks = iTask->net->getTasks();
         bagOfTasks.reserve(listOfTasks.size()); // preallocate memory
@@ -153,7 +183,6 @@ namespace EdgeCaffe
                     inferenceTask->finished = true;
 
                     // deallocate
-//                    std::cout << "Deallocating " << inferenceTask->pathToNetwork << std::endl;
                     inferenceTask->output.policy = splitModeAsString;
                     inferenceTask->dealloc();
                 }
@@ -180,5 +209,6 @@ namespace EdgeCaffe
         }
         return finished;
     }
+
 
 }

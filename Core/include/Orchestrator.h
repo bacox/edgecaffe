@@ -9,6 +9,7 @@
 #include <vector>
 #include <Tasks/LoadTask.h>
 #include <Tasks/ExecTask.h>
+#include <Tasks/DummyTask.h>
 #include "TaskPool.h"
 #include "Worker.h"
 #include "InferenceNetwork.h"
@@ -16,12 +17,21 @@
 
 namespace EdgeCaffe
 {
+    struct Arrival {
+        std::string pathToNetwork;
+        std::string pathToData;
+        bool generatedNetwork = false;
+        long time = 0;
+        std::string toString(){
+            return "Arrival<time: " + std::to_string(time)+ ">";
+        }
+    };
+
     struct InferenceTask
     {
         std::string pathToNetwork;
         std::string pathToData;
         InferenceNetwork *net;
-        cv::Mat input_img;
 
         bool finished = false;
 
@@ -29,7 +39,19 @@ namespace EdgeCaffe
 
         void dealloc()
         {
-            std::vector<std::string> layerNames = net->subTasks.front()->net_ptr->layer_names();
+            auto ptr = net->subTasks.front()->net_ptr;
+            std::vector<std::string> layerNames;
+            if(ptr)
+            {
+                layerNames = net->subTasks.front()->net_ptr->layer_names();
+            } else {
+                for(auto t : net->tasks){
+                    std::string layerName = "layer-" + std::to_string(t->layerId);
+                    layerNames.push_back(layerName);
+                }
+                auto last = std::unique(layerNames.begin(), layerNames.end());
+                layerNames.erase(last, layerNames.end());
+            }
             output.initFromLayerVector(layerNames);
 //
             for (auto task : net->tasks)
@@ -43,6 +65,13 @@ namespace EdgeCaffe
                 {
 //                // Load Task
                     output.setExecutionTime(task);
+                }
+                if (auto dt = dynamic_cast<DummyTask *>(task))
+                {
+                    if(dt->isLoadingTask)
+                        output.setLoadingTime(task);
+                    else
+                        output.setExecutionTime(task);
                 }
 
             }
@@ -98,6 +127,7 @@ namespace EdgeCaffe
         void waitForStop();
 
         void submitInferenceTask(const std::string &networkPath, const std::string &dataPath, bool use_scales = false);
+        void submitInferenceTask(const Arrival  arrivalTask, bool use_scales = false);
 
         void processTasks();
 
