@@ -2,7 +2,15 @@ cmake_minimum_required(VERSION 3.1.0)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-
+set(default_build_type "Debug")
+if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
+    message(STATUS "Setting build type to '${default_build_type}' as none was specified.")
+    set(CMAKE_BUILD_TYPE "${default_build_type}" CACHE
+            STRING "Choose the type of build." FORCE)
+    # Set the possible values of build type for cmake-gui
+    set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS
+            "Debug" "Release" "MinSizeRel" "RelWithDebInfo")
+endif()
 # ---[ Main Target
 project(EdgeCaffe C CXX)
 
@@ -85,6 +93,7 @@ macro(ADD_BINARY_TARGET TARGET_NAME)
     add_executable(${TARGET_NAME}
             ${TARGET_NAME}.cpp)
     add_dependencies(${TARGET_NAME}
+            caffe
             EdgeCaffeCore
             )
 
@@ -107,10 +116,6 @@ ADD_BINARY_TARGET(RunPipeline)
 # Copy resourcess
 file(COPY ${CMAKE_SOURCE_DIR}/networks DESTINATION ${CMAKE_BINARY_DIR})
 
-#message(STATUS "YAML include ${YAML_CPP_INCLUDEDIR}")
-#message(STATUS "YAML link ${YAML_CPP_LINK_LIBRARIES}")
-#message(STATUS "YAML link 2 ${YAML_CPP_LIBRARIES}")
-
 add_custom_target(EdgeCaffe_build_all
         COMMAND
         ${CMAKE_COMMAND} -E echo Finished building build_all targets
@@ -118,9 +123,11 @@ add_custom_target(EdgeCaffe_build_all
         )
 
 add_dependencies(EdgeCaffe_build_all
-        ModelSplitter
         ScheduledPipeline
         EdgeCaffeCore
         __pycaffe
         pycaffe
+        ModelSplitter
         )
+
+message(STATUS "postfix ${caffe}")
