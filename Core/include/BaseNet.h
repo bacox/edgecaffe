@@ -9,7 +9,6 @@
 #include <vector>
 #include <opencv2/core/mat.hpp>
 #include <caffe/net.hpp>
-//#include <net.hpp>
 #include "Profiler/NetworkProfiler.h"
 
 namespace EdgeCaffe
@@ -18,9 +17,6 @@ namespace EdgeCaffe
     {
     public:
         std::string pathToDescription;
-//    boost::shared_ptr<caffe::Net<float>> net;
-//    obj(new Obj);
-//    std::shared_ptr<caffe::Net<float>> net;
         caffe::Net<float> *net;
         std::string pathToModelFile;
         std::string modelFileName;

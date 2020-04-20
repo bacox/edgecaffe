@@ -16,3 +16,4 @@ analysis
 */__pycache__/*
 *.pyc
 **/altered_face_full_conv.prototxt
+*.todo

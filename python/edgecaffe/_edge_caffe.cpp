@@ -51,12 +51,12 @@ namespace {
 
     using boost::shared_ptr;
 
-    void BaseNet_SetInputFromString(BaseNet& net, const std::string& pathToImage, bool use_scales) {
+    void BaseNet_SetInputFromString(EdgeCaffe::BaseNet& net, const std::string& pathToImage, bool use_scales) {
         cv::Mat img = cv::imread(pathToImage);
         net.setInput(img, use_scales);
     }
 
-    int BaseNet_NumberOfLayers(BaseNet& net){
+    int BaseNet_NumberOfLayers(EdgeCaffe::BaseNet& net){
         return net.num_layers;
     }
 
@@ -64,23 +64,23 @@ namespace {
 
 BOOST_PYTHON_MODULE(_edge_caffe) {
 
-        bp::class_<BaseNet, shared_ptr<BaseNet >, boost::noncopyable >("BaseNet",
+        bp::class_<EdgeCaffe::BaseNet, shared_ptr<EdgeCaffe::BaseNet >, boost::noncopyable >("BaseNet",
                 bp::init<std::string>())
                 //constructor
-                .def("init", &BaseNet::init)
+                .def("init", &EdgeCaffe::BaseNet::init)
 //                .def("setInput", &BaseNet_SetInputFromString)
                 .def("setInputFromString", &BaseNet_SetInputFromString)
-                .def("loadNetworkStructure", &BaseNet::loadNetworkStructure)
-                .def("loadInputToNetwork", &BaseNet::loadInputToNetwork)
-                .def("runNetwork", &BaseNet::runNetwork)
-                .def("showResult", &BaseNet::showResult)
+                .def("loadNetworkStructure", &EdgeCaffe::BaseNet::loadNetworkStructure)
+                .def("loadInputToNetwork", &EdgeCaffe::BaseNet::loadInputToNetwork)
+                .def("runNetwork", &EdgeCaffe::BaseNet::runNetwork)
+                .def("showResult", &EdgeCaffe::BaseNet::showResult)
                 .def("numLayers", &BaseNet_NumberOfLayers)
 
-                .def("loadPartialLayer", &BaseNet::loadPartialLayer)
-                .def("runPartialLayer", &BaseNet::runPartialLayer)
-                .def("unloadLayer", &BaseNet::unloadLayer)
+                .def("loadPartialLayer", &EdgeCaffe::BaseNet::loadPartialLayer)
+                .def("runPartialLayer", &EdgeCaffe::BaseNet::runPartialLayer)
+                .def("unloadLayer", &EdgeCaffe::BaseNet::unloadLayer)
                 ;
-        BP_REGISTER_SHARED_PTR_TO_PYTHON(BaseNet);
+        BP_REGISTER_SHARED_PTR_TO_PYTHON(EdgeCaffe::BaseNet);
 
 
   // boost python expects a void (missing) return value, while import_array

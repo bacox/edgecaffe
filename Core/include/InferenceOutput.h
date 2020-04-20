@@ -14,7 +14,6 @@ namespace EdgeCaffe
 {
     struct OutputData
     {
-//    Eigen::Matrix<float, Eigen::Dynamic, Eigen::Dynamic, Eigen::RowMajor> data;
         int rows = 0;
         int columns = 0;
 
@@ -48,8 +47,6 @@ namespace EdgeCaffe
 
         std::vector<std::string> toCsvLines();
 
-// NetworProfile
-//OutputData
         std::string networkName;
 
         void initFromLayerVector(const std::vector<std::string> layerNames);

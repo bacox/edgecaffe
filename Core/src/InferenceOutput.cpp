@@ -21,12 +21,6 @@ namespace EdgeCaffe
 
     void InferenceOutput::setLoadingTime(Task *task)
     {
-//    task->layerId;
-//    task->profileLine;
-//    networkProfile[task->layerId];
-//    networkProfile[task->layerId].loadingProfile;
-//    ProfileLine line = task->profileLine;
-//    networkProfile[task->layerId].loadingProfile = task->profileLine;
         int layerId = task->layerId;
         networkProfile[layerId].loadingProfile = task->profileLine;
     }
@@ -40,7 +34,7 @@ namespace EdgeCaffe
     {
         std::vector<std::string> lines;
         std::string sep = ",";
-        for (auto pl : networkProfile)
+        for (const _LayerProfile &pl : networkProfile)
         {
 
             std::string line = networkName + sep + std::to_string(pl.layerId) + sep + pl.layerName + sep +

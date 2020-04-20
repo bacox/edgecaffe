@@ -29,8 +29,6 @@ namespace EdgeCaffe
                 outpool->addTask(task);
                 task->executed = true;
             }
-
-//        printMessage();
             std::this_thread::sleep_for(std::chrono::milliseconds(1));
         }
     }

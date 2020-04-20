@@ -89,6 +89,8 @@ int main(int argc, char *argv[])
     std::string pathToSoS_Alex = "networks/SoS";
     std::string pathToSoS_Google = "networks/SoS_GoogleNet";
 
+    std::string pathToGenNet = "networks/GeneratedNetwork";
+
     for (int ii = 0; ii < repetitions; ++ii)
     {
         std::string pathToImg = "../resources/test_1.jpg";
@@ -97,6 +99,8 @@ int main(int argc, char *argv[])
         orchestrator.submitInferenceTask(pathToAgeNet, pathToImg);
         orchestrator.submitInferenceTask(pathToGenderNet, pathToImg);
         orchestrator.submitInferenceTask(pathToFaceNet, pathToImg, true);
+        EdgeCaffe::Arrival a1{pathToGenNet, ""};
+        orchestrator.submitInferenceTask(a1);
 
         pathToImg = "../resources/test_2.jpg";
         orchestrator.submitInferenceTask(pathToSoS_Alex, pathToImg);
@@ -104,6 +108,8 @@ int main(int argc, char *argv[])
         orchestrator.submitInferenceTask(pathToAgeNet, pathToImg);
         orchestrator.submitInferenceTask(pathToGenderNet, pathToImg);
         orchestrator.submitInferenceTask(pathToFaceNet, pathToImg, true);
+        EdgeCaffe::Arrival a2{pathToGenNet, ""};
+        orchestrator.submitInferenceTask(a2);
 
         pathToImg = "../resources/test_3.jpg";
         orchestrator.submitInferenceTask(pathToSoS_Alex, pathToImg);
@@ -111,6 +117,8 @@ int main(int argc, char *argv[])
         orchestrator.submitInferenceTask(pathToAgeNet, pathToImg);
         orchestrator.submitInferenceTask(pathToGenderNet, pathToImg);
         orchestrator.submitInferenceTask(pathToFaceNet, pathToImg, true);
+        EdgeCaffe::Arrival a3{pathToGenNet, ""};
+        orchestrator.submitInferenceTask(a3);
     }
 
     if (mode == EdgeCaffe::Orchestrator::MODEL_SPLIT_MODE::LINEAR)

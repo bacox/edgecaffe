@@ -13,6 +13,7 @@
 #include <opencv2/core/mat.hpp>
 //#include "../thirdparty/caffe/include/caffe/caffe.hpp"
 #include <memory>
+#include <yaml-cpp/yaml.h>
 
 namespace EdgeCaffe
 {
@@ -25,7 +26,7 @@ namespace EdgeCaffe
         const std::vector<Task *> &getTasks() const;
 
         std::vector<InferenceSubTask *> subTasks;
-    private:
+    protected:
 
         std::string pathToDescription;
 
@@ -68,16 +69,17 @@ namespace EdgeCaffe
 
         InferenceNetwork(const std::string &pathToDescription);
 
-        void init();
+        virtual void init(YAML::Node &description);
+        virtual void init();
 
-        void setInput(cv::Mat &input, bool use_scales = false);
+        virtual void setInput(cv::Mat &input, bool use_scales = false);
 
-        void loadInputToNetwork();
+        virtual void loadInputToNetwork();
 
-        void loadNetworkStructure();
+        virtual void loadNetworkStructure();
 
 
-        void createTasks();
+        virtual void createTasks();
 
         void createTasksConvFC();
 
@@ -85,7 +87,7 @@ namespace EdgeCaffe
 
         void createTasksLinear();
 
-        void createTasks(int splittingPolicy);
+        virtual void createTasks(int splittingPolicy);
 
         void showResult();
 
