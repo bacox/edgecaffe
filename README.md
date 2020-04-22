@@ -62,6 +62,16 @@ sudo apt-get install -y libatlas-base-dev doxygen libyaml-cpp-dev
 
 ## Compile (Laptop)
 
+#### Generate protobuf bindings
+This step should be run before compiling
+
+```bash
+protoc caffe/src/caffe/proto/caffe.proto --cpp_out=.
+mkdir caffe/include/caffe/proto
+mv caffe/src/caffe/proto/caffe.pb.h caffe/include/caffe/proto
+```
+
+
 #### RunPipeline
 
 ```bash
