@@ -82,6 +82,8 @@ DEP_EXISTS(OpenCV)
 DEP_EXISTS(PROTOBUF)
 DEP_EXISTS(THREADS)
 
+#Make sure blas is set to open
+set(BLAS "open")
 
 add_subdirectory(caffe)
 set(INCLUDE_ORIG_CAFFE ${CMAKE_CURRENT_SOURCE_DIR}/caffe/include)
