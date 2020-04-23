@@ -55,8 +55,8 @@ Other
 sudo apt-get install -y libprotobuf-dev libleveldb-dev libsnappy-dev libopencv-dev libhdf5-serial-dev protobuf-compiler
 sudo apt-get install -y —-no-install-recommends libboost-all-dev
 sudo apt-get install -y libgflags-dev libgoogle-glog-dev liblmdb-dev
-sudo pip3 install -y protobuf
-sudo apt-get install -y the python3-dev
+pip3 install protobuf
+sudo apt-get install -y python3-dev
 sudo apt-get install -y libatlas-base-dev doxygen libyaml-cpp-dev
 ```
 
