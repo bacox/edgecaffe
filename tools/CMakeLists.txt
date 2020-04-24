@@ -18,7 +18,24 @@ add_dependencies(${PROJECT_NAME} caffe)
 target_include_directories(${PROJECT_NAME} PUBLIC ${INCLUDE_ORIG_CAFFE})
 target_link_libraries(${PROJECT_NAME}
         Threads::Threads
+        -Wl,--whole-archive
         caffe
+        -Wl,--no-whole-archive
+        stdc++fs
+        )
+
+
+add_executable(GenerateNetwork
+        GenerateNetwork.cpp
+        )
+add_dependencies(GenerateNetwork caffe)
+
+target_include_directories(GenerateNetwork PUBLIC ${INCLUDE_ORIG_CAFFE})
+target_link_libraries(GenerateNetwork
+        Threads::Threads
+        -Wl,--whole-archive
+        caffe
+        -Wl,--no-whole-archive
         stdc++fs
         )
 

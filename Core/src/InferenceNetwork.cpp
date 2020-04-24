@@ -123,7 +123,14 @@ namespace EdgeCaffe
     void InferenceNetwork::init()
     {
         std::string pathToYaml = pathToDescription + "/description.yaml";
-        YAML::Node description = YAML::LoadFile(pathToYaml);
+        YAML::Node description;
+        try{
+            description = YAML::LoadFile(pathToYaml);
+        } catch(...){
+//            std::exception_ptr p = std::current_exception();
+            std::cerr << "Error while attempting to read yaml file!" << std::endl;
+            std::cerr << "Yaml file: " << pathToYaml << std::endl;
+        }
         init(description);
     }
 

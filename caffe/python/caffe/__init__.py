@@ -6,6 +6,3 @@ from .classifier import Classifier
 from .detector import Detector
 from . import io
 from .net_spec import layers, params, NetSpec, to_proto
-from ._caffe import hello_world
-from ._caffe3 import hw
-# from ._edge_caffe import __version__

@@ -90,7 +90,8 @@ int main(int argc, char *argv[])
     std::string pathToSoS_Google = "networks/SoS_GoogleNet";
 
     std::string pathToGenNet = "networks/GeneratedNetwork";
-
+    std::cout << "Starting submitting tasks" << std::endl;
+    auto layerList = caffe::LayerRegistry<float>::LayerTypeList();
     for (int ii = 0; ii < repetitions; ++ii)
     {
         std::string pathToImg = "../resources/test_1.jpg";
