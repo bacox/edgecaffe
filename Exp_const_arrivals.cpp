@@ -16,6 +16,13 @@ void printUsage()
 
 int main(int argc, char *argv[])
 {
+    /**
+     * This example is almost the same as the RunPipeline example
+     * The only difference is that the networks and input in RunPipeline are submitted right at the beginning while
+     *  in this case the Arrivals are generated that submit a network and an input based in a arrival time.
+     *
+     *  This means we gradually submit new inference-tasks over time or according to a certain distribution.
+     */
 
     // Parse input
     // CMD <Mode>

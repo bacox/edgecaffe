@@ -33,6 +33,10 @@ int main(int argc, char *argv[])
         return 0;
     }
 
+
+    /**
+     * Read the policy from the command line argument
+     */
     EdgeCaffe::Orchestrator::MODEL_SPLIT_MODE mode = EdgeCaffe::Orchestrator::MODEL_SPLIT_MODE::PARTIAL;
     std::string modeAsString = "partial";
     if (arg1 == "bulk")
@@ -49,13 +53,13 @@ int main(int argc, char *argv[])
         modeAsString = "linear";
     }
 
+    // Read the name of the output file if provided as a command line argument
     std::string outputFile = "output.csv";
     if (argc >= 3)
     {
         outputFile = argv[2];
     }
 
-    int repetitions = 1;
 
     // Read config
     std::string pathToConfig = "config/pipeline-template.yaml";
@@ -67,12 +71,15 @@ int main(int argc, char *argv[])
         std::cerr << "Yaml file: " << pathToConfig << std::endl;
     }
 
+    // Set the paths provided in the config file.
+    // Note that the default value is provided if the config file doesn't provide a value
     std::string networkPath = config["pathToNetworks"].as<std::string>("networks");
     std::string resourcePath = config["pathToResources"].as<std::string>("../resources");
     std::string outputPath = config["pathToAnalysis"].as<std::string>("../analysis");
     std::string generalOutputFile = config["general-outputfile"].as<std::string>("./generalOutput.csv");
     std::string mem_limit = config["mem_limit"].as<std::string>("1GB");
 
+    // Print the settings for this run to the screen
     std::cout << "=========================" << std::endl;
     std::cout << "Running\t\t\t'RunPipeline'" << std::endl;
     std::cout << "Mode: \t\t\t " << modeAsString << std::endl;
@@ -81,12 +88,17 @@ int main(int argc, char *argv[])
     std::cout << "outputPath: \t " << outputPath << std::endl;
     std::cout << "outputFile: \t " << outputFile << std::endl << std::endl;
 
-
+    // Init glog to prevent everything outputting to stdout
     ::google::InitGoogleLogging(argv[0]);
 
+    /**
+     * Real EdgeCaffe code starts hete
+     */
     EdgeCaffe::Orchestrator orchestrator;
+    // Get timestamp for end-to-end measurement
     auto startTime = std::chrono::high_resolution_clock::now();
 
+    // Setup the orchestrator for the right mode
     if (mode == EdgeCaffe::Orchestrator::BULK)
     {
         orchestrator.setupBulkMode();
@@ -103,45 +115,57 @@ int main(int argc, char *argv[])
     orchestrator.splitMode = mode;
     orchestrator.splitModeAsString = modeAsString;
 
+    // Set path to all networks
     std::string pathToAgeNet = networkPath + "/AgeNet";
     std::string pathToGenderNet = networkPath + "/GenderNet";
     std::string pathToFaceNet = networkPath + "/FaceNet";
     std::string pathToSoS_Alex = networkPath + "/SoS";
     std::string pathToSoS_Google = networkPath + "/SoS_GoogleNet";
 
+    /**
+     * Submitting inference tasks
+     */
     std::cout << "Starting submitting tasks" << std::endl;
-    for (int ii = 0; ii < repetitions; ++ii)
-    {
-        std::string pathToImg = resourcePath + "/test_1.jpg";
-        orchestrator.submitInferenceTask(pathToSoS_Alex, pathToImg);
-        orchestrator.submitInferenceTask(pathToSoS_Google, pathToImg);
-        orchestrator.submitInferenceTask(pathToAgeNet, pathToImg);
-        orchestrator.submitInferenceTask(pathToGenderNet, pathToImg);
-        orchestrator.submitInferenceTask(pathToFaceNet, pathToImg, true);
+    std::string pathToImg = resourcePath + "/test_1.jpg";
+    orchestrator.submitInferenceTask(pathToSoS_Alex, pathToImg);
+    orchestrator.submitInferenceTask(pathToSoS_Google, pathToImg);
+    orchestrator.submitInferenceTask(pathToAgeNet, pathToImg);
+    orchestrator.submitInferenceTask(pathToGenderNet, pathToImg);
+    orchestrator.submitInferenceTask(pathToFaceNet, pathToImg, true);
 
-        pathToImg = resourcePath + "/test_2.jpg";
-        orchestrator.submitInferenceTask(pathToSoS_Alex, pathToImg);
-        orchestrator.submitInferenceTask(pathToSoS_Google, pathToImg);
-        orchestrator.submitInferenceTask(pathToAgeNet, pathToImg);
-        orchestrator.submitInferenceTask(pathToGenderNet, pathToImg);
-        orchestrator.submitInferenceTask(pathToFaceNet, pathToImg, true);
+    pathToImg = resourcePath + "/test_2.jpg";
+    orchestrator.submitInferenceTask(pathToSoS_Alex, pathToImg);
+    orchestrator.submitInferenceTask(pathToSoS_Google, pathToImg);
+    orchestrator.submitInferenceTask(pathToAgeNet, pathToImg);
+    orchestrator.submitInferenceTask(pathToGenderNet, pathToImg);
+    orchestrator.submitInferenceTask(pathToFaceNet, pathToImg, true);
 
-        pathToImg = resourcePath + "/test_3.jpg";
-        orchestrator.submitInferenceTask(pathToSoS_Alex, pathToImg);
-        orchestrator.submitInferenceTask(pathToSoS_Google, pathToImg);
-        orchestrator.submitInferenceTask(pathToAgeNet, pathToImg);
-        orchestrator.submitInferenceTask(pathToGenderNet, pathToImg);
-        orchestrator.submitInferenceTask(pathToFaceNet, pathToImg, true);
-    }
+    pathToImg = resourcePath + "/test_3.jpg";
+    orchestrator.submitInferenceTask(pathToSoS_Alex, pathToImg);
+    orchestrator.submitInferenceTask(pathToSoS_Google, pathToImg);
+    orchestrator.submitInferenceTask(pathToAgeNet, pathToImg);
+    orchestrator.submitInferenceTask(pathToGenderNet, pathToImg);
+    orchestrator.submitInferenceTask(pathToFaceNet, pathToImg, true);
 
+    // Start the worker
     orchestrator.start();
+    // Process the tasks in relation to their dependencies
     orchestrator.processTasks();
+    // Make sure to wait for the workers to stop before continuing
     orchestrator.waitForStop();
 
+    // Calculate the duration of the end-to-end timing measurement
     auto endTime = std::chrono::high_resolution_clock::now();
     auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(endTime - startTime).count();
+    // Report measurement to screen
     std::cout << duration << " milliseconds" << std::endl;
 
+    /**
+     * Processing the gathered data
+     * This part writes the timing information of the layers of the networks to a csv file.
+     * It overwrites the specified file. It is important to use a unique filename
+     *  for each run of move the data in between runs to prevent losing data.
+     */
     std::ofstream fout(outputPath + "/" + outputFile, std::ios::out);
     std::string csvHeaders = "networkName,layerId,layerName,Loading_ns,execution_ns,policy";
     fout << csvHeaders << std::endl;
@@ -155,6 +179,11 @@ int main(int argc, char *argv[])
     }
     fout.close();
 
+    /**
+     * Save the output of the end-to-end measurement
+     * Here we append the measurement to the file
+     * If the file does not exist it is created.
+     */
     // Check if general outputfile exists
     if(!std::filesystem::exists(generalOutputFile))
     {
@@ -164,7 +193,6 @@ int main(int argc, char *argv[])
         foutGeneral << csvHeaders << std::endl;
         foutGeneral.close();
     }
-
     std::string generalLine = mem_limit + "," + modeAsString + "," + std::to_string(duration);
     std::ofstream foutGeneral(generalOutputFile, std::ios_base::app);
     foutGeneral << generalLine << std::endl;
