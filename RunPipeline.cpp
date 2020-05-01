@@ -106,40 +106,32 @@ int main(int argc, char *argv[])
     std::string pathToAgeNet = networkPath + "/AgeNet";
     std::string pathToGenderNet = networkPath + "/GenderNet";
     std::string pathToFaceNet = networkPath + "/FaceNet";
-//    std::string pathToSoS_Alex = networkPath + "/SoS";
-//    std::string pathToSoS_Google = networkPath + "/SoS_GoogleNet";
-//    std::string pathToGenNet1 = networkPath + "/GeneratedNet_1";
+    std::string pathToSoS_Alex = networkPath + "/SoS";
+    std::string pathToSoS_Google = networkPath + "/SoS_GoogleNet";
 
     std::cout << "Starting submitting tasks" << std::endl;
     for (int ii = 0; ii < repetitions; ++ii)
     {
         std::string pathToImg = resourcePath + "/test_1.jpg";
-//        orchestrator.submitInferenceTask(pathToGenNet1, pathToImg);
-//        orchestrator.submitInferenceTask(pathToSoS_Alex, pathToImg);
-//        orchestrator.submitInferenceTask(pathToSoS_Google, pathToImg);
+        orchestrator.submitInferenceTask(pathToSoS_Alex, pathToImg);
+        orchestrator.submitInferenceTask(pathToSoS_Google, pathToImg);
         orchestrator.submitInferenceTask(pathToAgeNet, pathToImg);
         orchestrator.submitInferenceTask(pathToGenderNet, pathToImg);
         orchestrator.submitInferenceTask(pathToFaceNet, pathToImg, true);
-////        EdgeCaffe::Arrival a1{pathToGenNet, ""};
-////        orchestrator.submitInferenceTask(a1);
 
         pathToImg = resourcePath + "/test_2.jpg";
-//        orchestrator.submitInferenceTask(pathToSoS_Alex, pathToImg);
-//        orchestrator.submitInferenceTask(pathToSoS_Google, pathToImg);
+        orchestrator.submitInferenceTask(pathToSoS_Alex, pathToImg);
+        orchestrator.submitInferenceTask(pathToSoS_Google, pathToImg);
         orchestrator.submitInferenceTask(pathToAgeNet, pathToImg);
         orchestrator.submitInferenceTask(pathToGenderNet, pathToImg);
         orchestrator.submitInferenceTask(pathToFaceNet, pathToImg, true);
-////        EdgeCaffe::Arrival a2{pathToGenNet, ""};
-////        orchestrator.submitInferenceTask(a2);
 
         pathToImg = resourcePath + "/test_3.jpg";
-//        orchestrator.submitInferenceTask(pathToSoS_Alex, pathToImg);
-//        orchestrator.submitInferenceTask(pathToSoS_Google, pathToImg);
+        orchestrator.submitInferenceTask(pathToSoS_Alex, pathToImg);
+        orchestrator.submitInferenceTask(pathToSoS_Google, pathToImg);
         orchestrator.submitInferenceTask(pathToAgeNet, pathToImg);
         orchestrator.submitInferenceTask(pathToGenderNet, pathToImg);
         orchestrator.submitInferenceTask(pathToFaceNet, pathToImg, true);
-//        EdgeCaffe::Arrival a3{pathToGenNet, ""};
-//        orchestrator.submitInferenceTask(a3);
     }
 
     orchestrator.start();
