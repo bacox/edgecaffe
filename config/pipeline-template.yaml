@@ -1,0 +1,4 @@
+---
+pathToNetworks: networks
+pathToResources: ../resources
+pathToAnalysis: ../analysis

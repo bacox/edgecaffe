@@ -2,15 +2,27 @@ cmake_minimum_required(VERSION 3.1.0)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+# Make sure the build type is set to Debug if not set upfront with 'cmake -DCMAKE_BUILD_TYPE=Debug ..'
 set(default_build_type "Debug")
-if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
+if (NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
     message(STATUS "Setting build type to '${default_build_type}' as none was specified.")
     set(CMAKE_BUILD_TYPE "${default_build_type}" CACHE
             STRING "Choose the type of build." FORCE)
     # Set the possible values of build type for cmake-gui
     set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS
             "Debug" "Release" "MinSizeRel" "RelWithDebInfo")
-endif()
+endif ()
+
+# Make sure that the install path is set to /opt/edgecaffe
+SET(CMAKE_INSTALL_PREFIX /opt/edgecaffe)
+
+# ---[ Install settings
+option(INSTALL_NETWORKS "Install the networks found in the build folder" OFF)
+option(INSTALL_RESOURCES "Install the input files found in the build folder" OFF)
+option(BUILD_SHARED_LIBS "Build shared libraries" ON)
+
+
 # ---[ Main Target
 project(EdgeCaffe C CXX)
 
@@ -29,27 +41,25 @@ if (UNIX OR APPLE)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC -Wall")
 endif ()
 
-SET(LINK_FLAGS "-L/usr/local/lib/ -lprotobuf -pthread -lpthread -lboost_system -Wl,--whole-archive ${CMAKE_BINARY_DIR}/caffe/lib/libcaffe-d.a -Wl,--no-whole-archive")
+# Setting compiler flags
+SET(LINK_FLAGS "-L/usr/local/lib/ -lprotobuf -pthread -lyaml-cpp -lpthread -lboost_system -Wl,--no-whole-archive")
 SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${COMPILE_FLAGS}")
 SET(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${LINK_FLAGS}")
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 set(HAVE_PYTHON TRUE)
 
 # ---[ Dependencies
+
 find_package(PkgConfig REQUIRED)
 # ---[ YAML-CPP
 find_package(yaml-cpp REQUIRED)
 pkg_check_modules(YAML_CPP REQUIRED yaml-cpp)
 list(APPEND EDGECAFFE_LINK ${YAML_CPP_LINK_LIBRARIES})
-list(APPEND EDGECAFFE_INCLUDE ${GLOG_INCLUDE_DIR})
 
 # ---[ Google-Glog
-include("./caffe/cmake/Modules/FindGlog.cmake")
+include("${CMAKE_SOURCE_DIR}/caffe/cmake/Modules/FindGlog.cmake")
+list(APPEND EDGECAFFE_INCLUDE ${GLOG_INCLUDE_DIR})
 list(APPEND EDGECAFFE_LINK ${GLOG_LIBRARIES})
-
-## ---[ Eigen
-#find_package (Eigen3 3.3 REQUIRED)
-#list(APPEND EDGECAFFE_LINK ${YAML_CPP_LINK_LIBRARIES})
 
 # ---[ OpenCv
 find_package(OpenCV REQUIRED)
@@ -70,20 +80,24 @@ list(APPEND EDGECAFFE_LINK stdc++fs)
 
 macro(DEP_EXISTS DEP_NAME)
     if (${${DEP_NAME}_FOUND})
-        #        message(STATUS "LIB STATUS ${DEP_NAME} is ${${DEP_NAME}_FOUND}")
     else ()
         MESSAGE(SEND_ERROR "Cannot find library ${DEP_NAME}")
     endif ()
 endmacro()
-# Check if all dependencies are found
+
+# ---[ Check if all dependencies are found
 DEP_EXISTS(GLOG)
 DEP_EXISTS(YAML_CPP)
 DEP_EXISTS(OpenCV)
 DEP_EXISTS(PROTOBUF)
 DEP_EXISTS(THREADS)
 
+# ---[ Make sure blas is set to open
+set(BLAS "open")
+
 
 add_subdirectory(caffe)
+# Set path to caffe's original onclude files
 set(INCLUDE_ORIG_CAFFE ${CMAKE_CURRENT_SOURCE_DIR}/caffe/include)
 add_subdirectory(Core)
 add_subdirectory(tools)
@@ -102,20 +116,35 @@ macro(ADD_BINARY_TARGET TARGET_NAME)
             Core/include
             ${INCLUDE_ORIG_CAFFE}
             )
-    target_link_libraries(${TARGET_NAME}
-            caffe
-            ${EDGECAFFE_LINK}
-            EdgeCaffeCore
-            )
+    if (${BUILD_SHARED_LIBS})
+#        Make sure not the whole archive is included in linking
+        target_link_libraries(${TARGET_NAME}
+                EdgeCaffeCore
+                caffe
+                ${EDGECAFFE_LINK}
+                )
+    else ()
+#        The whole archive of caffe needs to be set for static linking
+        target_link_libraries(${TARGET_NAME}
+                EdgeCaffeCore
+                -Wl,--whole-archive
+                caffe
+                -Wl,--no-whole-archive
+                ${EDGECAFFE_LINK}
+                )
+    endif ()
 endmacro()
 
+# ---[ Set all the targets to be build
 ADD_BINARY_TARGET(ScheduledPipeline)
 ADD_BINARY_TARGET(RunPipeline)
-#ADD_BINARY_TARGET(ArrivalList)
+ADD_BINARY_TARGET(Exp_const_arrivals)
 
-# Copy resourcess
+# ---[ Copy resourcess
 file(COPY ${CMAKE_SOURCE_DIR}/networks DESTINATION ${CMAKE_BINARY_DIR})
+file(COPY ${CMAKE_SOURCE_DIR}/config DESTINATION ${CMAKE_BINARY_DIR})
 
+# ---[ Set a target to build multiple targets at the same time
 add_custom_target(EdgeCaffe_build_all
         COMMAND
         ${CMAKE_COMMAND} -E echo Finished building build_all targets
@@ -123,11 +152,48 @@ add_custom_target(EdgeCaffe_build_all
         )
 
 add_dependencies(EdgeCaffe_build_all
-        ScheduledPipeline
-        EdgeCaffeCore
+        RunPipeline
+        Exp_const_arrivals
+        ModelSplitter
         __pycaffe
         pycaffe
-        ModelSplitter
         )
 
-message(STATUS "postfix ${caffe}")
+##############################################################
+# Configuration for installing EdgeCaffe                     #
+# Run 'sudo make install' to install on the current system   #
+#                                                            #
+# To fix the folder permissions of the installed EdgeCaffe   #
+# run in the terminal:                                       #
+#   'cd /opt && sudo chown -R $USER:$USER edgecaffe'         #
+##############################################################
+install(TARGETS RunPipeline caffe ModelSplitter Exp_const_arrivals EdgeCaffeCore
+        COMPONENT EdgeCaffeApp
+        RUNTIME DESTINATION "/opt/edgecaffe/bin"
+        LIBRARY DESTINATION "/opt/edgecaffe/lib"
+        DESTINATION "${CMAKE_INSTALL_PREFIX}"
+        )
+
+INSTALL(DIRECTORY ${CMAKE_BINARY_DIR}/config DESTINATION ${CMAKE_INSTALL_PREFIX})
+if (${INSTALL_RESOURCES})
+    INSTALL(DIRECTORY ${CMAKE_SOURCE_DIR}/resources DESTINATION ${CMAKE_INSTALL_PREFIX})
+endif ()
+
+if (${INSTALL_NETWORKS})
+    INSTALL(DIRECTORY ${CMAKE_BINARY_DIR}/networks DESTINATION ${CMAKE_INSTALL_PREFIX})
+endif ()
+INSTALL(DIRECTORY ${CMAKE_SOURCE_DIR}/scripts DESTINATION ${CMAKE_INSTALL_PREFIX})
+
+
+#####################################################
+# ---[ Configuration for Debian package generater   #
+# To generate an .deb install packages run: 'cpack' #
+#####################################################
+SET(CPACK_GENERATOR "DEB")
+set(CPACK_DEBIAN_PACKAGE_SHLIBDEPS ON)
+SET(CPACK_DEBIAN_PACKAGE_MAINTAINER "bacox") #required
+set(CPACK_COMPONENTS_ALL EdgeCaffeApp)
+set(CPACK_SET_DESTDIR true)
+set(CPACK_INSTALL_PREFIX /opt/edgecaffe)
+set(CPACK_ARCHIVE_COMPONENT_INSTALL ON)
+INCLUDE(CPack)

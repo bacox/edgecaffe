@@ -18,3 +18,6 @@ analysis
 **/altered_face_full_conv.prototxt
 *.todo
 cmake/toolchain-rpi.cmake
+*.tar.gz
+*.deb
+networks/GeneratedNet_1

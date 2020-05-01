@@ -14,18 +14,19 @@
 #include "Worker.h"
 #include "InferenceNetwork.h"
 #include "InferenceOutput.h"
+#include "ArrivalList.h"
 
 namespace EdgeCaffe
 {
-    struct Arrival {
-        std::string pathToNetwork;
-        std::string pathToData;
-        bool generatedNetwork = false;
-        long time = 0;
-        std::string toString(){
-            return "Arrival<time: " + std::to_string(time)+ ">";
-        }
-    };
+//    struct Arrival {
+//        std::string pathToNetwork;
+//        std::string pathToData;
+//        bool generatedNetwork = false;
+//        long time = 0;
+//        std::string toString(){
+//            return "Arrival<time: " + std::to_string(time)+ ">";
+//        }
+//    };
 
     struct InferenceTask
     {
@@ -105,11 +106,23 @@ namespace EdgeCaffe
 
         std::vector<InferenceTask *> inferenceTasks;
 
+        ArrivalList arrivals;
+
+        Task * last = nullptr;
+
         bool allFinished();
 
         // Set mode
         MODEL_SPLIT_MODE splitMode = PARTIAL;
         std::string splitModeAsString;
+
+        void checkBagOfTasks();
+        void checkFinishedNetworks();
+        void checkArrivals();
+
+        bool allowedToStop();
+
+        std::chrono::time_point<std::chrono::system_clock> previousTimePoint;
 
         // Setup DeepEye mode
         // Setup Bulk mode
