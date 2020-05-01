@@ -55,8 +55,10 @@ namespace EdgeCaffe
 
     void Task::execute()
     {
+        // Start measuring time
         profileLine.start();
         run();
+        // End measuring time
         profileLine.stop();
     }
 }

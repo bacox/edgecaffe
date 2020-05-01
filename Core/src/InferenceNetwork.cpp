@@ -533,6 +533,10 @@ namespace EdgeCaffe
 
     }
 
+    /**
+     * Deallocator
+     * Clean up the linked references
+     */
     InferenceNetwork::~InferenceNetwork()
     {
         // Delete all the subtasks

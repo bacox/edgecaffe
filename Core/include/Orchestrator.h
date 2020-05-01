@@ -18,6 +18,9 @@
 
 namespace EdgeCaffe
 {
+    /**
+     * Stucture to hold the references and the data of the network, tasks and the layers during execution
+     */
     struct InferenceTask
     {
         std::string pathToNetwork;
