@@ -22,7 +22,6 @@ option(INSTALL_NETWORKS "Install the networks found in the build folder" OFF)
 option(INSTALL_RESOURCES "Install the input files found in the build folder" OFF)
 option(BUILD_SHARED_LIBS "Build shared libraries" ON)
 
-
 # ---[ Main Target
 project(EdgeCaffe C CXX)
 
@@ -94,7 +93,6 @@ DEP_EXISTS(THREADS)
 
 # ---[ Make sure blas is set to open
 set(BLAS "open")
-
 
 add_subdirectory(caffe)
 # Set path to caffe's original onclude files

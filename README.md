@@ -52,14 +52,25 @@ Other
 
 ```bash
 # Other dependencies
-sudo apt-get install -y libprotobuf-dev libleveldb-dev libsnappy-dev libopencv-dev libhdf5-serial-dev protobuf-compiler
+sudo apt-get install -y libprotobuf-dev libleveldb-dev libsnappy-dev libopencv-dev libhdf5-serial-dev libboost-all-dev protobuf-compiler
 sudo apt-get install -y —-no-install-recommends libboost-all-dev
 sudo apt-get install -y libgflags-dev libgoogle-glog-dev liblmdb-dev
-sudo pip3 install -y protobuf
-sudo apt-get install -y the python3-dev
+pip3 install protobuf
+sudo apt-get install -y python3-dev
+sudo apt-get install -y libatlas-base-dev doxygen libyaml-cpp-dev
 ```
 
 ## Compile (Laptop)
+
+#### Generate protobuf bindings
+This step should be run before compiling
+
+```bash
+protoc caffe/src/caffe/proto/caffe.proto --cpp_out=.
+mkdir caffe/include/caffe/proto
+mv caffe/src/caffe/proto/caffe.pb.h caffe/include/caffe/proto
+```
+
 
 #### RunPipeline
 
@@ -67,7 +78,7 @@ sudo apt-get install -y the python3-dev
 mkdir build
 cd build
 cmake ..
-build RunPipeline
+make RunPipeline
 ```
 
 #### EdgeCaffe Library
@@ -76,7 +87,7 @@ build RunPipeline
 mkdir build
 cd build
 cmake ..
-build EdgeCaffeCore
+make EdgeCaffeCore
 ```
 
 #### PyEdgeCaffe
@@ -85,7 +96,7 @@ build EdgeCaffeCore
 mkdir build
 cd build
 cmake ..
-build py_edge_caffe
+make py_edge_caffe
 ```
 
 #### Modelsplitter
@@ -94,7 +105,7 @@ build py_edge_caffe
 mkdir build
 cd build
 cmake ..
-build ModelSplitter
+make ModelSplitter
 ```
 
 ## Run

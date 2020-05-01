@@ -68,7 +68,5 @@ namespace EdgeCaffe
             return false;
         }
         return allowed_to_stop;
-
-
     }
 }

@@ -126,6 +126,7 @@ namespace EdgeCaffe
         bagOfTasks.reserve(listOfTasks.size()); // preallocate memory
         bagOfTasks.insert(bagOfTasks.end(), listOfTasks.begin(), listOfTasks.end());
 
+        inferenceTasks.push_back(iTask);
     }
 
     void
@@ -136,8 +137,8 @@ namespace EdgeCaffe
         iTask->pathToNetwork = networkPath;
         iTask->pathToData = dataPath;
         cv::Mat input_img = cv::imread(dataPath);
-        iTask->net = new InferenceNetwork(networkPath);
 
+        iTask->net = new InferenceNetwork(networkPath);
 
         inferenceTasks.push_back(iTask);
 
@@ -279,6 +280,5 @@ namespace EdgeCaffe
 
 
     }
-
 
 }

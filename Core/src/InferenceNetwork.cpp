@@ -13,61 +13,6 @@
 
 namespace EdgeCaffe
 {
-
-//    std::vector<double> scale_list(const cv::Mat &img)
-//    {
-//        int min = 0;
-//        int max = 0;
-//        double delim = 5;
-//        double factor = 0.7937;
-//        double factor_count = 0;
-//
-//        std::vector<double> scales;
-//
-//        max = MAX(img.cols, img.rows);
-//        min = MIN(img.cols, img.rows);
-//
-//        //        delim = 2500 / max;
-//        while (delim > 1 + 1e-4)
-//        {
-//            scales.push_back(delim);
-//            delim *= factor;
-//        }
-//
-//        while (min >= 227)
-//        {
-//            scales.push_back(pow(factor, factor_count++));
-//            min *= factor;
-//        }
-//        return scales;
-//    }
-//
-//    std::string updatePrototxt(int rows, int cols, std::string pathToProtoText, std::string fileName)
-//    {
-//        std::string orig_proto = "../" + pathToProtoText + fileName;
-//        std::string changed_proto = "../" + pathToProtoText + "altered_" + fileName;
-//        std::ifstream fin(orig_proto, std::ios::in);
-//        std::ofstream fout(changed_proto, std::ios::out);
-//        int index = 0;
-//        for (std::string line; std::getline(fin, line); index++)
-//        {
-//            if (index == 5)
-//            {
-//                fout << "input_dim: " << rows << '\n';
-//            } else if (index == 6)
-//            {
-//                fout << "input_dim: " << cols << '\n';
-//            } else
-//            {
-//                fout << line << '\n';
-//            }
-//        }
-//        fin.close();
-//        fout.close();
-//        return changed_proto;
-//    }
-
-
     InferenceNetwork::InferenceNetwork(const std::string &pathToDescription) : pathToDescription(pathToDescription)
     {}
 
@@ -523,9 +468,9 @@ namespace EdgeCaffe
 
         auto it = max_element(std::begin(result), std::end(result));
         long pos = it - std::begin(result);
-//
+
         std::string output = ptr->resultVector[pos];
-//
+
         std::cout << "The output of " << ptr->networkName << " is: '" << output << "'" << std::endl;
 
         cv::imshow("Output: " + output, ptr->origInputData);
@@ -549,5 +494,4 @@ namespace EdgeCaffe
             if (task != nullptr)
                 delete task;
     }
-
 }
