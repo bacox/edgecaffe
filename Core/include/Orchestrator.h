@@ -18,16 +18,6 @@
 
 namespace EdgeCaffe
 {
-//    struct Arrival {
-//        std::string pathToNetwork;
-//        std::string pathToData;
-//        bool generatedNetwork = false;
-//        long time = 0;
-//        std::string toString(){
-//            return "Arrival<time: " + std::to_string(time)+ ">";
-//        }
-//    };
-
     struct InferenceTask
     {
         std::string pathToNetwork;
