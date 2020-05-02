@@ -4,6 +4,8 @@ The EdgeCaffe project aims to run the [Caffe Deep Learning framework](https://gi
 
 The main codebase is written in C++, although there are limited bindings to Python.
 
+Additional documentation can be found at the [wiki](https://gitlab.com/bacox/edgecaffe/-/wikis/home).
+
 ## Project organization
 
 The project is divided in six sections:
@@ -108,21 +110,32 @@ cmake ..
 make ModelSplitter
 ```
 
+## Download models
+
+The model files of the networks can be downloaded using the following link: https://bartcox.stackstorage.com/s/GmO0bKJb4JV5Qvd
+
+The model files needs to be placed in the networks folder in their respective network folder. For example: the file `age_net.caffemodel` needs to be placed as `networks/AgeNet/age_net.caffemodel`.
+
+After placing the models, run `cmake ..` in the build folder to copy the model resources to the build directory.
+
 ## Run
 
 ### C++
 
 The targets can be build with `Cmake`. There 3 binary examples in this project:
 
-* **RunPipeline**: The main executable to run and profile DNNs.
+* **RunPipeline**: The main executable to run and profile DNNs. Note: It is important that the models are split (With the `ModelSplitter`) before running this executable.
   * Build: `make RunPipeline`
   * Usage: `./RunPipeline <mode> [outputfile.csv]`. The mode can be one of the scheduling policies: `linear`, `bulk`, `deepeye` or `partial`. The output file argument is optional and can be set to define the name of the output file used to write the profiling data towards. The default value of the output file is `output.csv` in the analysis folder.
 * **Modelsplitter**: A tool used to split caffemodel files in smaller model files.
   * Build: `make ModelSplitter`
   * Usage: `./ModelSplitter pathToModel1 [pathToModel2] ...`
-* **ScheduledPipeline**: Provides almost the same functionality as **RunPipeline** but the implementation is more exposed. 
+* **ScheduledPipeline**: Provides almost the same functionality as **RunPipeline** but the implementation is more exposed. Note: It is important that the models are split (With the `ModelSplitter`) before running this executable. 
   * Build: `make ScheduledPipeline`
   * Usage: `./ScheduledPipeline`
+* Exp_const_arrivals: Almost same example as `RunPipeline` but it uses a distribution of arrivals instead of submitting everything at the beginning instantly. Note: It is important that the models are split (With the `ModelSplitter`) before running this executable.
+  * Build: `make Exp_const_arrivals`
+  * Usage: `./Exp_const_arrivals <mode> [outputfile.csv]`
 
 ### Python
 
@@ -142,14 +155,6 @@ $ python3
 #### Examples
 
 The examples folder at `python/examples` holds some basic python example scripts.
-
-## Download models
-
-The model files of the networks can be downloaded using the following link: https://bartcox.stackstorage.com/s/GmO0bKJb4JV5Qvd
-
-The model files needs to be placed in the networks folder in their respective network folder. For example: the file `age_net.caffemodel` needs to be placed as `networks/AgeNet/age_net.caffemodel`.
-
-After placing the models, run `cmake ..` in the build folder to copy the model resources to the build directory.
 
 ## Contribute
 

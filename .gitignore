@@ -22,3 +22,4 @@ cmake/toolchain-rpi.cmake
 *.tar.gz
 *.deb
 networks/GeneratedNet_1
+.Doxyfile

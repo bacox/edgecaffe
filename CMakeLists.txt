@@ -31,8 +31,8 @@ set(EDGECAFFE_INCLUDE "")
 set(EDGECAFFE_LINK "")
 
 # ---[ EdgeCaffe version
-set(EDGECAFFE_TARGET_VERSION "1.0.0" CACHE STRING "EdgeCaffe logical version")
-set(EDGECAFFE_TARGET_SOVERSION "1.0.0" CACHE STRING "EdgeCaffe soname version")
+set(EDGECAFFE_TARGET_VERSION "1.1.0" CACHE STRING "EdgeCaffe logical version")
+set(EDGECAFFE_TARGET_SOVERSION "1.1.0" CACHE STRING "EdgeCaffe soname version")
 add_definitions(-DEDGECAFFE_VERSION=${EDGECAFFE_TARGET_VERSION})
 
 # ---[ Flags
