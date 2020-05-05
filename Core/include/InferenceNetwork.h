@@ -17,9 +17,57 @@
 
 namespace EdgeCaffe
 {
+    struct LayerDescription
+    {
+        int layerId = 0;
+        std::string type = "";
+        std::string name = "";
+        std::string partialFileName = "";
+        long estimated_loading = 0;
+        long estimated_execution = 0;
+        bool isConv = true;
+        bool hasModelFile = true;
+
+        friend std::ostream &operator<<(std::ostream &os, const LayerDescription &description)
+        {
+            os << "layerId: " << description.layerId << " type: " << description.type << " name: " << description.name
+               << " partialFileName: " << description.partialFileName << " estimated_loading: "
+               << description.estimated_loading << " estimated_execution: " << description.estimated_execution
+               << " isConv: " << description.isConv << " hasModelFile: " << description.hasModelFile;
+            return os;
+        }
+
+        YAML::Node toYaml()
+        {
+            YAML::Node node;
+            node["id"] = layerId;
+            node["name"] = name;
+            node["partialFile"] = partialFileName;
+            node["estimated_time_loading"] = estimated_loading;
+            node["estimated_time_execution"] = estimated_execution;
+            node["isConvLayer"] = isConv;
+            node["hasModelFile"] = hasModelFile;
+            return node;
+        }
+
+        static LayerDescription FromYaml(YAML::Node node, std::string pathPrefix = ".")
+        {
+            LayerDescription rhs;
+            rhs.layerId = node["id"].as<int>();
+            rhs.name = node["name"].as<std::string>();
+            rhs.partialFileName = pathPrefix + "/" + node["partialFile"].as<std::string>();
+            rhs.estimated_loading = node["estimated_time_loading"].as<long>();
+            rhs.estimated_execution = node["estimated_time_execution"].as<long>();
+            rhs.isConv = node["isConvLayer"].as<bool>();
+            rhs.hasModelFile = node["hasModelFile"].as<bool>();
+            return rhs;
+        }
+    };
+
     class InferenceNetwork
     {
     private:
+        std::vector<LayerDescription> layerDescriptions;
     public:
         std::vector<Task *> tasks;
 
@@ -77,7 +125,6 @@ namespace EdgeCaffe
         virtual void loadInputToNetwork();
 
         virtual void loadNetworkStructure();
-
 
         virtual void createTasks();
 

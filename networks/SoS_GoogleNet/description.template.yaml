@@ -1,0 +1,15 @@
+---
+name: "Salient Object Subitizing_google"
+network-file: "deploy.prototxt.txt"
+model-file: "GoogleNet_SOS.caffemodel"
+mean-scalar: [104, 117, 123]
+uses-result-vector: false
+input-scale: [227, 227]
+base-path: "networks/SoS_GoogleNet/"
+partials-location: "GoogleNet_SOS_partials"
+layer-statistics: Salient-Object-Subitizing_google.stats.csv
+excluded-partials: [1,152,154]
+has-input-layer: true
+num-conv-layers: 10
+num-fc-layers: 142
+conv-layers:

@@ -8,8 +8,6 @@
 
 namespace EdgeCaffe
 {
-
-
     void Orchestrator::setupBulkMode()
     {
         TaskPool *taskPool = new TaskPool;
@@ -57,6 +55,7 @@ namespace EdgeCaffe
         {
             w->run();
         }
+        previousTimePoint = std::chrono::high_resolution_clock::now();
     }
 
     Orchestrator::~Orchestrator()
@@ -82,7 +81,25 @@ namespace EdgeCaffe
         // Load yaml
         std::string pathToDescription = arrivalTask.pathToNetwork;
         std::string pathToYaml = pathToDescription + "/description.yaml";
-        YAML::Node description = YAML::LoadFile(pathToYaml);
+        YAML::Node description;
+        try{
+            description = YAML::LoadFile(pathToYaml);
+        } catch(...){
+            std::cerr << "Error while attempting to read yaml file!" << std::endl;
+            std::cerr << "Yaml file: " << pathToYaml << std::endl;
+        }
+
+//        std::vector<LayerDescription> l_list = description["conv-layers"].as<std::vector<LayerDescription>>();
+
+//        std::vector<LayerDescription> layer_descrs;
+//
+//        for(auto l_layer : description["conv-layers"])
+//        {
+//            layer_descrs.push_back(LayerDescription::FromYaml(l_layer));
+//        }
+
+
+
 
         if(description["type"].as<std::string>("normal") == "generated")
         {
@@ -107,9 +124,19 @@ namespace EdgeCaffe
 
         iTask->net->createTasks(splitMode);
         std::vector<Task *> listOfTasks = iTask->net->getTasks();
+
+        if (splitMode == MODEL_SPLIT_MODE::LINEAR)
+        {
+            if(last != nullptr)
+            {
+                iTask->net->subTasks.front()->firstTask->addTaskDependency(last);
+            }
+        }
+        last = listOfTasks.back();
         bagOfTasks.reserve(listOfTasks.size()); // preallocate memory
         bagOfTasks.insert(bagOfTasks.end(), listOfTasks.begin(), listOfTasks.end());
 
+        inferenceTasks.push_back(iTask);
     }
 
     void
@@ -123,9 +150,7 @@ namespace EdgeCaffe
 
         iTask->net = new InferenceNetwork(networkPath);
 
-
         inferenceTasks.push_back(iTask);
-
 
         iTask->net->init();
         iTask->output.networkName = iTask->net->subTasks.front()->networkName;
@@ -134,6 +159,15 @@ namespace EdgeCaffe
         iTask->net->loadInputToNetwork();
         iTask->net->createTasks(splitMode);
         std::vector<Task *> listOfTasks = iTask->net->getTasks();
+
+        if (splitMode == MODEL_SPLIT_MODE::LINEAR)
+        {
+            if(last != nullptr)
+            {
+                iTask->net->subTasks.front()->firstTask->addTaskDependency(last);
+            }
+        }
+        last = listOfTasks.back();
         bagOfTasks.reserve(listOfTasks.size()); // preallocate memory
         bagOfTasks.insert(bagOfTasks.end(), listOfTasks.begin(), listOfTasks.end());
     }
@@ -153,40 +187,11 @@ namespace EdgeCaffe
 
     void Orchestrator::processTasks()
     {
-        while (bagOfTasks.size() > 0 || !allFinished())
+        while (!allowedToStop())
         {
-            // Check if new tasks are available to insert in the taskpool
-            for (auto it = bagOfTasks.begin(); it != bagOfTasks.end(); it++)
-            {
-                // remove odd numbers
-                Task *task = *it;
-                if (!task->waitsForOtherTasks())
-                {
-                    bagOfTasks.erase(it--);
-                    if (task->hasPoolAssigned())
-                    {
-                        int poolId = task->getAssignedPoolId();
-                        taskPools[poolId]->addTask(task);
-                    } else
-                    {
-                        taskPools.front()->addTask(task);
-                    }
-                }
-            }
-
-            // Check if networks are done and can be deallocated fully
-            for (auto inferenceTask : inferenceTasks)
-            {
-                if (!inferenceTask->finished && inferenceTask->net->isFinished())
-                {
-                    // Create results obj
-                    inferenceTask->finished = true;
-
-                    // deallocate
-                    inferenceTask->output.policy = splitModeAsString;
-                    inferenceTask->dealloc();
-                }
-            }
+            checkArrivals();
+            checkBagOfTasks();
+            checkFinishedNetworks();
 
             std::this_thread::sleep_for(std::chrono::milliseconds(1));
         }
@@ -210,5 +215,80 @@ namespace EdgeCaffe
         return finished;
     }
 
+    void Orchestrator::checkBagOfTasks()
+    {
+        // Check if new tasks are available to insert in the taskpool
+        for (auto it = bagOfTasks.begin(); it != bagOfTasks.end(); it++)
+        {
+            // remove odd numbers
+            Task *task = *it;
+            if (!task->waitsForOtherTasks())
+            {
+                bagOfTasks.erase(it--);
+                if (task->hasPoolAssigned())
+                {
+                    int poolId = task->getAssignedPoolId();
+                    taskPools[poolId]->addTask(task);
+                } else
+                {
+                    taskPools.front()->addTask(task);
+                }
+            }
+        }
+    }
+
+    void Orchestrator::checkFinishedNetworks()
+    {
+        // Check if networks are done and can be deallocated fully
+        for (auto inferenceTask : inferenceTasks)
+        {
+            if (!inferenceTask->finished && inferenceTask->net->isFinished())
+            {
+                // Create results obj
+                inferenceTask->finished = true;
+
+                // deallocate
+                inferenceTask->output.policy = splitModeAsString;
+                inferenceTask->dealloc();
+
+            }
+        }
+
+        if(allFinished())
+            last = nullptr;
+    }
+
+    bool Orchestrator::allowedToStop()
+    {
+        return arrivals.isEmpty() && bagOfTasks.size() <= 0 && allFinished();
+//        bagOfTasks.size() > 0 || !allFinished()
+    }
+
+    void Orchestrator::checkArrivals()
+    {
+        if(arrivals.isEmpty())
+            return;
+        Arrival head = arrivals.first();
+
+        auto current = std::chrono::high_resolution_clock::now();
+        auto duration = std::chrono::duration_cast<std::chrono::milliseconds>( current - previousTimePoint).count();
+//        std::cout << "Arrival time check: " << duration << " >= " << head.time << std::endl;
+        if(duration >= head.time)
+        {
+            // Enough time has passed to this arrival to arrive
+            std::cout << "New arrival " << head.toString() << std::endl;
+            submitInferenceTask(head);
+
+            // Remove arrival from arrival list
+            arrivals.pop();
+
+            // Update last time measurement
+            previousTimePoint = std::chrono::high_resolution_clock::now();
+        }
+
+
+
+
+    }
 
 }

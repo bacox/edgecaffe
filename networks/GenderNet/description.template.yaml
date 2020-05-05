@@ -1,0 +1,14 @@
+---
+name: "GenderNet"
+network-file: "gender_deploy.prototxt"
+model-file: "gender_net.caffemodel"
+mean-scalar: [78.4263377603, 87.7689143744, 114.895847746]
+uses-result-vector: true
+result-vector: ["Male", "Female"]
+input-scale: [227, 227]
+base-path: "networks/GenderNet/"
+partials-location: "gender_net_partials"
+layer-statistics: GenderNet.stats.csv
+has-input-layer: true
+num-conv-layers: 12
+num-fc-layers: 8

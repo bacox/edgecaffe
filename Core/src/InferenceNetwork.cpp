@@ -8,65 +8,11 @@
 #include <yaml-cpp/yaml.h>
 #include <opencv2/imgproc.hpp>
 #include <cv.hpp>
+#include <BaseNet.h>
 
 
 namespace EdgeCaffe
 {
-
-    std::vector<double> scale_list(const cv::Mat &img)
-    {
-        int min = 0;
-        int max = 0;
-        double delim = 5;
-        double factor = 0.7937;
-        double factor_count = 0;
-
-        std::vector<double> scales;
-
-        max = MAX(img.cols, img.rows);
-        min = MIN(img.cols, img.rows);
-
-        //        delim = 2500 / max;
-        while (delim > 1 + 1e-4)
-        {
-            scales.push_back(delim);
-            delim *= factor;
-        }
-
-        while (min >= 227)
-        {
-            scales.push_back(pow(factor, factor_count++));
-            min *= factor;
-        }
-        return scales;
-    }
-
-    std::string updatePrototxt(int rows, int cols, std::string pathToProtoText, std::string fileName)
-    {
-        std::string orig_proto = "../" + pathToProtoText + fileName;
-        std::string changed_proto = "../" + pathToProtoText + "altered_" + fileName;
-        std::ifstream fin(orig_proto, std::ios::in);
-        std::ofstream fout(changed_proto, std::ios::out);
-        int index = 0;
-        for (std::string line; std::getline(fin, line); index++)
-        {
-            if (index == 5)
-            {
-                fout << "input_dim: " << rows << '\n';
-            } else if (index == 6)
-            {
-                fout << "input_dim: " << cols << '\n';
-            } else
-            {
-                fout << line << '\n';
-            }
-        }
-        fin.close();
-        fout.close();
-        return changed_proto;
-    }
-
-
     InferenceNetwork::InferenceNetwork(const std::string &pathToDescription) : pathToDescription(pathToDescription)
     {}
 
@@ -105,25 +51,50 @@ namespace EdgeCaffe
         }
 
 
-        auto convLayers = description["conv-layers"].as<std::vector<std::string>>();
-        auto fcLayers = description["fc-layers"].as<std::vector<std::string>>();
 
-        for (std::string partialName : convLayers)
+        for(auto l_layer : description["conv-layers"])
         {
-            sub->partialNames.push_back(sub->pathToPartials + "/" + partialName);
+            layerDescriptions.push_back(LayerDescription::FromYaml(l_layer, sub->pathToPartials));
         }
 
-        for (std::string partialName : fcLayers)
+        for(auto l_layer : description["fc-layers"])
         {
-            sub->partialNames.push_back(sub->pathToPartials + "/" + partialName);
+            layerDescriptions.push_back(LayerDescription::FromYaml(l_layer, sub->pathToPartials));
         }
+
+        for( auto l_layer : layerDescriptions)
+        {
+            sub->partialNames.push_back(sub->pathToPartials + "/" + l_layer.partialFileName);
+        }
+
+//        std::cout << "Compare sizes " << sub->net_ptr->layers().size() << " && " << layerDescriptions.size() << std::endl;
+
+//        auto convLayers = description["conv-layers"].as<std::vector<std::string>>();
+//        auto fcLayers = description["fc-layers"].as<std::vector<std::string>>();
+//
+//        for (std::string partialName : convLayers)
+//        {
+//            sub->partialNames.push_back(sub->pathToPartials + "/" + partialName);
+//        }
+//
+//        for (std::string partialName : fcLayers)
+//        {
+//            sub->partialNames.push_back(sub->pathToPartials + "/" + partialName);
+//        }
 
         subTasks.push_back(sub);
     }
     void InferenceNetwork::init()
     {
         std::string pathToYaml = pathToDescription + "/description.yaml";
-        YAML::Node description = YAML::LoadFile(pathToYaml);
+        YAML::Node description;
+        try{
+            description = YAML::LoadFile(pathToYaml);
+        } catch(...){
+//            std::exception_ptr p = std::current_exception();
+            std::cerr << "Error while attempting to read yaml file!" << std::endl;
+            std::cerr << "Yaml file: " << pathToYaml << std::endl;
+        }
         init(description);
     }
 
@@ -179,48 +150,31 @@ namespace EdgeCaffe
         InferenceSubTask *dnn = subTasks.front();
         int numLayers = dnn->net_ptr->layers().size();
         Task *lastTask = nullptr;
-
-        bool hasInputLayer = dnn->hasInputLayer;
-        bool firstLayer = true;
-        int layerOffset = 0;
-        if (!hasInputLayer)
-        {
-            layerOffset = -1;
-        }
         for (int i = 0; i < numLayers; ++i)
         {
 
             LoadTask *load = new LoadTask;
-
             load->network_ptr = dnn->net_ptr;
-            load->taskName = dnn->networkName + "-load-" + dnn->net_ptr->layer_names()[i];
-            load->layerId = i;
-
-            if (firstLayer)
-            {
-                firstLayer = false;
-                load->needsLoading = hasInputLayer;
-            }
-
-            // Load layer if there is anything to load?
-            if (load->layerId >= 0 && load->needsLoading)
-            {
-                load->pathToPartial = dnn->partialNames[i + layerOffset];
-            }
+            auto descr = layerDescriptions[i];
+            load->taskName = dnn->networkName + "-load-" + descr.name;
+            load->layerId = descr.layerId;
+            load->needsLoading = descr.hasModelFile;
+            load->pathToPartial = descr.partialFileName;
 
             load->id = TASKID_COUNTER++;
             if (dnn->firstTask == nullptr)
             {
                 dnn->firstTask = load;
             }
-
             tasks.push_back(load);
+
 
             ExecTask *exec = new ExecTask;
 
             exec->network_ptr = dnn->net_ptr;
-            exec->taskName = dnn->networkName + "-exec-" + dnn->net_ptr->layer_names()[i];
-            exec->layerId = i;
+            descr = layerDescriptions[i];
+            exec->taskName = dnn->networkName + "-exec-" + descr.name;
+            exec->layerId = descr.layerId;
             exec->id = TASKID_COUNTER++;
             if (lastTask != nullptr)
             {
@@ -231,7 +185,6 @@ namespace EdgeCaffe
             tasks.push_back(exec);
         }
         dnn->lastTask = lastTask;
-
     }
 
     const std::vector<Task *> &InferenceNetwork::getTasks() const
@@ -245,32 +198,16 @@ namespace EdgeCaffe
         int numLayers = dnn->net_ptr->layers().size();
         Task *lastTask = nullptr;
 
-        bool hasInputLayer = dnn->hasInputLayer;
-        bool firstLayer = true;
-        int layerOffset = 0;
-        if (!hasInputLayer)
-        {
-            layerOffset = -1;
-        }
         for (int i = 0; i < numLayers; ++i)
         {
-
             LoadTask *load = new LoadTask;
-
             load->network_ptr = dnn->net_ptr;
-            load->taskName = dnn->networkName + "-load-" + dnn->net_ptr->layer_names()[i];
-            load->layerId = i;
+            auto descr = layerDescriptions[i];
+            load->taskName = dnn->networkName + "-load-" + descr.name;
+            load->layerId = descr.layerId;
+            load->needsLoading = descr.hasModelFile;
+            load->pathToPartial = descr.partialFileName;
 
-            if (firstLayer)
-            {
-                firstLayer = false;
-                load->needsLoading = hasInputLayer;
-            }
-
-            if (load->layerId >= 0 && load->needsLoading)
-            {
-                load->pathToPartial = dnn->partialNames[i + layerOffset];
-            }
             load->id = TASKID_COUNTER++;
 
             if (lastTask != nullptr)
@@ -289,8 +226,9 @@ namespace EdgeCaffe
             ExecTask *exec = new ExecTask;
 
             exec->network_ptr = dnn->net_ptr;
-            exec->taskName = dnn->networkName + "-exec-" + dnn->net_ptr->layer_names()[i];
-            exec->layerId = i;
+            descr = layerDescriptions[i];
+            exec->taskName = dnn->networkName + "-exec-" + descr.name;
+            exec->layerId = descr.layerId;
             exec->id = TASKID_COUNTER++;
 
 
@@ -316,12 +254,7 @@ namespace EdgeCaffe
         Task *lastTask = nullptr;
 
         bool hasInputLayer = dnn->hasInputLayer;
-        bool firstLayer = true;
-        int layerOffset = 0;
-        if (!hasInputLayer)
-        {
-            layerOffset = -1;
-        }
+
         int poolId = 0;
         for (int i = 0; i < numLayers; ++i)
         {
@@ -336,19 +269,12 @@ namespace EdgeCaffe
             LoadTask *load = new LoadTask;
 
             load->network_ptr = dnn->net_ptr;
-            load->taskName = dnn->networkName + "-load-" + dnn->net_ptr->layer_names()[i];
-            load->layerId = i;
+            auto descr = layerDescriptions[i];
+            load->taskName = dnn->networkName + "-load-" + descr.name;
+            load->layerId = descr.layerId;
+            load->needsLoading = descr.hasModelFile;
+            load->pathToPartial = descr.partialFileName;
 
-            if (firstLayer)
-            {
-                firstLayer = false;
-                load->needsLoading = hasInputLayer;
-            }
-
-            if (load->layerId >= 0 && load->needsLoading)
-            {
-                load->pathToPartial = dnn->partialNames[i + layerOffset];
-            }
             load->id = TASKID_COUNTER++;
 
             load->assignedPoolId = poolId;
@@ -362,8 +288,9 @@ namespace EdgeCaffe
             ExecTask *exec = new ExecTask;
 
             exec->network_ptr = dnn->net_ptr;
-            exec->taskName = dnn->networkName + "-exec-" + dnn->net_ptr->layer_names()[i];
-            exec->layerId = i;
+            descr = layerDescriptions[i];
+            exec->taskName = dnn->networkName + "-exec-" + descr.name;
+            exec->layerId = descr.layerId;
             exec->id = TASKID_COUNTER++;
             if (lastTask != nullptr)
             {
@@ -386,30 +313,17 @@ namespace EdgeCaffe
         Task *firstExecTask = nullptr;
 
         bool hasInputLayer = dnn->hasInputLayer;
-        bool firstLayer = true;
-        int layerOffset = 0;
-        if (!hasInputLayer)
-        {
-            layerOffset = -1;
-        }
+
         for (int i = 0; i < numLayers; ++i)
         {
             LoadTask *load = new LoadTask;
 
             load->network_ptr = dnn->net_ptr;
-            load->taskName = dnn->networkName + "-load-" + dnn->net_ptr->layer_names()[i];
-            load->layerId = i;
-
-            if (firstLayer)
-            {
-                firstLayer = false;
-                load->needsLoading = hasInputLayer;
-            }
-
-            if (load->layerId >= 0 && load->needsLoading)
-            {
-                load->pathToPartial = dnn->partialNames[i + layerOffset];
-            }
+            auto descr = layerDescriptions[i];
+            load->taskName = dnn->networkName + "-load-" + descr.name;
+            load->layerId = descr.layerId;
+            load->needsLoading = descr.hasModelFile;
+            load->pathToPartial = descr.partialFileName;
             load->id = TASKID_COUNTER++;
 
             if (lastLoadTask == nullptr)
@@ -426,10 +340,10 @@ namespace EdgeCaffe
 
 
             ExecTask *exec = new ExecTask;
-
             exec->network_ptr = dnn->net_ptr;
-            exec->taskName = dnn->networkName + "-exec-" + dnn->net_ptr->layer_names()[i];
-            exec->layerId = i;
+            descr = layerDescriptions[i];
+            exec->taskName = dnn->networkName + "-exec-" + descr.name;
+            exec->layerId = descr.layerId;
             exec->id = TASKID_COUNTER++;
 
             if (firstExecTask == nullptr)
@@ -515,9 +429,9 @@ namespace EdgeCaffe
 
         auto it = max_element(std::begin(result), std::end(result));
         long pos = it - std::begin(result);
-//
+
         std::string output = ptr->resultVector[pos];
-//
+
         std::cout << "The output of " << ptr->networkName << " is: '" << output << "'" << std::endl;
 
         cv::imshow("Output: " + output, ptr->origInputData);
@@ -525,6 +439,10 @@ namespace EdgeCaffe
 
     }
 
+    /**
+     * Deallocator
+     * Clean up the linked references
+     */
     InferenceNetwork::~InferenceNetwork()
     {
         // Delete all the subtasks
@@ -537,5 +455,4 @@ namespace EdgeCaffe
             if (task != nullptr)
                 delete task;
     }
-
 }

@@ -1,38 +1,169 @@
----
-name: "Salient Object Subitizing"
-network-file: "alexnet_sos_deploy.prototxt"
-model-file: "AlexNet_SalObjSub.caffemodel"
+name: Salient Object Subitizing
+network-file: alexnet_sos_deploy.prototxt
+model-file: AlexNet_SalObjSub.caffemodel
 mean-scalar: [104, 117, 123]
 uses-result-vector: false
 input-scale: [227, 227]
-base-path: "networks/SoS/"
-partials-location: "AlexNet_SalObjSub_partials"
+base-path: networks/SoS/
+partials-location: AlexNet_SalObjSub_partials
+excluded-partials: [18, 21]
+layer-statistics: Salient-Object-Subitizing.stats.csv
 has-input-layer: true
 num-conv-layers: 16
 num-fc-layers: 6
 conv-layers:
-  - "AlexNet_SalObjSub00.partial.caffemodel"
-  - "AlexNet_SalObjSub01.partial.caffemodel"
-  - "AlexNet_SalObjSub02.partial.caffemodel"
-  - "AlexNet_SalObjSub03.partial.caffemodel"
-  - "AlexNet_SalObjSub04.partial.caffemodel"
-  - "AlexNet_SalObjSub05.partial.caffemodel"
-  - "AlexNet_SalObjSub06.partial.caffemodel"
-  - "AlexNet_SalObjSub07.partial.caffemodel"
-  - "AlexNet_SalObjSub08.partial.caffemodel"
-  - "AlexNet_SalObjSub09.partial.caffemodel"
-  - "AlexNet_SalObjSub10.partial.caffemodel"
-  - "AlexNet_SalObjSub11.partial.caffemodel"
-  - "AlexNet_SalObjSub12.partial.caffemodel"
-  - "AlexNet_SalObjSub13.partial.caffemodel"
-  - "AlexNet_SalObjSub14.partial.caffemodel"
-  - "AlexNet_SalObjSub15.partial.caffemodel"
+  - id: 0
+    name: input
+    partialFile: AlexNet_SalObjSub00.partial.caffemodel
+    estimated_time_loading: 620
+    estimated_time_execution: 11
+    isConvLayer: true
+    hasModelFile: true
+  - id: 1
+    name: conv1
+    partialFile: AlexNet_SalObjSub01.partial.caffemodel
+    estimated_time_loading: 1401
+    estimated_time_execution: 22575
+    isConvLayer: true
+    hasModelFile: true
+  - id: 2
+    name: relu1
+    partialFile: AlexNet_SalObjSub02.partial.caffemodel
+    estimated_time_loading: 107
+    estimated_time_execution: 3768
+    isConvLayer: true
+    hasModelFile: true
+  - id: 3
+    name: pool1
+    partialFile: AlexNet_SalObjSub03.partial.caffemodel
+    estimated_time_loading: 93
+    estimated_time_execution: 6647
+    isConvLayer: true
+    hasModelFile: true
+  - id: 4
+    name: norm1
+    partialFile: AlexNet_SalObjSub04.partial.caffemodel
+    estimated_time_loading: 79
+    estimated_time_execution: 2769
+    isConvLayer: true
+    hasModelFile: true
+  - id: 5
+    name: conv2
+    partialFile: AlexNet_SalObjSub05.partial.caffemodel
+    estimated_time_loading: 11576
+    estimated_time_execution: 38921
+    isConvLayer: true
+    hasModelFile: true
+  - id: 6
+    name: relu2
+    partialFile: AlexNet_SalObjSub06.partial.caffemodel
+    estimated_time_loading: 119
+    estimated_time_execution: 2090
+    isConvLayer: true
+    hasModelFile: true
+  - id: 7
+    name: pool2
+    partialFile: AlexNet_SalObjSub07.partial.caffemodel
+    estimated_time_loading: 81
+    estimated_time_execution: 4111
+    isConvLayer: true
+    hasModelFile: true
+  - id: 8
+    name: norm2
+    partialFile: AlexNet_SalObjSub08.partial.caffemodel
+    estimated_time_loading: 79
+    estimated_time_execution: 2811
+    isConvLayer: true
+    hasModelFile: true
+  - id: 9
+    name: conv3
+    partialFile: AlexNet_SalObjSub09.partial.caffemodel
+    estimated_time_loading: 32519
+    estimated_time_execution: 26865
+    isConvLayer: true
+    hasModelFile: true
+  - id: 10
+    name: relu3
+    partialFile: AlexNet_SalObjSub10.partial.caffemodel
+    estimated_time_loading: 120
+    estimated_time_execution: 842
+    isConvLayer: true
+    hasModelFile: true
+  - id: 11
+    name: conv4
+    partialFile: AlexNet_SalObjSub11.partial.caffemodel
+    estimated_time_loading: 23715
+    estimated_time_execution: 21967
+    isConvLayer: true
+    hasModelFile: true
+  - id: 12
+    name: relu4
+    partialFile: AlexNet_SalObjSub12.partial.caffemodel
+    estimated_time_loading: 108
+    estimated_time_execution: 837
+    isConvLayer: true
+    hasModelFile: true
+  - id: 13
+    name: conv5
+    partialFile: AlexNet_SalObjSub13.partial.caffemodel
+    estimated_time_loading: 15604
+    estimated_time_execution: 16136
+    isConvLayer: true
+    hasModelFile: true
+  - id: 14
+    name: relu5
+    partialFile: AlexNet_SalObjSub14.partial.caffemodel
+    estimated_time_loading: 108
+    estimated_time_execution: 444
+    isConvLayer: true
+    hasModelFile: true
+  - id: 15
+    name: pool5
+    partialFile: AlexNet_SalObjSub15.partial.caffemodel
+    estimated_time_loading: 77
+    estimated_time_execution: 1437
+    isConvLayer: true
+    hasModelFile: true
 fc-layers:
-  - "AlexNet_SalObjSub16.partial.caffemodel"
-  - "AlexNet_SalObjSub17.partial.caffemodel"
-  #  - "AlexNet_SalObjSub18.partial.caffemodel"
-  - "AlexNet_SalObjSub19.partial.caffemodel"
-  - "AlexNet_SalObjSub20.partial.caffemodel"
-  #  - "AlexNet_SalObjSub21.partial.caffemodel"
-  - "AlexNet_SalObjSub22.partial.caffemodel"
-  - "AlexNet_SalObjSub23.partial.caffemodel"
+  - id: 16
+    name: fc6
+    partialFile: AlexNet_SalObjSub16.partial.caffemodel
+    estimated_time_loading: 1542655
+    estimated_time_execution: 48063
+    isConvLayer: false
+    hasModelFile: true
+  - id: 17
+    name: relu6
+    partialFile: AlexNet_SalObjSub17.partial.caffemodel
+    estimated_time_loading: 115
+    estimated_time_execution: 60
+    isConvLayer: false
+    hasModelFile: true
+  - id: 18
+    name: fc7
+    partialFile: AlexNet_SalObjSub19.partial.caffemodel
+    estimated_time_loading: 690642
+    estimated_time_execution: 22384
+    isConvLayer: false
+    hasModelFile: true
+  - id: 19
+    name: relu7
+    partialFile: AlexNet_SalObjSub20.partial.caffemodel
+    estimated_time_loading: 123
+    estimated_time_execution: 66
+    isConvLayer: false
+    hasModelFile: true
+  - id: 20
+    name: fc8_sbt
+    partialFile: AlexNet_SalObjSub22.partial.caffemodel
+    estimated_time_loading: 827
+    estimated_time_execution: 45
+    isConvLayer: false
+    hasModelFile: true
+  - id: 21
+    name: prob
+    partialFile: AlexNet_SalObjSub23.partial.caffemodel
+    estimated_time_loading: 88
+    estimated_time_execution: 20
+    isConvLayer: false
+    hasModelFile: true

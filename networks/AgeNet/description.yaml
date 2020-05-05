@@ -1,35 +1,155 @@
----
-name: "AgeNet"
-network-file: "age_deploy.prototxt"
-model-file: "age_net.caffemodel"
+name: AgeNet
+network-file: age_deploy.prototxt
+model-file: age_net.caffemodel
 mean-scalar: [78.4263377603, 87.7689143744, 114.895847746]
-result-vector: ["(0-2)", "(4-6)", "(8-12)", "(15-20)", "(25-32)", "(38-43)", "(48-53)", "(60-100)"]
+result-vector: [(0-2), (4-6), (8-12), (15-20), (25-32), (38-43), (48-53), (60-100)]
 uses-result-vector: true
 input-scale: [227, 227]
-base-path: "networks/AgeNet/"
-partials-location: "age_net_partials"
+base-path: networks/AgeNet/
+partials-location: age_net_partials
+layer-statistics: AgeNet.stats.csv
 has-input-layer: true
 num-conv-layers: 12
 num-fc-layers: 8
 conv-layers:
-  - "age_net00.partial.caffemodel"
-  - "age_net01.partial.caffemodel"
-  - "age_net02.partial.caffemodel"
-  - "age_net03.partial.caffemodel"
-  - "age_net04.partial.caffemodel"
-  - "age_net05.partial.caffemodel"
-  - "age_net06.partial.caffemodel"
-  - "age_net07.partial.caffemodel"
-  - "age_net08.partial.caffemodel"
-  - "age_net09.partial.caffemodel"
-  - "age_net10.partial.caffemodel"
-  - "age_net11.partial.caffemodel"
+  - id: 0
+    name: input
+    partialFile: age_net00.partial.caffemodel
+    estimated_time_loading: 462
+    estimated_time_execution: 14
+    isConvLayer: true
+    hasModelFile: true
+  - id: 1
+    name: conv1
+    partialFile: age_net01.partial.caffemodel
+    estimated_time_loading: 745
+    estimated_time_execution: 11007
+    isConvLayer: true
+    hasModelFile: true
+  - id: 2
+    name: relu1
+    partialFile: age_net02.partial.caffemodel
+    estimated_time_loading: 119
+    estimated_time_execution: 3857
+    isConvLayer: true
+    hasModelFile: true
+  - id: 3
+    name: pool1
+    partialFile: age_net03.partial.caffemodel
+    estimated_time_loading: 145
+    estimated_time_execution: 7734
+    isConvLayer: true
+    hasModelFile: true
+  - id: 4
+    name: norm1
+    partialFile: age_net04.partial.caffemodel
+    estimated_time_loading: 142
+    estimated_time_execution: 3215
+    isConvLayer: true
+    hasModelFile: true
+  - id: 5
+    name: conv2
+    partialFile: age_net05.partial.caffemodel
+    estimated_time_loading: 26102
+    estimated_time_execution: 77261
+    isConvLayer: true
+    hasModelFile: true
+  - id: 6
+    name: relu2
+    partialFile: age_net06.partial.caffemodel
+    estimated_time_loading: 118
+    estimated_time_execution: 2242
+    isConvLayer: true
+    hasModelFile: true
+  - id: 7
+    name: pool2
+    partialFile: age_net07.partial.caffemodel
+    estimated_time_loading: 116
+    estimated_time_execution: 4838
+    isConvLayer: true
+    hasModelFile: true
+  - id: 8
+    name: norm2
+    partialFile: age_net08.partial.caffemodel
+    estimated_time_loading: 126
+    estimated_time_execution: 3327
+    isConvLayer: true
+    hasModelFile: true
+  - id: 9
+    name: conv3
+    partialFile: age_net09.partial.caffemodel
+    estimated_time_loading: 33754
+    estimated_time_execution: 25500
+    isConvLayer: true
+    hasModelFile: true
+  - id: 10
+    name: relu3
+    partialFile: age_net10.partial.caffemodel
+    estimated_time_loading: 118
+    estimated_time_execution: 765
+    isConvLayer: true
+    hasModelFile: true
+  - id: 11
+    name: pool5
+    partialFile: age_net11.partial.caffemodel
+    estimated_time_loading: 114
+    estimated_time_execution: 2802
+    isConvLayer: true
+    hasModelFile: true
 fc-layers:
-  - "age_net12.partial.caffemodel"
-  - "age_net13.partial.caffemodel"
-  - "age_net14.partial.caffemodel"
-  - "age_net15.partial.caffemodel"
-  - "age_net16.partial.caffemodel"
-  - "age_net17.partial.caffemodel"
-  - "age_net18.partial.caffemodel"
-  - "age_net19.partial.caffemodel"
+  - id: 12
+    name: fc6
+    partialFile: age_net12.partial.caffemodel
+    estimated_time_loading: 411474
+    estimated_time_execution: 14199
+    isConvLayer: false
+    hasModelFile: true
+  - id: 13
+    name: relu6
+    partialFile: age_net13.partial.caffemodel
+    estimated_time_loading: 128
+    estimated_time_execution: 19
+    isConvLayer: false
+    hasModelFile: true
+  - id: 14
+    name: drop6
+    partialFile: age_net14.partial.caffemodel
+    estimated_time_loading: 103
+    estimated_time_execution: 14
+    isConvLayer: false
+    hasModelFile: true
+  - id: 15
+    name: fc7
+    partialFile: age_net15.partial.caffemodel
+    estimated_time_loading: 9951
+    estimated_time_execution: 371
+    isConvLayer: false
+    hasModelFile: true
+  - id: 16
+    name: relu7
+    partialFile: age_net16.partial.caffemodel
+    estimated_time_loading: 142
+    estimated_time_execution: 27
+    isConvLayer: false
+    hasModelFile: true
+  - id: 17
+    name: drop7
+    partialFile: age_net17.partial.caffemodel
+    estimated_time_loading: 141
+    estimated_time_execution: 20
+    isConvLayer: false
+    hasModelFile: true
+  - id: 18
+    name: fc8
+    partialFile: age_net18.partial.caffemodel
+    estimated_time_loading: 333
+    estimated_time_execution: 35
+    isConvLayer: false
+    hasModelFile: true
+  - id: 19
+    name: prob
+    partialFile: age_net19.partial.caffemodel
+    estimated_time_loading: 124
+    estimated_time_execution: 32
+    isConvLayer: false
+    hasModelFile: true

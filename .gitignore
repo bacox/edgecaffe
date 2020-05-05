@@ -11,9 +11,15 @@ thirdparty/caffe
 .ipynb_checkpoints
 *.png
 *.ipynb
+!*.exp.ipynb
 *.csv
-analysis
+# analysis
 */__pycache__/*
 *.pyc
 **/altered_face_full_conv.prototxt
 *.todo
+cmake/toolchain-rpi.cmake
+*.tar.gz
+*.deb
+networks/GeneratedNet_1
+.Doxyfile

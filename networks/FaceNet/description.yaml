@@ -1,37 +1,182 @@
----
-name: "FaceNet"
-network-file: "face_full_conv.prototxt"
-model-file: "face_full_conv.caffemodel"
+name: FaceNet
+network-file: face_full_conv.prototxt
+model-file: face_full_conv.caffemodel
 mean-scalar: [104.00698793, 116.66876762, 122.67891434]
 uses-result-vector: false
 input-scale: [227, 227]
-base-path: "networks/FaceNet/"
-partials-location: "face_full_conv_partials"
+base-path: networks/FaceNet/
+partials-location: face_full_conv_partials
+layer-statistics: FaceNet.stats.csv
 has-input-layer: false
 num-conv-layers: 16
 num-fc-layers: 8
 conv-layers:
-  - "face_full_conv00.partial.caffemodel"
-  - "face_full_conv01.partial.caffemodel"
-  - "face_full_conv02.partial.caffemodel"
-  - "face_full_conv03.partial.caffemodel"
-  - "face_full_conv04.partial.caffemodel"
-  - "face_full_conv05.partial.caffemodel"
-  - "face_full_conv06.partial.caffemodel"
-  - "face_full_conv07.partial.caffemodel"
-  - "face_full_conv08.partial.caffemodel"
-  - "face_full_conv09.partial.caffemodel"
-  - "face_full_conv10.partial.caffemodel"
-  - "face_full_conv11.partial.caffemodel"
-  - "face_full_conv12.partial.caffemodel"
-  - "face_full_conv13.partial.caffemodel"
-  - "face_full_conv14.partial.caffemodel"
+  - id: 0
+    name: input
+    partialFile: ""
+    estimated_time_loading: 6
+    estimated_time_execution: 16
+    isConvLayer: true
+    hasModelFile: false
+  - id: 1
+    name: conv1
+    partialFile: face_full_conv00.partial.caffemodel
+    estimated_time_loading: 953
+    estimated_time_execution: 1787271
+    isConvLayer: true
+    hasModelFile: true
+  - id: 2
+    name: relu1
+    partialFile: face_full_conv01.partial.caffemodel
+    estimated_time_loading: 94
+    estimated_time_execution: 216944
+    isConvLayer: true
+    hasModelFile: true
+  - id: 3
+    name: pool1
+    partialFile: face_full_conv02.partial.caffemodel
+    estimated_time_loading: 103
+    estimated_time_execution: 447654
+    isConvLayer: true
+    hasModelFile: true
+  - id: 4
+    name: norm1
+    partialFile: face_full_conv03.partial.caffemodel
+    estimated_time_loading: 95
+    estimated_time_execution: 189489
+    isConvLayer: true
+    hasModelFile: true
+  - id: 5
+    name: conv2
+    partialFile: face_full_conv04.partial.caffemodel
+    estimated_time_loading: 7194
+    estimated_time_execution: 3059540
+    isConvLayer: true
+    hasModelFile: true
+  - id: 6
+    name: relu2
+    partialFile: face_full_conv05.partial.caffemodel
+    estimated_time_loading: 93
+    estimated_time_execution: 134508
+    isConvLayer: true
+    hasModelFile: true
+  - id: 7
+    name: pool2
+    partialFile: face_full_conv06.partial.caffemodel
+    estimated_time_loading: 96
+    estimated_time_execution: 261259
+    isConvLayer: true
+    hasModelFile: true
+  - id: 8
+    name: norm2
+    partialFile: face_full_conv07.partial.caffemodel
+    estimated_time_loading: 98
+    estimated_time_execution: 124943
+    isConvLayer: true
+    hasModelFile: true
+  - id: 9
+    name: conv3
+    partialFile: face_full_conv08.partial.caffemodel
+    estimated_time_loading: 19935
+    estimated_time_execution: 1637803
+    isConvLayer: true
+    hasModelFile: true
+  - id: 10
+    name: relu3
+    partialFile: face_full_conv09.partial.caffemodel
+    estimated_time_loading: 110
+    estimated_time_execution: 53323
+    isConvLayer: true
+    hasModelFile: true
+  - id: 11
+    name: conv4
+    partialFile: face_full_conv10.partial.caffemodel
+    estimated_time_loading: 15169
+    estimated_time_execution: 1439992
+    isConvLayer: true
+    hasModelFile: true
+  - id: 12
+    name: relu4
+    partialFile: face_full_conv11.partial.caffemodel
+    estimated_time_loading: 93
+    estimated_time_execution: 52104
+    isConvLayer: true
+    hasModelFile: true
+  - id: 13
+    name: conv5
+    partialFile: face_full_conv12.partial.caffemodel
+    estimated_time_loading: 10403
+    estimated_time_execution: 1109956
+    isConvLayer: true
+    hasModelFile: true
+  - id: 14
+    name: relu5
+    partialFile: face_full_conv13.partial.caffemodel
+    estimated_time_loading: 95
+    estimated_time_execution: 31116
+    isConvLayer: true
+    hasModelFile: true
+  - id: 15
+    name: pool5
+    partialFile: face_full_conv14.partial.caffemodel
+    estimated_time_loading: 96
+    estimated_time_execution: 58985
+    isConvLayer: true
+    hasModelFile: true
 fc-layers:
-  - "face_full_conv15.partial.caffemodel"
-  - "face_full_conv16.partial.caffemodel"
-  - "face_full_conv17.partial.caffemodel"
-  - "face_full_conv18.partial.caffemodel"
-  - "face_full_conv19.partial.caffemodel"
-  - "face_full_conv20.partial.caffemodel"
-  - "face_full_conv21.partial.caffemodel"
-  - "face_full_conv22.partial.caffemodel"
+  - id: 16
+    name: fc6-conv
+    partialFile: face_full_conv15.partial.caffemodel
+    estimated_time_loading: 911292
+    estimated_time_execution: 11806382
+    isConvLayer: false
+    hasModelFile: true
+  - id: 17
+    name: relu6
+    partialFile: face_full_conv16.partial.caffemodel
+    estimated_time_loading: 153
+    estimated_time_execution: 123643
+    isConvLayer: false
+    hasModelFile: true
+  - id: 18
+    name: drop6
+    partialFile: face_full_conv17.partial.caffemodel
+    estimated_time_loading: 95
+    estimated_time_execution: 20674
+    isConvLayer: false
+    hasModelFile: true
+  - id: 19
+    name: fc7-conv
+    partialFile: face_full_conv18.partial.caffemodel
+    estimated_time_loading: 406646
+    estimated_time_execution: 5208470
+    isConvLayer: false
+    hasModelFile: true
+  - id: 20
+    name: relu7
+    partialFile: face_full_conv19.partial.caffemodel
+    estimated_time_loading: 95
+    estimated_time_execution: 109660
+    isConvLayer: false
+    hasModelFile: true
+  - id: 21
+    name: drop7
+    partialFile: face_full_conv20.partial.caffemodel
+    estimated_time_loading: 104
+    estimated_time_execution: 20457
+    isConvLayer: false
+    hasModelFile: true
+  - id: 22
+    name: fc8-conv
+    partialFile: face_full_conv21.partial.caffemodel
+    estimated_time_loading: 315
+    estimated_time_execution: 24355
+    isConvLayer: false
+    hasModelFile: true
+  - id: 23
+    name: prob
+    partialFile: face_full_conv22.partial.caffemodel
+    estimated_time_loading: 98
+    estimated_time_execution: 163
+    isConvLayer: false
+    hasModelFile: true

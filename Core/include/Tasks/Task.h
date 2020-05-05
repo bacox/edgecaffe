@@ -16,12 +16,13 @@ namespace EdgeCaffe
         caffe::Net<float> *network_ptr;
         bool executed = false;
         int id = 0;
-        int executionTime = 0;
+        int estimatedExecutionTime = 0;
         std::string taskName;
         int layerId;
         int assignedPoolId = -1;
         std::vector<Task *> dependsOn;
 
+        // To measure the actual execution time
         ProfileLine profileLine;
 
         bool waitsForOtherTasks();
@@ -43,6 +44,11 @@ namespace EdgeCaffe
         virtual std::string getTaskDescription();
 
         void execute();
+
+        static bool compByEstTime(const Task* a, const Task *b)
+        {
+            return (a->estimatedExecutionTime) < (b->estimatedExecutionTime);
+        }
 
     protected:
 //  Virtual function to implement in subclasses

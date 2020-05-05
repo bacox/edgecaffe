@@ -13,6 +13,9 @@
 
 namespace EdgeCaffe
 {
+    std::vector<double> scale_list(const cv::Mat &img);
+    std::string updatePrototxt(int rows, int cols, std::string pathToProtoText, std::string fileName);
+
     class BaseNet
     {
     public:

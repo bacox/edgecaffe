@@ -6,29 +6,55 @@
 #define PIPELINE_TASKPOOL_H
 
 
-#include <list>
 #include <mutex>
+#include <deque>
 #include "Tasks/Task.h"
 
 namespace EdgeCaffe
 {
     class TaskPool
     {
+        /**
+         * The task pool holds references to a set of tasks.
+         * Some pools are available at multiple core and/or threads.
+         * No actual data is held or managed in taskpools, it only holds pointers to tasks.
+         */
+    public:
+        enum SCHEDULING_POLICY {
+            FCFS,
+            SJF
+        };
+        TaskPool(SCHEDULING_POLICY policy = FCFS);
     private:
         std::mutex mtx;
 
+        SCHEDULING_POLICY policy;
+
+        void add_FCFS(Task *t_ptr);
+        void add_SJF(Task *t_ptr);
+
     public:
-
         int poolId = -1;
+        // Use a list of pointers to prevent copying the memory
+        std::deque<Task *> pool;
 
-        std::list<Task *> pool;
-
+        /**
+         * Add a reference of a task to the taskpool
+         * @param t_ptr     Task pointer
+         */
         void addTask(Task *t_ptr);
 
+        /**
+         * Checks if the taskpool is empty
+         * @return Boolean      True if empty, false if not empty
+         */
         bool isEmpty();
 
-        Task *getNext();
-
+        /**
+         * Gets the next task from the task pool and binds it to the provided pointer in the argument
+         * @param task      Double pointer to store the reference to the task in.
+         * @return Boolan   Returns false if the pool is empty and true if a task was bound to the given pointer
+         */
         bool getNext(Task **task);
     };
 }

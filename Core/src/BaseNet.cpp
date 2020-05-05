@@ -40,8 +40,9 @@ namespace EdgeCaffe
 
     std::string updatePrototxt(int rows, int cols, std::string pathToProtoText, std::string fileName)
     {
-        std::string orig_proto = "../" + pathToProtoText + fileName;
-        std::string changed_proto = "../" + pathToProtoText + "altered_" + fileName;
+        // This static path needs to be changed to a configurable one
+        std::string orig_proto = "./" + pathToProtoText + fileName;
+        std::string changed_proto = "./" + pathToProtoText + "altered_" + fileName;
         std::ifstream fin(orig_proto, std::ios::in);
         std::ofstream fout(changed_proto, std::ios::out);
         int index = 0;

@@ -12,7 +12,7 @@ namespace EdgeCaffe
         int idx = 0;
         for (const auto &layer : layerNames)
         {
-            _LayerProfile lp;
+            LayerProfile lp;
             lp.layerId = idx++;
             lp.layerName = layer;
             networkProfile.push_back(lp);
@@ -22,24 +22,24 @@ namespace EdgeCaffe
     void InferenceOutput::setLoadingTime(Task *task)
     {
         int layerId = task->layerId;
-        networkProfile[layerId].loadingProfile = task->profileLine;
+        networkProfile[layerId].loading = task->profileLine;
     }
 
     void InferenceOutput::setExecutionTime(Task *task)
     {
-        networkProfile[task->layerId].ExecutionProfile = task->profileLine;
+        networkProfile[task->layerId].executing = task->profileLine;
     }
 
     std::vector<std::string> InferenceOutput::toCsvLines()
     {
         std::vector<std::string> lines;
         std::string sep = ",";
-        for (const _LayerProfile &pl : networkProfile)
+        for (const LayerProfile &pl : networkProfile)
         {
 
             std::string line = networkName + sep + std::to_string(pl.layerId) + sep + pl.layerName + sep +
-                               std::to_string(pl.loadingProfile.duration) + sep +
-                               std::to_string(pl.ExecutionProfile.duration) + sep + policy;
+                               std::to_string(pl.loading.duration) + sep +
+                               std::to_string(pl.executing.duration) + sep + policy;
             lines.push_back(line);
         }
         return lines;

@@ -25,20 +25,11 @@ namespace EdgeCaffe
 
     };
 
-    struct _LayerProfile
-    {
-        ProfileLine loadingProfile;
-        ProfileLine ExecutionProfile;
-        int layerId;
-        std::string layerName;
-    };
-
-
     class InferenceOutput
     {
         cv::Size inputDim = cv::Size(0, 0);
         size_t inputSize = 0;
-        std::vector<_LayerProfile> networkProfile;
+        std::vector<LayerProfile> networkProfile;
 
     public:
         void setLoadingTime(Task *task);

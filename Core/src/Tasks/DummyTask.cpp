@@ -8,7 +8,7 @@ namespace EdgeCaffe {
 
     void DummyTask::run()
     {
-        std::this_thread::sleep_for(std::chrono::milliseconds(executionTime));
+        std::this_thread::sleep_for(std::chrono::milliseconds(estimatedExecutionTime));
     }
 
     std::string DummyTask::getTaskDescription()
