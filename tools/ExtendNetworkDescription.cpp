@@ -79,14 +79,14 @@ void extendDescriptionFile(std::string pathToNetworkDir)
 
 
 
+    std::vector<LayerStat> stats;
     // Read layer statistics
     std::ifstream infile(statsFile);
     std::string line;
     bool firstLine = true;
-    std::vector<LayerStat> stats;
     while (std::getline(infile, line, '\n'))
     {
-        if(firstLine)
+        if (firstLine)
         {
             firstLine = false;
             continue;
@@ -97,6 +97,11 @@ void extendDescriptionFile(std::string pathToNetworkDir)
         long loading = std::stol(items[2]);
         long execution = stol(items[3]);
         stats.push_back({layerId, layerName, loading, execution});
+    }
+    if(stats.empty())
+    {
+        std::cerr << "Unable to read the statistics file '" << statsFile << "'!" << std::endl;
+        std::cerr << "Using the default 0 values for estimated times now for this network" << std::endl;
     }
 
 
@@ -120,17 +125,15 @@ void extendDescriptionFile(std::string pathToNetworkDir)
 
     int fcLayers = description["num-fc-layers"].as<int>();
     int convLayers = net.layer_names().size() - fcLayers;
-    int i = 0;
-
 
     int partialOffset = 0;
-    for(int layerId = 0; layerId < net.layers().size(); ++layerId)
+    for(int layerId = 0; (size_t) layerId < net.layers().size(); ++layerId)
     {
         std::string layerName = net.layer_names()[layerId];
         auto layer = net.layers()[layerId];
         std::string type = layer->type();
-        long loading = stats[layerId].loading;
-        long execution = stats[layerId].execution;
+        long loading = stats.empty() ? 0 : stats[layerId].loading;
+        long execution = stats.empty() ? 0 :  stats[layerId].execution;
         bool hasModelFile = !(layerId==0 && !hasInputLayer);
 
         std::string partialModelFile = "";
@@ -175,6 +178,14 @@ void extendDescriptionFile(std::string pathToNetworkDir)
     std::cout << "Extended model description file written to " << (pathToNetworkDir + "/" + "description.yaml") << std::endl;
 }
 
+/**
+ * ExtendNetworkDescription extends the network description in description.template.yaml
+ * By combining 3 files we will get an detailed description of all the layers in the network.
+ * The network description (*.prototxt) and the modelfile (*.caffemodel) is combined to get the basic information of each layer.
+ * The statistics file (optional) of the network (*.stats.csv) is used to get the estimated times of loading and executing the layers.
+ *      When the statistics file is not present, the default value '0' will be used for loading/execution times.
+ *      Statistic files can created using the python notebook at 'analysis/layer-satistics.exp.ipynb'
+ */
 int main(int argc, char *argv[])
 {
     // Setup logging
