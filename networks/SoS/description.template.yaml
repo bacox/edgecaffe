@@ -1,0 +1,14 @@
+---
+name: "Salient Object Subitizing"
+network-file: "alexnet_sos_deploy.prototxt"
+model-file: "AlexNet_SalObjSub.caffemodel"
+mean-scalar: [104, 117, 123]
+uses-result-vector: false
+input-scale: [227, 227]
+base-path: "networks/SoS/"
+partials-location: "AlexNet_SalObjSub_partials"
+excluded-partials: [18,21]
+layer-statistics: Salient-Object-Subitizing.stats.csv
+has-input-layer: true
+num-conv-layers: 16
+num-fc-layers: 6

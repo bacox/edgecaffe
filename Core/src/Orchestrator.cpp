@@ -8,8 +8,6 @@
 
 namespace EdgeCaffe
 {
-
-
     void Orchestrator::setupBulkMode()
     {
         TaskPool *taskPool = new TaskPool;
@@ -90,6 +88,18 @@ namespace EdgeCaffe
             std::cerr << "Error while attempting to read yaml file!" << std::endl;
             std::cerr << "Yaml file: " << pathToYaml << std::endl;
         }
+
+//        std::vector<LayerDescription> l_list = description["conv-layers"].as<std::vector<LayerDescription>>();
+
+//        std::vector<LayerDescription> layer_descrs;
+//
+//        for(auto l_layer : description["conv-layers"])
+//        {
+//            layer_descrs.push_back(LayerDescription::FromYaml(l_layer));
+//        }
+
+
+
 
         if(description["type"].as<std::string>("normal") == "generated")
         {

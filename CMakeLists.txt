@@ -114,6 +114,7 @@ macro(ADD_BINARY_TARGET TARGET_NAME)
             Core/include
             ${INCLUDE_ORIG_CAFFE}
             )
+
     if (${BUILD_SHARED_LIBS})
 #        Make sure not the whole archive is included in linking
         target_link_libraries(${TARGET_NAME}

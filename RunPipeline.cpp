@@ -134,7 +134,7 @@ int main(int argc, char *argv[])
     orchestrator.submitInferenceTask(pathToFaceNet, pathToImg, true);
 
     pathToImg = resourcePath + "/test_2.jpg";
-    orchestrator.submitInferenceTask(pathToSoS_Alex, pathToImg);
+//    orchestrator.submitInferenceTask(pathToSoS_Alex, pathToImg);
     orchestrator.submitInferenceTask(pathToSoS_Google, pathToImg);
     orchestrator.submitInferenceTask(pathToAgeNet, pathToImg);
     orchestrator.submitInferenceTask(pathToGenderNet, pathToImg);

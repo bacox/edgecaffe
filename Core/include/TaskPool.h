@@ -6,8 +6,8 @@
 #define PIPELINE_TASKPOOL_H
 
 
-#include <list>
 #include <mutex>
+#include <deque>
 #include "Tasks/Task.h"
 
 namespace EdgeCaffe
@@ -19,14 +19,24 @@ namespace EdgeCaffe
          * Some pools are available at multiple core and/or threads.
          * No actual data is held or managed in taskpools, it only holds pointers to tasks.
          */
+    public:
+        enum SCHEDULING_POLICY {
+            FCFS,
+            SJF
+        };
+        TaskPool(SCHEDULING_POLICY policy = FCFS);
     private:
         std::mutex mtx;
 
-    public:
+        SCHEDULING_POLICY policy;
 
+        void add_FCFS(Task *t_ptr);
+        void add_SJF(Task *t_ptr);
+
+    public:
         int poolId = -1;
         // Use a list of pointers to prevent copying the memory
-        std::list<Task *> pool;
+        std::deque<Task *> pool;
 
         /**
          * Add a reference of a task to the taskpool

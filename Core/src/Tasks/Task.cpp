@@ -30,10 +30,10 @@ namespace EdgeCaffe
         dependsOn.push_back(t);
     }
 
-    Task::Task(int id, int executionTime) : id(id), executionTime(executionTime)
+    Task::Task(int id, int executionTime) : id(id), estimatedExecutionTime(executionTime)
     {}
 
-    Task::Task() : executionTime(0)
+    Task::Task() : estimatedExecutionTime(0)
     {}
 
     bool Task::hasPoolAssigned()

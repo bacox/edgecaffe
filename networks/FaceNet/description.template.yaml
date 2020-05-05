@@ -1,0 +1,13 @@
+---
+name: "FaceNet"
+network-file: "face_full_conv.prototxt"
+model-file: "face_full_conv.caffemodel"
+mean-scalar: [104.00698793, 116.66876762, 122.67891434]
+uses-result-vector: false
+input-scale: [227, 227]
+base-path: "networks/FaceNet/"
+partials-location: "face_full_conv_partials"
+layer-statistics: FaceNet.stats.csv
+has-input-layer: false
+num-conv-layers: 16
+num-fc-layers: 8
