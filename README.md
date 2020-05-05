@@ -109,14 +109,42 @@ cd build
 cmake ..
 make ModelSplitter
 ```
+#### ExtendNetworkDescription
 
-## Download models
+```bash
+mkdir build
+cd build
+cmake ..
+make ExtendNetworkDescription
+```
+
+## Prepare before running
+### Download models
 
 The model files of the networks can be downloaded using the following link: https://bartcox.stackstorage.com/s/GmO0bKJb4JV5Qvd
 
 The model files needs to be placed in the networks folder in their respective network folder. For example: the file `age_net.caffemodel` needs to be placed as `networks/AgeNet/age_net.caffemodel`.
 
 After placing the models, run `cmake ..` in the build folder to copy the model resources to the build directory.
+
+### Split the models
+Use the modelsplitter to split the models in smaller (partial) model files.
+For example
+```bash
+./ModelSplitter ../networks/AgeNet/age_net.caffemodel ../networks/GenderNet/gender_net.caffemodel ../networks/FaceNet/face_full_conv.caffemodel ../networks/SoS/AlexNet_SalObjSub.caffemodel ../networks/SoS_GoogleNet/GoogleNet_SOS.caffemodel
+```
+### Generate model statistics (optional)
+The python notebook `layer-satistics.exp.ipynb` in the `analysis` folder can be used to generate estimated loading and execution times for a network.
+The generated files can be placed in the folder of a network (where `description.yaml` is located) to extend its description.
+
+### Extend the network descriptions (optional)
+This is needed when running time based scheduling policies such as `SJF` (Shortest Job First). Additional information about scheduling can found in the wiki [here](https://gitlab.com/bacox/edgecaffe/-/wikis/Scheduling).
+
+Run the tool `ExtendNetworkDescription` to extend the networks with more accurate layer descriptions. For example 
+
+```bash
+ExtendNetworkDescription ../../networks/AgeNet ../../networks/GenderNet
+```
 
 ## Run
 
@@ -152,9 +180,47 @@ $ python3
 >>> import edgecaffe
 ```
 
-#### Examples
+### Examples
 
 The examples folder at `python/examples` holds some basic python example scripts.
+
+## Memory swapping
+Memory swapping is an important feature to enable to prevent EdgeCaffe from being killed when is uses too much memory.
+A more deailted description can be found [here](https://gitlab.com/bacox/edgecaffe/-/wikis/Memory-Swapping)
+### Create swap file
+
+If necessary, you can increase the size of the swap file. To check the current size of the swap file `grep SwapTotal /proc/meminfo`.
+
+* Turn off swapping `sudo swapoff -a`
+* Resize the swap file `sudo dd if=/dev/zero of=/swapfile bs=1G count=8`. This example creates a file of 8GB.
+* Mark file as swapfile `sudo mkswap /swapfile`
+* Activate the swapfile `sudo swapon /swapfile`
+* Enable swapping `sudo swapon -a`
+
+### Run process with limited memory
+
+To constrain the process in its resources we create a new cgroup and set the memory limits for both the virtual memory and the swap memory. 
+
+```bash
+# Create new cgroup
+sudo cgcreate -g memory:force-swap
+# Set virtual memory limit to 2 GB
+sudo cgset -r memory.limit_in_bytes=2G force-swap
+# Set allowed swapped memory to 8GB
+sudo cgset -r memory.memsw.limit_in_bytes=8G force-swap
+# Show the configuration
+sudo cgget -g memory:force-swap | grep bytes
+
+# Run procress within cgroup
+sudo cgexec -g memory:force-swap <program> <program arguments>
+
+# Delete group if needed
+sudo cgdelete -g memory:force-swap
+## Analysis
+The folder `analysis` hold two python notebooks that can be used for analysis.
+
+* `profile-networks.exp.ipynb`: The notebook can be used to generate basic profiling information for each network. The loading and execution time of the layers are plotted, and the effects of running under memory constraints are shown.
+* `layer-satistics.exp.ipynb`: This notebook can be used to generate the statistic files for each network. It calculates the mean of the loading and execution times of each layer in each network and outputs this to a csv file.
 
 ## Contribute
 
