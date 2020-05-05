@@ -158,10 +158,15 @@ The targets can be build with `Cmake`. There 3 binary examples in this project:
 * **Modelsplitter**: A tool used to split caffemodel files in smaller model files.
   * Build: `make ModelSplitter`
   * Usage: `./ModelSplitter pathToModel1 [pathToModel2] ...`
+  * Example: `./ModelSplitter ../networks/AgeNet/age_net.caffemodel ../networks/GenderNet/gender_net.caffemodel`
+* **ExtendNetworkDescription**: A tool used to extend the layer descriptions of the network description files with more accurate information.
+  * Build: `make ExtendNetworkDescription`
+  * Usage: `./ExtendNetworkDescription pathToNetworkDir [pathToNetworkDir2] ...`
+  * Example: `ExtendNetworkDescription ../../networks/AgeNet ../../networks/GenderNet`
 * **ScheduledPipeline**: Provides almost the same functionality as **RunPipeline** but the implementation is more exposed. Note: It is important that the models are split (With the `ModelSplitter`) before running this executable. 
   * Build: `make ScheduledPipeline`
   * Usage: `./ScheduledPipeline`
-* Exp_const_arrivals: Almost same example as `RunPipeline` but it uses a distribution of arrivals instead of submitting everything at the beginning instantly. Note: It is important that the models are split (With the `ModelSplitter`) before running this executable.
+* **Exp_const_arrivals**: Almost same example as `RunPipeline` but it uses a distribution of arrivals instead of submitting everything at the beginning instantly. Note: It is important that the models are split (With the `ModelSplitter`) before running this executable.
   * Build: `make Exp_const_arrivals`
   * Usage: `./Exp_const_arrivals <mode> [outputfile.csv]`
 
@@ -216,6 +221,7 @@ sudo cgexec -g memory:force-swap <program> <program arguments>
 
 # Delete group if needed
 sudo cgdelete -g memory:force-swap
+```
 ## Analysis
 The folder `analysis` hold two python notebooks that can be used for analysis.
 
