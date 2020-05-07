@@ -79,6 +79,11 @@ int main(int argc, char *argv[])
     std::string generalOutputFile = config["general-outputfile"].as<std::string>("./generalOutput.csv");
     std::string mem_limit = config["mem_limit"].as<std::string>("1GB");
 
+
+    if(argc  >= 4)
+    {
+        mem_limit = argv[3];
+    }
     // Print the settings for this run to the screen
     std::cout << "=========================" << std::endl;
     std::cout << "Running\t\t\t'RunPipeline'" << std::endl;
@@ -86,7 +91,8 @@ int main(int argc, char *argv[])
     std::cout << "networkPath: \t " << networkPath << std::endl;
     std::cout << "resourcePath: \t " << resourcePath << std::endl;
     std::cout << "outputPath: \t " << outputPath << std::endl;
-    std::cout << "outputFile: \t " << outputFile << std::endl << std::endl;
+    std::cout << "outputFile: \t " << outputFile << std::endl;
+    std::cout << "Memory Limit: \t " << mem_limit << std::endl << std::endl;
 
     // Init glog to prevent everything outputting to stdout
     ::google::InitGoogleLogging(argv[0]);
