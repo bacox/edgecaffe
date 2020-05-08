@@ -30,11 +30,28 @@ namespace EdgeCaffe
         cv::Size inputDim = cv::Size(0, 0);
         size_t inputSize = 0;
         std::vector<LayerProfile> networkProfile;
+        std::vector<TaskProfile> taskProfile;
 
     public:
+
+        enum EVENT
+        {
+            WAITING_UP,
+            WAITING_DOWN,
+            RUNNING_UP,
+            RUNNING_DOWN,
+            FINISHED_UP,
+            FINISHED_DOWN
+        };
+        struct event {
+            long time;
+            EVENT type;
+        };
         void setLoadingTime(Task *task);
 
         void setExecutionTime(Task *task);
+
+        void addTaskProfile(Task *task, bool isLoading = false);
 
         std::vector<std::string> toCsvLines();
 
@@ -43,6 +60,10 @@ namespace EdgeCaffe
         void initFromLayerVector(const std::vector<std::string> layerNames);
 
         std::string policy;
+
+        void getTaskEvents(std::vector<event> &list, std::chrono::time_point<std::chrono::system_clock> ref);
+
+        std::vector<std::string> static calculateTaskProfile(std::vector<event> events);
     };
 
 }

@@ -132,6 +132,8 @@ namespace EdgeCaffe
                 iTask->net->subTasks.front()->firstTask->addTaskDependency(last);
             }
         }
+        for(auto task : listOfTasks)
+            task->measureTime(Task::TIME::TO_WAITING);
         last = listOfTasks.back();
         bagOfTasks.reserve(listOfTasks.size()); // preallocate memory
         bagOfTasks.insert(bagOfTasks.end(), listOfTasks.begin(), listOfTasks.end());
@@ -167,6 +169,8 @@ namespace EdgeCaffe
                 iTask->net->subTasks.front()->firstTask->addTaskDependency(last);
             }
         }
+        for(auto task : listOfTasks)
+            task->measureTime(Task::TIME::TO_WAITING);
         last = listOfTasks.back();
         bagOfTasks.reserve(listOfTasks.size()); // preallocate memory
         bagOfTasks.insert(bagOfTasks.end(), listOfTasks.begin(), listOfTasks.end());
@@ -233,6 +237,7 @@ namespace EdgeCaffe
                 {
                     taskPools.front()->addTask(task);
                 }
+                task->measureTime(Task::TIME::TO_READY);
             }
         }
     }

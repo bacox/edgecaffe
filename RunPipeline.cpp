@@ -178,12 +178,32 @@ int main(int argc, char *argv[])
     for (auto inferenceTasks : orchestrator.inferenceTasks)
     {
         std::vector<std::string> lines = inferenceTasks->output.toCsvLines();
+
         for (std::string line : lines)
         {
             fout << line << std::endl;
         }
     }
     fout.close();
+
+    std::ofstream fout_tmp(outputPath + "/stepEvents.csv", std::ios::out);
+    std::string csvHeaders_tmp = "time,count,type";
+    fout_tmp << csvHeaders_tmp << std::endl;
+    std::vector<EdgeCaffe::InferenceOutput::event> taskEvents;
+    for (auto inferenceTasks : orchestrator.inferenceTasks)
+    {
+        auto outputObj = inferenceTasks->output;
+        outputObj.getTaskEvents(taskEvents, startTime);
+    }
+    auto lines_tasks = EdgeCaffe::InferenceOutput::calculateTaskProfile(taskEvents);
+    for (std::string line : lines_tasks)
+    {
+        fout_tmp << line << std::endl;
+    }
+    fout_tmp.close();
+    std::cout << "File written to '" + outputPath + "/stepEvents.csv'" << std::endl;
+
+
 
     /**
      * Save the output of the end-to-end measurement

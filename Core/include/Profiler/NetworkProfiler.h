@@ -24,6 +24,18 @@ namespace EdgeCaffe
         void stop();
     };
 
+    struct TaskProfile
+    {
+        int taskId;
+        int layerId;
+        bool isLoading = false;
+        std::chrono::time_point<std::chrono::system_clock> toWaiting;
+        std::chrono::time_point<std::chrono::system_clock> toReady;
+        std::chrono::time_point<std::chrono::system_clock> startTask;
+        std::chrono::time_point<std::chrono::system_clock> stopTask;
+        std::chrono::time_point<std::chrono::system_clock> networkFinished;
+    };
+
     struct LayerProfile
     {
         int layerId;

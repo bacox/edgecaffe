@@ -50,26 +50,33 @@ namespace EdgeCaffe
 //
             for (auto task : net->tasks)
             {
+                task->measureTime(Task::TIME::FINISHED);
                 if (dynamic_cast<LoadTask *>(task))
                 {
 //                // Load Task
                     output.setLoadingTime(task);
+                    output.addTaskProfile(task, true);
                 }
                 if (dynamic_cast<ExecTask *>(task))
                 {
 //                // Load Task
                     output.setExecutionTime(task);
+                    output.addTaskProfile(task, false);
                 }
                 if (auto dt = dynamic_cast<DummyTask *>(task))
                 {
                     if(dt->isLoadingTask)
+                    {
                         output.setLoadingTime(task);
+                        output.addTaskProfile(task, true);
+                    }
                     else
+                    {
                         output.setExecutionTime(task);
+                        output.addTaskProfile(task, false);
+                    }
                 }
-
             }
-
 
             delete net;
         };

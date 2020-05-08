@@ -24,7 +24,7 @@ namespace EdgeCaffe
             FCFS,
             SJF
         };
-        TaskPool(SCHEDULING_POLICY policy = SJF);
+        TaskPool(SCHEDULING_POLICY policy = FCFS);
     private:
         std::mutex mtx;
 

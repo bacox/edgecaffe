@@ -13,6 +13,15 @@ namespace EdgeCaffe
     class Task
     {
     public:
+        enum TIME {
+//            NET_SUBMIT,
+            TO_WAITING,
+            TO_READY,
+            START,
+            STOP,
+            FINISHED
+        };
+
         caffe::Net<float> *network_ptr;
         bool executed = false;
         int id = 0;
@@ -24,6 +33,19 @@ namespace EdgeCaffe
 
         // To measure the actual execution time
         ProfileLine profileLine;
+
+        /*
+         * For profiling more timing points we maybe need more time points
+         */
+//        std::chrono::time_point<std::chrono::system_clock> networkSubmission;
+        std::chrono::time_point<std::chrono::system_clock> moveToWaiting;
+        std::chrono::time_point<std::chrono::system_clock> moveToReady;
+        std::chrono::time_point<std::chrono::system_clock> startTask;
+        std::chrono::time_point<std::chrono::system_clock> stopTask;
+        std::chrono::time_point<std::chrono::system_clock> networkFinished;
+
+        void measureTime(TIME type);
+
 
         bool waitsForOtherTasks();
 
