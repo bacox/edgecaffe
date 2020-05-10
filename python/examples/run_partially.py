@@ -37,5 +37,7 @@ def main():
     cv2.imshow('image', img)
     cv2.waitKey(0)
 
+    print("End of script")
+
 if __name__ == '__main__':
     main()

@@ -18,14 +18,14 @@ namespace EdgeCaffe
         LoadTask()
         {}
 
+        // Variables specific to this task
         std::string partialName;
         std::string pathToPartial;
-
-        std::string getTaskDescription() override;
-
-        void run() override;
-
         bool needsLoading = true;
+
+        // Overridden functions of Task class
+        std::string getTaskDescription() override;
+        void run() override;
     };
 }
 

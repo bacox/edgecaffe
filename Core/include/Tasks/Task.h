@@ -22,7 +22,7 @@ namespace EdgeCaffe
             FINISHED
         };
 
-        caffe::Net<float> *network_ptr;
+        caffe::Net<float> **network_ptr;
         bool executed = false;
         int id = 0;
         int estimatedExecutionTime = 0;

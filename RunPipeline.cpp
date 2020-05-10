@@ -98,7 +98,7 @@ int main(int argc, char *argv[])
     ::google::InitGoogleLogging(argv[0]);
 
     /**
-     * Real EdgeCaffe code starts hete
+     * Real EdgeCaffe code starts here
      */
     EdgeCaffe::Orchestrator orchestrator;
     // Get timestamp for end-to-end measurement
@@ -132,26 +132,32 @@ int main(int argc, char *argv[])
      * Submitting inference tasks
      */
     std::cout << "Starting submitting tasks" << std::endl;
-    std::string pathToImg = resourcePath + "/test_1.jpg";
-    orchestrator.submitInferenceTask(pathToSoS_Alex, pathToImg);
-    orchestrator.submitInferenceTask(pathToSoS_Google, pathToImg);
-    orchestrator.submitInferenceTask(pathToAgeNet, pathToImg);
-    orchestrator.submitInferenceTask(pathToGenderNet, pathToImg);
-    orchestrator.submitInferenceTask(pathToFaceNet, pathToImg, true);
+    int submissions = 0;
+    while(submissions < 500)
+    {
 
-    pathToImg = resourcePath + "/test_2.jpg";
+
+        std::string pathToImg = resourcePath + "/test_1.jpg";
 //    orchestrator.submitInferenceTask(pathToSoS_Alex, pathToImg);
-    orchestrator.submitInferenceTask(pathToSoS_Google, pathToImg);
-    orchestrator.submitInferenceTask(pathToAgeNet, pathToImg);
-    orchestrator.submitInferenceTask(pathToGenderNet, pathToImg);
-    orchestrator.submitInferenceTask(pathToFaceNet, pathToImg, true);
-
-    pathToImg = resourcePath + "/test_3.jpg";
-    orchestrator.submitInferenceTask(pathToSoS_Alex, pathToImg);
-    orchestrator.submitInferenceTask(pathToSoS_Google, pathToImg);
-    orchestrator.submitInferenceTask(pathToAgeNet, pathToImg);
-    orchestrator.submitInferenceTask(pathToGenderNet, pathToImg);
-    orchestrator.submitInferenceTask(pathToFaceNet, pathToImg, true);
+//    orchestrator.submitInferenceTask(pathToSoS_Google, pathToImg);
+        orchestrator.submitInferenceTask(pathToAgeNet, pathToImg);
+//    orchestrator.submitInferenceTask(pathToGenderNet, pathToImg);
+//    orchestrator.submitInferenceTask(pathToFaceNet, pathToImg, true);
+        submissions++;
+    }
+//    pathToImg = resourcePath + "/test_2.jpg";
+////    orchestrator.submitInferenceTask(pathToSoS_Alex, pathToImg);
+//    orchestrator.submitInferenceTask(pathToSoS_Google, pathToImg);
+//    orchestrator.submitInferenceTask(pathToAgeNet, pathToImg);
+//    orchestrator.submitInferenceTask(pathToGenderNet, pathToImg);
+//    orchestrator.submitInferenceTask(pathToFaceNet, pathToImg, true);
+//
+//    pathToImg = resourcePath + "/test_3.jpg";
+//    orchestrator.submitInferenceTask(pathToSoS_Alex, pathToImg);
+//    orchestrator.submitInferenceTask(pathToSoS_Google, pathToImg);
+//    orchestrator.submitInferenceTask(pathToAgeNet, pathToImg);
+//    orchestrator.submitInferenceTask(pathToGenderNet, pathToImg);
+//    orchestrator.submitInferenceTask(pathToFaceNet, pathToImg, true);
 
     // Start the worker
     orchestrator.start();

@@ -9,6 +9,8 @@
 #include <opencv2/imgproc.hpp>
 #include <cv.hpp>
 #include <BaseNet.h>
+#include <caffe/caffe.hpp>
+#include <Tasks/InitNetworkTask.h>
 
 
 namespace EdgeCaffe
@@ -154,7 +156,7 @@ namespace EdgeCaffe
         {
 
             LoadTask *load = new LoadTask;
-            load->network_ptr = dnn->net_ptr;
+            load->network_ptr = &(dnn->net_ptr);
             auto descr = layerDescriptions[i];
             load->taskName = dnn->networkName + "-load-" + descr.name;
             load->layerId = descr.layerId;
@@ -171,7 +173,7 @@ namespace EdgeCaffe
 
             ExecTask *exec = new ExecTask;
 
-            exec->network_ptr = dnn->net_ptr;
+            exec->network_ptr = &(dnn->net_ptr);
             descr = layerDescriptions[i];
             exec->taskName = dnn->networkName + "-exec-" + descr.name;
             exec->layerId = descr.layerId;
@@ -195,13 +197,36 @@ namespace EdgeCaffe
     void InferenceNetwork::createTasksLinear()
     {
         InferenceSubTask *dnn = subTasks.front();
-        int numLayers = dnn->net_ptr->layers().size();
+
+        caffe::NetParameter param;
+        caffe::ReadNetParamsFromTextFileOrDie(dnn->pathToModelFile, &param);
+        int numLayers = param.layer_size();
+//        int numLayers = dnn->net_ptr->layers().size();
+
+
         Task *lastTask = nullptr;
 
+        InitNetworkTask *init = new InitNetworkTask;
+        init->inet = this;
+        init->use_scales = this->use_scales;
+        init->taskName = dnn->networkName + "-init-network";
+        init->id = TASKID_COUNTER++;
+        init->pathToInput = this->dataPath;
+//        if (lastTask != nullptr)
+//        {
+//            init->addTaskDependency(lastTask);
+//        }
+        lastTask = init;
+
+        tasks.push_back(init);
+        if (dnn->firstTask == nullptr)
+        {
+            dnn->firstTask = init;
+        }
         for (int i = 0; i < numLayers; ++i)
         {
             LoadTask *load = new LoadTask;
-            load->network_ptr = dnn->net_ptr;
+            load->network_ptr = &(dnn->net_ptr);
             auto descr = layerDescriptions[i];
             load->taskName = dnn->networkName + "-load-" + descr.name;
             load->layerId = descr.layerId;
@@ -225,7 +250,7 @@ namespace EdgeCaffe
 
             ExecTask *exec = new ExecTask;
 
-            exec->network_ptr = dnn->net_ptr;
+            exec->network_ptr = &(dnn->net_ptr);
             descr = layerDescriptions[i];
             exec->taskName = dnn->networkName + "-exec-" + descr.name;
             exec->layerId = descr.layerId;
@@ -268,7 +293,7 @@ namespace EdgeCaffe
 
             LoadTask *load = new LoadTask;
 
-            load->network_ptr = dnn->net_ptr;
+            load->network_ptr = &(dnn->net_ptr);
             auto descr = layerDescriptions[i];
             load->taskName = dnn->networkName + "-load-" + descr.name;
             load->layerId = descr.layerId;
@@ -287,7 +312,7 @@ namespace EdgeCaffe
 
             ExecTask *exec = new ExecTask;
 
-            exec->network_ptr = dnn->net_ptr;
+            exec->network_ptr = &(dnn->net_ptr);
             descr = layerDescriptions[i];
             exec->taskName = dnn->networkName + "-exec-" + descr.name;
             exec->layerId = descr.layerId;
@@ -318,7 +343,7 @@ namespace EdgeCaffe
         {
             LoadTask *load = new LoadTask;
 
-            load->network_ptr = dnn->net_ptr;
+            load->network_ptr = &(dnn->net_ptr);
             auto descr = layerDescriptions[i];
             load->taskName = dnn->networkName + "-load-" + descr.name;
             load->layerId = descr.layerId;
@@ -340,7 +365,7 @@ namespace EdgeCaffe
 
 
             ExecTask *exec = new ExecTask;
-            exec->network_ptr = dnn->net_ptr;
+            exec->network_ptr = &(dnn->net_ptr);
             descr = layerDescriptions[i];
             exec->taskName = dnn->networkName + "-exec-" + descr.name;
             exec->layerId = descr.layerId;

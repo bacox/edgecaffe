@@ -13,7 +13,7 @@ namespace EdgeCaffe
     {
         if (needsLoading)
         {
-            network_ptr->CopyTrainedLayersFrom(pathToPartial); // layer 12
+            (*network_ptr)->CopyTrainedLayersFrom(pathToPartial); // layer 12
         } else
         {
             std::cout << "Running the loading task (Dummy not actual loading)" << std::endl;

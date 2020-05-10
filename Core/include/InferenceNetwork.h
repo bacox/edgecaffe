@@ -70,7 +70,8 @@ namespace EdgeCaffe
         std::vector<LayerDescription> layerDescriptions;
     public:
         std::vector<Task *> tasks;
-
+        bool use_scales = false;
+        std::string dataPath;
         const std::vector<Task *> &getTasks() const;
 
         std::vector<InferenceSubTask *> subTasks;
