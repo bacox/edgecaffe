@@ -127,6 +127,7 @@ namespace EdgeCaffe
         long time = 0;
         std::string pathToData;
         std::string pathToNetwork;
+        std::string networkName;
 
         std::string toString(){
             return "Arrival<time: " + std::to_string(time)+ ">";
@@ -140,6 +141,7 @@ namespace EdgeCaffe
      */
     class ArrivalList
     {
+    public:
         // Queue structure to hold the variables.
         std::deque<Arrival> arrivals;
 
@@ -163,6 +165,7 @@ namespace EdgeCaffe
                 ,{ "GenderNet", "networks/GenderNet" }
                 ,{ "SoS", "networks/SoS" }
                 ,{ "SoS_GoogleNet", "networks/SoS_GoogleNet" }
+                ,{ "FaceNet", "networks/FaceNet" }
         };
 
         std::vector<std::string> allowedNetworks;
@@ -190,6 +193,9 @@ namespace EdgeCaffe
          * Removes the first element of the queue
          */
         void pop();
+
+
+        std::vector<std::string> toCSVLines();
     };
 }
 

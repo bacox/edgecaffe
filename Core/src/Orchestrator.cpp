@@ -99,7 +99,7 @@ namespace EdgeCaffe
             // Default network
             iTask->net = new InferenceNetwork(arrivalTask.pathToNetwork);
             iTask->net->init(description);
-            iTask->net->use_scales = use_scales;
+            iTask->net->use_scales = description["use-scales"].as<bool>(false);
             iTask->net->dataPath = arrivalTask.pathToData;
             iTask->output.networkName = iTask->net->subTasks.front()->networkName;
         }

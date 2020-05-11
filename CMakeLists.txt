@@ -138,7 +138,6 @@ endmacro()
 ADD_BINARY_TARGET(ScheduledPipeline)
 ADD_BINARY_TARGET(RunPipeline)
 ADD_BINARY_TARGET(Exp_const_arrivals)
-ADD_BINARY_TARGET(TasksFromDescription)
 
 # ---[ Copy resourcess
 file(COPY ${CMAKE_SOURCE_DIR}/networks DESTINATION ${CMAKE_BINARY_DIR})

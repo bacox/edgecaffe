@@ -41,7 +41,7 @@ void EdgeCaffe::ArrivalList::generateList(int numberOfArrivals, DISTRIBUTION_TYP
         // Sample from available networks
         std::string networkKey = allowedNetworks[networkDist.getRandom(generator)];
         std::string networkPath = networks[networkKey];
-        arrivals.push_back(Arrival{delay, pathToImg, networkPath});
+        arrivals.push_back(Arrival{delay, pathToImg, networkPath, networkKey});
     }
 
 }
@@ -93,6 +93,15 @@ void EdgeCaffe::ArrivalList::printArrivals()
 {
         for(auto a : arrivals)
             std::cout << a.toString() << "\t\t" << a.pathToNetwork << std::endl;
+}
+
+std::vector<std::string> EdgeCaffe::ArrivalList::toCSVLines()
+{
+    std::vector<std::string> lines;
+    for(auto a : arrivals)
+        lines.push_back(std::to_string(a.time) + "," + a.networkName);
+
+    return lines;
 }
 
 /**
