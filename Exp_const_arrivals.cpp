@@ -75,7 +75,7 @@ int main(int argc, char *argv[])
     std::string networkPath = config["pathToNetworks"].as<std::string>("networks");
     std::string resourcePath = config["pathToResources"].as<std::string>("../resources");
     std::string outputPath = config["pathToAnalysis"].as<std::string>("../analysis");
-    std::string generalOutputFile = config["general-outputfile"].as<std::string>("./generalOutput.csv");
+    std::string generalOutputFile = config["general-outputfile"].as<std::string>("./generalOutput2.csv");
     std::string mem_limit = config["mem_limit"].as<std::string>("1GB");
 
 
@@ -113,14 +113,18 @@ int main(int argc, char *argv[])
      */
     EdgeCaffe::ArrivalList arrivals;
     arrivals.setAllowedNetworks({"AgeNet", "GenderNet", "SoS", "SoS_GoogleNet", "FaceNet"});
-    arrivals.generateList(5, EdgeCaffe::ArrivalList::DISTRIBUTION_TYPE::UNIFORM, {800,1200});
+//    double interArrivalTime = 3432.7434;
+    double interArrivalTime = 1713.4308;
+    arrivals.generateList(50, EdgeCaffe::ArrivalList::DISTRIBUTION_TYPE::NORMAL, {interArrivalTime, interArrivalTime/6.0});
 
+    std::cout << "Saving arrivalist" << std::endl;
     {
 //        Make sure to save the arrival distribution
-        std::string arrivalListOutputFile = outputPath + "/arrivals.csv";
+        std::string arrivalListOutputFile = outputPath + "/arrivals5.csv";
         EdgeCaffe::Output output;
         output.toCSV(arrivalListOutputFile, arrivals.toCSVLines(), EdgeCaffe::Output::ARRIVALS);
     }
+    std::cout << "Done saving arrivalist" << std::endl;
     orchestrator.arrivals = arrivals;
 
     orchestrator.start();
@@ -147,7 +151,7 @@ int main(int argc, char *argv[])
             layerOutputLines.push_back(line);
     output.toCSV(layerOutputFile, layerOutputLines, EdgeCaffe::Output::LAYER);
 
-    std::string queueEventsFile = outputPath + "/stepEvents.csv";
+    std::string queueEventsFile = outputPath + "/stepEvents5.csv";
     std::vector<EdgeCaffe::InferenceOutput::event> taskEvents;
     for (auto inferenceTasks : orchestrator.inferenceTasks)
     {
