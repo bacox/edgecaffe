@@ -26,9 +26,9 @@ int main(int argc, char *argv[])
     for(auto &keyName : keys)
         std::cout << "Key: " << keyName << std::endl;
 
-    al.setAllowedNetworks({"AgeNet", "GenderNet", "SoS", "SoS_GoogleNet"});
+    al.setAllowedNetworks({"AgeNet", "GenderNet", "SoS", "SoS_GoogleNet", "FaceNet"});
 
-    al.generateList(50, EdgeCaffe::ArrivalList::UNIFORM, {0,100});
+    al.generateList(50, EdgeCaffe::ArrivalList::UNIFORM, {1000,15;00});
 
     al.printArrivals();
 
