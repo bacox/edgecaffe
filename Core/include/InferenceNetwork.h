@@ -9,6 +9,7 @@
 //#include <net.hpp>
 #include "Tasks/Task.h"
 #include "InferenceSubTask.h"
+#include "TaskPool.h"
 #include <string>
 #include <opencv2/core/mat.hpp>
 //#include "../thirdparty/caffe/include/caffe/caffe.hpp"
@@ -70,8 +71,12 @@ namespace EdgeCaffe
         std::vector<LayerDescription> layerDescriptions;
     public:
         std::vector<Task *> tasks;
-
+        bool use_scales = false;
+        std::string dataPath;
         const std::vector<Task *> &getTasks() const;
+        NetworkProfile networkProfile;
+        std::vector<TaskPool*> taskpools;
+        std::vector<Task *> *bagOfTasks_ptr;
 
         std::vector<InferenceSubTask *> subTasks;
     protected:
@@ -84,6 +89,7 @@ namespace EdgeCaffe
 
 
         static int TASKID_COUNTER;
+        static int NETWORKID_COUNTER;
 
         virtual ~InferenceNetwork();
 
@@ -126,7 +132,7 @@ namespace EdgeCaffe
 
         virtual void loadNetworkStructure();
 
-        virtual void createTasks();
+        virtual void createPartialTasks();
 
         void createTasksConvFC();
 
@@ -140,6 +146,9 @@ namespace EdgeCaffe
 
         bool isFinished();
 
+        Task * createInitTask(InferenceSubTask *dnn);
+        Task * createLoadTask(InferenceSubTask *dnn, const LayerDescription &descr);
+        Task * createExecTask(InferenceSubTask *dnn, const LayerDescription &descr);
     };
 }
 

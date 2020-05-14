@@ -33,6 +33,8 @@ namespace EdgeCaffe
 
         void dealloc()
         {
+            net->networkProfile.measure(NetworkProfile::STOP);
+            output.netProfile = net->networkProfile;
             auto ptr = net->subTasks.front()->net_ptr;
             std::vector<std::string> layerNames;
             if(ptr)
@@ -50,26 +52,33 @@ namespace EdgeCaffe
 //
             for (auto task : net->tasks)
             {
+                task->measureTime(Task::TIME::FINISHED);
                 if (dynamic_cast<LoadTask *>(task))
                 {
 //                // Load Task
                     output.setLoadingTime(task);
+                    output.addTaskProfile(task, true);
                 }
                 if (dynamic_cast<ExecTask *>(task))
                 {
 //                // Load Task
                     output.setExecutionTime(task);
+                    output.addTaskProfile(task, false);
                 }
                 if (auto dt = dynamic_cast<DummyTask *>(task))
                 {
                     if(dt->isLoadingTask)
+                    {
                         output.setLoadingTime(task);
+                        output.addTaskProfile(task, true);
+                    }
                     else
+                    {
                         output.setExecutionTime(task);
+                        output.addTaskProfile(task, false);
+                    }
                 }
-
             }
-
 
             delete net;
         };

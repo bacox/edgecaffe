@@ -18,4 +18,10 @@ namespace EdgeCaffe {
         else
             return "Dummy Execution Task " + std::to_string(id);
     }
+
+    DummyTask::DummyTask(
+            int id, int networkId, const std::string &taskName, int estimatedExecutionTime, int estimatedNeededMemory
+            , bool isLoadingTask
+    ) : Task(id, networkId, taskName, estimatedExecutionTime, estimatedNeededMemory), isLoadingTask(isLoadingTask)
+    {}
 }

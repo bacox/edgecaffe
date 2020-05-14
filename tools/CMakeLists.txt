@@ -7,7 +7,7 @@ project(ModelSplitter C CXX)
 set(CMAKE_BUILD_TYPE Debug)
 set(THREADS_PREFER_PTHREAD_FLAG ON)
 find_package(Threads REQUIRED)
-
+find_package(PythonLibs 3.6)
 add_definitions(-DBOOST_ALL_DYN_LINK)
 
 macro(LINK_TOOL_TARGET TARGET_NAME)
@@ -18,8 +18,10 @@ macro(LINK_TOOL_TARGET TARGET_NAME)
                 ${TARGET_NAME}
                 Threads::Threads
                 caffe
+                EdgeCaffeCore
                 stdc++fs
                 ${YAML_CPP_LINK_LIBRARIES}
+                ${PYTHON_LIBRARIES}
         )
     else ()
         #        The whole archive of caffe needs to be set for static linking
@@ -28,8 +30,10 @@ macro(LINK_TOOL_TARGET TARGET_NAME)
                 -Wl,--whole-archive
                 caffe
                 -Wl,--no-whole-archive
+                EdgeCaffeCore
                 stdc++fs
                 ${YAML_CPP_LINK_LIBRARIES}
+                ${PYTHON_LIBRARIES}
                 )
     endif()
 endmacro()

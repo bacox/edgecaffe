@@ -33,7 +33,7 @@ namespace EdgeCaffe
             Task *task = nullptr;
             if (pool->getNext(&task))
             {
-                std::cout << std::this_thread::get_id() << " [" << workerId << "]" << " -> Running task " << task->id
+                std::cout << std::this_thread::get_id() << " [" << workerId << "]" << " -> Running task (" << task->networkId << ") | "<< task->id
                           << " = '" << task->getTaskDescription() << "'" << std::endl;
                 task->execute();
                 // Move task to finished taskpool

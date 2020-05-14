@@ -79,6 +79,11 @@ int main(int argc, char *argv[])
     std::string generalOutputFile = config["general-outputfile"].as<std::string>("./generalOutput.csv");
     std::string mem_limit = config["mem_limit"].as<std::string>("1GB");
 
+
+    if(argc  >= 4)
+    {
+        mem_limit = argv[3];
+    }
     // Print the settings for this run to the screen
     std::cout << "=========================" << std::endl;
     std::cout << "Running\t\t\t'RunPipeline'" << std::endl;
@@ -86,13 +91,14 @@ int main(int argc, char *argv[])
     std::cout << "networkPath: \t " << networkPath << std::endl;
     std::cout << "resourcePath: \t " << resourcePath << std::endl;
     std::cout << "outputPath: \t " << outputPath << std::endl;
-    std::cout << "outputFile: \t " << outputFile << std::endl << std::endl;
+    std::cout << "outputFile: \t " << outputFile << std::endl;
+    std::cout << "Memory Limit: \t " << mem_limit << std::endl << std::endl;
 
     // Init glog to prevent everything outputting to stdout
     ::google::InitGoogleLogging(argv[0]);
 
     /**
-     * Real EdgeCaffe code starts hete
+     * Real EdgeCaffe code starts here
      */
     EdgeCaffe::Orchestrator orchestrator;
     // Get timestamp for end-to-end measurement
@@ -126,15 +132,15 @@ int main(int argc, char *argv[])
      * Submitting inference tasks
      */
     std::cout << "Starting submitting tasks" << std::endl;
-    std::string pathToImg = resourcePath + "/test_1.jpg";
+        std::string pathToImg = resourcePath + "/test_1.jpg";
     orchestrator.submitInferenceTask(pathToSoS_Alex, pathToImg);
     orchestrator.submitInferenceTask(pathToSoS_Google, pathToImg);
-    orchestrator.submitInferenceTask(pathToAgeNet, pathToImg);
+        orchestrator.submitInferenceTask(pathToAgeNet, pathToImg);
     orchestrator.submitInferenceTask(pathToGenderNet, pathToImg);
     orchestrator.submitInferenceTask(pathToFaceNet, pathToImg, true);
 
     pathToImg = resourcePath + "/test_2.jpg";
-//    orchestrator.submitInferenceTask(pathToSoS_Alex, pathToImg);
+    orchestrator.submitInferenceTask(pathToSoS_Alex, pathToImg);
     orchestrator.submitInferenceTask(pathToSoS_Google, pathToImg);
     orchestrator.submitInferenceTask(pathToAgeNet, pathToImg);
     orchestrator.submitInferenceTask(pathToGenderNet, pathToImg);
@@ -172,12 +178,32 @@ int main(int argc, char *argv[])
     for (auto inferenceTasks : orchestrator.inferenceTasks)
     {
         std::vector<std::string> lines = inferenceTasks->output.toCsvLines();
+
         for (std::string line : lines)
         {
             fout << line << std::endl;
         }
     }
     fout.close();
+
+    std::ofstream fout_tmp(outputPath + "/stepEvents.csv", std::ios::out);
+    std::string csvHeaders_tmp = "time,count,type";
+    fout_tmp << csvHeaders_tmp << std::endl;
+    std::vector<EdgeCaffe::InferenceOutput::event> taskEvents;
+    for (auto inferenceTasks : orchestrator.inferenceTasks)
+    {
+        auto outputObj = inferenceTasks->output;
+        outputObj.getTaskEvents(taskEvents, startTime);
+    }
+    auto lines_tasks = EdgeCaffe::InferenceOutput::calculateTaskProfile(taskEvents);
+    for (std::string line : lines_tasks)
+    {
+        fout_tmp << line << std::endl;
+    }
+    fout_tmp.close();
+    std::cout << "File written to '" + outputPath + "/stepEvents.csv'" << std::endl;
+
+
 
     /**
      * Save the output of the end-to-end measurement

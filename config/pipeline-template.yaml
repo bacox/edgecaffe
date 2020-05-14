@@ -2,3 +2,4 @@
 pathToNetworks: networks
 pathToResources: ../resources
 pathToAnalysis: ../analysis
+general-outputfile: ./generalOutput_sjf_sched.csv

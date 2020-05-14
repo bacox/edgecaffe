@@ -89,18 +89,6 @@ namespace EdgeCaffe
             std::cerr << "Yaml file: " << pathToYaml << std::endl;
         }
 
-//        std::vector<LayerDescription> l_list = description["conv-layers"].as<std::vector<LayerDescription>>();
-
-//        std::vector<LayerDescription> layer_descrs;
-//
-//        for(auto l_layer : description["conv-layers"])
-//        {
-//            layer_descrs.push_back(LayerDescription::FromYaml(l_layer));
-//        }
-
-
-
-
         if(description["type"].as<std::string>("normal") == "generated")
         {
             // Generated network
@@ -111,17 +99,16 @@ namespace EdgeCaffe
             // Default network
             iTask->net = new InferenceNetwork(arrivalTask.pathToNetwork);
             iTask->net->init(description);
+            iTask->net->use_scales = description["use-scales"].as<bool>(false);
+            iTask->net->dataPath = arrivalTask.pathToData;
             iTask->output.networkName = iTask->net->subTasks.front()->networkName;
-
-            cv::Mat inputData = cv::imread(arrivalTask.pathToData);
-            iTask->net->setInput(inputData, use_scales);
-            iTask->net->loadNetworkStructure();
-            iTask->net->loadInputToNetwork();
         }
 
-
+        for(auto tp : taskPools)
+            iTask->net->taskpools.push_back(tp);
+        iTask->net->bagOfTasks_ptr = &bagOfTasks;
+        iTask->net->networkProfile.measure(NetworkProfile::ARRIVAL);
         inferenceTasks.push_back(iTask);
-
         iTask->net->createTasks(splitMode);
         std::vector<Task *> listOfTasks = iTask->net->getTasks();
 
@@ -132,11 +119,11 @@ namespace EdgeCaffe
                 iTask->net->subTasks.front()->firstTask->addTaskDependency(last);
             }
         }
+        for(auto task : listOfTasks)
+            task->measureTime(Task::TIME::TO_WAITING);
         last = listOfTasks.back();
         bagOfTasks.reserve(listOfTasks.size()); // preallocate memory
         bagOfTasks.insert(bagOfTasks.end(), listOfTasks.begin(), listOfTasks.end());
-
-        inferenceTasks.push_back(iTask);
     }
 
     void
@@ -146,17 +133,16 @@ namespace EdgeCaffe
         InferenceTask *iTask = new InferenceTask;
         iTask->pathToNetwork = networkPath;
         iTask->pathToData = dataPath;
-        cv::Mat input_img = cv::imread(dataPath);
-
+//        cv::Mat input_img = cv::imread(dataPath);
         iTask->net = new InferenceNetwork(networkPath);
+        iTask->net->use_scales = use_scales;
+        iTask->net->dataPath = dataPath;
 
         inferenceTasks.push_back(iTask);
 
         iTask->net->init();
         iTask->output.networkName = iTask->net->subTasks.front()->networkName;
-        iTask->net->setInput(input_img, use_scales);
-        iTask->net->loadNetworkStructure();
-        iTask->net->loadInputToNetwork();
+
         iTask->net->createTasks(splitMode);
         std::vector<Task *> listOfTasks = iTask->net->getTasks();
 
@@ -167,6 +153,8 @@ namespace EdgeCaffe
                 iTask->net->subTasks.front()->firstTask->addTaskDependency(last);
             }
         }
+        for(auto task : listOfTasks)
+            task->measureTime(Task::TIME::TO_WAITING);
         last = listOfTasks.back();
         bagOfTasks.reserve(listOfTasks.size()); // preallocate memory
         bagOfTasks.insert(bagOfTasks.end(), listOfTasks.begin(), listOfTasks.end());
@@ -233,6 +221,7 @@ namespace EdgeCaffe
                 {
                     taskPools.front()->addTask(task);
                 }
+                task->measureTime(Task::TIME::TO_READY);
             }
         }
     }

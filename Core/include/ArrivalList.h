@@ -7,6 +7,7 @@
 #include <string>
 #include <deque>
 #include <random>
+#include <map>
 
 namespace EdgeCaffe
 {
@@ -26,12 +27,19 @@ namespace EdgeCaffe
         DistParam params;
     public:
         Distribution(const DistParam &params);
+
         /**
          * Generates a random value depending on the underlying distribution
+         *
+         * Side note: The stupidly poorly documented copy-constructor of the linear_congruential_engine did cost me
+         * the better part of 4 hours! If the standard library resets the damn seed by using the copy constructor, it
+         * really is something that should be in the docs!
+         * Without using a reference the generator will be created with a new seed! For random generators always
+         * use pass by reference or pointers; never pass by value!
          * @param generator
          * @return double - generated random value
          */
-        virtual double getRandom(std::default_random_engine generator) =0;
+        virtual double getRandom(std::default_random_engine &generator) =0;
     };
 
     /**
@@ -50,14 +58,13 @@ namespace EdgeCaffe
          * @param generator
          * @return double - generated random value
          */
-        double getRandom(std::default_random_engine generator) override;
+        double getRandom(std::default_random_engine &generator) override;
     };
-
     /**
      * Uniform distribution
      */
     class UniformDist : public Distribution {
-        std::uniform_real_distribution<double> distribution;
+        std::uniform_int_distribution<int> distribution;
     public:
         /**
          * Constructor
@@ -69,7 +76,26 @@ namespace EdgeCaffe
          * @param generator
          * @return double - generated random value
          */
-        double getRandom(std::default_random_engine generator) override;
+        double getRandom(std::default_random_engine &generator) override;
+    };
+
+    /**
+     * Uniform distribution
+     */
+    class UniformRealDist : public Distribution {
+        std::uniform_real_distribution<double> distribution;
+    public:
+        /**
+         * Constructor
+         * @param params    DistParam - hold the alpha (first) and beta (second) parameters of the uniform distribution. For example NormalDist({alpha, beta})
+         */
+        UniformRealDist(const DistParam &params);
+        /**
+         * Generates a random value depending on the uniform distribution
+         * @param generator
+         * @return double - generated random value
+         */
+        double getRandom(std::default_random_engine &generator) override;
     };
 
     /**
@@ -89,7 +115,27 @@ namespace EdgeCaffe
          * @param generator
          * @return double - generated random value
          */
-        double getRandom(std::default_random_engine generator) override;
+        double getRandom(std::default_random_engine &generator) override;
+    };
+
+    /**
+     * Exponential distribution
+     */
+    class PoissonDist : public Distribution {
+        std::poisson_distribution<int> distribution;
+    public:
+        /**
+         * Constructor
+         * @param params    DistParam - hold the lambda (first) parameter of the exponential distribution. For example NormalDist({lambda})
+         */
+        PoissonDist(const DistParam &params);
+
+        /**
+         * Generates a random value depending on the exponential distribution
+         * @param generator
+         * @return double - generated random value
+         */
+        double getRandom(std::default_random_engine &generator) override;
     };
 
 
@@ -101,6 +147,7 @@ namespace EdgeCaffe
         long time = 0;
         std::string pathToData;
         std::string pathToNetwork;
+        std::string networkName;
 
         std::string toString(){
             return "Arrival<time: " + std::to_string(time)+ ">";
@@ -114,6 +161,10 @@ namespace EdgeCaffe
      */
     class ArrivalList
     {
+    private:
+        // A seed is a non-negative value, -1 means the seed is not set by the user and a new seed will be generated.
+        long seed = -1;
+    public:
         // Queue structure to hold the variables.
         std::deque<Arrival> arrivals;
 
@@ -122,7 +173,8 @@ namespace EdgeCaffe
         enum DISTRIBUTION_TYPE {
             UNIFORM,
             NORMAL,
-            EXPONENTIAL
+            EXPONENTIAL,
+            POISSON
         };
         /**
          * Generate a `numberOfArrivals` based on a stochastic distribution
@@ -131,9 +183,28 @@ namespace EdgeCaffe
          * @param numberOfArrivals  Int - The number of arrivals to be generated
          */
         void generateList(int numberOfArrivals, DISTRIBUTION_TYPE type = UNIFORM, DistParam distributionParameters = {1000,2000});
+
+        void setSeed(uint32_t seed);
+
+        long getSeed() const;
+
+        std::map <std::string, std::string> networks {
+                { "AgeNet", "networks/AgeNet" }
+                ,{ "GenderNet", "networks/GenderNet" }
+                ,{ "SoS", "networks/SoS" }
+                ,{ "SoS_GoogleNet", "networks/SoS_GoogleNet" }
+                ,{ "FaceNet", "networks/FaceNet" }
+        };
+
+        std::vector<std::string> allowedNetworks;
+
+        std::vector<std::string> getKeysAvailableNetworks();
+
         bool isEmpty();
 
+        void setAllowedNetworks(std::vector<std::string> keys);
 
+        void printArrivals();
 
         /**
          * Gets the next arrival
@@ -150,6 +221,9 @@ namespace EdgeCaffe
          * Removes the first element of the queue
          */
         void pop();
+
+
+        std::vector<std::string> toCSVLines();
     };
 }
 
