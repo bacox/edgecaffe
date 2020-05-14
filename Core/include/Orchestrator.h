@@ -33,6 +33,8 @@ namespace EdgeCaffe
 
         void dealloc()
         {
+            net->networkProfile.measure(NetworkProfile::STOP);
+            output.netProfile = net->networkProfile;
             auto ptr = net->subTasks.front()->net_ptr;
             std::vector<std::string> layerNames;
             if(ptr)

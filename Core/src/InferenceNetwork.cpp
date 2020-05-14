@@ -19,6 +19,7 @@ namespace EdgeCaffe
     {}
 
     int InferenceNetwork::TASKID_COUNTER = 0;
+    int InferenceNetwork::NETWORKID_COUNTER = 0;
 
     void InferenceNetwork::init(YAML::Node &description)
     {
@@ -150,8 +151,29 @@ namespace EdgeCaffe
     void InferenceNetwork::createTasks()
     {
         InferenceSubTask *dnn = subTasks.front();
-        int numLayers = dnn->net_ptr->layers().size();
+        caffe::NetParameter param;
+        caffe::ReadNetParamsFromTextFileOrDie(dnn->pathToModelFile, &param);
+        int numLayers = param.layer_size();
         Task *lastTask = nullptr;
+
+
+
+        // Important to first createe the network initialisation task
+        InitNetworkTask *init = new InitNetworkTask;
+        init->inet = this;
+        init->networkId = NETWORKID_COUNTER;
+        init->use_scales = this->use_scales;
+        init->taskName = dnn->networkName + "-init-network";
+        init->id = TASKID_COUNTER++;
+        init->pathToInput = this->dataPath;
+//        if (lastTask != nullptr)
+//        {
+//            init->addTaskDependency(lastTask);
+//        }
+        lastTask = init;
+        tasks.push_back(init);
+        bool firstTask = true;
+
         for (int i = 0; i < numLayers; ++i)
         {
 
@@ -162,11 +184,17 @@ namespace EdgeCaffe
             load->layerId = descr.layerId;
             load->needsLoading = descr.hasModelFile;
             load->pathToPartial = descr.partialFileName;
+            load->networkId = NETWORKID_COUNTER;
 
             load->id = TASKID_COUNTER++;
             if (dnn->firstTask == nullptr)
             {
                 dnn->firstTask = load;
+            }
+            if(firstTask)
+            {
+//                firstTask = false;
+                load->addTaskDependency(lastTask);
             }
             tasks.push_back(load);
 
@@ -178,6 +206,7 @@ namespace EdgeCaffe
             exec->taskName = dnn->networkName + "-exec-" + descr.name;
             exec->layerId = descr.layerId;
             exec->id = TASKID_COUNTER++;
+            exec->networkId = NETWORKID_COUNTER;
             if (lastTask != nullptr)
             {
                 exec->addTaskDependency(lastTask);
@@ -277,6 +306,19 @@ namespace EdgeCaffe
         int numConv = dnn->num_conv;
         int numFC = dnn->num_fc;
         Task *lastTask = nullptr;
+
+        // Important to first createe the network initialisation task
+        InitNetworkTask *init = new InitNetworkTask;
+        init->inet = this;
+        init->use_scales = this->use_scales;
+        init->taskName = dnn->networkName + "-init-network";
+        init->id = TASKID_COUNTER++;
+        init->pathToInput = this->dataPath;
+//        if (lastTask != nullptr)
+//        {
+//            init->addTaskDependency(lastTask);
+//        }
+        lastTask = init;
 
         bool hasInputLayer = dnn->hasInputLayer;
 
@@ -433,7 +475,7 @@ namespace EdgeCaffe
         { // Partial
             createTasks();
         }
-
+        NETWORKID_COUNTER++;
     }
 
     void InferenceNetwork::showResult()
@@ -465,6 +507,84 @@ namespace EdgeCaffe
     }
 
     /**
+     * The new structure of the create tasks mayhem
+     * A single function to create tasks
+     */
+    void InferenceNetwork::createTasksBase()
+    {
+        InferenceSubTask *dnn = subTasks.front();
+
+        caffe::NetParameter param;
+        caffe::ReadNetParamsFromTextFileOrDie(dnn->pathToModelFile, &param);
+        int numLayers = param.layer_size();
+
+        Task *lastTask = nullptr;
+
+        // Important to first createe the network initialisation task
+        InitNetworkTask *init = new InitNetworkTask;
+        init->inet = this;
+        init->use_scales = this->use_scales;
+        init->taskName = dnn->networkName + "-init-network";
+        init->id = TASKID_COUNTER++;
+        init->pathToInput = this->dataPath;
+//        if (lastTask != nullptr)
+//        {
+//            init->addTaskDependency(lastTask);
+//        }
+        lastTask = init;
+
+        tasks.push_back(init);
+        if (dnn->firstTask == nullptr)
+        {
+            dnn->firstTask = init;
+        }
+        for (int i = 0; i < numLayers; ++i)
+        {
+            LoadTask *load = new LoadTask;
+            load->network_ptr = &(dnn->net_ptr);
+            auto descr = layerDescriptions[i];
+            load->taskName = dnn->networkName + "-load-" + descr.name;
+            load->layerId = descr.layerId;
+            load->needsLoading = descr.hasModelFile;
+            load->pathToPartial = descr.partialFileName;
+
+            load->id = TASKID_COUNTER++;
+
+            if (lastTask != nullptr)
+            {
+                load->addTaskDependency(lastTask);
+            }
+            lastTask = load;
+
+            tasks.push_back(load);
+            if (dnn->firstTask == nullptr)
+            {
+                dnn->firstTask = load;
+            }
+
+
+            ExecTask *exec = new ExecTask;
+
+            exec->network_ptr = &(dnn->net_ptr);
+            descr = layerDescriptions[i];
+            exec->taskName = dnn->networkName + "-exec-" + descr.name;
+            exec->layerId = descr.layerId;
+            exec->id = TASKID_COUNTER++;
+
+
+            if (lastTask != nullptr)
+            {
+                exec->addTaskDependency(lastTask);
+            }
+            lastTask = exec;
+            tasks.push_back(exec);
+        }
+        dnn->lastTask = lastTask;
+    }
+
+
+
+    /**
      * Deallocator
      * Clean up the linked references
      */
@@ -477,7 +597,23 @@ namespace EdgeCaffe
 
         // Delete tasks is needed
         for (auto task : tasks)
+        {
+            // Check if task is alive somewhere else
+            bool taskFoundElsewhere = false;
+            for(auto tmp_pool : taskpools)
+                if(tmp_pool->hasTask(task->id))
+                    taskFoundElsewhere = true;
+
+            for(auto tmp_t : (*bagOfTasks_ptr))
+                if(tmp_t->id == task->id)
+                    taskFoundElsewhere = true;
+
+            if(taskFoundElsewhere)
+                std::cerr << "This will be an invalid pointer to free!" << std::endl;
             if (task != nullptr)
                 delete task;
+
+        }
     }
+
 }

@@ -3,18 +3,8 @@
 //
 
 #include "../include/TaskPool.h"
-#include <algorithm>
-#include <memory>
-#include <string>
 namespace EdgeCaffe
 {
-
-    class tmp_Data {
-    public:
-        int x = 4;
-        double y = 8;
-        std::string item = "Hello";
-    };
     /**
      * Add a reference of a task to the taskpool
      * @param t_ptr     Task pointer
@@ -57,11 +47,14 @@ namespace EdgeCaffe
         // Use lock-guard for the mutex in the same way as a smart pointer
         // The mutex will be released when the lock-guard goes out of scope (end of function)
         std::lock_guard guard(mtx);
-        if (pool.size() <= 0)
+        // Should use empty?
+        if (pool.size() == 0)
             return false;
 
-        *task = pool.front();
-        pool.pop_front();
+        // Get the first task
+        *task = pool.begin()->second;
+        // Remove the first task from the map
+        pool.erase(pool.begin());
         return true;
     }
 
@@ -71,12 +64,7 @@ namespace EdgeCaffe
 
     void TaskPool::add_FCFS(Task *t_ptr)
     {
-        pool.push_back(t_ptr);
-
-        std::sort(pool.begin(), pool.end(), [ ]( const Task* lhs, const Task* rhs )
-        {
-            return (lhs->id) < (rhs->id);
-        });
+        pool[t_ptr->id] = t_ptr;
     }
 
     void TaskPool::add_SJF(Task *t_ptr)
@@ -84,12 +72,18 @@ namespace EdgeCaffe
         /*
          * This can be optimized later by using insertion sort instead of sorting the whole vector again and again!
          */
-        pool.push_back(t_ptr);
-        // sort by estimatedExecutionTime, ascending
-        // So shortest job first
-        std::sort(pool.begin(), pool.end(), [ ]( const Task* lhs, const Task* rhs )
-        {
-            return (lhs->estimatedExecutionTime) < (rhs->estimatedExecutionTime);
-        });
+        pool[t_ptr->estimatedExecutionTime] = t_ptr;
+    }
+
+    bool TaskPool::hasTask(int taskId)
+    {
+        std::lock_guard guard(mtx);
+
+        // We iterate over all object because the key used depends on the scheduling policy and is not
+        // always the taskid.
+        for(auto poolPair : pool)
+            if(poolPair.second->id == taskId)
+                return true;
+        return false;
     }
 }

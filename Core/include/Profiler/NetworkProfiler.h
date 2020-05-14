@@ -36,6 +36,47 @@ namespace EdgeCaffe
         std::chrono::time_point<std::chrono::system_clock> networkFinished;
     };
 
+    struct NetworkProfile
+    {
+        enum TYPE
+        {
+            ARRIVAL,
+            START,
+            STOP
+        };
+        std::chrono::time_point<std::chrono::system_clock> arrivalTime;
+        std::chrono::time_point<std::chrono::system_clock> startExecution;
+        std::chrono::time_point<std::chrono::system_clock> stopExecution;
+
+        void measure(TYPE type)
+        {
+            std::chrono::time_point<std::chrono::high_resolution_clock> tp = std::chrono::high_resolution_clock::now();
+            switch(type)
+            {
+                case ARRIVAL:
+                    arrivalTime = tp;
+                    break;
+                case START:
+                    startExecution = tp;
+                    break;
+                case STOP:
+                    stopExecution = tp;
+                    break;
+            }
+        };
+
+        std::string durationAsCSVLine(int networkId, const std::string &networkName, const std::chrono::time_point<std::chrono::system_clock> &reference)
+        {
+          std::string line;
+          long waitingTime = std::chrono::duration_cast<std::chrono::nanoseconds>(startExecution - arrivalTime).count();
+          long executionTime = std::chrono::duration_cast<std::chrono::nanoseconds>(stopExecution - startExecution).count();
+          long arrivalTimestamp = std::chrono::duration_cast<std::chrono::nanoseconds>(arrivalTime - reference).count();
+          line = std::to_string(networkId) + "," + networkName + "," + std::to_string(arrivalTimestamp) + "," + std::to_string(waitingTime) + "," + std::to_string(executionTime);
+          return line;
+        };
+
+    };
+
     struct LayerProfile
     {
         int layerId;

@@ -34,6 +34,8 @@ namespace EdgeCaffe
 
     public:
 
+        NetworkProfile netProfile;
+
         enum EVENT
         {
             WAITING_UP,

@@ -25,6 +25,7 @@ namespace EdgeCaffe
         caffe::Net<float> **network_ptr;
         bool executed = false;
         int id = 0;
+        int networkId = 0;
         int estimatedExecutionTime = 0;
         std::string taskName;
         int layerId;

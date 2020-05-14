@@ -13,7 +13,8 @@ EdgeCaffe::InitNetworkTask::InitNetworkTask()
 
 void EdgeCaffe::InitNetworkTask::run()
 {
-//    std::cout << "Loading data from '" << pathToInput << "'" << std::endl;
+    inet->networkProfile.measure(NetworkProfile::START);
+
     cv::Mat input_img = cv::imread(pathToInput);
     inet->setInput(input_img, use_scales);
     inet->loadNetworkStructure();

@@ -103,6 +103,11 @@ namespace EdgeCaffe
             iTask->net->dataPath = arrivalTask.pathToData;
             iTask->output.networkName = iTask->net->subTasks.front()->networkName;
         }
+
+        for(auto tp : taskPools)
+            iTask->net->taskpools.push_back(tp);
+        iTask->net->bagOfTasks_ptr = &bagOfTasks;
+        iTask->net->networkProfile.measure(NetworkProfile::ARRIVAL);
         inferenceTasks.push_back(iTask);
         iTask->net->createTasks(splitMode);
         std::vector<Task *> listOfTasks = iTask->net->getTasks();

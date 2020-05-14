@@ -21,7 +21,8 @@ namespace EdgeCaffe{
             LAYER,
             QUEUE,
             PIPELINE,
-            ARRIVALS
+            ARRIVALS,
+            NETWORK
         };
 
         std::map <TYPE, std::string> headers {
@@ -29,6 +30,7 @@ namespace EdgeCaffe{
                  , { QUEUE, "time,count,type"}
                  , { PIPELINE, "mem_limit,policy,time"}
                  , { ARRIVALS, "inter-arrival-time,network"}
+                 , { NETWORK, "networkId,networkName,arrivalTimestamp,waitingTime,executionTime"}
         };
 
         void toCSV(std::string pathToFile, std::vector<std::string> lines, TYPE type, bool writeHeaders = true);

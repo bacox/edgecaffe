@@ -20,12 +20,31 @@ void EdgeCaffe::ArrivalList::generateList(int numberOfArrivals, DISTRIBUTION_TYP
         case DISTRIBUTION_TYPE::NORMAL:
             distribution = new NormalDist(distributionParameters);
             break;
+        case DISTRIBUTION_TYPE::POISSON:
+            distribution = new PoissonDist(distributionParameters);
+            break;
     }
     //Use smart pointer to make sure that the pointer is clean up at the end of the function
     std::unique_ptr<Distribution> dist_ptr(distribution);
 
-    // Get random number generator
-    static std::default_random_engine generator;
+    if(seed < 0)
+    {
+        // No seed is provided by the user so generate a new one
+        std::random_device r_device;
+        seed = r_device();
+    }
+
+    static std::default_random_engine generator(seed);
+
+    // If no networks are set use all the network
+    if(allowedNetworks.size() == 0)
+    {
+        for (auto & kvp : networks)
+        {
+            allowedNetworks.push_back(kvp.first);
+        }
+    }
+
     // Use uniform distribution to sample evenly from available networks
     UniformDist networkDist = UniformDist({0, (double)allowedNetworks.size() - 1});
 
@@ -104,6 +123,19 @@ std::vector<std::string> EdgeCaffe::ArrivalList::toCSVLines()
     return lines;
 }
 
+void EdgeCaffe::ArrivalList::setSeed(uint32_t seed)
+{
+    this->seed = (long) seed;
+}
+
+long EdgeCaffe::ArrivalList::getSeed() const
+{
+    if(seed < 0)
+        return 0;
+    return seed;
+}
+
+
 /**
  * Distibution implementations
  */
@@ -148,6 +180,16 @@ EdgeCaffe::UniformRealDist::UniformRealDist(const EdgeCaffe::DistParam &params) 
 }
 
 double EdgeCaffe::UniformRealDist::getRandom(std::default_random_engine &generator)
+{
+    return distribution(generator);
+}
+
+EdgeCaffe::PoissonDist::PoissonDist(const EdgeCaffe::DistParam &params) : Distribution(params)
+{
+    distribution = std::poisson_distribution<int>(params.first);
+}
+
+double EdgeCaffe::PoissonDist::getRandom(std::default_random_engine &generator)
 {
     return distribution(generator);
 }

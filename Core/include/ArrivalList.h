@@ -118,6 +118,26 @@ namespace EdgeCaffe
         double getRandom(std::default_random_engine &generator) override;
     };
 
+    /**
+     * Exponential distribution
+     */
+    class PoissonDist : public Distribution {
+        std::poisson_distribution<int> distribution;
+    public:
+        /**
+         * Constructor
+         * @param params    DistParam - hold the lambda (first) parameter of the exponential distribution. For example NormalDist({lambda})
+         */
+        PoissonDist(const DistParam &params);
+
+        /**
+         * Generates a random value depending on the exponential distribution
+         * @param generator
+         * @return double - generated random value
+         */
+        double getRandom(std::default_random_engine &generator) override;
+    };
+
 
     /**
      * Data structure used in the ArrivalList to describe an Arrival
@@ -141,6 +161,9 @@ namespace EdgeCaffe
      */
     class ArrivalList
     {
+    private:
+        // A seed is a non-negative value, -1 means the seed is not set by the user and a new seed will be generated.
+        long seed = -1;
     public:
         // Queue structure to hold the variables.
         std::deque<Arrival> arrivals;
@@ -150,7 +173,8 @@ namespace EdgeCaffe
         enum DISTRIBUTION_TYPE {
             UNIFORM,
             NORMAL,
-            EXPONENTIAL
+            EXPONENTIAL,
+            POISSON
         };
         /**
          * Generate a `numberOfArrivals` based on a stochastic distribution
@@ -159,6 +183,10 @@ namespace EdgeCaffe
          * @param numberOfArrivals  Int - The number of arrivals to be generated
          */
         void generateList(int numberOfArrivals, DISTRIBUTION_TYPE type = UNIFORM, DistParam distributionParameters = {1000,2000});
+
+        void setSeed(uint32_t seed);
+
+        long getSeed() const;
 
         std::map <std::string, std::string> networks {
                 { "AgeNet", "networks/AgeNet" }
