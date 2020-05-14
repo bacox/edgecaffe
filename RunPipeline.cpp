@@ -132,32 +132,26 @@ int main(int argc, char *argv[])
      * Submitting inference tasks
      */
     std::cout << "Starting submitting tasks" << std::endl;
-    int submissions = 0;
-    while(submissions < 500)
-    {
-
-
         std::string pathToImg = resourcePath + "/test_1.jpg";
-//    orchestrator.submitInferenceTask(pathToSoS_Alex, pathToImg);
-//    orchestrator.submitInferenceTask(pathToSoS_Google, pathToImg);
+    orchestrator.submitInferenceTask(pathToSoS_Alex, pathToImg);
+    orchestrator.submitInferenceTask(pathToSoS_Google, pathToImg);
         orchestrator.submitInferenceTask(pathToAgeNet, pathToImg);
-//    orchestrator.submitInferenceTask(pathToGenderNet, pathToImg);
-//    orchestrator.submitInferenceTask(pathToFaceNet, pathToImg, true);
-        submissions++;
-    }
-//    pathToImg = resourcePath + "/test_2.jpg";
-////    orchestrator.submitInferenceTask(pathToSoS_Alex, pathToImg);
-//    orchestrator.submitInferenceTask(pathToSoS_Google, pathToImg);
-//    orchestrator.submitInferenceTask(pathToAgeNet, pathToImg);
-//    orchestrator.submitInferenceTask(pathToGenderNet, pathToImg);
-//    orchestrator.submitInferenceTask(pathToFaceNet, pathToImg, true);
-//
-//    pathToImg = resourcePath + "/test_3.jpg";
-//    orchestrator.submitInferenceTask(pathToSoS_Alex, pathToImg);
-//    orchestrator.submitInferenceTask(pathToSoS_Google, pathToImg);
-//    orchestrator.submitInferenceTask(pathToAgeNet, pathToImg);
-//    orchestrator.submitInferenceTask(pathToGenderNet, pathToImg);
-//    orchestrator.submitInferenceTask(pathToFaceNet, pathToImg, true);
+    orchestrator.submitInferenceTask(pathToGenderNet, pathToImg);
+    orchestrator.submitInferenceTask(pathToFaceNet, pathToImg, true);
+
+    pathToImg = resourcePath + "/test_2.jpg";
+    orchestrator.submitInferenceTask(pathToSoS_Alex, pathToImg);
+    orchestrator.submitInferenceTask(pathToSoS_Google, pathToImg);
+    orchestrator.submitInferenceTask(pathToAgeNet, pathToImg);
+    orchestrator.submitInferenceTask(pathToGenderNet, pathToImg);
+    orchestrator.submitInferenceTask(pathToFaceNet, pathToImg, true);
+
+    pathToImg = resourcePath + "/test_3.jpg";
+    orchestrator.submitInferenceTask(pathToSoS_Alex, pathToImg);
+    orchestrator.submitInferenceTask(pathToSoS_Google, pathToImg);
+    orchestrator.submitInferenceTask(pathToAgeNet, pathToImg);
+    orchestrator.submitInferenceTask(pathToGenderNet, pathToImg);
+    orchestrator.submitInferenceTask(pathToFaceNet, pathToImg, true);
 
     // Start the worker
     orchestrator.start();
