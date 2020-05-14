@@ -62,12 +62,3 @@ add_dependencies(ExtendNetworkDescription caffe Threads::Threads)
 
 target_include_directories(ExtendNetworkDescription PUBLIC ${INCLUDE_ORIG_CAFFE})
 LINK_TOOL_TARGET(ExtendNetworkDescription)
-
-
-add_executable(TasksFromDescription
-        TasksFromDescription.cpp
-        )
-add_dependencies(TasksFromDescription caffe)
-
-target_include_directories(TasksFromDescription PUBLIC ${INCLUDE_ORIG_CAFFE} ../Core/include PRIVATE ${PYTHON_INCLUDE_DIRS})
-LINK_TOOL_TARGET(TasksFromDescription)
