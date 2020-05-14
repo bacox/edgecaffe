@@ -100,7 +100,6 @@ namespace EdgeCaffe
 
         std::vector<Worker *> workers;
         std::vector<TaskPool *> taskPools;
-        std::vector<InferenceNetwork *> networks;
 
         TaskPool outPool;
 

@@ -146,6 +146,8 @@ namespace EdgeCaffe
 
         bool isFinished();
 
+        std::string tasksToDotDebug();
+
         Task * createInitTask(InferenceSubTask *dnn);
         Task * createLoadTask(InferenceSubTask *dnn, const LayerDescription &descr);
         Task * createExecTask(InferenceSubTask *dnn, const LayerDescription &descr);

@@ -23,7 +23,7 @@ void EdgeCaffe::InitNetworkTask::run()
 
 std::string EdgeCaffe::InitNetworkTask::getTaskDescription()
 {
-    return "InitNetwork Task ";
+    return "InitNetwork Task " + std::to_string(layerId);
 }
 
 EdgeCaffe::InitNetworkTask::InitNetworkTask(

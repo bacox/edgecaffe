@@ -11,7 +11,8 @@
 #include <BaseNet.h>
 #include <caffe/caffe.hpp>
 #include <Tasks/InitNetworkTask.h>
-
+#include <algorithm>
+#include <string>
 
 namespace EdgeCaffe
 {
@@ -287,6 +288,9 @@ namespace EdgeCaffe
                 // This is dependent on the init task
                 load->addTaskDependency(init);
                 firstLoadConv = load;
+            } else
+            {
+                load->addTaskDependency(lastTask);
             }
             lastLoadConv = load;
             tasks.push_back(load);
@@ -297,6 +301,7 @@ namespace EdgeCaffe
             exec->addTaskDependency(lastTask);
             lastExecConv = exec;
             lastTask = exec;
+            tasks.push_back(exec);
         }
         poolId = 1;
         // Loop over the fc layers
@@ -523,9 +528,6 @@ namespace EdgeCaffe
 
     Task *InferenceNetwork::createInitTask(InferenceSubTask *dnn)
     {
-        // TaskCounter is static
-        // NetworkId is static
-        // Need dnn object
         InitNetworkTask *init = new InitNetworkTask(
                 TASKID_COUNTER++,
                 NETWORKID_COUNTER,
@@ -561,6 +563,49 @@ namespace EdgeCaffe
         exec->network_ptr = &(dnn->net_ptr);
         exec->layerId = descr.layerId;
         return exec;
+    }
+
+    std::string InferenceNetwork::tasksToDotDebug()
+    {
+        // Create the name of this network
+        std::string name = this->subTasks.front()->networkName + "" + std::to_string(this->NETWORKID_COUNTER);
+        // Replace any spaces in the name to prevent errors while running the dot command
+        std::replace( name.begin(), name.end(), ' ', '_');
+
+        std::stringstream dotContent;
+        // Define beginning of the dot file
+        dotContent << "digraph " << name << " {" << std::endl;
+
+        // Get all the definitions of the nodes
+        std::vector<std::string> allNodes;
+        for(auto task : tasks)
+        {
+            std::string node = std::to_string(task->id) + "[label = \"" + "("+std::to_string(task->networkId)+") " + task->getTaskDescription() + "\"];";
+            allNodes.push_back(node);
+            for (auto dep : task->dependsOn)
+            {
+                std::string depNode = std::to_string(dep->id) + "[label = \"" + "("+std::to_string(dep->networkId)+") " + dep->getTaskDescription() + "\"];";
+                allNodes.push_back(depNode);
+            }
+        }
+
+        // Create a lit of unique lines
+        std::sort(allNodes.begin(), allNodes.end());
+        auto last = std::unique(allNodes.begin(), allNodes.end());
+        allNodes.erase(last, allNodes.end());
+
+        // Add the node definitions to the content for the dot file
+        for(auto line : allNodes)
+            dotContent << line << std::endl;
+
+        // Create the edges between the nodes that represent the dependencies
+        for(auto task : tasks)
+            for(auto dep : task->dependsOn)
+                dotContent << std::to_string(task->id) << " -> " << std::to_string(dep->id) << std::endl;
+        // End of the dotfile
+        dotContent << "}" << std::endl;
+
+        return dotContent.str();
     }
 
 }
