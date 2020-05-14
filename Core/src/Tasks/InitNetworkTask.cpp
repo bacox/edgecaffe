@@ -5,11 +5,11 @@
 #include <opencv2/opencv.hpp>
 #include "Tasks/InitNetworkTask.h"
 
-EdgeCaffe::InitNetworkTask::InitNetworkTask(int id, int executionTime) : Task(id, executionTime)
-{}
-
-EdgeCaffe::InitNetworkTask::InitNetworkTask()
-{}
+//EdgeCaffe::InitNetworkTask::InitNetworkTask(int id, int executionTime) : Task(id, executionTime)
+//{}
+//
+//EdgeCaffe::InitNetworkTask::InitNetworkTask()
+//{}
 
 void EdgeCaffe::InitNetworkTask::run()
 {
@@ -25,3 +25,8 @@ std::string EdgeCaffe::InitNetworkTask::getTaskDescription()
 {
     return "InitNetwork Task ";
 }
+
+EdgeCaffe::InitNetworkTask::InitNetworkTask(
+        int id, int networkId, const std::string &taskName, int estimatedExecutionTime, int estimatedNeededMemory
+) : Task(id, networkId, taskName, estimatedExecutionTime, estimatedNeededMemory)
+{}

@@ -116,7 +116,7 @@ int main(int argc, char *argv[])
     // Omitting this line will have the same effect
     arrivals.setAllowedNetworks({"AgeNet", "GenderNet", "SoS", "SoS_GoogleNet", "FaceNet"});
     double interArrivalTime = 1713.4308;
-    arrivals.generateList(200, EdgeCaffe::ArrivalList::DISTRIBUTION_TYPE::POISSON, {interArrivalTime, interArrivalTime/6});
+    arrivals.generateList(10, EdgeCaffe::ArrivalList::DISTRIBUTION_TYPE::POISSON, {interArrivalTime, interArrivalTime/6});
 
     {
         // Make sure to save the arrival distribution

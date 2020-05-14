@@ -132,7 +132,7 @@ namespace EdgeCaffe
 
         virtual void loadNetworkStructure();
 
-        virtual void createTasks();
+        virtual void createPartialTasks();
 
         void createTasksConvFC();
 
@@ -146,8 +146,9 @@ namespace EdgeCaffe
 
         bool isFinished();
 
-        void createTasksBase();
-
+        Task * createInitTask(InferenceSubTask *dnn);
+        Task * createLoadTask(InferenceSubTask *dnn, const LayerDescription &descr);
+        Task * createExecTask(InferenceSubTask *dnn, const LayerDescription &descr);
     };
 }
 

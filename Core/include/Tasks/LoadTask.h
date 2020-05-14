@@ -12,11 +12,16 @@ namespace EdgeCaffe
     class LoadTask : public Task
     {
     public:
-        LoadTask(int id, int executionTime) : Task(id, executionTime)
-        {}
+//        LoadTask(int id, int executionTime) : Task(id, executionTime)
+//        {}
+//
+//        LoadTask()
+//        {}
 
-        LoadTask()
-        {}
+        LoadTask(
+                int id, int networkId, const std::string &taskName, int estimatedExecutionTime = 0
+                , int estimatedNeededMemory = 0
+        );
 
         // Variables specific to this task
         std::string partialName;

@@ -30,11 +30,19 @@ namespace EdgeCaffe
         dependsOn.push_back(t);
     }
 
-    Task::Task(int id, int executionTime) : id(id), estimatedExecutionTime(executionTime)
+    Task::Task(int id, int networkId, const std::string &taskName, int estimatedExecutionTime, int estimatedNeededMemory)
+    : id(id)
+    , networkId(networkId)
+    , taskName(taskName)
+    , estimatedExecutionTime(estimatedExecutionTime)
+    , estimatedNeededMemory(estimatedNeededMemory)
     {}
 
-    Task::Task() : estimatedExecutionTime(0)
-    {}
+//    Task::Task(int id, int executionTime) : id(id), estimatedExecutionTime(executionTime)
+//    {}
+//
+//    Task::Task() : estimatedExecutionTime(0)
+//    {}
 
     bool Task::hasPoolAssigned()
     {

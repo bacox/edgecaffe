@@ -35,9 +35,11 @@ void EdgeCaffe::GeneratedNetwork::createTasks(int splittingPolicy)
     InferenceSubTask *dnn = subTasks.front();
     int numberOfLayers  = dnn->num_conv + dnn->num_fc;
     Task *lastTask = nullptr;
+
     for(auto layer : layers)
     {
-        DummyTask *loading = new DummyTask(TASKID_COUNTER++, layer.loadingDuration);
+        // Dummytask needs a taskId, networkId, and a description
+        DummyTask *loading = new DummyTask(TASKID_COUNTER++, -1, "dummy-loading", layer.loadingDuration);
         loading->layerId = layer.id;
         loading->taskName = dnn->networkName + "-dummy-loading-layer" + std::to_string(loading->layerId);
         loading->isLoadingTask = true;
@@ -51,7 +53,7 @@ void EdgeCaffe::GeneratedNetwork::createTasks(int splittingPolicy)
         }
         tasks.push_back(loading);
 
-        DummyTask *exec = new DummyTask(TASKID_COUNTER++, layer.executionDuration);
+        DummyTask *exec = new DummyTask(TASKID_COUNTER++, -1, "dummy-loading", layer.executionDuration);
         exec->layerId = layer.id;
         exec->taskName = dnn->networkName + "-dummy-executing-layer" + std::to_string(exec->layerId);
         if(lastTask != nullptr)

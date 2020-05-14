@@ -21,4 +21,9 @@ namespace EdgeCaffe
     {
         return "Exec Task layer " + std::to_string(layerId);
     }
+
+    ExecTask::ExecTask(
+            int id, int networkId, const std::string &taskName, int estimatedExecutionTime, int estimatedNeededMemory
+    ) : Task(id, networkId, taskName, estimatedExecutionTime, estimatedNeededMemory)
+    {}
 }

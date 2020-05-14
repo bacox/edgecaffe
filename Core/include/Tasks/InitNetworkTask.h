@@ -14,9 +14,14 @@ namespace EdgeCaffe
     class InitNetworkTask : public Task
     {
     public:
-        InitNetworkTask(int id, int executionTime);
+//        InitNetworkTask(int id, int executionTime);
+//
+//        InitNetworkTask();
 
-        InitNetworkTask();
+        InitNetworkTask(
+                int id, int networkId, const std::string &taskName, int estimatedExecutionTime = 0
+                , int estimatedNeededMemory = 0
+        );
 
         std::string pathToInput;
         std::string pathToDescription;
