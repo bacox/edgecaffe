@@ -1,5 +1,5 @@
 ---
-pathToNetworks: networks
-pathToResources: ../resources
-pathToAnalysis: ../analysis
+network-path: networks
+resources-path: ../resources
+output-path: ../analysis
 general-outputfile: ./generalOutput_sjf_sched.csv

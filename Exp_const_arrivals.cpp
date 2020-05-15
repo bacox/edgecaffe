@@ -6,18 +6,38 @@
 #include <chrono>
 #include <Util/Output.h>
 #include <cxxopts.h>
+#include <iomanip>      // std::setw
 
 template<typename T>
-T getArgs(const cxxopts::ParseResult &result, std::string key, T defaultValue)
+T getArgs(const cxxopts::ParseResult &result, std::string key, T defaultValue,const YAML::Node &yamlConfig,std::map<std::string, std::string> &configAsText)
 {
+    T parsed = defaultValue;
+    try{
+        parsed = yamlConfig[key].as<T>();
+    } catch(...){}
     if(result.count(key))
     {
-        return result[key].as<T>();
+        parsed = result[key].as<T>();
     }
-    return defaultValue;
+    std::stringstream stream;
+    stream << parsed;
+    configAsText[key] = stream.str();
+    return parsed;
 }
 
-void printConfig();
+void printConfig(const std::string &programName, std::map<std::string, std::string> &configAsText)
+{
+    std::cout << "==========[Config]==========" << std::endl;
+    int align = 20;
+    std::cout << "Running" << std::setw(align - 7) << "'" << programName << "'" << std::endl;
+    for(auto pair : configAsText)
+    {
+        if (pair.second.empty())
+            continue;
+        std::cout << pair.first << std::setw(align - pair.first.length()) << ": " << pair.second << std::endl;
+    }
+    std::cout << std::endl;
+}
 
 
 int main(int argc, char *argv[])
@@ -50,7 +70,7 @@ int main(int argc, char *argv[])
             ("network-path", "Define the path to store all output files", cxxopts::value<std::string>())
             ("resources-path", "Define the path to store all output files", cxxopts::value<std::string>())
             ("s, sched-alg", "The scheduling algorithm to be used: [FCFS|SJF]", cxxopts::value<std::string>())
-            ("c,read-config", "NOT_YET_IMPLEMENTED. Use a yaml config file to configure this run instead of the cli. This will overrule all other arguments", cxxopts::value<std::string>())
+            ("c,read-config", "Use a yaml config file to configure this run instead of the cli. This will overrule all other arguments. Example 'config/pipeline-template.yaml'", cxxopts::value<std::string>())
             ("h,help", "Print help message")
             ;
 
@@ -62,16 +82,34 @@ int main(int argc, char *argv[])
         std::cout << options.help({"", "Group"}) << std::endl;
         exit(0);
     }
-    std::string defaultMode = getArgs<std::string>(result, "mode", "partial");
-    long seed = getArgs<long>(result, "seed", -1);
-    std::string memLimit = getArgs<std::string>(result, "mem_limit", "1GB");
-    bool verbose = getArgs<bool>(result, "verbose", false);
-    std::string schedAlg = getArgs<std::string>(result, "sched-alg", "FCFS");
-    int numArrivals = getArgs<int>(result, "num-arrivals", 10);
-    std::string outputPrefix = getArgs<std::string>(result, "output-prefix", "");
-    std::string pathToOutput = getArgs<std::string>(result, "output-path", "../analysis");
-    std::string pathToNetworks = getArgs<std::string>(result, "network-path", "networks");
-    std::string pathToResources = getArgs<std::string>(result, "resources-path", "../resources");
+
+    YAML::Node config;
+    std::map<std::string,std::string> configAsText;
+    std::string pathToConfig = getArgs<std::string>(result, "read-config", "", config, configAsText);
+    // Check if yaml file is provided
+    try{
+        config = YAML::LoadFile(pathToConfig);
+    } catch(...)
+    {
+        if(result.count("read-config") == 0)
+        {
+            if(result.count("verbose") > 0)
+            {
+                std::cerr << "Error while attempting to read yaml file!" << std::endl;
+                std::cerr << "Yaml file: " << pathToConfig << std::endl;
+            }
+        }
+    }
+    std::string defaultMode = getArgs<std::string>(result, "mode", "partial", config, configAsText);
+    long seed = getArgs<long>(result, "seed", -1, config, configAsText);
+    std::string memLimit = getArgs<std::string>(result, "mem_limit", "1GB", config, configAsText);
+    bool verbose = getArgs<bool>(result, "verbose", false, config, configAsText);
+    std::string schedAlg = getArgs<std::string>(result, "sched-alg", "FCFS", config, configAsText);
+    int numArrivals = getArgs<int>(result, "num-arrivals", 10, config, configAsText);
+    std::string outputPrefix = getArgs<std::string>(result, "output-prefix", "", config, configAsText);
+    std::string pathToOutput = getArgs<std::string>(result, "output-path", "../analysis", config, configAsText);
+    std::string pathToNetworks = getArgs<std::string>(result, "network-path", "networks", config, configAsText);
+    std::string pathToResources = getArgs<std::string>(result, "resources-path", "../resources", config, configAsText);
     /**
      * End parsing input parameters
      */
@@ -91,42 +129,23 @@ int main(int argc, char *argv[])
         mode = EdgeCaffe::Orchestrator::MODEL_SPLIT_MODE::LINEAR;
         modeAsString = "linear";
     }
-
+    configAsText["defaultMode"] = modeAsString;
     std::string outputFile = "output.csv";
-    if (argc >= 3)
-    {
-        outputFile = argv[2];
-    }
-    std::string generalOutputFile = "./generalOutput2.csv";
+    configAsText["outputFile"] = outputFile;
+    std::string generalOutputFile = "./generalOutput.csv";
+    configAsText["generalOutputFile"] = generalOutputFile;
 
-    // Read config
-//    std::string pathToConfig = "config/pipeline-template.yaml";
-//    YAML::Node config;
-//    try{
-//        config = YAML::LoadFile(pathToConfig);
-//    } catch(...){
-//        std::cerr << "Error while attempting to read yaml file!" << std::endl;
-//        std::cerr << "Yaml file: " << pathToConfig << std::endl;
-//    }
-//
-//    std::string networkPath = config["pathToNetworks"].as<std::string>("networks");
-//    std::string resourcePath = config["pathToResources"].as<std::string>("../resources");
-//    std::string outputPath = config["pathToAnalysis"].as<std::string>("../analysis");
-//    std::string generalOutputFile = config["general-outputfile"].as<std::string>("./generalOutput2.csv");
-//    std::string mem_limit = config["mem_limit"].as<std::string>("1GB");
-
-
-    std::cout << "=========================" << std::endl;
-    std::cout << "Running\t\t\t'Exp_const_arrivals'" << std::endl;
-    std::cout << "Mode: \t\t\t " << modeAsString << std::endl;
-    std::cout << "networkPath: \t " << pathToNetworks << std::endl;
-    std::cout << "resourcePath: \t " << pathToResources << std::endl;
-    std::cout << "outputPath: \t " << pathToOutput << std::endl;
-    std::cout << "outputFile: \t " << outputFile << std::endl << std::endl;
+    printConfig("Exp_const_arrivals", configAsText);
 
     ::google::InitGoogleLogging(argv[0]);
     if(verbose)
         FLAGS_alsologtostderr = true;
+
+    /**
+     * End of configuring all.
+     * The real running begins here
+     */
+
     EdgeCaffe::Orchestrator orchestrator;
 
     /**
