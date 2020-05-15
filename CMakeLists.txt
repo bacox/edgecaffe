@@ -3,6 +3,7 @@ cmake_minimum_required(VERSION 3.1.0)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+
 # Make sure the build type is set to Debug if not set upfront with 'cmake -DCMAKE_BUILD_TYPE=Debug ..'
 set(default_build_type "Debug")
 if (NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
@@ -13,6 +14,7 @@ if (NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
     set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS
             "Debug" "Release" "MinSizeRel" "RelWithDebInfo")
 endif ()
+message(STATUS "CMAKE BUILD TYPE IS ${CMAKE_BUILD_TYPE}")
 
 # Make sure that the install path is set to /opt/edgecaffe
 SET(CMAKE_INSTALL_PREFIX /opt/edgecaffe)
@@ -37,7 +39,11 @@ add_definitions(-DEDGECAFFE_VERSION=${EDGECAFFE_TARGET_VERSION})
 
 # ---[ Flags
 if (UNIX OR APPLE)
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC -Wall")
+    if (CMAKE_BUILD_TYPE STREQUAL "Release")
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC -Wall -O3")
+    else()
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC -Wall")
+    endif()
 endif ()
 
 # Setting compiler flags
@@ -197,3 +203,5 @@ set(CPACK_SET_DESTDIR true)
 set(CPACK_INSTALL_PREFIX /opt/edgecaffe)
 set(CPACK_ARCHIVE_COMPONENT_INSTALL ON)
 INCLUDE(CPack)
+
+MESSAGE(STATUS "CXX flags ${CMAKE_CXX_FLAGS}")
