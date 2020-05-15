@@ -77,6 +77,7 @@ namespace EdgeCaffe
         NetworkProfile networkProfile;
         std::vector<TaskPool*> taskpools;
         std::vector<Task *> *bagOfTasks_ptr;
+        int networkId;
 
         std::vector<InferenceSubTask *> subTasks;
     protected:

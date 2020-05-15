@@ -461,7 +461,7 @@ namespace EdgeCaffe
         { // Partial
             createPartialTasks();
         }
-        NETWORKID_COUNTER++;
+//        NETWORKID_COUNTER++;
     }
 
     void InferenceNetwork::showResult()
@@ -530,7 +530,7 @@ namespace EdgeCaffe
     {
         InitNetworkTask *init = new InitNetworkTask(
                 TASKID_COUNTER++,
-                NETWORKID_COUNTER,
+                networkId,
                 dnn->networkName + "-init-network");
 
         init->inet = this;
@@ -543,7 +543,7 @@ namespace EdgeCaffe
     {
         LoadTask *load = new LoadTask(
                 TASKID_COUNTER++,
-                NETWORKID_COUNTER,
+                networkId,
                 dnn->networkName + "-exec-" + descr.name
         );
         load->network_ptr = &(dnn->net_ptr);
@@ -557,7 +557,7 @@ namespace EdgeCaffe
     {
         ExecTask *exec = new ExecTask(
                 TASKID_COUNTER++,
-                NETWORKID_COUNTER,
+                networkId,
                 dnn->networkName + "-exec-" + descr.name
         );
         exec->network_ptr = &(dnn->net_ptr);
@@ -568,7 +568,7 @@ namespace EdgeCaffe
     std::string InferenceNetwork::tasksToDotDebug()
     {
         // Create the name of this network
-        std::string name = this->subTasks.front()->networkName + "" + std::to_string(this->NETWORKID_COUNTER);
+        std::string name = this->subTasks.front()->networkName + "" + std::to_string(this->networkId);
         // Replace any spaces in the name to prevent errors while running the dot command
         std::replace( name.begin(), name.end(), ' ', '_');
 

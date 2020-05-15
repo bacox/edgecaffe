@@ -62,3 +62,11 @@ add_dependencies(ExtendNetworkDescription caffe Threads::Threads)
 
 target_include_directories(ExtendNetworkDescription PUBLIC ${INCLUDE_ORIG_CAFFE})
 LINK_TOOL_TARGET(ExtendNetworkDescription)
+
+add_executable(ndg
+        NetworkDependencyGraph.cpp
+        )
+add_dependencies(ndg EdgeCaffeCore caffe Threads::Threads)
+
+target_include_directories(ndg PUBLIC ${INCLUDE_ORIG_CAFFE} ../thirdparty/cxxopts)
+LINK_TOOL_TARGET(ndg)

@@ -107,10 +107,14 @@ namespace EdgeCaffe
         for(auto tp : taskPools)
             iTask->net->taskpools.push_back(tp);
         iTask->net->bagOfTasks_ptr = &bagOfTasks;
+        iTask->net->networkId = EdgeCaffe::InferenceNetwork::NETWORKID_COUNTER;
+        EdgeCaffe::InferenceNetwork::NETWORKID_COUNTER++;
         iTask->net->networkProfile.measure(NetworkProfile::ARRIVAL);
         inferenceTasks.push_back(iTask);
         iTask->net->createTasks(splitMode);
         std::vector<Task *> listOfTasks = iTask->net->getTasks();
+
+
 
         if (splitMode == MODEL_SPLIT_MODE::LINEAR)
         {
