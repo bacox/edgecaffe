@@ -184,7 +184,7 @@ namespace EdgeCaffe
          */
         void generateList(int numberOfArrivals, DISTRIBUTION_TYPE type = UNIFORM, DistParam distributionParameters = {1000,2000});
 
-        void setSeed(uint32_t seed);
+        void setSeed(long seed);
 
         long getSeed() const;
 

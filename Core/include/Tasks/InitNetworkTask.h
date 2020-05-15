@@ -14,9 +14,6 @@ namespace EdgeCaffe
     class InitNetworkTask : public Task
     {
     public:
-//        InitNetworkTask(int id, int executionTime);
-//
-//        InitNetworkTask();
 
         InitNetworkTask(
                 int id, int networkId, const std::string &taskName, int estimatedExecutionTime = 0

@@ -123,7 +123,7 @@ std::vector<std::string> EdgeCaffe::ArrivalList::toCSVLines()
     return lines;
 }
 
-void EdgeCaffe::ArrivalList::setSeed(uint32_t seed)
+void EdgeCaffe::ArrivalList::setSeed(long seed)
 {
     this->seed = (long) seed;
 }

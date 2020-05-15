@@ -5,12 +5,6 @@
 #include <opencv2/opencv.hpp>
 #include "Tasks/InitNetworkTask.h"
 
-//EdgeCaffe::InitNetworkTask::InitNetworkTask(int id, int executionTime) : Task(id, executionTime)
-//{}
-//
-//EdgeCaffe::InitNetworkTask::InitNetworkTask()
-//{}
-
 void EdgeCaffe::InitNetworkTask::run()
 {
     inet->networkProfile.measure(NetworkProfile::START);

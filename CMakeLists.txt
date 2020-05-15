@@ -113,6 +113,7 @@ macro(ADD_BINARY_TARGET TARGET_NAME)
             PUBLIC
             Core/include
             ${INCLUDE_ORIG_CAFFE}
+            thirdparty/cxxopts
             )
 
     if (${BUILD_SHARED_LIBS})

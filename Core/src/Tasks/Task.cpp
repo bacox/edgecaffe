@@ -38,12 +38,6 @@ namespace EdgeCaffe
     , estimatedNeededMemory(estimatedNeededMemory)
     {}
 
-//    Task::Task(int id, int executionTime) : id(id), estimatedExecutionTime(executionTime)
-//    {}
-//
-//    Task::Task() : estimatedExecutionTime(0)
-//    {}
-
     bool Task::hasPoolAssigned()
     {
         return assignedPoolId > -1;
