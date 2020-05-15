@@ -230,7 +230,6 @@ int main(int argc, char *argv[])
         std::string line = inferenceTasks->output.netProfile.durationAsCSVLine(networkId, networkName, startTime);
         networkLines.push_back(line);
         networkId++;
-        //
     }
     std::string networkOutputFile = pathToOutput + "/networkStats6.csv";
     output.toCSV(networkOutputFile, networkLines, EdgeCaffe::Output::NETWORK);
