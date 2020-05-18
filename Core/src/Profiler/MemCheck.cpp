@@ -22,9 +22,8 @@ double EdgeCaffe::MemCheck::getRSS()
 
 void EdgeCaffe::MemCheck::run()
 {
-     filebuffer.open("allocations.csv", std::ios::out);
+     filebuffer.open("../analysis/allocations.csv", std::ios::out);
 
-//    filebuffer << "time,rss_kb,shared_kb,private_kb,networkId,layerId,taskId,layerType,network,taskType" << std::endl;
     filebuffer << "time,rss_kb,networkId,layerId,taskId,layerType,network,taskType" << std::endl;
     start_tp = std::chrono::high_resolution_clock::now();
     while(running)
@@ -35,8 +34,6 @@ void EdgeCaffe::MemCheck::run()
 //            double mem = 0;
             const auto tp = std::chrono::high_resolution_clock::now();
             const auto duration = std::chrono::duration_cast<std::chrono::nanoseconds>(tp - start_tp).count();
-//            auto duration = std::chrono::high_resolution_clock::now().time_since_epoch().count();
-//            filebuffer << duration << "," << std::get<0>(mem) << "," << std::get<1>(mem) << "," << std::get<2>(mem) << "," << networkId  << "," << layerId  << "," << taskId << "," << layerType << "," << network << "," << taskType << std::endl;
             filebuffer << duration << "," << mem << "," << networkId  << "," << layerId  << "," << taskId << "," << layerType << "," << network << "," << taskType << std::endl;
         }
         std::this_thread::sleep_for(std::chrono::nanoseconds (1));

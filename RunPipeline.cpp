@@ -5,10 +5,6 @@
 #include <EdgeCaffe.h>
 #include <chrono>
 #include <filesystem>
-#ifdef MEMORY_CHECK_ON
-// This will only be used when the MEMORY_CHECK_ON is set in CMAKE
-#include <Profiler/MemCheck.h>
-#endif
 
 void printUsage()
 {
@@ -114,28 +110,7 @@ int main(int argc, char *argv[])
     EdgeCaffe::Orchestrator orchestrator;
     // Get timestamp for end-to-end measurement
     auto startTime = std::chrono::high_resolution_clock::now();
-
-    // Setup the orchestrator for the right mode
-    if (mode == EdgeCaffe::Orchestrator::BULK)
-    {
-        orchestrator.setupBulkMode();
-    } else if (mode == EdgeCaffe::Orchestrator::DEEPEYE)
-    {
-        orchestrator.setupDeepEyeMode();
-    } else if (mode == EdgeCaffe::Orchestrator::LINEAR)
-    {
-#ifdef MEMORY_CHECK_ON
-        // This will only be used when the MEMORY_CHECK_ON is set in CMAKE
-        orchestrator.setupLinearMode(&perf);
-#else
-        orchestrator.setupLinearMode();
-#endif
-    } else
-    { // Partial
-        orchestrator.setupPartialMode(2);
-    }
-    orchestrator.splitMode = mode;
-    orchestrator.splitModeAsString = modeAsString;
+    orchestrator.setup(mode, modeAsString);
 
     // Set path to all networks
     std::string pathToAgeNet = networkPath + "/AgeNet";
@@ -150,25 +125,25 @@ int main(int argc, char *argv[])
     std::cout << "Starting submitting tasks" << std::endl;
 
     std::string pathToImg = resourcePath + "/test_1.jpg";
-    orchestrator.submitInferenceTask(EdgeCaffe::Arrival{0, pathToImg, pathToSoS_Alex, "SoS"});
-    orchestrator.submitInferenceTask(EdgeCaffe::Arrival{0, pathToImg, pathToSoS_Google, "SoS_GoogleNet"});
-    orchestrator.submitInferenceTask(EdgeCaffe::Arrival{0, pathToImg, pathToAgeNet, "AgeNet"});
-    orchestrator.submitInferenceTask(EdgeCaffe::Arrival{0, pathToImg, pathToGenderNet, "GenderNet"});
-    orchestrator.submitInferenceTask(EdgeCaffe::Arrival{0, pathToImg, pathToFaceNet, "FaceNet"});
+    orchestrator.submitInferenceTask(EdgeCaffe::Arrival{pathToImg, pathToSoS_Alex, "SoS"});
+    orchestrator.submitInferenceTask(EdgeCaffe::Arrival{pathToImg, pathToSoS_Google, "SoS_GoogleNet"});
+    orchestrator.submitInferenceTask(EdgeCaffe::Arrival{pathToImg, pathToAgeNet, "AgeNet"});
+    orchestrator.submitInferenceTask(EdgeCaffe::Arrival{pathToImg, pathToGenderNet, "GenderNet"});
+    orchestrator.submitInferenceTask(EdgeCaffe::Arrival{pathToImg, pathToFaceNet, "FaceNet"});
 
     pathToImg = resourcePath + "/test_2.jpg";
-    orchestrator.submitInferenceTask(EdgeCaffe::Arrival{0, pathToImg, pathToSoS_Alex, "SoS"});
-    orchestrator.submitInferenceTask(EdgeCaffe::Arrival{0, pathToImg, pathToSoS_Google, "SoS_GoogleNet"});
-    orchestrator.submitInferenceTask(EdgeCaffe::Arrival{0, pathToImg, pathToAgeNet, "AgeNet"});
-    orchestrator.submitInferenceTask(EdgeCaffe::Arrival{0, pathToImg, pathToGenderNet, "GenderNet"});
-    orchestrator.submitInferenceTask(EdgeCaffe::Arrival{0, pathToImg, pathToFaceNet, "FaceNet"});
+    orchestrator.submitInferenceTask(EdgeCaffe::Arrival{pathToImg, pathToSoS_Alex, "SoS"});
+    orchestrator.submitInferenceTask(EdgeCaffe::Arrival{pathToImg, pathToSoS_Google, "SoS_GoogleNet"});
+    orchestrator.submitInferenceTask(EdgeCaffe::Arrival{pathToImg, pathToAgeNet, "AgeNet"});
+    orchestrator.submitInferenceTask(EdgeCaffe::Arrival{pathToImg, pathToGenderNet, "GenderNet"});
+    orchestrator.submitInferenceTask(EdgeCaffe::Arrival{pathToImg, pathToFaceNet, "FaceNet"});
 
     pathToImg = resourcePath + "/test_3.jpg";
-    orchestrator.submitInferenceTask(EdgeCaffe::Arrival{0, pathToImg, pathToSoS_Alex, "SoS"});
-    orchestrator.submitInferenceTask(EdgeCaffe::Arrival{0, pathToImg, pathToSoS_Google, "SoS_GoogleNet"});
-    orchestrator.submitInferenceTask(EdgeCaffe::Arrival{0, pathToImg, pathToAgeNet, "AgeNet"});
-    orchestrator.submitInferenceTask(EdgeCaffe::Arrival{0, pathToImg, pathToGenderNet, "GenderNet"});
-    orchestrator.submitInferenceTask(EdgeCaffe::Arrival{0, pathToImg, pathToFaceNet, "FaceNet"});
+    orchestrator.submitInferenceTask(EdgeCaffe::Arrival{pathToImg, pathToSoS_Alex, "SoS"});
+    orchestrator.submitInferenceTask(EdgeCaffe::Arrival{pathToImg, pathToSoS_Google, "SoS_GoogleNet"});
+    orchestrator.submitInferenceTask(EdgeCaffe::Arrival{pathToImg, pathToAgeNet, "AgeNet"});
+    orchestrator.submitInferenceTask(EdgeCaffe::Arrival{pathToImg, pathToGenderNet, "GenderNet"});
+    orchestrator.submitInferenceTask(EdgeCaffe::Arrival{pathToImg, pathToFaceNet, "FaceNet"});
 
     // Start the worker
     orchestrator.start();
@@ -176,10 +151,6 @@ int main(int argc, char *argv[])
     orchestrator.processTasks();
     // Make sure to wait for the workers to stop before continuing
     orchestrator.waitForStop();
-    #ifdef MEMORY_CHECK_ON
-    // This will only be used when the MEMORY_CHECK_ON is set in CMAKE
-    perf.stopTracking();
-    #endif
 
     // Calculate the duration of the end-to-end timing measurement
     auto endTime = std::chrono::high_resolution_clock::now();
@@ -187,70 +158,27 @@ int main(int argc, char *argv[])
     // Report measurement to screen
     std::cout << duration << " milliseconds" << std::endl;
 
-
-
     /**
      * Processing the gathered data
      * This part writes the timing information of the layers of the networks to a csv file.
      * It overwrites the specified file. It is important to use a unique filename
      *  for each run of move the data in between runs to prevent losing data.
      */
-    std::ofstream fout(outputPath + "/" + outputFile, std::ios::out);
-    std::string csvHeaders = "networkName,layerId,layerName,Loading_ns,execution_ns,policy";
-    fout << csvHeaders << std::endl;
-    for (auto inferenceTasks : orchestrator.inferenceTasks)
-    {
-        std::vector<std::string> lines = inferenceTasks->output.toCsvLines();
 
-        for (std::string line : lines)
-        {
-            fout << line << std::endl;
-        }
-    }
-    fout.close();
-
-    std::ofstream fout_tmp(outputPath + "/stepEvents.csv", std::ios::out);
-    std::string csvHeaders_tmp = "time,count,type";
-    fout_tmp << csvHeaders_tmp << std::endl;
-    std::vector<EdgeCaffe::InferenceOutput::event> taskEvents;
-    for (auto inferenceTasks : orchestrator.inferenceTasks)
-    {
-        auto outputObj = inferenceTasks->output;
-        outputObj.getTaskEvents(taskEvents, startTime);
-    }
-    auto lines_tasks = EdgeCaffe::InferenceOutput::calculateTaskProfile(taskEvents);
-    for (std::string line : lines_tasks)
-    {
-        fout_tmp << line << std::endl;
-    }
-    fout_tmp.close();
-    std::cout << "File written to '" + outputPath + "/stepEvents.csv'" << std::endl;
-
-
+    std::string layerOutputFile = outputPath + "/" + outputFile;
+    orchestrator.processLayerData(layerOutputFile);
+    std::string queueEventsFile = outputPath + "/stepEvents7.csv";
+    orchestrator.processEventData(queueEventsFile, startTime);
+    std::string networkOutputFile = outputPath + "/networkStats6.csv";
+    orchestrator.processNetworkData(networkOutputFile, startTime);
 
     /**
      * Save the output of the end-to-end measurement
      * Here we append the measurement to the file
      * If the file does not exist it is created.
      */
-    // Check if general outputfile exists
-    if (!std::filesystem::exists(generalOutputFile))
-    {
-        // Create file with headers
-        std::ofstream foutGeneral(generalOutputFile, std::ios::out);
-        std::string csvHeaders = "mem_limit,policy,time";
-        foutGeneral << csvHeaders << std::endl;
-        foutGeneral.close();
-    }
-    std::string generalLine = mem_limit + "," + modeAsString + "," + std::to_string(duration);
-    std::ofstream foutGeneral(generalOutputFile, std::ios_base::app);
-    foutGeneral << generalLine << std::endl;
-    foutGeneral.close();
-
-    #ifdef MEMORY_CHECK_ON
-    // This will only be used when the MEMORY_CHECK_ON is set in CMAKE
-    perf.stop();
-    perf.join();
-    #endif
+    EdgeCaffe::Output output;
+    std::string generalLine = outputPath + "," + modeAsString + "," + std::to_string(duration);
+    output.toCSVAppend(generalOutputFile, {generalLine}, EdgeCaffe::Output::PIPELINE);
     return 0;
 }

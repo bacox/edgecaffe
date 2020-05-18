@@ -40,12 +40,7 @@ namespace EdgeCaffe
         }
     }
 
-    #ifdef MEMORY_CHECK_ON
-    // This will only be used when the MEMORY_CHECK_ON is set in CMAKE
-    void Orchestrator::setupLinearMode(MemCheck *perf)
-    #else
     void Orchestrator::setupLinearMode()
-    #endif
     {
         TaskPool *taskPool = new TaskPool;
         taskPools.push_back(taskPool);
@@ -54,12 +49,18 @@ namespace EdgeCaffe
         workers.push_back(new Worker(taskPool, &outPool, i++));
         #ifdef MEMORY_CHECK_ON
         // This will only be used when the MEMORY_CHECK_ON is set in CMAKE
-        workers.back()->perf = perf;
+        workers.back()->perf = &perf;
         #endif
     }
 
     void Orchestrator::start()
     {
+        #ifdef MEMORY_CHECK_ON
+        // This will only be used when the MEMORY_CHECK_ON is set in CMAKE
+        perf.startTracking();
+        perf.start();
+        #endif
+
         for (Worker *w : workers)
         {
             w->run();
@@ -139,39 +140,39 @@ namespace EdgeCaffe
         bagOfTasks.insert(bagOfTasks.end(), listOfTasks.begin(), listOfTasks.end());
     }
 
-    void
-    Orchestrator::submitInferenceTask(const std::string &networkPath, const std::string &dataPath, bool use_scales)
-    {
-
-        InferenceTask *iTask = new InferenceTask;
-        iTask->pathToNetwork = networkPath;
-        iTask->pathToData = dataPath;
-//        cv::Mat input_img = cv::imread(dataPath);
-        iTask->net = new InferenceNetwork(networkPath);
-        iTask->net->use_scales = use_scales;
-        iTask->net->dataPath = dataPath;
-
-        inferenceTasks.push_back(iTask);
-
-        iTask->net->init();
-        iTask->output.networkName = iTask->net->subTasks.front()->networkName;
-
-        iTask->net->createTasks(splitMode);
-        std::vector<Task *> listOfTasks = iTask->net->getTasks();
-
-        if (splitMode == MODEL_SPLIT_MODE::LINEAR)
-        {
-            if(last != nullptr)
-            {
-                iTask->net->subTasks.front()->firstTask->addTaskDependency(last);
-            }
-        }
-        for(auto task : listOfTasks)
-            task->measureTime(Task::TIME::TO_WAITING);
-        last = listOfTasks.back();
-        bagOfTasks.reserve(listOfTasks.size()); // preallocate memory
-        bagOfTasks.insert(bagOfTasks.end(), listOfTasks.begin(), listOfTasks.end());
-    }
+//    void
+//    Orchestrator::submitInferenceTask(const std::string &networkPath, const std::string &dataPath, bool use_scales)
+//    {
+//
+//        InferenceTask *iTask = new InferenceTask;
+//        iTask->pathToNetwork = networkPath;
+//        iTask->pathToData = dataPath;
+////        cv::Mat input_img = cv::imread(dataPath);
+//        iTask->net = new InferenceNetwork(networkPath);
+//        iTask->net->use_scales = use_scales;
+//        iTask->net->dataPath = dataPath;
+//
+//        inferenceTasks.push_back(iTask);
+//
+//        iTask->net->init();
+//        iTask->output.networkName = iTask->net->subTasks.front()->networkName;
+//
+//        iTask->net->createTasks(splitMode);
+//        std::vector<Task *> listOfTasks = iTask->net->getTasks();
+//
+//        if (splitMode == MODEL_SPLIT_MODE::LINEAR)
+//        {
+//            if(last != nullptr)
+//            {
+//                iTask->net->subTasks.front()->firstTask->addTaskDependency(last);
+//            }
+//        }
+//        for(auto task : listOfTasks)
+//            task->measureTime(Task::TIME::TO_WAITING);
+//        last = listOfTasks.back();
+//        bagOfTasks.reserve(listOfTasks.size()); // preallocate memory
+//        bagOfTasks.insert(bagOfTasks.end(), listOfTasks.begin(), listOfTasks.end());
+//    }
 
     void Orchestrator::waitForStop()
     {
@@ -184,6 +185,14 @@ namespace EdgeCaffe
         {
             worker->_thread.join();
         }
+
+        #ifdef MEMORY_CHECK_ON
+        // This will only be used when the MEMORY_CHECK_ON is set in CMAKE
+        perf.stopTracking();
+
+        perf.stop();
+        perf.join();
+        #endif
     }
 
     void Orchestrator::processTasks()
@@ -293,4 +302,75 @@ namespace EdgeCaffe
 
     }
 
+    void Orchestrator::setup(Orchestrator::MODEL_SPLIT_MODE mode,  std::string modeAsString)
+    {
+        switch (mode)
+        {
+            case BULK:
+                setupBulkMode();
+                break;
+            case DEEPEYE:
+                setupDeepEyeMode();
+                break;
+            case LINEAR:
+                setupLinearMode();
+                break;
+            default:
+                setupPartialMode(2);
+        }
+        splitMode = mode;
+        splitModeAsString = modeAsString;
+    }
+
+    void Orchestrator::setArrivals(ArrivalList arrivals)
+    {
+        Orchestrator::arrivals = arrivals;
+    }
+
+    const std::vector<InferenceTask *> &Orchestrator::getInferenceTasks() const
+    {
+        return inferenceTasks;
+    }
+
+    void Orchestrator::processResults()
+    {
+
+    }
+
+    void Orchestrator::processLayerData(const std::string &pathToFile)
+    {
+        std::vector<std::string> layerOutputLines;
+        for (auto inferenceTasks : getInferenceTasks())
+            for (std::string line : inferenceTasks->output.toCsvLines())
+                layerOutputLines.push_back(line);
+        output.toCSV(pathToFile, layerOutputLines, EdgeCaffe::Output::LAYER);
+    }
+
+    void Orchestrator::processEventData(const std::string &pathToFile, std::chrono::time_point<std::chrono::system_clock> start)
+    {
+        std::vector<EdgeCaffe::InferenceOutput::event> taskEvents;
+        for (auto inferenceTasks : getInferenceTasks())
+        {
+            auto outputObj = inferenceTasks->output;
+            outputObj.getTaskEvents(taskEvents, start);
+        }
+        auto lines_tasks = EdgeCaffe::InferenceOutput::calculateTaskProfile(taskEvents);
+        output.toCSV(pathToFile, lines_tasks, EdgeCaffe::Output::QUEUE);
+    }
+
+    void Orchestrator::processNetworkData(
+            const std::string &pathToFile, std::chrono::time_point<std::chrono::system_clock> start
+    )
+    {
+        std::vector<std::string> networkLines;
+        int networkId = 0;
+        for (auto inferenceTasks : getInferenceTasks())
+        {
+            std::string networkName = inferenceTasks->pathToNetwork;
+            std::string line = inferenceTasks->output.netProfile.durationAsCSVLine(networkId, networkName, start);
+            networkLines.push_back(line);
+            networkId++;
+        }
+        output.toCSV(pathToFile, networkLines, EdgeCaffe::Output::NETWORK);
+    }
 }

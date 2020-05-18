@@ -35,7 +35,7 @@ namespace EdgeCaffe
             {
                 #ifdef MEMORY_CHECK_ON
                 // This will only be used when the MEMORY_CHECK_ON is set in CMAKE
-                std::this_thread::sleep_for(std::chrono::milliseconds(100 ));
+                std::this_thread::sleep_for(std::chrono::milliseconds(40 ));
                 #endif
                 std::cout << std::this_thread::get_id() << " [" << workerId << "]" << " -> Running task (" << task->networkId << ") | "<< task->id
                           << " = '" << task->getTaskDescription() << "'" << std::endl;
@@ -63,9 +63,9 @@ namespace EdgeCaffe
                 task->executed = true;
                 #ifdef MEMORY_CHECK_ON
                 // This will only be used when the MEMORY_CHECK_ON is set in CMAKE
-                std::this_thread::sleep_for(std::chrono::milliseconds(100 ));
-                perf->networkId = -1;
-                perf->network = "";
+//                std::this_thread::sleep_for(std::chrono::milliseconds(100 ));
+//                perf->networkId = -1;
+//                perf->network = "";
                 #endif
             }
             // Sleep for a short time to prevent the cpu from going insane
