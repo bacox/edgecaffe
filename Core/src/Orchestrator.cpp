@@ -40,13 +40,22 @@ namespace EdgeCaffe
         }
     }
 
+    #ifdef MEMORY_CHECK_ON
+    // This will only be used when the MEMORY_CHECK_ON is set in CMAKE
+    void Orchestrator::setupLinearMode(MemCheck *perf)
+    #else
     void Orchestrator::setupLinearMode()
+    #endif
     {
         TaskPool *taskPool = new TaskPool;
         taskPools.push_back(taskPool);
 
         int i = 0;
         workers.push_back(new Worker(taskPool, &outPool, i++));
+        #ifdef MEMORY_CHECK_ON
+        // This will only be used when the MEMORY_CHECK_ON is set in CMAKE
+        workers.back()->perf = perf;
+        #endif
     }
 
     void Orchestrator::start()

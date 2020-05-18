@@ -534,6 +534,9 @@ namespace EdgeCaffe
                 dnn->networkName + "-init-network");
 
         init->inet = this;
+        init->networkName = dnn->networkName;
+        init->taskType = "init";
+        init->layerName = "net-init";
         init->use_scales = this->use_scales;
         init->pathToInput = this->dataPath;
         return init;
@@ -548,6 +551,9 @@ namespace EdgeCaffe
         );
         load->network_ptr = &(dnn->net_ptr);
         load->layerId = descr.layerId;
+        load->networkName = dnn->networkName;
+        load->taskType = "load";
+        load->layerName = descr.name;
         load->needsLoading = descr.hasModelFile;
         load->pathToPartial = descr.partialFileName;
         return load;
@@ -560,6 +566,9 @@ namespace EdgeCaffe
                 networkId,
                 dnn->networkName + "-exec-" + descr.name
         );
+        exec->networkName = dnn->networkName;
+        exec->taskType = "exec";
+        exec->layerName = descr.name;
         exec->network_ptr = &(dnn->net_ptr);
         exec->layerId = descr.layerId;
         return exec;

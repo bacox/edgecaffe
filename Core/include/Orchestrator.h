@@ -130,7 +130,12 @@ namespace EdgeCaffe
         // Setup Partial loading mode
         void setupBulkMode();
 
+        #ifdef MEMORY_CHECK_ON
+        // This will only be used when the MEMORY_CHECK_ON is set in CMAKE
+        void setupLinearMode(MemCheck *perf);
+        #else
         void setupLinearMode();
+        #endif
 
         void setupDeepEyeMode();
 
