@@ -17,12 +17,6 @@ void printUsage()
 
 int main(int argc, char *argv[])
 {
-    #ifdef MEMORY_CHECK_ON
-    // This will only be used when the MEMORY_CHECK_ON is set in CMAKE
-    EdgeCaffe::MemCheck perf;
-    perf.startTracking();
-    perf.start();
-    #endif
     // Parse input
     // CMD <Mode>
     if (argc < 2)
