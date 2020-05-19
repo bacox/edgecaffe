@@ -8,6 +8,7 @@
 
 #include "TaskPool.h"
 #include <thread>
+#include <Profiler/MemCheck.h>
 
 namespace EdgeCaffe
 {
@@ -26,6 +27,10 @@ namespace EdgeCaffe
         // Flag used to indicate to the worker that he is allowed to stop if there are no more tasks left
         bool allowed_to_stop = false;
         std::thread _thread;
+        #ifdef MEMORY_CHECK_ON
+        // This will only be used when the MEMORY_CHECK_ON is set in CMAKE
+        MemCheck *perf = nullptr;
+        #endif
 
         // Taskpool holding the references to the ready tasks
         TaskPool *outpool;

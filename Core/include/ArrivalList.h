@@ -144,10 +144,10 @@ namespace EdgeCaffe
      * It hold a location to input data and the location of the network to be used.
      */
     struct Arrival {
-        long time = 0;
         std::string pathToData;
         std::string pathToNetwork;
         std::string networkName;
+        long time = 0;
 
         std::string toString(){
             return "Arrival<time: " + std::to_string(time)+ ">";

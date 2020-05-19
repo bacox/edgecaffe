@@ -42,7 +42,11 @@ namespace EdgeCaffe
         std::string taskName;
 
         // The layer id of the layer where the task belongs to
-        int layerId;
+        int layerId = -1;
+
+        std::string layerName = "";
+        std::string networkName = "";
+        std::string taskType = "";
 
         // Information for the scheduler (orchestrator) to use specific taskpools for this task if the poolId is set.
         int assignedPoolId = -1;

@@ -167,24 +167,8 @@ int main(int argc, char *argv[])
     }
 
 
-
-    if (mode == EdgeCaffe::Orchestrator::BULK)
-    {
-        orchestrator.setupBulkMode();
-    } else if (mode == EdgeCaffe::Orchestrator::DEEPEYE)
-    {
-        orchestrator.setupDeepEyeMode();
-    } else if (mode == EdgeCaffe::Orchestrator::LINEAR)
-    {
-        orchestrator.setupLinearMode();
-    } else
-    { // Partial
-        orchestrator.setupPartialMode(2);
-    }
-    orchestrator.splitMode = mode;
-    orchestrator.splitModeAsString = modeAsString;
-
-    orchestrator.arrivals = arrivals;
+    orchestrator.setup(mode, modeAsString);
+    orchestrator.setArrivals(arrivals);
 
     auto startTime = std::chrono::high_resolution_clock::now();
 
@@ -203,42 +187,20 @@ int main(int argc, char *argv[])
      * It overwrites the specified file. It is important to use a unique filename
      *  for each run of move the data in between runs to prevent losing data.
      */
-    EdgeCaffe::Output output;
 
     std::string layerOutputFile = pathToOutput + "/" + outputFile;
-    std::vector<std::string> layerOutputLines;
-    for (auto inferenceTasks : orchestrator.inferenceTasks)
-        for (std::string line : inferenceTasks->output.toCsvLines())
-            layerOutputLines.push_back(line);
-    output.toCSV(layerOutputFile, layerOutputLines, EdgeCaffe::Output::LAYER);
-
+    orchestrator.processLayerData(layerOutputFile);
     std::string queueEventsFile = pathToOutput + "/stepEvents7.csv";
-    std::vector<EdgeCaffe::InferenceOutput::event> taskEvents;
-    for (auto inferenceTasks : orchestrator.inferenceTasks)
-    {
-        auto outputObj = inferenceTasks->output;
-        outputObj.getTaskEvents(taskEvents, startTime);
-    }
-    auto lines_tasks = EdgeCaffe::InferenceOutput::calculateTaskProfile(taskEvents);
-    output.toCSV(queueEventsFile, lines_tasks, EdgeCaffe::Output::QUEUE);
-
-    std::vector<std::string> networkLines;
-    int networkId = 0;
-    for (auto inferenceTasks : orchestrator.inferenceTasks)
-    {
-        std::string networkName = inferenceTasks->pathToNetwork;
-        std::string line = inferenceTasks->output.netProfile.durationAsCSVLine(networkId, networkName, startTime);
-        networkLines.push_back(line);
-        networkId++;
-    }
+    orchestrator.processEventData(queueEventsFile, startTime);
     std::string networkOutputFile = pathToOutput + "/networkStats6.csv";
-    output.toCSV(networkOutputFile, networkLines, EdgeCaffe::Output::NETWORK);
+    orchestrator.processNetworkData(networkOutputFile, startTime);
 
     /**
      * Save the output of the end-to-end measurement
      * Here we append the measurement to the file
      * If the file does not exist it is created.
      */
+    EdgeCaffe::Output output;
     std::string generalLine = memLimit + "," + modeAsString + "," + std::to_string(duration);
     output.toCSVAppend(generalOutputFile, {generalLine}, EdgeCaffe::Output::PIPELINE);
 

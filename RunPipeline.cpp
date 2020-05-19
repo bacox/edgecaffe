@@ -17,7 +17,6 @@ void printUsage()
 
 int main(int argc, char *argv[])
 {
-
     // Parse input
     // CMD <Mode>
     if (argc < 2)
@@ -64,9 +63,11 @@ int main(int argc, char *argv[])
     // Read config
     std::string pathToConfig = "config/pipeline-template.yaml";
     YAML::Node config;
-    try{
+    try
+    {
         config = YAML::LoadFile(pathToConfig);
-    } catch(...){
+    } catch (...)
+    {
         std::cerr << "Error while attempting to read yaml file!" << std::endl;
         std::cerr << "Yaml file: " << pathToConfig << std::endl;
     }
@@ -80,7 +81,7 @@ int main(int argc, char *argv[])
     std::string mem_limit = config["mem_limit"].as<std::string>("1GB");
 
 
-    if(argc  >= 4)
+    if (argc >= 4)
     {
         mem_limit = argv[3];
     }
@@ -103,23 +104,7 @@ int main(int argc, char *argv[])
     EdgeCaffe::Orchestrator orchestrator;
     // Get timestamp for end-to-end measurement
     auto startTime = std::chrono::high_resolution_clock::now();
-
-    // Setup the orchestrator for the right mode
-    if (mode == EdgeCaffe::Orchestrator::BULK)
-    {
-        orchestrator.setupBulkMode();
-    } else if (mode == EdgeCaffe::Orchestrator::DEEPEYE)
-    {
-        orchestrator.setupDeepEyeMode();
-    } else if (mode == EdgeCaffe::Orchestrator::LINEAR)
-    {
-        orchestrator.setupLinearMode();
-    } else
-    { // Partial
-        orchestrator.setupPartialMode(2);
-    }
-    orchestrator.splitMode = mode;
-    orchestrator.splitModeAsString = modeAsString;
+    orchestrator.setup(mode, modeAsString);
 
     // Set path to all networks
     std::string pathToAgeNet = networkPath + "/AgeNet";
@@ -132,26 +117,27 @@ int main(int argc, char *argv[])
      * Submitting inference tasks
      */
     std::cout << "Starting submitting tasks" << std::endl;
-        std::string pathToImg = resourcePath + "/test_1.jpg";
-    orchestrator.submitInferenceTask(pathToSoS_Alex, pathToImg);
-    orchestrator.submitInferenceTask(pathToSoS_Google, pathToImg);
-        orchestrator.submitInferenceTask(pathToAgeNet, pathToImg);
-    orchestrator.submitInferenceTask(pathToGenderNet, pathToImg);
-    orchestrator.submitInferenceTask(pathToFaceNet, pathToImg, true);
+
+    std::string pathToImg = resourcePath + "/test_1.jpg";
+    orchestrator.submitInferenceTask(EdgeCaffe::Arrival{pathToImg, pathToSoS_Alex, "SoS"});
+    orchestrator.submitInferenceTask(EdgeCaffe::Arrival{pathToImg, pathToSoS_Google, "SoS_GoogleNet"});
+    orchestrator.submitInferenceTask(EdgeCaffe::Arrival{pathToImg, pathToAgeNet, "AgeNet"});
+    orchestrator.submitInferenceTask(EdgeCaffe::Arrival{pathToImg, pathToGenderNet, "GenderNet"});
+    orchestrator.submitInferenceTask(EdgeCaffe::Arrival{pathToImg, pathToFaceNet, "FaceNet"});
 
     pathToImg = resourcePath + "/test_2.jpg";
-    orchestrator.submitInferenceTask(pathToSoS_Alex, pathToImg);
-    orchestrator.submitInferenceTask(pathToSoS_Google, pathToImg);
-    orchestrator.submitInferenceTask(pathToAgeNet, pathToImg);
-    orchestrator.submitInferenceTask(pathToGenderNet, pathToImg);
-    orchestrator.submitInferenceTask(pathToFaceNet, pathToImg, true);
+    orchestrator.submitInferenceTask(EdgeCaffe::Arrival{pathToImg, pathToSoS_Alex, "SoS"});
+    orchestrator.submitInferenceTask(EdgeCaffe::Arrival{pathToImg, pathToSoS_Google, "SoS_GoogleNet"});
+    orchestrator.submitInferenceTask(EdgeCaffe::Arrival{pathToImg, pathToAgeNet, "AgeNet"});
+    orchestrator.submitInferenceTask(EdgeCaffe::Arrival{pathToImg, pathToGenderNet, "GenderNet"});
+    orchestrator.submitInferenceTask(EdgeCaffe::Arrival{pathToImg, pathToFaceNet, "FaceNet"});
 
     pathToImg = resourcePath + "/test_3.jpg";
-    orchestrator.submitInferenceTask(pathToSoS_Alex, pathToImg);
-    orchestrator.submitInferenceTask(pathToSoS_Google, pathToImg);
-    orchestrator.submitInferenceTask(pathToAgeNet, pathToImg);
-    orchestrator.submitInferenceTask(pathToGenderNet, pathToImg);
-    orchestrator.submitInferenceTask(pathToFaceNet, pathToImg, true);
+    orchestrator.submitInferenceTask(EdgeCaffe::Arrival{pathToImg, pathToSoS_Alex, "SoS"});
+    orchestrator.submitInferenceTask(EdgeCaffe::Arrival{pathToImg, pathToSoS_Google, "SoS_GoogleNet"});
+    orchestrator.submitInferenceTask(EdgeCaffe::Arrival{pathToImg, pathToAgeNet, "AgeNet"});
+    orchestrator.submitInferenceTask(EdgeCaffe::Arrival{pathToImg, pathToGenderNet, "GenderNet"});
+    orchestrator.submitInferenceTask(EdgeCaffe::Arrival{pathToImg, pathToFaceNet, "FaceNet"});
 
     // Start the worker
     orchestrator.start();
@@ -172,57 +158,21 @@ int main(int argc, char *argv[])
      * It overwrites the specified file. It is important to use a unique filename
      *  for each run of move the data in between runs to prevent losing data.
      */
-    std::ofstream fout(outputPath + "/" + outputFile, std::ios::out);
-    std::string csvHeaders = "networkName,layerId,layerName,Loading_ns,execution_ns,policy";
-    fout << csvHeaders << std::endl;
-    for (auto inferenceTasks : orchestrator.inferenceTasks)
-    {
-        std::vector<std::string> lines = inferenceTasks->output.toCsvLines();
 
-        for (std::string line : lines)
-        {
-            fout << line << std::endl;
-        }
-    }
-    fout.close();
-
-    std::ofstream fout_tmp(outputPath + "/stepEvents.csv", std::ios::out);
-    std::string csvHeaders_tmp = "time,count,type";
-    fout_tmp << csvHeaders_tmp << std::endl;
-    std::vector<EdgeCaffe::InferenceOutput::event> taskEvents;
-    for (auto inferenceTasks : orchestrator.inferenceTasks)
-    {
-        auto outputObj = inferenceTasks->output;
-        outputObj.getTaskEvents(taskEvents, startTime);
-    }
-    auto lines_tasks = EdgeCaffe::InferenceOutput::calculateTaskProfile(taskEvents);
-    for (std::string line : lines_tasks)
-    {
-        fout_tmp << line << std::endl;
-    }
-    fout_tmp.close();
-    std::cout << "File written to '" + outputPath + "/stepEvents.csv'" << std::endl;
-
-
+    std::string layerOutputFile = outputPath + "/" + outputFile;
+    orchestrator.processLayerData(layerOutputFile);
+    std::string queueEventsFile = outputPath + "/stepEvents7.csv";
+    orchestrator.processEventData(queueEventsFile, startTime);
+    std::string networkOutputFile = outputPath + "/networkStats6.csv";
+    orchestrator.processNetworkData(networkOutputFile, startTime);
 
     /**
      * Save the output of the end-to-end measurement
      * Here we append the measurement to the file
      * If the file does not exist it is created.
      */
-    // Check if general outputfile exists
-    if(!std::filesystem::exists(generalOutputFile))
-    {
-        // Create file with headers
-        std::ofstream foutGeneral(generalOutputFile, std::ios::out);
-        std::string csvHeaders = "mem_limit,policy,time";
-        foutGeneral << csvHeaders << std::endl;
-        foutGeneral.close();
-    }
-    std::string generalLine = mem_limit + "," + modeAsString + "," + std::to_string(duration);
-    std::ofstream foutGeneral(generalOutputFile, std::ios_base::app);
-    foutGeneral << generalLine << std::endl;
-    foutGeneral.close();
-
+    EdgeCaffe::Output output;
+    std::string generalLine = outputPath + "," + modeAsString + "," + std::to_string(duration);
+    output.toCSVAppend(generalOutputFile, {generalLine}, EdgeCaffe::Output::PIPELINE);
     return 0;
 }

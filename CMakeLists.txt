@@ -16,6 +16,9 @@ if (NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
 endif ()
 message(STATUS "CMAKE BUILD TYPE IS ${CMAKE_BUILD_TYPE}")
 
+# Enable this line to include the memcheck in the build
+#add_definitions ( -DMEMORY_CHECK_ON)
+
 # Make sure that the install path is set to /opt/edgecaffe
 SET(CMAKE_INSTALL_PREFIX /opt/edgecaffe)
 
@@ -40,9 +43,9 @@ add_definitions(-DEDGECAFFE_VERSION=${EDGECAFFE_TARGET_VERSION})
 # ---[ Flags
 if (UNIX OR APPLE)
     if (CMAKE_BUILD_TYPE STREQUAL "Release")
-        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC -Wall -O3")
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC -Wall -std=c++11 -O3")
     else()
-        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC -Wall")
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC -std=c++11 -Wall")
     endif()
 endif ()
 

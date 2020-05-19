@@ -60,7 +60,7 @@ void EdgeCaffe::ArrivalList::generateList(int numberOfArrivals, DISTRIBUTION_TYP
         // Sample from available networks
         std::string networkKey = allowedNetworks[networkDist.getRandom(generator)];
         std::string networkPath = networks[networkKey];
-        arrivals.push_back(Arrival{delay, pathToImg, networkPath, networkKey});
+        arrivals.push_back(Arrival{pathToImg, networkPath, networkKey, delay});
     }
 
 }
