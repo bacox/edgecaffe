@@ -14,11 +14,11 @@ namespace EdgeCaffe
     public:
         void run() override;
 
-        ExecTask(int id, int executionTime) : Task(id, executionTime)
-        {}
+        ExecTask(
+                int id, int networkId, const std::string &taskName, int estimatedExecutionTime = 0
+                , int estimatedNeededMemory = 0
+        );
 
-        ExecTask()
-        {}
 
         std::string getTaskDescription() override;
     };

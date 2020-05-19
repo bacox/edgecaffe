@@ -10,11 +10,18 @@
 #include <Tasks/LoadTask.h>
 #include <Tasks/ExecTask.h>
 #include <Tasks/DummyTask.h>
+#include <Util/Output.h>
 #include "TaskPool.h"
 #include "Worker.h"
 #include "InferenceNetwork.h"
 #include "InferenceOutput.h"
 #include "ArrivalList.h"
+#ifdef MEMORY_CHECK_ON
+// This will only be used when the MEMORY_CHECK_ON is set in CMAKE
+#include <Profiler/MemCheck.h>
+#endif
+#include <Util/Output.h>
+
 
 namespace EdgeCaffe
 {
@@ -33,6 +40,8 @@ namespace EdgeCaffe
 
         void dealloc()
         {
+            net->networkProfile.measure(NetworkProfile::STOP);
+            output.netProfile = net->networkProfile;
             auto ptr = net->subTasks.front()->net_ptr;
             std::vector<std::string> layerNames;
             if(ptr)
@@ -50,26 +59,33 @@ namespace EdgeCaffe
 //
             for (auto task : net->tasks)
             {
+                task->measureTime(Task::TIME::FINISHED);
                 if (dynamic_cast<LoadTask *>(task))
                 {
 //                // Load Task
                     output.setLoadingTime(task);
+                    output.addTaskProfile(task, true);
                 }
                 if (dynamic_cast<ExecTask *>(task))
                 {
 //                // Load Task
                     output.setExecutionTime(task);
+                    output.addTaskProfile(task, false);
                 }
                 if (auto dt = dynamic_cast<DummyTask *>(task))
                 {
                     if(dt->isLoadingTask)
+                    {
                         output.setLoadingTime(task);
+                        output.addTaskProfile(task, true);
+                    }
                     else
+                    {
                         output.setExecutionTime(task);
+                        output.addTaskProfile(task, false);
+                    }
                 }
-
             }
-
 
             delete net;
         };
@@ -88,10 +104,34 @@ namespace EdgeCaffe
             PARTIAL = 2,
             LINEAR = 3
         };
+        void setup(MODEL_SPLIT_MODE mode, std::string modeAsString);
+        bool allowedToStop();
+        void start();
+        void waitForStop();
+        void submitInferenceTask(const Arrival  arrivalTask, bool use_scales = false);
+        void processTasks();
+
+        void setArrivals(ArrivalList arrivals);
+
+        void processResults();
+
+        void processLayerData(const std::string &pathToFile);
+        void processEventData(const std::string &pathToFile, std::chrono::time_point<std::chrono::system_clock> start);
+        void processNetworkData(const std::string &pathToFile, std::chrono::time_point<std::chrono::system_clock> start);
+
+        const std::vector<InferenceTask *> &getInferenceTasks() const;
+
+        virtual ~Orchestrator();
+    private:
+        #ifdef MEMORY_CHECK_ON
+        // This will only be used when the MEMORY_CHECK_ON is set in CMAKE
+        MemCheck perf;
+        #endif
+
+        Output output;
 
         std::vector<Worker *> workers;
         std::vector<TaskPool *> taskPools;
-        std::vector<InferenceNetwork *> networks;
 
         TaskPool outPool;
 
@@ -113,9 +153,8 @@ namespace EdgeCaffe
         void checkFinishedNetworks();
         void checkArrivals();
 
-        bool allowedToStop();
-
         std::chrono::time_point<std::chrono::system_clock> previousTimePoint;
+
 
         // Setup DeepEye mode
         // Setup Bulk mode
@@ -128,17 +167,7 @@ namespace EdgeCaffe
 
         void setupPartialMode(int numberOfWorkers);
 
-        void start();
-
-        void waitForStop();
-
-        void submitInferenceTask(const std::string &networkPath, const std::string &dataPath, bool use_scales = false);
-        void submitInferenceTask(const Arrival  arrivalTask, bool use_scales = false);
-
-        void processTasks();
-
-    public:
-        virtual ~Orchestrator();
+//        void submitInferenceTask(const std::string &networkPath, const std::string &dataPath, bool use_scales = false);
     };
 }
 

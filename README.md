@@ -16,7 +16,7 @@ The project is divided in six sections:
   * `description.yml` file that describes the network for EdgeCaffe
   * `.prototxt` file that describes the network architecture
   * `.caffemodel` file that holds all the trained parameters
-* `./tools`: The ModelSplitter tool
+* `./tools`: Code for the tools: `ModelSplitter`, `ExtendNetworkDescription`, `NetworkDependencyGraph`
 * `./analysis`: This folder is empty on initialization of the project but will hold the output data of executable `RunPipeline`.
 * `./resources`: Holds the test data files.
 
@@ -168,7 +168,37 @@ The targets can be build with `Cmake`. There 3 binary examples in this project:
   * Usage: `./ScheduledPipeline`
 * **Exp_const_arrivals**: Almost same example as `RunPipeline` but it uses a distribution of arrivals instead of submitting everything at the beginning instantly. Note: It is important that the models are split (With the `ModelSplitter`) before running this executable.
   * Build: `make Exp_const_arrivals`
-  * Usage: `./Exp_const_arrivals <mode> [outputfile.csv]`
+  * Help: `./Exp_const_arrivals --help`
+```
+Usage:
+  Exp_const_arrivals [OPTION...]
+
+  -m, --mode arg            Mode to split and run the networks. Values
+                            [partial|linear|deepeye|bulk]
+      --mem_limit arg       The memory limit given by the OS to EdgeCaffe.
+                            NOTE: this does not limit the memory for this
+                            process but is used in output generation and in
+                            scheduling.
+      --seed arg            Seed for random number generator
+  -V, --verbose             Verbose
+  -N, --num-arrivals arg    Number of arrivals to be generated
+  -a, --arrival-list arg    NOT_YET_IMPLEMENTED. Use this arrival list to
+                            inject arrivals instead of the generated one
+  -p, --output-prefix arg   Prefix for all output files to make it them
+                            unique for a certain run
+      --output-path arg     Define the path to store all output files
+      --network-path arg    Define the path to store all output files
+      --resources-path arg  Define the path to store all output files
+  -s, --sched-alg arg       The scheduling algorithm to be used: [FCFS|SJF]
+  -c, --read-config arg     Use a yaml config file to configure this run
+                            instead of the cli. This will overrule all other
+                            arguments. Example 'config/pipeline-template.yaml'
+  -h, --help                Print help message
+```
+* **NetworkDependencyGraph**: A tool used to generate dependency graphs for all the modes (partial|linear|bulk|deepeye) for the specified network. The NetworkDependencyGraph tool will create `.dot` files that can be used to generate a png or another image format. The script `dot2png.sh` can be used to automate the conversion of dot files to images. The use of the `dot` command might require `sudo apt-get install graphviz`. Example of `.dot` files conversion: `dot -Tpng AgeNet0-partial.dot -o AgeNet0-partial.png`. For more informatio about dot and graphviz see [https://renenyffenegger.ch/notes/tools/Graphviz/examples/index](https://renenyffenegger.ch/notes/tools/Graphviz/examples/index)
+  * Build: `make ndg`
+  * Usage: `./ndg <networkName> <pathToNetwork>`
+  * Example: `./ndg AgeNet ../networks/AgeNet`
 
 ### Python
 

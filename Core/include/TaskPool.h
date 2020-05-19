@@ -8,6 +8,7 @@
 
 #include <mutex>
 #include <deque>
+#include <map>
 #include "Tasks/Task.h"
 
 namespace EdgeCaffe
@@ -34,9 +35,24 @@ namespace EdgeCaffe
         void add_SJF(Task *t_ptr);
 
     public:
+
+        /**
+         * Checks whethter a specific task is present in the pool
+         * @param taskId
+         * @return Boolean      True is present, false is not present in the pool
+         */
+        bool hasTask(int taskId);
+
         int poolId = -1;
-        // Use a list of pointers to prevent copying the memory
-        std::deque<Task *> pool;
+        /**
+         * We use a map as the datastructure to hold the tasks.
+         * std::maps are sorted by the used key so we can change the ordering by changing the key in the map.
+         * Map is chosen in favor of deque because std::map doesn't need std::sort.
+         *
+         * std::sort causes memory corruption in the specifc case and should therefor not be used.
+         * Use use pointers for taks to prevent copying of memory.
+         */
+        std::map<int, Task*> pool;
 
         /**
          * Add a reference of a task to the taskpool

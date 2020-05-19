@@ -15,11 +15,10 @@ namespace EdgeCaffe
         bool isLoadingTask = false;
         void run() override;
 
-        DummyTask(int id, int executionTime) : Task(id, executionTime)
-        {}
-
-        DummyTask()
-        {}
+        DummyTask(
+                int id, int networkId, const std::string &taskName, int estimatedExecutionTime = 0
+                , int estimatedNeededMemory = 0, bool isLoadingTask = false
+        );
 
         std::string getTaskDescription() override;
     };

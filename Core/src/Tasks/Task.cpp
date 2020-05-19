@@ -30,10 +30,12 @@ namespace EdgeCaffe
         dependsOn.push_back(t);
     }
 
-    Task::Task(int id, int executionTime) : id(id), estimatedExecutionTime(executionTime)
-    {}
-
-    Task::Task() : estimatedExecutionTime(0)
+    Task::Task(int id, int networkId, const std::string &taskName, int estimatedExecutionTime, int estimatedNeededMemory)
+    : id(id)
+    , networkId(networkId)
+    , taskName(taskName)
+    , estimatedExecutionTime(estimatedExecutionTime)
+    , estimatedNeededMemory(estimatedNeededMemory)
     {}
 
     bool Task::hasPoolAssigned()
@@ -57,8 +59,38 @@ namespace EdgeCaffe
     {
         // Start measuring time
         profileLine.start();
+        measureTime(TIME::START);
         run();
         // End measuring time
+        measureTime(TIME::STOP);
         profileLine.stop();
+    }
+
+    void Task::measureTime(Task::TIME type)
+    {
+        std::chrono::time_point<std::chrono::system_clock> *tp_ptr;
+        switch (type)
+        {
+//            case TIME::NET_SUBMIT:
+//                tp_ptr = &networkSubmission;
+//                break;
+            case TIME::TO_READY:
+                tp_ptr = &moveToReady;
+                break;
+            case TIME::TO_WAITING:
+                tp_ptr = &moveToWaiting;
+                break;
+            case TIME::START:
+                tp_ptr = &startTask;
+                break;
+            case TIME::STOP:
+                tp_ptr = &stopTask;
+                break;
+            case TIME::FINISHED:
+                tp_ptr = &networkFinished;
+                break;
+        }
+
+        (*tp_ptr) = std::chrono::high_resolution_clock::now();
     }
 }

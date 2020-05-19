@@ -96,9 +96,27 @@ namespace EdgeCaffe
         auto meanValues = description["mean-scalar"];
         modelMeanValues = cv::Scalar(meanValues[0].as<float>(), meanValues[1].as<float>(), meanValues[2].as<float>());
 
+        std::vector<std::string> convLayers;
+        std::vector<std::string> fcLayers;
+        try
+        {
+            convLayers = description["conv-layers"].as<std::vector<std::string>>();
+            fcLayers = description["fc-layers"].as<std::vector<std::string>>();
+        } catch(...) {
+            LOG(WARNING) << "Unable to read the layer descriptions";
+            LOG(WARNING) << "Falling back to old description version";
+            for(auto node : description["conv-layers"])
+            {
+//                LOG(WARNING) << "Node >> " << node["partialFile"];
+                convLayers.push_back(node["partialFile"].as<std::string>());
+            }
+            for(auto node : description["fc-layers"])
+            {
+//                LOG(WARNING) << "Node >> " << node["partialFile"];
+                fcLayers.push_back(node["partialFile"].as<std::string>());
+            }
 
-        auto convLayers = description["conv-layers"].as<std::vector<std::string>>();
-        auto fcLayers = description["fc-layers"].as<std::vector<std::string>>();
+        }
 
         for (std::string partialName : convLayers)
         {
@@ -261,6 +279,8 @@ namespace EdgeCaffe
     BaseNet::~BaseNet()
     {
         std::cout << "Dealloc baseNet" << std::endl;
-        delete net;
+//        if(net)
+//            LOG(INFO) << " Pointer in dealloc is not null";
+//        delete net;
     }
 }

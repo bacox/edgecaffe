@@ -9,7 +9,10 @@
 #include <opencv2/imgproc.hpp>
 #include <cv.hpp>
 #include <BaseNet.h>
-
+#include <caffe/caffe.hpp>
+#include <Tasks/InitNetworkTask.h>
+#include <algorithm>
+#include <string>
 
 namespace EdgeCaffe
 {
@@ -17,6 +20,7 @@ namespace EdgeCaffe
     {}
 
     int InferenceNetwork::TASKID_COUNTER = 0;
+    int InferenceNetwork::NETWORKID_COUNTER = 0;
 
     void InferenceNetwork::init(YAML::Node &description)
     {
@@ -145,45 +149,49 @@ namespace EdgeCaffe
         ptr->inputData.convertTo(ptr->inputData, CV_32FC3);
     }
 
-    void InferenceNetwork::createTasks()
+    void InferenceNetwork::createPartialTasks()
     {
         InferenceSubTask *dnn = subTasks.front();
-        int numLayers = dnn->net_ptr->layers().size();
+        caffe::NetParameter param;
+        caffe::ReadNetParamsFromTextFileOrDie(dnn->pathToModelFile, &param);
+        int numLayers = param.layer_size();
         Task *lastTask = nullptr;
+
+        // Important to first create the network initialisation task
+        Task *init = createInitTask(dnn);
+        tasks.push_back(init);
+        // Set the init task as the first task of this network for intra-network linking
+        dnn->firstTask = init;
+        lastTask = init;
+
+        /**
+         * Linking information:
+         * Mode: Partial
+         * All loading tasks depend on the init task
+         * All execution tasks depend on its realated loading task
+         */
+
         for (int i = 0; i < numLayers; ++i)
         {
-
-            LoadTask *load = new LoadTask;
-            load->network_ptr = dnn->net_ptr;
-            auto descr = layerDescriptions[i];
-            load->taskName = dnn->networkName + "-load-" + descr.name;
-            load->layerId = descr.layerId;
-            load->needsLoading = descr.hasModelFile;
-            load->pathToPartial = descr.partialFileName;
-
-            load->id = TASKID_COUNTER++;
-            if (dnn->firstTask == nullptr)
-            {
-                dnn->firstTask = load;
-            }
+            auto layerDescription = layerDescriptions[i];
+            Task *load = createLoadTask(dnn, layerDescription);
+            // Make sure that all load tasks are dependend on the init task
+            load->addTaskDependency(init);
             tasks.push_back(load);
 
-
-            ExecTask *exec = new ExecTask;
-
-            exec->network_ptr = dnn->net_ptr;
-            descr = layerDescriptions[i];
-            exec->taskName = dnn->networkName + "-exec-" + descr.name;
-            exec->layerId = descr.layerId;
-            exec->id = TASKID_COUNTER++;
+            Task *exec = createExecTask(dnn, layerDescription);
+            // Set a dependency for the previous exectask
             if (lastTask != nullptr)
             {
                 exec->addTaskDependency(lastTask);
             }
+            // Set the dependency for this execution task to the last loading task
             exec->addTaskDependency(load);
+            // Update the last task to this task
             lastTask = exec;
             tasks.push_back(exec);
         }
+        // Update the last task of the network for intra-network linking
         dnn->lastTask = lastTask;
     }
 
@@ -195,109 +203,141 @@ namespace EdgeCaffe
     void InferenceNetwork::createTasksLinear()
     {
         InferenceSubTask *dnn = subTasks.front();
-        int numLayers = dnn->net_ptr->layers().size();
+        caffe::NetParameter param;
+        caffe::ReadNetParamsFromTextFileOrDie(dnn->pathToModelFile, &param);
+        int numLayers = param.layer_size();
         Task *lastTask = nullptr;
 
+        // Important to first create the network initialisation task
+        Task *init = createInitTask(dnn);
+        tasks.push_back(init);
+        // Set the init task as the first task of this network for intra-network linking
+        dnn->firstTask = init;
+        lastTask = init;
+
+        /**
+         * Linking information:
+         * Mode: Linear
+         * The loading tasks depend on the previous task (exec or init task)
+         * The execution tasks depend on the previous task (loading task)
+         */
         for (int i = 0; i < numLayers; ++i)
         {
-            LoadTask *load = new LoadTask;
-            load->network_ptr = dnn->net_ptr;
-            auto descr = layerDescriptions[i];
-            load->taskName = dnn->networkName + "-load-" + descr.name;
-            load->layerId = descr.layerId;
-            load->needsLoading = descr.hasModelFile;
-            load->pathToPartial = descr.partialFileName;
-
-            load->id = TASKID_COUNTER++;
-
-            if (lastTask != nullptr)
-            {
-                load->addTaskDependency(lastTask);
-            }
+            auto layerDescription = layerDescriptions[i];
+            Task *load = createLoadTask(dnn, layerDescription);
+            // Make sure the loading task is dependent on the last task
+            load->addTaskDependency(lastTask);
+            // Update the last task
             lastTask = load;
-
             tasks.push_back(load);
-            if (dnn->firstTask == nullptr)
-            {
-                dnn->firstTask = load;
-            }
 
-
-            ExecTask *exec = new ExecTask;
-
-            exec->network_ptr = dnn->net_ptr;
-            descr = layerDescriptions[i];
-            exec->taskName = dnn->networkName + "-exec-" + descr.name;
-            exec->layerId = descr.layerId;
-            exec->id = TASKID_COUNTER++;
-
-
-            if (lastTask != nullptr)
-            {
-                exec->addTaskDependency(lastTask);
-            }
+            Task *exec = createExecTask(dnn, layerDescription);
+            // Make sure the exec task is dependent on the last task
+            exec->addTaskDependency(lastTask);
             lastTask = exec;
             tasks.push_back(exec);
         }
+        // Update the last task of the network for intra-network linking
         dnn->lastTask = lastTask;
-
     }
 
     void InferenceNetwork::createTasksConvFC()
     {
-
         InferenceSubTask *dnn = subTasks.front();
-        int numLayers = dnn->net_ptr->layers().size();
+        caffe::NetParameter param;
+        caffe::ReadNetParamsFromTextFileOrDie(dnn->pathToModelFile, &param);
+        int numLayers = param.layer_size();
+        Task *lastTask = nullptr;
+
+        // Important to first create the network initialisation task
+        Task *init = createInitTask(dnn);
+        tasks.push_back(init);
+        // Set the init task as the first task of this network for intra-network linking
+        dnn->firstTask = init;
+        lastTask = init;
+
+        /**
+         * Linking information:
+         * Mode: DeepEye
+         * Needs to make the split between the conv-layers and the fc-layers
+         */
 
         int numConv = dnn->num_conv;
         int numFC = dnn->num_fc;
-        Task *lastTask = nullptr;
 
-        bool hasInputLayer = dnn->hasInputLayer;
+        // Need to keep track of some pointers for dependencies
+        Task *firstExecFc = nullptr;
+        Task *lastExecConv = nullptr;
+        Task *lastExecFc = nullptr;
+        Task *firstLoadFc = nullptr;
+        Task *firstLoadConv = nullptr;
+        Task *lastLoadFc = nullptr;
+        Task *lastLoadConv = nullptr;
 
+        // Keep track of the taskPool Id; set to pool 0 for now
         int poolId = 0;
-        for (int i = 0; i < numLayers; ++i)
+        // Loop for the conv layers
+        for(int i = 0; i < numConv; ++i)
         {
-            if (i < numConv)
+            auto layerDescription = layerDescriptions[i];
+            Task *load = createLoadTask(dnn, layerDescription);
+            load->assignedPoolId = poolId;
+            if(firstLoadConv == nullptr)
             {
-                poolId = 0;
+                // First loading task of the conv layers
+                // This is dependent on the init task
+                load->addTaskDependency(init);
+                firstLoadConv = load;
             } else
             {
-                poolId = 1;
+                load->addTaskDependency(lastTask);
             }
-
-            LoadTask *load = new LoadTask;
-
-            load->network_ptr = dnn->net_ptr;
-            auto descr = layerDescriptions[i];
-            load->taskName = dnn->networkName + "-load-" + descr.name;
-            load->layerId = descr.layerId;
-            load->needsLoading = descr.hasModelFile;
-            load->pathToPartial = descr.partialFileName;
-
-            load->id = TASKID_COUNTER++;
-
-            load->assignedPoolId = poolId;
-
+            lastLoadConv = load;
             tasks.push_back(load);
-            if (dnn->firstTask == nullptr)
-            {
-                dnn->firstTask = load;
-            }
+            lastTask = load;
 
-            ExecTask *exec = new ExecTask;
-
-            exec->network_ptr = dnn->net_ptr;
-            descr = layerDescriptions[i];
-            exec->taskName = dnn->networkName + "-exec-" + descr.name;
-            exec->layerId = descr.layerId;
-            exec->id = TASKID_COUNTER++;
-            if (lastTask != nullptr)
-            {
-                exec->addTaskDependency(lastTask);
-            }
-            exec->addTaskDependency(load);
+            Task *exec = createExecTask(dnn, layerDescription);
             exec->assignedPoolId = poolId;
+            exec->addTaskDependency(lastTask);
+            lastExecConv = exec;
+            lastTask = exec;
+            tasks.push_back(exec);
+        }
+        poolId = 1;
+        // Loop over the fc layers
+        for (int i = numConv; i < numLayers; ++i)
+        {
+            auto layerDescription = layerDescriptions[i];
+            Task *load = createLoadTask(dnn, layerDescription);
+            load->assignedPoolId = poolId;
+            if(firstLoadFc == nullptr)
+            {
+                // First loading task of the conv layers
+                // This is dependent on the init task
+                load->addTaskDependency(init);
+                firstLoadFc = load;
+            } else
+            {
+                load->addTaskDependency(lastLoadFc);
+            }
+            lastLoadFc = load;
+            tasks.push_back(load);
+            lastTask = load;
+
+            Task *exec = createExecTask(dnn, layerDescription);
+            exec->assignedPoolId = poolId;
+            exec->addTaskDependency(lastTask);
+            if(firstExecFc == nullptr)
+            {
+                // This is the first exec layer of the fc-layers
+                // Needs to depend in the last exec-layer of conv layers
+                exec->addTaskDependency(lastExecConv);
+                firstExecFc = exec;
+            } else
+            {
+                exec->addTaskDependency(lastExecFc);
+            }
+            lastExecFc = exec;
             lastTask = exec;
             tasks.push_back(exec);
         }
@@ -307,59 +347,72 @@ namespace EdgeCaffe
     void InferenceNetwork::createTasksBulk()
     {
         InferenceSubTask *dnn = subTasks.front();
-        int numLayers = dnn->net_ptr->layers().size();
-        Task *lastLoadTask = nullptr;
-        Task *lastExecTask = nullptr;
+        caffe::NetParameter param;
+        caffe::ReadNetParamsFromTextFileOrDie(dnn->pathToModelFile, &param);
+        int numLayers = param.layer_size();
+        Task *lastTask = nullptr;
+
+        // Important to first create the network initialisation task
+        Task *init = createInitTask(dnn);
+        tasks.push_back(init);
+        // Set the init task as the first task of this network for intra-network linking
+        dnn->firstTask = init;
+
+        /**
+         * Linking information:
+         * Mode: Bulk
+         * All loading tasks depend on the previous loading task except the first
+         * All execution tasks depend on the previous execTask except the first
+         */
+
         Task *firstExecTask = nullptr;
+        Task *firstLoadingTask = nullptr;
+        Task *lastLoadingTask = nullptr;
+        Task *lastExecTask = nullptr;
 
         bool hasInputLayer = dnn->hasInputLayer;
 
         for (int i = 0; i < numLayers; ++i)
         {
-            LoadTask *load = new LoadTask;
+            auto layerDescription = layerDescriptions[i];
+            Task *load = createLoadTask(dnn, layerDescription);
 
-            load->network_ptr = dnn->net_ptr;
-            auto descr = layerDescriptions[i];
-            load->taskName = dnn->networkName + "-load-" + descr.name;
-            load->layerId = descr.layerId;
-            load->needsLoading = descr.hasModelFile;
-            load->pathToPartial = descr.partialFileName;
-            load->id = TASKID_COUNTER++;
-
-            if (lastLoadTask == nullptr)
+            // If this is the first loading task make it depend on init
+            if(firstLoadingTask == nullptr)
             {
-                load->addTaskDependency(lastLoadTask);
+                // Dependency on init
+                load->addTaskDependency(init);
+                firstLoadingTask = load;
+            } else {
+                // Dependency on previous loading task
+                load->addTaskDependency(lastLoadingTask);
             }
-            lastLoadTask = load;
-
+            // Update the last loading task
+            lastLoadingTask = load;
+            // Update the last task in general
+            lastTask = load;
             tasks.push_back(load);
-            if (dnn->firstTask != nullptr)
+
+            Task *exec = createExecTask(dnn, layerDescription);
+            if(firstExecTask == nullptr)
             {
-                dnn->firstTask = load;
-            }
-
-
-            ExecTask *exec = new ExecTask;
-            exec->network_ptr = dnn->net_ptr;
-            descr = layerDescriptions[i];
-            exec->taskName = dnn->networkName + "-exec-" + descr.name;
-            exec->layerId = descr.layerId;
-            exec->id = TASKID_COUNTER++;
-
-            if (firstExecTask == nullptr)
-            {
+                // This is the first exec task
+                // Needs to depend on the last loading task; will be set later
                 firstExecTask = exec;
-            }
-
-            if (lastExecTask != nullptr)
-            {
+            } else {
+                // Not the first exec task
+                // Needs to depend on the previous exec task
                 exec->addTaskDependency(lastExecTask);
             }
             lastExecTask = exec;
+            lastTask = exec;
             tasks.push_back(exec);
+
         }
+        // Set the missing dependency between the last loading task and the first execution task
         if (firstExecTask != nullptr)
-            firstExecTask->addTaskDependency(lastLoadTask);
+            firstExecTask->addTaskDependency(lastLoadingTask);
+        // Update the last task of the network for intra-network linking
         dnn->lastTask = lastExecTask;
     }
 
@@ -406,9 +459,9 @@ namespace EdgeCaffe
             createTasksLinear();
         } else
         { // Partial
-            createTasks();
+            createPartialTasks();
         }
-
+//        NETWORKID_COUNTER++;
     }
 
     void InferenceNetwork::showResult()
@@ -439,6 +492,8 @@ namespace EdgeCaffe
 
     }
 
+
+
     /**
      * Deallocator
      * Clean up the linked references
@@ -452,7 +507,114 @@ namespace EdgeCaffe
 
         // Delete tasks is needed
         for (auto task : tasks)
+        {
+            // Check if task is alive somewhere else
+            bool taskFoundElsewhere = false;
+            for(auto tmp_pool : taskpools)
+                if(tmp_pool->hasTask(task->id))
+                    taskFoundElsewhere = true;
+
+            for(auto tmp_t : (*bagOfTasks_ptr))
+                if(tmp_t->id == task->id)
+                    taskFoundElsewhere = true;
+
+            if(taskFoundElsewhere)
+                std::cerr << "This will be an invalid pointer to free!" << std::endl;
             if (task != nullptr)
                 delete task;
+
+        }
     }
+
+    Task *InferenceNetwork::createInitTask(InferenceSubTask *dnn)
+    {
+        InitNetworkTask *init = new InitNetworkTask(
+                TASKID_COUNTER++,
+                networkId,
+                dnn->networkName + "-init-network");
+
+        init->inet = this;
+        init->networkName = dnn->networkName;
+        init->taskType = "init";
+        init->layerName = "net-init";
+        init->use_scales = this->use_scales;
+        init->pathToInput = this->dataPath;
+        return init;
+    }
+
+    Task *InferenceNetwork::createLoadTask(InferenceSubTask *dnn, const LayerDescription &descr)
+    {
+        LoadTask *load = new LoadTask(
+                TASKID_COUNTER++,
+                networkId,
+                dnn->networkName + "-exec-" + descr.name
+        );
+        load->network_ptr = &(dnn->net_ptr);
+        load->layerId = descr.layerId;
+        load->networkName = dnn->networkName;
+        load->taskType = "load";
+        load->layerName = descr.name;
+        load->needsLoading = descr.hasModelFile;
+        load->pathToPartial = descr.partialFileName;
+        return load;
+    }
+
+    Task *InferenceNetwork::createExecTask(InferenceSubTask *dnn, const LayerDescription &descr)
+    {
+        ExecTask *exec = new ExecTask(
+                TASKID_COUNTER++,
+                networkId,
+                dnn->networkName + "-exec-" + descr.name
+        );
+        exec->networkName = dnn->networkName;
+        exec->taskType = "exec";
+        exec->layerName = descr.name;
+        exec->network_ptr = &(dnn->net_ptr);
+        exec->layerId = descr.layerId;
+        return exec;
+    }
+
+    std::string InferenceNetwork::tasksToDotDebug()
+    {
+        // Create the name of this network
+        std::string name = this->subTasks.front()->networkName + "" + std::to_string(this->networkId);
+        // Replace any spaces in the name to prevent errors while running the dot command
+        std::replace( name.begin(), name.end(), ' ', '_');
+
+        std::stringstream dotContent;
+        // Define beginning of the dot file
+        dotContent << "digraph " << name << " {" << std::endl;
+
+        // Get all the definitions of the nodes
+        std::vector<std::string> allNodes;
+        for(auto task : tasks)
+        {
+            std::string node = std::to_string(task->id) + "[label = \"" + "("+std::to_string(task->networkId)+") " + task->getTaskDescription() + "\"];";
+            allNodes.push_back(node);
+            for (auto dep : task->dependsOn)
+            {
+                std::string depNode = std::to_string(dep->id) + "[label = \"" + "("+std::to_string(dep->networkId)+") " + dep->getTaskDescription() + "\"];";
+                allNodes.push_back(depNode);
+            }
+        }
+
+        // Create a lit of unique lines
+        std::sort(allNodes.begin(), allNodes.end());
+        auto last = std::unique(allNodes.begin(), allNodes.end());
+        allNodes.erase(last, allNodes.end());
+
+        // Add the node definitions to the content for the dot file
+        for(auto line : allNodes)
+            dotContent << line << std::endl;
+
+        // Create the edges between the nodes that represent the dependencies
+        for(auto task : tasks)
+            for(auto dep : task->dependsOn)
+                dotContent << std::to_string(task->id) << " -> " << std::to_string(dep->id) << std::endl;
+        // End of the dotfile
+        dotContent << "}" << std::endl;
+
+        return dotContent.str();
+    }
+
 }
