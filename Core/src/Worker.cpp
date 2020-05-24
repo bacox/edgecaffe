@@ -67,6 +67,9 @@ namespace EdgeCaffe
 //                perf->networkId = -1;
 //                perf->network = "";
                 #endif
+            } else {
+                // No task available --> wait
+
             }
             // Sleep for a short time to prevent the cpu from going insane
             // Maybe use <condition_variable> later on for better energy performance

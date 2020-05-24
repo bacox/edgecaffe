@@ -85,94 +85,72 @@ namespace EdgeCaffe
 
     void Orchestrator::submitInferenceTask(Arrival arrivalTask, bool use_scales)
     {
-        InferenceTask *iTask = new InferenceTask;
-        iTask->pathToNetwork = arrivalTask.pathToNetwork;
-        iTask->pathToData = arrivalTask.pathToData;
-        // Load yaml
-        std::string pathToDescription = arrivalTask.pathToNetwork;
-        std::string pathToYaml = pathToDescription + "/description.yaml";
-        YAML::Node description;
-        try{
-            description = YAML::LoadFile(pathToYaml);
-        } catch(...){
-            std::cerr << "Error while attempting to read yaml file!" << std::endl;
-            std::cerr << "Yaml file: " << pathToYaml << std::endl;
-        }
 
-        if(description["type"].as<std::string>("normal") == "generated")
+        for(auto arrivalNetwork : arrivalTask.networks)
         {
-            // Generated network
-            iTask->net = new GeneratedNetwork(arrivalTask.pathToNetwork);
-            iTask->net->init(description);
-            iTask->output.networkName = iTask->net->subTasks.front()->networkName;
-        } else {
-            // Default network
-            iTask->net = new InferenceNetwork(arrivalTask.pathToNetwork);
-            iTask->net->init(description);
-            iTask->net->use_scales = description["use-scales"].as<bool>(false);
-            iTask->net->dataPath = arrivalTask.pathToData;
-            iTask->output.networkName = iTask->net->subTasks.front()->networkName;
-        }
-
-        for(auto tp : taskPools)
-            iTask->net->taskpools.push_back(tp);
-        iTask->net->bagOfTasks_ptr = &bagOfTasks;
-        iTask->net->networkId = EdgeCaffe::InferenceNetwork::NETWORKID_COUNTER;
-        EdgeCaffe::InferenceNetwork::NETWORKID_COUNTER++;
-        iTask->net->networkProfile.measure(NetworkProfile::ARRIVAL);
-        inferenceTasks.push_back(iTask);
-        iTask->net->createTasks(splitMode);
-        std::vector<Task *> listOfTasks = iTask->net->getTasks();
-
-
-
-        if (splitMode == MODEL_SPLIT_MODE::LINEAR)
-        {
-            if(last != nullptr)
-            {
-                iTask->net->subTasks.front()->firstTask->addTaskDependency(last);
+            InferenceTask *iTask = new InferenceTask;
+//            iTask->pathToNetwork = arrivalTask.pathToNetwork;
+            iTask->pathToNetwork = arrivalNetwork.pathToNetwork;
+            iTask->pathToData = arrivalTask.pathToData;
+            // Load yaml
+//            std::string pathToDescription = arrivalTask.pathToNetwork;
+            std::string pathToDescription = arrivalNetwork.pathToNetwork;
+            std::string pathToYaml = pathToDescription + "/description.yaml";
+            YAML::Node description;
+            try{
+                description = YAML::LoadFile(pathToYaml);
+            } catch(...){
+                std::cerr << "Error while attempting to read yaml file!" << std::endl;
+                std::cerr << "Yaml file: " << pathToYaml << std::endl;
             }
-        }
-        for(auto task : listOfTasks)
-            task->measureTime(Task::TIME::TO_WAITING);
-        last = listOfTasks.back();
-        bagOfTasks.reserve(listOfTasks.size()); // preallocate memory
-        bagOfTasks.insert(bagOfTasks.end(), listOfTasks.begin(), listOfTasks.end());
-    }
 
-//    void
-//    Orchestrator::submitInferenceTask(const std::string &networkPath, const std::string &dataPath, bool use_scales)
-//    {
-//
-//        InferenceTask *iTask = new InferenceTask;
-//        iTask->pathToNetwork = networkPath;
-//        iTask->pathToData = dataPath;
-////        cv::Mat input_img = cv::imread(dataPath);
-//        iTask->net = new InferenceNetwork(networkPath);
-//        iTask->net->use_scales = use_scales;
-//        iTask->net->dataPath = dataPath;
-//
-//        inferenceTasks.push_back(iTask);
-//
-//        iTask->net->init();
-//        iTask->output.networkName = iTask->net->subTasks.front()->networkName;
-//
-//        iTask->net->createTasks(splitMode);
-//        std::vector<Task *> listOfTasks = iTask->net->getTasks();
-//
-//        if (splitMode == MODEL_SPLIT_MODE::LINEAR)
-//        {
-//            if(last != nullptr)
-//            {
-//                iTask->net->subTasks.front()->firstTask->addTaskDependency(last);
-//            }
-//        }
-//        for(auto task : listOfTasks)
-//            task->measureTime(Task::TIME::TO_WAITING);
-//        last = listOfTasks.back();
-//        bagOfTasks.reserve(listOfTasks.size()); // preallocate memory
-//        bagOfTasks.insert(bagOfTasks.end(), listOfTasks.begin(), listOfTasks.end());
-//    }
+            if(description["type"].as<std::string>("normal") == "generated")
+            {
+                // Generated network
+//                iTask->net = new GeneratedNetwork(arrivalTask.pathToNetwork);
+                iTask->net = new GeneratedNetwork(arrivalNetwork.pathToNetwork);
+                iTask->net->init(description);
+                iTask->output.networkName = iTask->net->subTasks.front()->networkName;
+            } else {
+                // Default network
+//                iTask->net = new InferenceNetwork(arrivalTask.pathToNetwork);
+                iTask->net = new InferenceNetwork(arrivalNetwork.pathToNetwork);
+                iTask->net->init(description);
+                iTask->net->use_scales = description["use-scales"].as<bool>(false);
+                iTask->net->dataPath = arrivalTask.pathToData;
+                iTask->output.networkName = iTask->net->subTasks.front()->networkName;
+            }
+
+            for(auto tp : taskPools)
+                iTask->net->taskpools.push_back(tp);
+            iTask->net->bagOfTasks_ptr = &bagOfTasks;
+            iTask->net->networkId = EdgeCaffe::InferenceNetwork::NETWORKID_COUNTER;
+            EdgeCaffe::InferenceNetwork::NETWORKID_COUNTER++;
+            iTask->net->networkProfile.measure(NetworkProfile::ARRIVAL);
+            inferenceTasks.push_back(iTask);
+            iTask->net->createTasks(splitMode);
+            std::vector<Task *> listOfTasks = iTask->net->getTasks();
+
+
+
+            if (splitMode == MODEL_SPLIT_MODE::LINEAR)
+            {
+                if(last != nullptr)
+                {
+                    iTask->net->subTasks.front()->firstTask->addTaskDependency(last);
+                }
+            }
+            for(auto task : listOfTasks)
+                task->measureTime(Task::TIME::TO_WAITING);
+            last = listOfTasks.back();
+
+
+
+            bagOfTasks.reserve(listOfTasks.size()); // preallocate memory
+            bagOfTasks.insert(bagOfTasks.end(), listOfTasks.begin(), listOfTasks.end());
+
+        }
+    }
 
     void Orchestrator::waitForStop()
     {

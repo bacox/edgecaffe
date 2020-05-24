@@ -154,10 +154,12 @@ int main(int argc, char *argv[])
     EdgeCaffe::ArrivalList arrivals;
     // Right now sets all the networks to allowed
     // Omitting this line will have the same effect
-    arrivals.setAllowedNetworks({"AgeNet", "GenderNet", "SoS", "SoS_GoogleNet", "FaceNet"});
+//    arrivals.setAllowedNetworks({"AgeNet", "GenderNet", "SoS", "SoS_GoogleNet", "FaceNet"});
+    arrivals.setEnabledNetworks({{"AgeNet", "GenderNet", "SoS", "SoS_GoogleNet", "FaceNet"}});
     arrivals.setSeed(seed);
-    double interArrivalTime = 1713.4308;
-    arrivals.generateList(numArrivals, EdgeCaffe::ArrivalList::DISTRIBUTION_TYPE::POISSON, {interArrivalTime, interArrivalTime/6});
+//    double interArrivalTime = 1713.4308;
+    double interArrivalTime = 20'000;
+    arrivals.generateList(numArrivals, EdgeCaffe::ArrivalList::DISTRIBUTION_TYPE::CONSTANT, {interArrivalTime, interArrivalTime/6});
 
     {
         // Make sure to save the arrival distribution
