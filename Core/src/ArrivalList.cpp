@@ -23,6 +23,9 @@ void EdgeCaffe::ArrivalList::generateList(int numberOfArrivals, DISTRIBUTION_TYP
         case DISTRIBUTION_TYPE::POISSON:
             distribution = new PoissonDist(distributionParameters);
             break;
+        case DISTRIBUTION_TYPE::CONSTANT:
+            distribution = new ConstantValue(distributionParameters);
+            break;
     }
     //Use smart pointer to make sure that the pointer is clean up at the end of the function
     std::unique_ptr<Distribution> dist_ptr(distribution);
@@ -46,7 +49,8 @@ void EdgeCaffe::ArrivalList::generateList(int numberOfArrivals, DISTRIBUTION_TYP
     }
 
     // Use uniform distribution to sample evenly from available networks
-    UniformDist networkDist = UniformDist({0, (double)allowedNetworks.size() - 1});
+//    UniformDist networkDist = UniformDist({0, (double)allowedNetworks.size() - 1});
+    UniformDist networkDist = UniformDist({0, (double)allowedBatches.size() - 1});
 
     // For now use a static input
     std::string pathToImg = "../resources/test_1.jpg";
@@ -56,11 +60,17 @@ void EdgeCaffe::ArrivalList::generateList(int numberOfArrivals, DISTRIBUTION_TYP
     {
         // Get the inter-arrival time for the next arrival
         int delay = (int) distribution->getRandom(generator);
-
+        if(!i)
+            delay = 0;
         // Sample from available networks
-        std::string networkKey = allowedNetworks[networkDist.getRandom(generator)];
-        std::string networkPath = networks[networkKey];
-        arrivals.push_back(Arrival{pathToImg, networkPath, networkKey, delay});
+//        std::string networkKey = allowedNetworks[networkDist.getRandom(generator)];
+        auto keys = allowedBatches[networkDist.getRandom(generator)];
+//        std::string networkPath = networks[networkKey];
+        std::vector<ArrivalNetwork> batch;
+        for(auto key : keys)
+            batch.push_back({networks[key], key});
+
+        arrivals.push_back(Arrival{batch,pathToImg, delay});
     }
 
 }
@@ -111,14 +121,15 @@ void EdgeCaffe::ArrivalList::setAllowedNetworks(std::vector<std::string> keys)
 void EdgeCaffe::ArrivalList::printArrivals()
 {
         for(auto a : arrivals)
-            std::cout << a.toString() << "\t\t" << a.pathToNetwork << std::endl;
+            std::cout << a.toString()<< std::endl;
 }
 
 std::vector<std::string> EdgeCaffe::ArrivalList::toCSVLines()
 {
     std::vector<std::string> lines;
     for(auto a : arrivals)
-        lines.push_back(std::to_string(a.time) + "," + a.networkName);
+        for(auto network : a.networks)
+            lines.push_back(std::to_string(a.time) + "," + network.networkName);
 
     return lines;
 }
@@ -133,6 +144,11 @@ long EdgeCaffe::ArrivalList::getSeed() const
     if(seed < 0)
         return 0;
     return seed;
+}
+
+void EdgeCaffe::ArrivalList::setEnabledNetworks(std::vector<std::vector<std::string>> networks)
+{
+    allowedBatches = networks;
 }
 
 
@@ -192,4 +208,14 @@ EdgeCaffe::PoissonDist::PoissonDist(const EdgeCaffe::DistParam &params) : Distri
 double EdgeCaffe::PoissonDist::getRandom(std::default_random_engine &generator)
 {
     return distribution(generator);
+}
+
+EdgeCaffe::ConstantValue::ConstantValue(const EdgeCaffe::DistParam &params) : Distribution(params)
+{
+    constantValue = params.first;
+}
+
+double EdgeCaffe::ConstantValue::getRandom(std::default_random_engine &generator)
+{
+    return constantValue;
 }

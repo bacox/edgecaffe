@@ -119,25 +119,25 @@ int main(int argc, char *argv[])
     std::cout << "Starting submitting tasks" << std::endl;
 
     std::string pathToImg = resourcePath + "/test_1.jpg";
-    orchestrator.submitInferenceTask(EdgeCaffe::Arrival{pathToImg, pathToSoS_Alex, "SoS"});
-    orchestrator.submitInferenceTask(EdgeCaffe::Arrival{pathToImg, pathToSoS_Google, "SoS_GoogleNet"});
-    orchestrator.submitInferenceTask(EdgeCaffe::Arrival{pathToImg, pathToAgeNet, "AgeNet"});
-    orchestrator.submitInferenceTask(EdgeCaffe::Arrival{pathToImg, pathToGenderNet, "GenderNet"});
-    orchestrator.submitInferenceTask(EdgeCaffe::Arrival{pathToImg, pathToFaceNet, "FaceNet"});
+    orchestrator.submitInferenceTask(EdgeCaffe::Arrival{{pathToSoS_Alex, "SoS"}, pathToImg});
+    orchestrator.submitInferenceTask(EdgeCaffe::Arrival{{pathToSoS_Google, "SoS_GoogleNet"}, pathToImg});
+    orchestrator.submitInferenceTask(EdgeCaffe::Arrival{{pathToAgeNet, "AgeNet"}, pathToImg});
+    orchestrator.submitInferenceTask(EdgeCaffe::Arrival{{pathToGenderNet, "GenderNet"}, pathToImg});
+    orchestrator.submitInferenceTask(EdgeCaffe::Arrival{{pathToFaceNet, "FaceNet"}, pathToImg});
 
     pathToImg = resourcePath + "/test_2.jpg";
-    orchestrator.submitInferenceTask(EdgeCaffe::Arrival{pathToImg, pathToSoS_Alex, "SoS"});
-    orchestrator.submitInferenceTask(EdgeCaffe::Arrival{pathToImg, pathToSoS_Google, "SoS_GoogleNet"});
-    orchestrator.submitInferenceTask(EdgeCaffe::Arrival{pathToImg, pathToAgeNet, "AgeNet"});
-    orchestrator.submitInferenceTask(EdgeCaffe::Arrival{pathToImg, pathToGenderNet, "GenderNet"});
-    orchestrator.submitInferenceTask(EdgeCaffe::Arrival{pathToImg, pathToFaceNet, "FaceNet"});
+    orchestrator.submitInferenceTask(EdgeCaffe::Arrival{{pathToSoS_Alex, "SoS"}, pathToImg});
+    orchestrator.submitInferenceTask(EdgeCaffe::Arrival{{pathToSoS_Google, "SoS_GoogleNet"}, pathToImg});
+    orchestrator.submitInferenceTask(EdgeCaffe::Arrival{{pathToAgeNet, "AgeNet"}, pathToImg});
+    orchestrator.submitInferenceTask(EdgeCaffe::Arrival{{pathToGenderNet, "GenderNet"}, pathToImg});
+    orchestrator.submitInferenceTask(EdgeCaffe::Arrival{{pathToFaceNet, "FaceNet"}, pathToImg});
 
     pathToImg = resourcePath + "/test_3.jpg";
-    orchestrator.submitInferenceTask(EdgeCaffe::Arrival{pathToImg, pathToSoS_Alex, "SoS"});
-    orchestrator.submitInferenceTask(EdgeCaffe::Arrival{pathToImg, pathToSoS_Google, "SoS_GoogleNet"});
-    orchestrator.submitInferenceTask(EdgeCaffe::Arrival{pathToImg, pathToAgeNet, "AgeNet"});
-    orchestrator.submitInferenceTask(EdgeCaffe::Arrival{pathToImg, pathToGenderNet, "GenderNet"});
-    orchestrator.submitInferenceTask(EdgeCaffe::Arrival{pathToImg, pathToFaceNet, "FaceNet"});
+    orchestrator.submitInferenceTask(EdgeCaffe::Arrival{{pathToSoS_Alex, "SoS"}, pathToImg});
+    orchestrator.submitInferenceTask(EdgeCaffe::Arrival{{pathToSoS_Google, "SoS_GoogleNet"}, pathToImg});
+    orchestrator.submitInferenceTask(EdgeCaffe::Arrival{{pathToAgeNet, "AgeNet"}, pathToImg});
+    orchestrator.submitInferenceTask(EdgeCaffe::Arrival{{pathToGenderNet, "GenderNet"}, pathToImg});
+    orchestrator.submitInferenceTask(EdgeCaffe::Arrival{{pathToFaceNet, "FaceNet"}, pathToImg});
 
     // Start the worker
     orchestrator.start();
