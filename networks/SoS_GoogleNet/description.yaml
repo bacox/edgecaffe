@@ -1,4 +1,4 @@
-name: Salient Object Subitizing_google
+name: Salient_Object_Subitizing_google
 network-file: deploy.prototxt.txt
 model-file: GoogleNet_SOS.caffemodel
 mean-scalar: [104, 117, 123]

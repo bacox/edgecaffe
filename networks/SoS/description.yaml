@@ -1,4 +1,4 @@
-name: Salient Object Subitizing
+name: Salient_Object_Subitizing
 network-file: alexnet_sos_deploy.prototxt
 model-file: AlexNet_SalObjSub.caffemodel
 mean-scalar: [104, 117, 123]
