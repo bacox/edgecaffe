@@ -12,6 +12,31 @@
 
 namespace EdgeCaffe
 {
+
+    struct WorkerProfileLine {
+        enum TYPE
+        {
+            IDLE,
+            BUSY
+        };
+        TYPE type;
+        std::chrono::time_point<std::chrono::system_clock> start;
+        std::chrono::time_point<std::chrono::system_clock> stop;
+        long duration = 0;
+        void calcDuration() {
+            duration = std::chrono::duration_cast<std::chrono::nanoseconds>(stop - start).count();
+        }
+
+        std::string toCsvLine(std::chrono::time_point<std::chrono::system_clock> ref) {
+            auto startTime = std::chrono::duration_cast<std::chrono::microseconds>(start - ref).count();
+            auto stopTime = std::chrono::duration_cast<std::chrono::microseconds>(stop - ref).count();
+            std::string sep = ",";
+            std::string t = (type == IDLE) ? "idle" : "busy";
+            return std::to_string(startTime) + sep + std::to_string(stopTime) + sep + std::to_string(duration) + sep + t;
+        }
+
+    };
+
     class Worker
     {
         /**
@@ -27,6 +52,8 @@ namespace EdgeCaffe
         // Flag used to indicate to the worker that he is allowed to stop if there are no more tasks left
         bool allowed_to_stop = false;
         std::thread _thread;
+
+        bool verbose = true;
         #ifdef MEMORY_CHECK_ON
         // This will only be used when the MEMORY_CHECK_ON is set in CMAKE
         MemCheck *perf = nullptr;
@@ -83,6 +110,19 @@ namespace EdgeCaffe
          * @param workerId  Int - Assign a specific id to the worker
          */
         Worker(TaskPool *pool, TaskPool *outpool, int workerId);
+
+
+        void measureIdleTime();
+        void measureBusyTime();
+        void startTimeMeasuring();
+        void endTimeMeasuring();
+
+        std::vector<std::string> workerProfileToCSVLines();
+
+    private:
+        std::chrono::time_point<std::chrono::system_clock> startTP;
+        std::vector<WorkerProfileLine> workerProfile;
+        WorkerProfileLine::TYPE workerStatus = WorkerProfileLine::IDLE;
     };
 }
 

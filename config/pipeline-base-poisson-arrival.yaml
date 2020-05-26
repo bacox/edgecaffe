@@ -1,0 +1,6 @@
+---
+# Base configuration for the experiments for the poisson arrivals
+network-path: networks
+resources-path: ../resources
+output-path: ../analysis/experiments/poisson_arrivals/baseline
+general-outputfile: generalOutput_poisson_arrivals.csv

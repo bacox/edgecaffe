@@ -53,7 +53,7 @@ int main(int argc, char *argv[])
 
     // Create arrival
     int delay = 0;
-    EdgeCaffe::Arrival arr{delay, "", networkPath, networkKey};
+    EdgeCaffe::Arrival arr{{networkPath, networkKey}, "", delay};
 
     std::vector<std::pair<EdgeCaffe::Orchestrator::MODEL_SPLIT_MODE, std::string>> modes = {
             {EdgeCaffe::Orchestrator::PARTIAL, "partial"}
@@ -69,27 +69,13 @@ int main(int argc, char *argv[])
         EdgeCaffe::Orchestrator orchestrator;
         auto mode = pair.first;
         auto modeAsString = pair.second;
-        if (mode == EdgeCaffe::Orchestrator::BULK)
-        {
-            orchestrator.setupBulkMode();
-        } else if (mode == EdgeCaffe::Orchestrator::DEEPEYE)
-        {
-            orchestrator.setupDeepEyeMode();
-        } else if (mode == EdgeCaffe::Orchestrator::LINEAR)
-        {
-            orchestrator.setupLinearMode();
-        } else
-        { // Partial
-            orchestrator.setupPartialMode(2);
-        }
-        orchestrator.splitMode = mode;
-        orchestrator.splitModeAsString = modeAsString;
+        orchestrator.setup(mode, modeAsString);
 
         // Submit arrival to generate the tasks
         orchestrator.submitInferenceTask(arr);
 
         // Lets create the output dot files
-        for(auto iTask : orchestrator.inferenceTasks)
+        for(auto iTask : orchestrator.getInferenceTasks())
         {
             std::string dotContent = iTask->net->tasksToDotDebug();
             std::string _name = iTask->net->subTasks.front()->networkName + std::to_string(iTask->net->networkId) + "-" + modeAsString;

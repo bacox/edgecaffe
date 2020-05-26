@@ -27,18 +27,24 @@ namespace EdgeCaffe
      */
     void Worker::Execution()
     {
+        startTimeMeasuring();
         while (!action_stop && !AllowedToStop())
         {
             // Checking the pool to execute a new task
             Task *task = nullptr;
             if (pool->getNext(&task))
             {
+                measureBusyTime();
                 #ifdef MEMORY_CHECK_ON
                 // This will only be used when the MEMORY_CHECK_ON is set in CMAKE
                 std::this_thread::sleep_for(std::chrono::milliseconds(40 ));
                 #endif
-                std::cout << std::this_thread::get_id() << " [" << workerId << "]" << " -> Running task (" << task->networkId << ") | "<< task->id
-                          << " = '" << task->getTaskDescription() << "'" << std::endl;
+                if(verbose)
+                {
+                    std::cout << std::this_thread::get_id() << " [" << workerId << "]" << " -> Running task ("
+                              << task->networkId << ") | " << task->id
+                              << " = '" << task->getTaskDescription() << "'" << std::endl;
+                }
                 #ifdef MEMORY_CHECK_ON
                 // This will only be used when the MEMORY_CHECK_ON is set in CMAKE
                 if(perf != nullptr){
@@ -69,12 +75,13 @@ namespace EdgeCaffe
                 #endif
             } else {
                 // No task available --> wait
-
+                measureIdleTime();
             }
             // Sleep for a short time to prevent the cpu from going insane
             // Maybe use <condition_variable> later on for better energy performance
             std::this_thread::sleep_for(std::chrono::nanoseconds (1));
         }
+        endTimeMeasuring();
     }
 
     void Worker::run()
@@ -98,5 +105,52 @@ namespace EdgeCaffe
             return false;
         }
         return allowed_to_stop;
+    }
+
+    void Worker::measureIdleTime()
+    {
+        if(workerStatus == WorkerProfileLine::BUSY)
+        {
+            auto now = std::chrono::high_resolution_clock::now();
+            workerProfile.back().stop = now;
+            workerProfile.back().calcDuration();
+            workerStatus = WorkerProfileLine::IDLE;
+            workerProfile.push_back({workerStatus, now});
+        }
+    }
+
+    void Worker::measureBusyTime()
+    {
+        if(workerStatus == WorkerProfileLine::IDLE)
+        {
+            auto now = std::chrono::high_resolution_clock::now();
+            workerProfile.back().stop = now;
+            workerProfile.back().calcDuration();
+            workerStatus = WorkerProfileLine::BUSY;
+            workerProfile.push_back({workerStatus, now});
+        }
+    }
+
+    void Worker::startTimeMeasuring()
+    {
+        startTP = std::chrono::high_resolution_clock::now();
+        workerProfile.push_back({workerStatus, startTP});
+    }
+
+    void Worker::endTimeMeasuring()
+    {
+        workerProfile.back().stop = std::chrono::high_resolution_clock::now();
+        workerProfile.back().calcDuration();
+        workerStatus = WorkerProfileLine::IDLE;
+    }
+
+    std::vector<std::string> Worker::workerProfileToCSVLines()
+    {
+        std::vector<std::string> lines;
+        for( auto wp: workerProfile)
+        {
+            lines.push_back(wp.toCsvLine(startTP));
+        }
+        return lines;
     }
 }

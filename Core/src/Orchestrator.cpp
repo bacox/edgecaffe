@@ -265,7 +265,9 @@ namespace EdgeCaffe
         if(duration >= head.time)
         {
             // Enough time has passed to this arrival to arrive
-            std::cout << "New arrival " << head.toString() << std::endl;
+            if(verbose)
+                std::cout << "New arrival " << head.toString() << std::endl;
+
             submitInferenceTask(head);
 
             // Remove arrival from arrival list
@@ -350,5 +352,10 @@ namespace EdgeCaffe
             networkId++;
         }
         output.toCSV(pathToFile, networkLines, EdgeCaffe::Output::NETWORK);
+    }
+
+    const std::vector<Worker *> &Orchestrator::getWorkers() const
+    {
+        return workers;
     }
 }

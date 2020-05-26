@@ -131,6 +131,11 @@ namespace EdgeCaffe
         Output output;
 
         std::vector<Worker *> workers;
+    public:
+        const std::vector<Worker *> &getWorkers() const;
+        bool verbose = true;
+
+    private:
         std::vector<TaskPool *> taskPools;
 
         TaskPool outPool;
