@@ -164,6 +164,9 @@ add_dependencies(EdgeCaffe_build_all
         RunPipeline
         Exp_const_arrivals
         ModelSplitter
+        GenerateNetwork
+        ExtendNetworkDescription
+        ndg
         __pycaffe
         pycaffe
         )
