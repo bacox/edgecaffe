@@ -171,7 +171,7 @@ int main(int argc, char *argv[])
     double interArrivalTime = 1.0 /( (1.0/meanServiceTime) * rho);
     configAsText["interArrivalTime"] = std::to_string(interArrivalTime);
 
-    printConfig("Exp_const_arrivals", configAsText);
+//    printConfig("Exp_const_arrivals", configAsText);
     {
         EdgeCaffe::Output output;
         std::string configOutputFile = outputPrefix + "config.csv";
