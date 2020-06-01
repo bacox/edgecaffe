@@ -2,7 +2,7 @@
 # Read config file
 import os
 
-pathToConfig = 'config/exp-python-poisson-rv-nf.yaml'
+pathToConfig = 'config/exp-python-poisson-rv-nf-100.yaml'
 
 import yaml
 import itertools

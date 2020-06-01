@@ -1,14 +1,14 @@
 #!/usr/bin/env bash
 
 
-MEM_CONSTRAINTS=(4G 2G 1G 512M 256M 128M)
-#MEM_CONSTRAINTS=(4G)
-NETWORKS=(AgeNet FaceNet GenderNet SoS SoS_GoogleNet)
-#NETWORKS=(AgeNet)
+#MEM_CONSTRAINTS=(4G 2G 1G 512M 256M 128M)
+MEM_CONSTRAINTS=(2G 1G 512M)
+#NETWORKS=(AgeNet FaceNet GenderNet SoS SoS_GoogleNet)
+NETWORKS=(AgeNet GenderNet)
 
 # MODES=(partial bulk deepeye linear)
 MODES=(bulk)
-REPITIONS=10
+REPITIONS=100
 
 # NUM_EXPS=$((${#MEM_CONSTRAINTS[@]} * ${#MODES[@]} * ${#NETWORKS[@]}  * $REPITIONS))
 NUM_EXPS=$((${#MEM_CONSTRAINTS[@]} * ${#MODES[@]} * ${#NETWORKS[@]} ))

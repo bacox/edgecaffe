@@ -87,12 +87,15 @@ int main(int argc, char *argv[])
                     , cxxopts::value<std::string>())
             (
                     "network"
-                    , "The network to run"
+                    , "The network(s) to run"
                     , cxxopts::value<std::vector<std::string>>())
             (
                     "rho"
                     , "Set the Rho value to use"
                     , cxxopts::value<double>())
+            ("mst", "Set the mean service time to use", cxxopts::value<double>())
+            ("iat", "Set the inter arrival time to use", cxxopts::value<double>())
+            ("poisson-distribution","enable or disable poisson distribution as the arrival process. With this flag disabled, a constant distribution will be used.", cxxopts::value<bool>())
             ("h,help", "Print help message");
 
     cxxopts::ParseResult result = options.parse(argc, argv);
@@ -110,6 +113,8 @@ int main(int argc, char *argv[])
     // Check if yaml file is provided
     try{
         config = YAML::LoadFile(pathToConfig);
+        // Update parameters if found
+
     } catch(...)
     {
         if(result.count("read-config") == 0)
@@ -132,7 +137,10 @@ int main(int argc, char *argv[])
     std::string pathToNetworks = getArgs<std::string>(result, "network-path", "networks", config, configAsText);
     std::string pathToResources = getArgs<std::string>(result, "resources-path", "../resources", config, configAsText);
     std::string generalOutputFile = getArgs<std::string>(result, "general-outputfile", "generalOutput.csv", config, configAsText);
+
     double rho = getArgs<double>(result, "rho", 1, config, configAsText);
+    double mst = getArgs<double>(result, "mst", 1, config, configAsText);
+    double iat = getArgs<double>(result, "iat", 1, config, configAsText);
 
     // std::vector<std::string> selectedNetwork = {"AgeNet", "FaceNet", "SoS_GoogleNet"};
     std::vector<std::string> selectedNetwork = {"AgeNet", "GenderNet"};
@@ -250,8 +258,8 @@ int main(int argc, char *argv[])
      * If the file does not exist it is created.
      */
     EdgeCaffe::Output output;
-    std::string generalLine = memLimit + "," + modeAsString + "," + std::to_string(duration) + "," + std::to_string(rho) + "," + std::to_string(meanServiceTime) + "," + std::to_string(interArrivalTime);
-    output.toCSVAppend(pathToOutput + "/" + generalOutputFile, {generalLine}, EdgeCaffe::Output::PIPELINE_RHO);
+    std::string generalLine = memLimit + "," + modeAsString + "," + std::to_string(duration) + "," + std::to_string(numArrivals) + "," + selectedNetwork.front() + "," + std::to_string(rho) + "," + std::to_string(meanServiceTime) + "," + std::to_string(interArrivalTime);
+    output.toCSVAppend(pathToOutput + "/" + generalOutputFile, {generalLine}, EdgeCaffe::Output::PIPELINE_EXT);
 
 
     for(auto worker : orchestrator.getWorkers())

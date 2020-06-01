@@ -138,7 +138,7 @@ int main(int argc, char *argv[])
 //    orchestrator.submitInferenceTask(EdgeCaffe::Arrival{{pathToAgeNet, "AgeNet"}, pathToImg});
 //    orchestrator.submitInferenceTask(EdgeCaffe::Arrival{{pathToGenderNet, "GenderNet"}, pathToImg});
 //    orchestrator.submitInferenceTask(EdgeCaffe::Arrival{{pathToFaceNet, "FaceNet"}, pathToImg});
-
+    int numArrivals = 5;
     // Start the worker
     orchestrator.start();
     // Process the tasks in relation to their dependencies
@@ -173,7 +173,7 @@ int main(int argc, char *argv[])
      * If the file does not exist it is created.
      */
     EdgeCaffe::Output output;
-    std::string generalLine = outputPath + "," + modeAsString + "," + std::to_string(duration);
+    std::string generalLine = outputPath + "," + modeAsString + "," + std::to_string(duration) + "," + std::to_string(numArrivals) ;
     output.toCSVAppend(generalOutputFile, {generalLine}, EdgeCaffe::Output::PIPELINE);
 
     for(auto worker : orchestrator.getWorkers())

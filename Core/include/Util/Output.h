@@ -22,7 +22,7 @@ namespace EdgeCaffe{
             QUEUE,
             PIPELINE,
             PIPELINE_EXT,
-            PIPELINE_RHO,
+//            PIPELINE_RHO,
             ARRIVALS,
             NETWORK,
             WORKER,
@@ -32,9 +32,9 @@ namespace EdgeCaffe{
         std::map <TYPE, std::string> headers {
                  { LAYER,  "networkName,layerId,layerName,Loading_ns,execution_ns,policy"}
                  , { QUEUE, "time,count,type"}
-                 , { PIPELINE, "mem_limit,policy,time"}
-                 , { PIPELINE_EXT, "mem_limit,policy,time,network"}
-                 , { PIPELINE_RHO, "mem_limit,policy,time,rho,mean_service_time,iat"}
+                 , { PIPELINE, "mem_limit,policy,time,number-of-networks"}
+                 , { PIPELINE_EXT, "mem_limit,policy,time,number-of-networks,network,rho,mst,iat"}
+//                 , { PIPELINE_RHO, "mem_limit,policy,time,number-of-networks,rho,mean_service_time,iat"}
                  , { ARRIVALS, "inter-arrival-time,network"}
                  , { NETWORK, "networkId,networkName,arrivalTimestamp,waitingTime,executionTime"}
                 , { WORKER, "startTime,stopTime,duration,type"}

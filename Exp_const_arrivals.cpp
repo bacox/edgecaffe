@@ -203,7 +203,7 @@ int main(int argc, char *argv[])
      * If the file does not exist it is created.
      */
     EdgeCaffe::Output output;
-    std::string generalLine = memLimit + "," + modeAsString + "," + std::to_string(duration);
+    std::string generalLine = memLimit + "," + modeAsString + "," + std::to_string(duration) + "," + std::to_string(numArrivals);
     output.toCSVAppend(generalOutputFile, {generalLine}, EdgeCaffe::Output::PIPELINE);
 
 
