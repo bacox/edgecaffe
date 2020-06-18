@@ -137,13 +137,15 @@ int main(int argc, char *argv[])
     std::string pathToNetworks = getArgs<std::string>(result, "network-path", "networks", config, configAsText);
     std::string pathToResources = getArgs<std::string>(result, "resources-path", "../resources", config, configAsText);
     std::string generalOutputFile = getArgs<std::string>(result, "general-outputfile", "generalOutput.csv", config, configAsText);
+    bool poissonDistribution = getArgs<bool>(result, "poisson-distribution", true, config, configAsText);
 
-    double rho = getArgs<double>(result, "rho", 1, config, configAsText);
+    double rho = getArgs<double>(result, "rho", 0, config, configAsText);
     double mst = getArgs<double>(result, "mst", 1, config, configAsText);
-    double iat = getArgs<double>(result, "iat", 1, config, configAsText);
+    double iat = getArgs<double>(result, "iat", 1000, config, configAsText);
 
     // std::vector<std::string> selectedNetwork = {"AgeNet", "FaceNet", "SoS_GoogleNet"};
-    std::vector<std::string> selectedNetwork = {"AgeNet", "GenderNet"};
+    // std::vector<std::string> selectedNetwork = {"AgeNet", "GenderNet"};
+    std::vector<std::string> selectedNetwork = {"AgeNet", "GenderNet", "FaceNet", "SoS"};
     if(result.count("network"))
     {
         selectedNetwork = result["network"].as<std::vector<std::string>>();
@@ -166,6 +168,14 @@ int main(int argc, char *argv[])
     {
         mode = EdgeCaffe::Orchestrator::MODEL_SPLIT_MODE::LINEAR;
         modeAsString = "linear";
+    } else if (defaultMode == "execprio")
+    {
+        mode = EdgeCaffe::Orchestrator::MODEL_SPLIT_MODE::PRIO_EXEC;
+        modeAsString = "execprio";
+    }else if (defaultMode == "execprio-inter")
+    {
+        mode = EdgeCaffe::Orchestrator::MODEL_SPLIT_MODE::PRIO_EXEC_INTER;
+        modeAsString = "execprio-inter";
     }
     configAsText["defaultMode"] = modeAsString;
     std::string outputFile = "output.csv";
@@ -173,13 +183,18 @@ int main(int argc, char *argv[])
 //    std::string generalOutputFile = "./generalOutput.csv";
 //    configAsText["generalOutputFile"] = generalOutputFile;
 
-    auto meanServiceTimes = config["mean-service-time"].as<std::map<std::string,double>>();
-    double meanServiceTime = meanServiceTimes[memLimit];
+    double meanServiceTime = 0;
+    try
+    {
+        auto meanServiceTimes = config["mean-service-time"].as<std::map<std::string, double>>();
+        meanServiceTime = meanServiceTimes[memLimit];
+    } catch(...){}
     configAsText["meanServiceTime"] = std::to_string(meanServiceTime);
-    double interArrivalTime = 1.0 /( (1.0/meanServiceTime) * rho);
+    // double interArrivalTime = 1.0 /( (1.0/meanServiceTime) * rho);
+    double interArrivalTime = iat;
     configAsText["interArrivalTime"] = std::to_string(interArrivalTime);
 
-//    printConfig("Exp_const_arrivals", configAsText);
+    printConfig("Exp_const_arrivals", configAsText);
     {
         EdgeCaffe::Output output;
         std::string configOutputFile = outputPrefix + "config.csv";
@@ -191,8 +206,8 @@ int main(int argc, char *argv[])
      * End of configuring all.
      * The real running begins here
      */
-    if(!verbose)
-        ::google::InitGoogleLogging(argv[0]);
+//    if(!verbose)
+    ::google::InitGoogleLogging(argv[0]);
 
     EdgeCaffe::Orchestrator orchestrator;
 
@@ -203,16 +218,29 @@ int main(int argc, char *argv[])
     // Right now sets all the networks to allowed
     // Omitting this line will have the same effect
 //    arrivals.setAllowedNetworks({"AgeNet", "GenderNet", "SoS", "SoS_GoogleNet", "FaceNet"});
-    std::vector<std::vector<std::string>> singleBatchList;
-    for(auto network : selectedNetwork)
-    {
-        singleBatchList.push_back({network});
-    }
-    arrivals.setEnabledNetworks(singleBatchList);
+//    std::vector<std::vector<std::string>> singleBatchList;
+//    for(auto network : selectedNetwork)
+//    {
+//        singleBatchList.push_back({network});
+//    }
+//    arrivals.setEnabledNetworks(singleBatchList);
+    // arrivals.setEnabledNetworks({{"FaceNet", "FaceNet"}});
+    arrivals.setEnabledNetworks({{"AgeNet", "AgeNet"}});
+//    arrivals.setEnabledNetworks({{"AgeNet", "AgeNet", "AgeNet", "AgeNet", "AgeNet"}});
+//    arrivals.setEnabledNetworks({{"SoS", "SoS", "SoS", "SoS", "SoS"}});
+//    arrivals.setEnabledNetworks({{"AgeNet"}});
     arrivals.setSeed(seed);
 //    double interArrivalTime = 1713.4308;
 //    double interArrivalTime = 20'000;
-    arrivals.generateList(numArrivals, EdgeCaffe::ArrivalList::DISTRIBUTION_TYPE::POISSON, {interArrivalTime});
+poissonDistribution = true;
+    if(poissonDistribution){
+        arrivals.generateList(numArrivals, EdgeCaffe::ArrivalList::DISTRIBUTION_TYPE::POISSON, {interArrivalTime});
+//        arrivals.generateList(2, EdgeCaffe::ArrivalList::DISTRIBUTION_TYPE::POISSON, {1});
+
+    } else {
+        arrivals.generateList(numArrivals, EdgeCaffe::ArrivalList::DISTRIBUTION_TYPE::CONSTANT, {0});
+
+    }
     {
         // Make sure to save the arrival distribution
         std::string arrivalListOutputFile = pathToOutput + "/" + outputPrefix + "arrivals.csv";
@@ -222,9 +250,9 @@ int main(int argc, char *argv[])
 
 
     orchestrator.setup(mode, modeAsString);
-    orchestrator.verbose = false;
+    orchestrator.verbose = verbose;
     for(const auto &worker : orchestrator.getWorkers())
-        worker->verbose = false;
+        worker->verbose = verbose;
     orchestrator.setArrivals(arrivals);
 
     auto startTime = std::chrono::high_resolution_clock::now();

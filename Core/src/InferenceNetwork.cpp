@@ -354,6 +354,9 @@ namespace EdgeCaffe
 
         // Important to first create the network initialisation task
         Task *init = createInitTask(dnn);
+
+        if(dnn->lastTask != nullptr)
+            init->addTaskDependency(dnn->lastTask);
         tasks.push_back(init);
         // Set the init task as the first task of this network for intra-network linking
         dnn->firstTask = init;
@@ -443,6 +446,12 @@ namespace EdgeCaffe
         } else if (splittingPolicy == 3)
         {
             policyName = "Linear";
+        } else if (splittingPolicy == 4)
+        {
+            policyName = "execprio";
+        }else if (splittingPolicy == 5)
+        {
+            policyName = "execprio-inter";
         } else
         {
             policyName = "Partial";
@@ -457,6 +466,12 @@ namespace EdgeCaffe
         } else if (splittingPolicy == 3)
         { // Linear
             createTasksLinear();
+        } else if (splittingPolicy == 4)
+        { // Linear
+            createPartialTasks();
+        }else if (splittingPolicy == 5)
+        { // Linear
+            createPartialTasks();
         } else
         { // Partial
             createPartialTasks();
@@ -506,24 +521,24 @@ namespace EdgeCaffe
                 delete subtask;
 
         // Delete tasks is needed
-        for (auto task : tasks)
-        {
-            // Check if task is alive somewhere else
-            bool taskFoundElsewhere = false;
-            for(auto tmp_pool : taskpools)
-                if(tmp_pool->hasTask(task->id))
-                    taskFoundElsewhere = true;
-
-            for(auto tmp_t : (*bagOfTasks_ptr))
-                if(tmp_t->id == task->id)
-                    taskFoundElsewhere = true;
-
-            if(taskFoundElsewhere)
-                std::cerr << "This will be an invalid pointer to free!" << std::endl;
-            if (task != nullptr)
-                delete task;
-
-        }
+//        for (auto task : tasks)
+//        {
+//            // Check if task is alive somewhere else
+//            bool taskFoundElsewhere = false;
+//            for(auto tmp_pool : taskpools)
+//                if(tmp_pool->hasTask(task->id))
+//                    taskFoundElsewhere = true;
+//
+//            for(auto tmp_t : (*bagOfTasks_ptr))
+//                if(tmp_t->id == task->id)
+//                    taskFoundElsewhere = true;
+//
+//            if(taskFoundElsewhere)
+//                std::cerr << "This will be an invalid pointer to free!" << std::endl;
+//            if (task != nullptr)
+//                delete task;
+//
+//        }
     }
 
     Task *InferenceNetwork::createInitTask(InferenceSubTask *dnn)
@@ -615,6 +630,11 @@ namespace EdgeCaffe
         dotContent << "}" << std::endl;
 
         return dotContent.str();
+    }
+
+    void InferenceNetwork::createTasksExecPrio()
+    {
+
     }
 
 }

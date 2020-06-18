@@ -140,6 +140,7 @@ namespace EdgeCaffe
         void createTasksBulk();
 
         void createTasksLinear();
+        void createTasksExecPrio();
 
         virtual void createTasks(int splittingPolicy);
 

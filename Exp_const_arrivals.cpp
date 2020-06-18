@@ -155,7 +155,7 @@ int main(int argc, char *argv[])
     // Right now sets all the networks to allowed
     // Omitting this line will have the same effect
 //    arrivals.setAllowedNetworks({"AgeNet", "GenderNet", "SoS", "SoS_GoogleNet", "FaceNet"});
-    arrivals.setEnabledNetworks({{"AgeNet", "GenderNet", "SoS", "SoS_GoogleNet", "FaceNet"}});
+    arrivals.setEnabledNetworks({{"SoS_GoogleNet"}});
     arrivals.setSeed(seed);
 //    double interArrivalTime = 1713.4308;
     double interArrivalTime = 20'000;

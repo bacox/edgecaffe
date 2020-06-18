@@ -229,7 +229,7 @@ int main(int argc, char *argv[])
      * If the file does not exist it is created.
      */
     EdgeCaffe::Output output;
-    std::string generalLine = memLimit + "," + modeAsString + "," + std::to_string(duration) + "," + std::to_string(numArrivals) + "," + selectedNetwork;
+    std::string generalLine = memLimit + "," + modeAsString + "," + std::to_string(duration) + "," + selectedNetwork;
     output.toCSVAppend(pathToOutput + "/" + generalOutputFile, {generalLine}, EdgeCaffe::Output::PIPELINE_EXT);
 
 

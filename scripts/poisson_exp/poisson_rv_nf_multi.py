@@ -2,7 +2,7 @@
 # Read config file
 import os
 
-pathToConfig = 'config/exp-python-poisson-rv-nf-100.yaml'
+pathToConfig = 'config/exp-python-poisson-rv-nf-multi-prio-inter-compare.yaml'
 
 import yaml
 import itertools
@@ -10,20 +10,21 @@ import itertools
 # Read the configuration that was stored in the bash scripts
 
 
-def gen_cmd_call(cmd_base , pathToConfig, repetitions, rho, mem_limit, mode):
+def gen_cmd_call(cmd_base , pathToConfig, repetitions, rho, mem_limit, mode, ait_multiplier, iat):
     # print('Got config for roh: {}, mem limit: {}, and mode: {}'. format(rho, mem_limit, mode))
-    output_prefix = 'r{}-{}-{}-'.format(rho, mem_limit, mode)
+    output_prefix = 'r{}-m{}-{}-{}-'.format(rho, ait_multiplier, mem_limit, mode)
     # cmd_str = './{} --read-config={} --output-prefix={} --mem_limit={} --verbose=false --num-arrivals={} --poisson-distribution={} --network={} --mode={}'.format(cmd_base, pathToConfig, output_prefix, mem_limit, repetitions, use_poisson, selected_network, mode)
-    cmd_str = './{} --read-config={} --output-prefix={} --mem_limit={} --verbose=false --num-arrivals={} --poisson-distribution=true --rho={} --mode={}'.format(cmd_base, pathToConfig, output_prefix, mem_limit, repetitions, rho, mode)
+    cmd_str = './{} --read-config={} --output-prefix={} --mem_limit={} --verbose=false --num-arrivals={} --poisson-distribution=true --rho={} --iat={} --mode={}'.format(cmd_base, pathToConfig, output_prefix, mem_limit, repetitions, rho, iat, mode)
     return cmd_str
 
 
-def print_run_call(progress_text, cmd, repetitions, rho, mem_limit, mode):
+def print_run_call(progress_text, cmd, repetitions, rho, mem_limit, mode, ait_multiplier, iat):
     lines = []
     lines.append('Running with {} LIMIT'.format(mem_limit))
     lines.append('Running with {} MODE'.format(mode))
     lines.append('Running with {} REPETITIONS'.format(repetitions))
     lines.append('Running with {} RHO'.format(rho))
+    lines.append('Running with {} AIT'.format(iat))
     lines.append('Running variation {}'.format(progress_text))
     max_len = max([len(line) for line in lines])
     print('\n' + ('*'*(max_len+4)))
@@ -49,11 +50,15 @@ modes = config['modes']
 cmd_base = config['cmd-base']
 build_folder = config['build-folder']
 output_path = config['output-path']
+ait_multipliers = [0.6, 0.7, 0.8, 0.9, 0.925, 0.95, 0.975, 1, 1.025, 1.05, 1.075, 1.1]
+# ait_multipliers = [1.1]
+
 cwd = os.getcwd()
 
-variations = list(itertools.product(*[rho, memory_constraints, modes]))
+variations = list(itertools.product(*[rho, memory_constraints, modes, ait_multipliers]))
 # pathToConfig = './config/pipeline-rv-nf-poisson-arrival.yaml'
-numberOfVariations = (len(rho) * len(memory_constraints) * len(modes))
+numberOfVariations = (len(rho) * len(memory_constraints) * len(modes) * len(ait_multipliers))
+
 
 lines = []
 lines.append(['command',cmd_base])
@@ -63,6 +68,7 @@ lines.append(['output path', output_path])
 lines.append(['number of variations',str(numberOfVariations)])
 lines.append(['rho',' '.join([str(r) for r in rho])])
 lines.append(['memory constraints',' '.join([str(r) for r in memory_constraints])])
+lines.append(['ait-multipliers',' '.join([str(r) for r in ait_multipliers])])
 lines.append(['modes',' '.join([str(r) for r in modes])])
 separator = ': '
 
@@ -82,16 +88,30 @@ input("Press Enter to continue...")
 base_script = 'sudo bash ./scripts/poisson_exp/poisson_rv_nf_base.sh'
 
 idx = 1
+# execute = False
 for variation in variations:
     # print(gen_cmd_call(cmd_base, pathToConfig, repetitions, *variation))
-    CMD = gen_cmd_call(cmd_base, pathToConfig, repetitions, *variation)
+
+    # if variation ==  (1, '1G', 'deepeye', 0.975):
+    #     print('continue from here')
+    #     execute = True
+    # if not execute:
+    #     continue
+    print(variation)
+    service_time = config['mean-service-time'][variation[1]]
+    iat = service_time * variation[3]
+    CMD = gen_cmd_call(cmd_base, pathToConfig, repetitions, *variation, iat)
+
+
+
+
     script_cmd = '{} {} {} \'{}\''.format(base_script, variation[1], build_folder, CMD)
     padding = ''
     if idx < 10:
         padding = ' '
     progress_text = '[{}{}/{}]'.format(padding, idx, numberOfVariations)
-    print_run_call(progress_text, CMD, repetitions, *variation)
-    # print(script_cmd)
+    print_run_call(progress_text, CMD, repetitions, *variation, iat)
+    print(script_cmd)
     # print(script_cmd)
     os.system(script_cmd)
     idx += 1

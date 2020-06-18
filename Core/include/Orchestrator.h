@@ -102,7 +102,9 @@ namespace EdgeCaffe
             BULK = 0,
             DEEPEYE = 1,
             PARTIAL = 2,
-            LINEAR = 3
+            LINEAR = 3,
+            PRIO_EXEC = 4,
+            PRIO_EXEC_INTER = 5
         };
         void setup(MODEL_SPLIT_MODE mode, std::string modeAsString);
         bool allowedToStop();
@@ -167,10 +169,11 @@ namespace EdgeCaffe
         void setupBulkMode();
 
         void setupLinearMode();
-
         void setupDeepEyeMode();
 
         void setupPartialMode(int numberOfWorkers);
+
+        void setupExecPrioMode(int numberOfWorkers);
 
 //        void submitInferenceTask(const std::string &networkPath, const std::string &dataPath, bool use_scales = false);
     };

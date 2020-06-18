@@ -36,7 +36,8 @@ namespace EdgeCaffe
     , taskName(taskName)
     , estimatedExecutionTime(estimatedExecutionTime)
     , estimatedNeededMemory(estimatedNeededMemory)
-    {}
+    {
+    }
 
     bool Task::hasPoolAssigned()
     {
@@ -53,7 +54,8 @@ namespace EdgeCaffe
         return "General Task";
     }
 
-    Task::~Task(){}
+    Task::~Task(){
+    }
 
     void Task::execute()
     {

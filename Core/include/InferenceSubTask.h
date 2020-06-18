@@ -39,7 +39,7 @@ namespace EdgeCaffe
 
         virtual ~InferenceSubTask();
 
-        Task *lastTask;
+        Task *lastTask = nullptr;
         Task *firstTask = nullptr;
 
     };

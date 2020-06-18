@@ -10,6 +10,13 @@
 
 namespace EdgeCaffe
 {
+//    Forward declaration
+    class Task;
+    class TaskReference {
+        bool executed = false;
+        Task *content = nullptr;
+    };
+
     class Task
     {
     public:

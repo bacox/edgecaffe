@@ -4,6 +4,7 @@
 
 #include <opencv2/imgcodecs.hpp>
 #include <GeneratedNetwork.h>
+#include <PriorityTaskPool.h>
 #include "../include/Orchestrator.h"
 
 namespace EdgeCaffe
@@ -132,8 +133,7 @@ namespace EdgeCaffe
             std::vector<Task *> listOfTasks = iTask->net->getTasks();
 
 
-
-            if (splitMode == MODEL_SPLIT_MODE::LINEAR)
+            if (splitMode == MODEL_SPLIT_MODE::LINEAR || splitMode == MODEL_SPLIT_MODE::BULK || splitMode == MODEL_SPLIT_MODE::PRIO_EXEC_INTER)
             {
                 if(last != nullptr)
                 {
@@ -142,8 +142,8 @@ namespace EdgeCaffe
             }
             for(auto task : listOfTasks)
                 task->measureTime(Task::TIME::TO_WAITING);
-            last = listOfTasks.back();
-
+//            last = listOfTasks.back();
+            last = iTask->net->subTasks.front()->lastTask;
 
 
             bagOfTasks.reserve(listOfTasks.size()); // preallocate memory
@@ -295,6 +295,12 @@ namespace EdgeCaffe
             case LINEAR:
                 setupLinearMode();
                 break;
+            case PRIO_EXEC:
+                setupExecPrioMode(2);
+                break;
+            case PRIO_EXEC_INTER:
+                setupExecPrioMode(2);
+                break;
             default:
                 setupPartialMode(2);
         }
@@ -357,5 +363,16 @@ namespace EdgeCaffe
     const std::vector<Worker *> &Orchestrator::getWorkers() const
     {
         return workers;
+    }
+
+    void Orchestrator::setupExecPrioMode(int numberOfWorkers)
+    {
+        TaskPool *taskPool = new PriorityTaskPool;
+        taskPools.push_back(taskPool);
+
+        for (int i = 0; i < numberOfWorkers; ++i)
+        {
+            workers.push_back(new Worker(taskPool, &outPool, i));
+        }
     }
 }

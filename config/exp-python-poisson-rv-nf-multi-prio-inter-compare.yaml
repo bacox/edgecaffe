@@ -2,7 +2,7 @@
 # Base configuration for the experiments for the poisson arrivals
 network-path: networks
 resources-path: ../resources
-output-path: ../analysis/experiments/poisson_arrivals/rv-nf-check-run-100-4-networks
+output-path: ../analysis/experiments/poisson_arrivals/rv-nf-multi-facenet-prio-inter-compare
 general-outputfile: generalOutput_poisson_arrivals.csv
 mean-service-time:
   128M: 1096.65320827
@@ -12,17 +12,21 @@ mean-service-time:
   4G: 368.53780722
 #  512M: 417.98935261
   # 1G: 812.97
-  1G: 1866.880805
+  # 1G: 1550.2
+  1G: 3916.7
   # 2G: 925.08
-  2G: 1870.607122
+  # 2G: 1543.2
+  2G: 3926.5
   # 512M: 903.7
-  512M: 1871.771445
-rho: [0.7, 0.8, 0.9, 0.95]
+  # 512M: 1578.4
+  512M: 6762.9
+rho: [1]
 # rho: [0.8]
-memory-constraints: [2G, 1G, 512M]
-# memory-constraints: [512M]
-modes: [partial, bulk, deepeye, linear]
+# memory-constraints: [512M, 1G, 2G]
+memory-constraints: [512M]
+modes: [execprio-inter, execprio]
+#modes: [execprio]
 # modes: [deepeye]
-repetitions: 100
+repetitions: 10
 cmd-base: Exp_poisson_arrival_rv_nf
 build-folder: cmake-build-debug
