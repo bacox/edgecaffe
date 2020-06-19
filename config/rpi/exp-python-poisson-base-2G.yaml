@@ -2,7 +2,7 @@
 # Base configuration for the experiments for the poisson arrivals
 network-path: networks
 resources-path: ../resources
-output-path: ../analysis/experiments/poisson_arrivals/rv-nf-multi-facenet-base-recheck
+output-path: ../analysis/experiments/poisson_arrivals/rv-nf-multi-facenet-rpi-2g-base
 general-outputfile: generalOutput_poisson_arrivals.csv
 #mean-service-time:
 #  128M: 1096.65320827
@@ -17,7 +17,8 @@ general-outputfile: generalOutput_poisson_arrivals.csv
 #rho: [0.7, 0.8, 0.9, 0.95]
 # memory-constraints: [2G, 1G, 512M]
 # memory-constraints: [512M]
-memory-constraints: [512M]
+#memory-constraints: [512M]
+memory-constraints: [2G]
 
 modes: [deepeye, deepeye, deepeye, deepeye, deepeye, deepeye, deepeye, deepeye, deepeye, deepeye]
 repetitions: 1
