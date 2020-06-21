@@ -8,5 +8,6 @@ CMD=$3
 CUR_WD=$(eval pwd)
 export OPENBLAS_NUM_THREADS=2
 cd ./$BUILD_FOLDER
+pwd
 $CMD
 cd $CUR_WD
