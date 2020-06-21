@@ -188,6 +188,13 @@ add_dependencies(EdgeCaffe_build_all
         pycaffe
         )
 
+install(TARGETS caffe __pycaffe pycaffe caffeproto
+        COMPONENT EdgeCaffeApp
+        RUNTIME DESTINATION "/opt/edgecaffe/bin"
+        LIBRARY DESTINATION "/opt/edgecaffe/lib"
+        ARCHIVE DESTINATION "/opt/edgecaffe/lib"
+        )
+
 ##############################################################
 # Configuration for installing EdgeCaffe                     #
 # Run 'sudo make install' to install on the current system   #
@@ -211,16 +218,19 @@ add_dependencies(EdgeCaffe_build_all
 #        DESTINATION "${CMAKE_INSTALL_PREFIX}"
 #        )
 
-INSTALL(DIRECTORY ${CMAKE_BINARY_DIR}/config DESTINATION ${CMAKE_INSTALL_PREFIX})
+INSTALL(DIRECTORY ${CMAKE_BINARY_DIR}/config DESTINATION /opt/edgecaffe COMPONENT EdgeCaffeApp)
+#INSTALL(DIRECTORY ${CMAKE_SOURCE_DIR}/resources DESTINATION /opt/edgecaffe COMPONENT EdgeCaffeApp)
 if (${INSTALL_RESOURCES})
-    INSTALL(DIRECTORY ${CMAKE_SOURCE_DIR}/resources DESTINATION ${CMAKE_INSTALL_PREFIX})
+#    INSTALL(DIRECTORY ${CMAKE_SOURCE_DIR}/resources DESTINATION ${CMAKE_INSTALL_PREFIX})
+    INSTALL(DIRECTORY ${CMAKE_SOURCE_DIR}/resources DESTINATION /opt/edgecaffe COMPONENT EdgeCaffeApp)
 endif ()
 
 if (${INSTALL_NETWORKS})
     INSTALL(DIRECTORY ${CMAKE_BINARY_DIR}/networks DESTINATION ${CMAKE_INSTALL_PREFIX})
 endif ()
 MESSAGE(STATUS "CMAKE INSTALL PREFIX '${CMAKE_INSTALL_PREFIX}'")
-INSTALL(DIRECTORY ${CMAKE_SOURCE_DIR}/scripts DESTINATION ${CMAKE_INSTALL_PREFIX} COMPONENT EdgeCaffeApp)
+#INSTALL(DIRECTORY ${CMAKE_SOURCE_DIR}/scripts DESTINATION ${CMAKE_INSTALL_PREFIX} COMPONENT EdgeCaffeApp)
+INSTALL(DIRECTORY ${CMAKE_SOURCE_DIR}/scripts DESTINATION /opt/edgecaffe COMPONENT EdgeCaffeApp)
 
 set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 
