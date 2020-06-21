@@ -57,8 +57,8 @@ int main(int argc, char *argv[])
     ageNet.loadInputToNetwork();
 
     // Create all the tasks with their dependencies
-    genderNet.createTasks();
-    ageNet.createTasks();
+    genderNet.createTasks(1);
+    ageNet.createTasks(1);
 
     /**
      * Combine the generated tasks into one single vector of tasks

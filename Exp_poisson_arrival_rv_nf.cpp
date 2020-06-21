@@ -224,7 +224,8 @@ int main(int argc, char *argv[])
 //        singleBatchList.push_back({network});
 //    }
 //    arrivals.setEnabledNetworks(singleBatchList);
-     arrivals.setEnabledNetworks({{"FaceNet", "FaceNet"}});
+     // arrivals.setEnabledNetworks({{"AgeNet", "FaceNet"}});
+     arrivals.setEnabledNetworks({{"FaceNet", "AgeNet"}});
 //    arrivals.setEnabledNetworks({{"AgeNet", "AgeNet"}});
 //    arrivals.setEnabledNetworks({{"AgeNet", "AgeNet", "AgeNet", "AgeNet", "AgeNet"}});
 //    arrivals.setEnabledNetworks({{"SoS", "SoS", "SoS", "SoS", "SoS"}});

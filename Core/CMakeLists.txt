@@ -26,6 +26,20 @@ target_include_directories(${PROJECT_NAME}
         ${CMAKE_CURRENT_SOURCE_DIR}/src
         )
 
+set_target_properties( ${PROJECT_NAME}
+        PROPERTIES
+        ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib"
+        LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib"
+        RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin"
+        )
+install(TARGETS ${PROJECT_NAME}
+        COMPONENT EdgeCaffeApp
+        RUNTIME DESTINATION "/opt/edgecaffe/bin"
+        LIBRARY DESTINATION "/opt/edgecaffe/lib"
+        ARCHIVE DESTINATION "/opt/edgecaffe/lib"
+        DESTINATION "${CMAKE_INSTALL_PREFIX}"
+        )
+
 if (${BUILD_SHARED_LIBS})
     target_link_libraries(${PROJECT_NAME}
             caffe

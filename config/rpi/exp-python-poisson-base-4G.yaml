@@ -1,8 +1,8 @@
 ---
 # Base configuration for the experiments for the poisson arrivals
 network-path: networks
-resources-path: ../resources
-output-path: ../analysis/experiments/poisson_arrivals/rv-nf-multi-facenet-rpi-4g-base
+resources-path: ./resources
+output-path: ./analysis/experiments/poisson_arrivals/rv-nf-multi-facenet-rpi-4g-base
 general-outputfile: generalOutput_poisson_arrivals.csv
 #mean-service-time:
 #  128M: 1096.65320827

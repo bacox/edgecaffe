@@ -21,10 +21,12 @@ message(STATUS "CMAKE BUILD TYPE IS ${CMAKE_BUILD_TYPE}")
 
 # Make sure that the install path is set to /opt/edgecaffe
 SET(CMAKE_INSTALL_PREFIX /opt/edgecaffe)
+set(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib")
+#set(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/bin")
 
 # ---[ Install settings
 option(INSTALL_NETWORKS "Install the networks found in the build folder" OFF)
-option(INSTALL_RESOURCES "Install the input files found in the build folder" OFF)
+option(INSTALL_RESOURCES "Install the input files found in the build folder" ON)
 option(BUILD_SHARED_LIBS "Build shared libraries" ON)
 
 # ---[ Main Target
@@ -125,7 +127,20 @@ macro(ADD_BINARY_TARGET TARGET_NAME)
             thirdparty/cxxopts
             )
 
-    if (${BUILD_SHARED_LIBS})
+    set_target_properties( ${TARGET_NAME}
+            PROPERTIES
+            ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib"
+            LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib"
+            RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin"
+            )
+    install(TARGETS ${TARGET_NAME}
+            COMPONENT EdgeCaffeApp
+            RUNTIME DESTINATION "/opt/edgecaffe/bin"
+            LIBRARY DESTINATION "/opt/edgecaffe/lib"
+            ARCHIVE DESTINATION "/opt/edgecaffe/lib"
+            DESTINATION "${CMAKE_INSTALL_PREFIX}"
+            )
+            if (${BUILD_SHARED_LIBS})
 #        Make sure not the whole archive is included in linking
         target_link_libraries(${TARGET_NAME}
                 EdgeCaffeCore
@@ -154,6 +169,7 @@ ADD_BINARY_TARGET(Exp_poisson_arrival_rv_nf)
 # ---[ Copy resourcess
 file(COPY ${CMAKE_SOURCE_DIR}/networks DESTINATION ${CMAKE_BINARY_DIR})
 file(COPY ${CMAKE_SOURCE_DIR}/config DESTINATION ${CMAKE_BINARY_DIR})
+file(COPY ${CMAKE_SOURCE_DIR}/scripts DESTINATION ${CMAKE_BINARY_DIR})
 
 # ---[ Set a target to build multiple targets at the same time
 add_custom_target(EdgeCaffe_build_all
@@ -163,6 +179,8 @@ add_custom_target(EdgeCaffe_build_all
         )
 
 add_dependencies(EdgeCaffe_build_all
+        caffe
+        EdgeCaffeCore
         RunPipeline
         Exp_const_arrivals
         ModelSplitter
@@ -178,12 +196,20 @@ add_dependencies(EdgeCaffe_build_all
 # run in the terminal:                                       #
 #   'cd /opt && sudo chown -R $USER:$USER edgecaffe'         #
 ##############################################################
-install(TARGETS RunPipeline caffe ModelSplitter Exp_const_arrivals EdgeCaffeCore
-        COMPONENT EdgeCaffeApp
-        RUNTIME DESTINATION "/opt/edgecaffe/bin"
-        LIBRARY DESTINATION "/opt/edgecaffe/lib"
-        DESTINATION "${CMAKE_INSTALL_PREFIX}"
-        )
+
+
+#install(TARGETS RunPipeline caffe ModelSplitter EdgeCaffeCore Exp_const_arrivals
+#        COMPONENT EdgeCaffeApp
+#        RUNTIME DESTINATION "/opt/edgecaffe/bin"
+#        LIBRARY DESTINATION "/opt/edgecaffe/lib"
+#        ARCHIVE DESTINATION "/opt/edgecaffe/lib"
+#        DESTINATION "${CMAKE_INSTALL_PREFIX}"
+#        )
+
+#install(FILES ${CMAKE_BINARY_DIR}/caffe/lib/libcaffe-d.so.1.0.0
+#        COMPONENT EdgeCaffeApp
+#        DESTINATION "${CMAKE_INSTALL_PREFIX}"
+#        )
 
 INSTALL(DIRECTORY ${CMAKE_BINARY_DIR}/config DESTINATION ${CMAKE_INSTALL_PREFIX})
 if (${INSTALL_RESOURCES})
@@ -193,8 +219,10 @@ endif ()
 if (${INSTALL_NETWORKS})
     INSTALL(DIRECTORY ${CMAKE_BINARY_DIR}/networks DESTINATION ${CMAKE_INSTALL_PREFIX})
 endif ()
-INSTALL(DIRECTORY ${CMAKE_SOURCE_DIR}/scripts DESTINATION ${CMAKE_INSTALL_PREFIX})
+MESSAGE(STATUS "CMAKE INSTALL PREFIX '${CMAKE_INSTALL_PREFIX}'")
+INSTALL(DIRECTORY ${CMAKE_SOURCE_DIR}/scripts DESTINATION ${CMAKE_INSTALL_PREFIX} COMPONENT EdgeCaffeApp)
 
+set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 
 #####################################################
 # ---[ Configuration for Debian package generater   #
@@ -207,6 +235,9 @@ set(CPACK_COMPONENTS_ALL EdgeCaffeApp)
 set(CPACK_SET_DESTDIR true)
 set(CPACK_INSTALL_PREFIX /opt/edgecaffe)
 set(CPACK_ARCHIVE_COMPONENT_INSTALL ON)
+set(CPACK_DEBIAN_PACKAGE_DEBUG ON)
+set(CPACK_DEB_COMPONENT_INSTALL ON)
+set(CPACK_DEBIAN_PACKAGE_GENERATE_SHLIBS ON)
 INCLUDE(CPack)
 
 MESSAGE(STATUS "CXX flags ${CMAKE_CXX_FLAGS}")
