@@ -2,18 +2,23 @@
 # Read config file
 import os
 
-pathToConfig = 'config/rpi/exp-python-poisson-base-4G.yaml'
+pathToConfig = 'config/rpi/base/exp-python-poisson-base-4G.yaml'
 
+import time
 import yaml
 import itertools
 
 # Read the configuration that was stored in the bash scripts
 
 
-def gen_cmd_call(cmd_base , pathToConfig, repetitions, mem_limit, mode, selected_network, use_poisson):
+def network_args(list_of_networks):
+    return ' '.join(['--network={}'.format(n) for n in list_of_networks])
+
+def gen_cmd_call(cmd_base , pathToConfig, repetitions, mem_limit, mode, list_of_networks, use_poisson):
     # print('Got config for roh: {}, mem limit: {}, and mode: {}'. format(rho, mem_limit, mode))
-    output_prefix = '{}-{}-{}-'.format(selected_network, mem_limit, mode)
-    cmd_str = './{} --read-config={} --output-prefix={} --mem_limit={} --verbose=false --num-arrivals={} --poisson-distribution={} --network={} --mode={}'.format(cmd_base, pathToConfig, output_prefix, mem_limit, repetitions, use_poisson, selected_network, mode)
+
+    output_prefix = '{}-{}-{}-'.format(''.join(list_of_networks), mem_limit, mode)
+    cmd_str = './{} --read-config={} --output-prefix={} --mem_limit={} --verbose=false --num-arrivals={} --poisson-distribution={} {} --mode={}'.format(cmd_base, pathToConfig, output_prefix, mem_limit, repetitions, use_poisson, network_args(list_of_networks), mode)
     return cmd_str
 
 
@@ -45,7 +50,7 @@ with open(pathToConfig, 'r') as stream:
 # rho = config['rho']
 rho = []
 # networks = ['AgeNet', 'GenderNet','FaceNet', 'SoS_GoogleNet', 'SoS']
-networks = ['FaceNet']
+networks = [['FaceNet', 'FaceNet']]
 memory_constraints = config['memory-constraints']
 repetitions = config['repetitions']
 modes = config['modes']
@@ -81,7 +86,9 @@ for line in lines:
     print('* {}{}{}{} *'.format(line[0], separator, ' '*(max_len - (len(line[0]) + len(separator)+len(line[1]))), line[1]))
 print('*'*(max_len+4))
 
-input("Press Enter to continue...")
+# input("Press Enter to continue...")
+print("Input free mode. Experiment will start after 10 seconds, cancel before that to abort!")
+time.sleep(10)
 
 # Start running commands
 base_script = 'sudo bash ./scripts/poisson_exp/rpi/poisson_rv_nf_base.sh'

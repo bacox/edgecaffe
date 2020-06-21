@@ -2,8 +2,7 @@
 # Read config file
 import os
 
-pathToConfig = 'config/rpi/base/exp-python-poisson-base-512M.yaml'
-
+pathToConfig = 'config/rpi/exp/exp-python-poisson-512M.yaml'
 import time
 import yaml
 import itertools
@@ -94,15 +93,15 @@ time.sleep(10)
 base_script = 'sudo bash ./scripts/poisson_exp/rpi/poisson_rv_nf_base_limit.sh'
 
 idx = 1
-for variation in variations:
+for memory_constraints, modes, networks in variations:
     # print(gen_cmd_call(cmd_base, pathToConfig, repetitions, *variation))
-    CMD = gen_cmd_call(cmd_base, pathToConfig, repetitions, *variation,poisson_distribution)
-    script_cmd = '{} {} {} \'{}\''.format(base_script, variation[0], build_folder, CMD)
+    CMD = gen_cmd_call(cmd_base, pathToConfig, repetitions, memory_constraints, modes, networks ,poisson_distribution)
+    script_cmd = '{} {} {} \'{}\''.format(base_script, memory_constraints, build_folder, CMD)
     padding = ''
     if idx < 10:
         padding = ' '
     progress_text = '[{}{}/{}]'.format(padding, idx, numberOfVariations)
-    print_run_call(progress_text, CMD, repetitions, *variation)
+    print_run_call(progress_text, CMD, repetitions, memory_constraints, modes, networks)
     print(script_cmd)
     os.system(script_cmd)
     idx += 1

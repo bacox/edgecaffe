@@ -53,7 +53,7 @@ void EdgeCaffe::ArrivalList::generateList(int numberOfArrivals, DISTRIBUTION_TYP
     UniformDist networkDist = UniformDist({0, (double)allowedBatches.size() - 1});
 
     // For now use a static input
-    std::string pathToImg = "../resources/test_1.jpg";
+    std::string pathToImg = "resources/test_1.jpg";
 
     // Generate the arrivals
     for( int i = 0; i < numberOfArrivals; ++i)

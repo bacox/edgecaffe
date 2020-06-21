@@ -38,8 +38,8 @@ set(EDGECAFFE_INCLUDE "")
 set(EDGECAFFE_LINK "")
 
 # ---[ EdgeCaffe version
-set(EDGECAFFE_TARGET_VERSION "1.1.0" CACHE STRING "EdgeCaffe logical version")
-set(EDGECAFFE_TARGET_SOVERSION "1.1.0" CACHE STRING "EdgeCaffe soname version")
+set(EDGECAFFE_TARGET_VERSION "1.1.3" CACHE STRING "EdgeCaffe logical version")
+set(EDGECAFFE_TARGET_SOVERSION "1.1.3" CACHE STRING "EdgeCaffe soname version")
 add_definitions(-DEDGECAFFE_VERSION=${EDGECAFFE_TARGET_VERSION})
 
 # ---[ Flags
@@ -170,6 +170,7 @@ ADD_BINARY_TARGET(Exp_poisson_arrival_rv_nf)
 file(COPY ${CMAKE_SOURCE_DIR}/networks DESTINATION ${CMAKE_BINARY_DIR})
 file(COPY ${CMAKE_SOURCE_DIR}/config DESTINATION ${CMAKE_BINARY_DIR})
 file(COPY ${CMAKE_SOURCE_DIR}/scripts DESTINATION ${CMAKE_BINARY_DIR})
+file(COPY ${CMAKE_SOURCE_DIR}/resources DESTINATION ${CMAKE_BINARY_DIR})
 
 # ---[ Set a target to build multiple targets at the same time
 add_custom_target(EdgeCaffe_build_all
@@ -226,7 +227,7 @@ if (${INSTALL_RESOURCES})
 endif ()
 
 if (${INSTALL_NETWORKS})
-    INSTALL(DIRECTORY ${CMAKE_BINARY_DIR}/networks DESTINATION ${CMAKE_INSTALL_PREFIX})
+#    INSTALL(DIRECTORY ${CMAKE_BINARY_DIR}/networks DESTINATION /opt/edgecaffe  COMPONENT EdgeCaffeApp)
 endif ()
 MESSAGE(STATUS "CMAKE INSTALL PREFIX '${CMAKE_INSTALL_PREFIX}'")
 #INSTALL(DIRECTORY ${CMAKE_SOURCE_DIR}/scripts DESTINATION ${CMAKE_INSTALL_PREFIX} COMPONENT EdgeCaffeApp)

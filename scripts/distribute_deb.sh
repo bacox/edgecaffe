@@ -3,7 +3,7 @@
 echo '> Retrieving arm deb file from RPI_4'
 mkdir -p ./tmp
 rm ./tmp/edgecaffe-arm.deb || true
-scp ubuntu@rpi_4:~/edgecaffe/build/EdgeCaffe-0.1.1-Linux.deb ./tmp/edgecaffe-arm.deb
+scp ubuntu@rpi_4:~/projects/edgecaffe/cmake-build-debug/EdgeCaffe-0.1.1-Linux-EdgeCaffeApp.deb ./tmp/edgecaffe-arm.deb
 
 echo '> Copy deb file to RPI_1'
 ssh ubuntu@rpi_1 'sudo apt-get purge -y edgecaffe' || true

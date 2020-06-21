@@ -25,3 +25,5 @@ networks/GeneratedNet_1
 .Doxyfile
 *.tmp.cpp
 venv
+networks_export
+networks_descr.tar.xz
