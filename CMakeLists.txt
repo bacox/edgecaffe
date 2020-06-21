@@ -232,6 +232,16 @@ MESSAGE(STATUS "CMAKE INSTALL PREFIX '${CMAKE_INSTALL_PREFIX}'")
 #INSTALL(DIRECTORY ${CMAKE_SOURCE_DIR}/scripts DESTINATION ${CMAKE_INSTALL_PREFIX} COMPONENT EdgeCaffeApp)
 INSTALL(DIRECTORY ${CMAKE_SOURCE_DIR}/scripts DESTINATION /opt/edgecaffe COMPONENT EdgeCaffeApp)
 
+install(
+        DIRECTORY ${CMAKE_SOURCE_DIR}/networks
+        COMPONENT EdgeCaffeApp
+        DESTINATION /opt/edgecaffe
+        FILES_MATCHING
+        PATTERN "*"
+        PATTERN "*.caffemodel" EXCLUDE
+        PATTERN "*_partials" EXCLUDE
+)
+
 set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 
 #####################################################

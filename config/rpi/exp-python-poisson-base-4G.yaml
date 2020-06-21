@@ -1,3 +1,4 @@
+
 ---
 # Base configuration for the experiments for the poisson arrivals
 network-path: networks
@@ -22,6 +23,12 @@ memory-constraints: [4G]
 
 modes: [deepeye, deepeye, deepeye, deepeye, deepeye, deepeye, deepeye, deepeye, deepeye, deepeye]
 repetitions: 1
-cmd-base: Exp_poisson_arrival_rv_nf
-build-folder: cmake-build-debug
+cmd-base: ./bin/Exp_poisson_arrival_rv_nf
+build-folder: .
 poisson-distribution: false
+
+
+
+
+
+
