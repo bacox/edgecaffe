@@ -2,7 +2,7 @@
 # Read config file
 import os
 
-pathToConfig = 'config/exp-python-poisson-rv-nf-multi-prio-inter-compare.yaml'
+pathToConfig = 'config/exp-python-poisson-rv-nf-multi-age-facenet-combined-reversed.yaml'
 
 import yaml
 import itertools

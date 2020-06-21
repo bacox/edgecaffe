@@ -3,7 +3,7 @@ sudo apt install -y python3-opencv
 sudo apt-get install -y libopenblas-dev # OpenBLAS
 
 sudo apt-get install -y libprotobuf-dev libleveldb-dev libsnappy-dev libopencv-dev libhdf5-serial-dev libboost-all-dev protobuf-compiler
-sudo apt-get install -y —-no-install-recommends libboost-all-dev
+sudo apt-get install -y --no-install-recommends libboost-all-dev
 sudo apt-get install -y libgflags-dev libgoogle-glog-dev liblmdb-dev
 pip3 install protobuf
 sudo apt-get install -y python3-dev

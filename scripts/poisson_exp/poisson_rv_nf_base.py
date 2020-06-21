@@ -2,7 +2,7 @@
 # Read config file
 import os
 
-pathToConfig = 'config/exp-python-poisson-base-multi.yaml'
+pathToConfig = 'config/exp-python-poisson-base-combined.yaml'
 
 import yaml
 import itertools
