@@ -2,7 +2,7 @@
 # Base configuration for the experiments for the poisson arrivals
 network-path: networks
 resources-path: ../resources
-output-path: ../analysis/experiments/poisson_arrivals/rv-nf-multi-facenet-base-age-facenet-combined-reversed
+output-path: ../analysis/experiments/poisson_arrivals/rv-nf-multi-facenet-base-double-SoS
 general-outputfile: generalOutput_poisson_arrivals.csv
 #mean-service-time:
 #  128M: 1096.65320827
@@ -20,6 +20,6 @@ memory-constraints: [2G, 1G, 512M]
 
 modes: [deepeye, deepeye, deepeye, deepeye, deepeye, deepeye, deepeye, deepeye, deepeye, deepeye]
 repetitions: 1
-cmd-base: Exp_poisson_arrival_rv_nf
+cmd-base: bin/Exp_poisson_arrival_rv_nf
 build-folder: cmake-build-debug
 poisson-distribution: false

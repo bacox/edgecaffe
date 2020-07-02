@@ -9,11 +9,13 @@ import itertools
 
 # Read the configuration that was stored in the bash scripts
 
+def network_args(list_of_networks):
+    return ' '.join(['--network={}'.format(n) for n in list_of_networks])
 
-def gen_cmd_call(cmd_base , pathToConfig, repetitions, mem_limit, mode, selected_network, use_poisson):
+def gen_cmd_call(cmd_base , pathToConfig, repetitions, mem_limit, mode, list_of_networks, use_poisson):
     # print('Got config for roh: {}, mem limit: {}, and mode: {}'. format(rho, mem_limit, mode))
-    output_prefix = '{}-{}-{}-'.format(selected_network, mem_limit, mode)
-    cmd_str = './{} --read-config={} --output-prefix={} --mem_limit={} --verbose=false --num-arrivals={} --poisson-distribution={} --network={} --mode={}'.format(cmd_base, pathToConfig, output_prefix, mem_limit, repetitions, use_poisson, selected_network, mode)
+    output_prefix = '{}-{}-{}-'.format(''.join(list_of_networks), mem_limit, mode)
+    cmd_str = './{} --read-config={} --output-prefix={} --mem_limit={} --verbose=false --num-arrivals={} --poisson-distribution={} --mode={} {}'.format(cmd_base, pathToConfig, output_prefix, mem_limit, repetitions, use_poisson, mode, network_args(list_of_networks))
     return cmd_str
 
 
@@ -45,7 +47,7 @@ with open(pathToConfig, 'r') as stream:
 # rho = config['rho']
 rho = []
 # networks = ['AgeNet', 'GenderNet','FaceNet', 'SoS_GoogleNet', 'SoS']
-networks = ['FaceNet']
+networks = [['SoS', 'SoS']]
 memory_constraints = config['memory-constraints']
 repetitions = config['repetitions']
 modes = config['modes']
@@ -87,15 +89,16 @@ input("Press Enter to continue...")
 base_script = 'sudo bash ./scripts/poisson_exp/poisson_rv_nf_base.sh'
 
 idx = 1
-for variation in variations:
+# for variation in variations:
+for memory, mode, list_of_networks in variations:
     # print(gen_cmd_call(cmd_base, pathToConfig, repetitions, *variation))
-    CMD = gen_cmd_call(cmd_base, pathToConfig, repetitions, *variation,poisson_distribution)
-    script_cmd = '{} {} {} \'{}\''.format(base_script, variation[0], build_folder, CMD)
+    CMD = gen_cmd_call(cmd_base, pathToConfig, repetitions, memory, mode, list_of_networks,poisson_distribution)
+    script_cmd = '{} {} {} \'{}\''.format(base_script, memory, build_folder, CMD)
     padding = ''
     if idx < 10:
         padding = ' '
     progress_text = '[{}{}/{}]'.format(padding, idx, numberOfVariations)
-    print_run_call(progress_text, CMD, repetitions, *variation)
+    print_run_call(progress_text, CMD, repetitions, memory, mode, list_of_networks)
     print(script_cmd)
     os.system(script_cmd)
     idx += 1

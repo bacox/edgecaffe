@@ -7,10 +7,10 @@ general-outputfile: generalOutput_poisson_arrivals.csv
 mean-service-time:
   128M: 1096.65320827
   256M: 643.9415593100001
-  512M: 2322
-  1G: 2321
-  2G: 2330
-  4G: 368.53780722
+  512M: 79702
+  1G: 31384
+  2G: 8004
+  4G: 7803
 rho: [1]
 memory-constraints: [2G]
 modes: [execprio-inter, execprio, partial, bulk, deepeye, linear]
