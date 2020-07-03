@@ -20,7 +20,7 @@ namespace EdgeCaffe
     class GeneratedNetwork : public InferenceNetwork
     {
     public:
-        GeneratedNetwork(const std::string &pathToDescription);
+        GeneratedNetwork(const std::string &pathToDescription, bool * dependencyCondition);
 
         void createTasks(int splittingPolicy) override;
 

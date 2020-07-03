@@ -258,7 +258,8 @@ poissonDistribution = true;
     orchestrator.setArrivals(arrivals);
 
     auto startTime = std::chrono::high_resolution_clock::now();
-
+    orchestrator.mc.setCapacity(350); // In MB
+    orchestrator.mc.lockMemory(4.87); // Base usage of the pipeline
     orchestrator.start();
     orchestrator.processTasks();
     orchestrator.waitForStop();

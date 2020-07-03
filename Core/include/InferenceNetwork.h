@@ -10,6 +10,7 @@
 #include "Tasks/Task.h"
 #include "InferenceSubTask.h"
 #include "TaskPool.h"
+#include "MemoryCounter.h"
 #include <string>
 #include <opencv2/core/mat.hpp>
 //#include "../thirdparty/caffe/include/caffe/caffe.hpp"
@@ -70,6 +71,7 @@ namespace EdgeCaffe
     private:
         std::vector<LayerDescription> layerDescriptions;
     public:
+        double maxMemoryUsage = 0;
         std::vector<Task *> tasks;
         bool use_scales = false;
         std::string dataPath;
@@ -83,10 +85,13 @@ namespace EdgeCaffe
     protected:
 
         std::string pathToDescription;
+        bool * dependencyCondition;
 
         void preprocess(bool use_scales = false);
 
     public:
+
+        MemoryCounter *mc;
 
 
         static int TASKID_COUNTER;
@@ -122,7 +127,7 @@ namespace EdgeCaffe
         }
 
 
-        InferenceNetwork(const std::string &pathToDescription);
+        InferenceNetwork(const std::string &pathToDescription, bool *dependencyCondition);
 
         virtual void init(YAML::Node &description);
         virtual void init();

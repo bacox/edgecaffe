@@ -16,6 +16,8 @@
 #include "InferenceNetwork.h"
 #include "InferenceOutput.h"
 #include "ArrivalList.h"
+#include "MemoryCounter.h"
+
 #ifdef MEMORY_CHECK_ON
 // This will only be used when the MEMORY_CHECK_ON is set in CMAKE
 #include <Profiler/MemCheck.h>
@@ -86,8 +88,11 @@ namespace EdgeCaffe
                     }
                 }
             }
-
+            MemoryCounter *mc = net->mc;
+            double networkMemoryUsage = net->maxMemoryUsage;
             delete net;
+            mc->releaseMemory(networkMemoryUsage);
+
         };
     };
 
@@ -133,7 +138,17 @@ namespace EdgeCaffe
         Output output;
 
         std::vector<Worker *> workers;
+
+
+        // Create a boolean variable to enforce or loosen the inter-network dependency
+        // False is equal to the partial and execprio dependency scheme
+        // True is equeal to the exec-prio dependency scheme
+        bool enforceInterDependencies = false;
+        double memoryCapacity = 0; // In MB
+        double memoryBaseFootprint = 4.87; // In MB
+
     public:
+        MemoryCounter mc;
         const std::vector<Worker *> &getWorkers() const;
         bool verbose = true;
 

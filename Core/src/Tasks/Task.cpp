@@ -10,24 +10,51 @@ namespace EdgeCaffe
     bool Task::waitsForOtherTasks()
     {
         bool isWaiting = false;
-        for (Task *t: dependsOn)
+        for(TaskDependency t: dependsOn)
         {
-            if (t == nullptr)
-                continue;
-            if (!t->executed)
+            if(!t.isExecuted())
                 isWaiting = true;
         }
+
+        // If true we are enforcing the linear behaviour
+        if(*dependencyCondition)
+        {
+            for (ConditionalDependency t: dependsOnConditional)
+            {
+                if (!t.isExecuted())
+                    isWaiting = true;
+            }
+        }
+
+
+//        for (Task *t: dependsOn)
+//        {
+//            if (t == nullptr)
+//                continue;
+//            if (!t->executed)
+//                isWaiting = true;
+//        }
         return isWaiting;
     }
 
-    std::vector<Task *> Task::getDependencies()
+    std::vector<TaskDependency> Task::getDependencies() const
     {
         return dependsOn;
     }
 
-    void Task::addTaskDependency(Task *t)
+    std::vector<ConditionalDependency> Task::getConditionalDependencies() const
     {
-        dependsOn.push_back(t);
+        return dependsOnConditional;
+    }
+
+    void Task::addTaskDependency(TaskDependency t)
+    {
+        dependsOn.emplace_back(t);
+    }
+
+    void Task::addTaskDependency(ConditionalDependency t)
+    {
+        dependsOnConditional.emplace_back(t);
     }
 
     Task::Task(int id, int networkId, const std::string &taskName, int estimatedExecutionTime, int estimatedNeededMemory)

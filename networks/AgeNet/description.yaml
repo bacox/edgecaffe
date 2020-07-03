@@ -11,6 +11,7 @@ layer-statistics: AgeNet.stats.csv
 has-input-layer: true
 num-conv-layers: 12
 num-fc-layers: 8
+max-memory-usage: 160.74
 conv-layers:
   - id: 0
     name: input

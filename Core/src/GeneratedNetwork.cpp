@@ -5,8 +5,8 @@
 #include <Tasks/DummyTask.h>
 #include "GeneratedNetwork.h"
 
-EdgeCaffe::GeneratedNetwork::GeneratedNetwork(const std::string &pathToDescription) : InferenceNetwork(
-        pathToDescription
+EdgeCaffe::GeneratedNetwork::GeneratedNetwork(const std::string &pathToDescription, bool* dependencyCondition) : InferenceNetwork(
+        pathToDescription, dependencyCondition
 )
 {}
 
@@ -44,7 +44,7 @@ void EdgeCaffe::GeneratedNetwork::createTasks(int splittingPolicy)
         loading->taskName = dnn->networkName + "-dummy-loading-layer" + std::to_string(loading->layerId);
         loading->isLoadingTask = true;
         if(lastTask != nullptr)
-            loading->dependsOn.push_back(lastTask);
+            loading->dependsOn.push_back(TaskDependency(lastTask));
         lastTask = loading;
 
         if (dnn->firstTask == nullptr)
@@ -57,7 +57,7 @@ void EdgeCaffe::GeneratedNetwork::createTasks(int splittingPolicy)
         exec->layerId = layer.id;
         exec->taskName = dnn->networkName + "-dummy-executing-layer" + std::to_string(exec->layerId);
         if(lastTask != nullptr)
-            exec->dependsOn.push_back(lastTask);
+            exec->dependsOn.push_back(TaskDependency(lastTask));
         lastTask = exec;
         if (dnn->firstTask == nullptr)
         {

@@ -16,6 +16,8 @@ namespace EdgeCaffe
         int i = 0;
         workers.push_back(new Worker(taskPool, &outPool, i++));
 
+        // Enforce inter dependencies to create linear inter-network behaviour
+        this->enforceInterDependencies = true;
     }
 
     void Orchestrator::setupDeepEyeMode()
@@ -27,6 +29,9 @@ namespace EdgeCaffe
         int i = 0;
         workers.push_back(new Worker(convPool, &outPool, i++));
         workers.push_back(new Worker(fcPool, &outPool, i++));
+
+        // Enforce inter dependencies to create linear inter-network behaviour
+        this->enforceInterDependencies = true;
     }
 
     void Orchestrator::setupPartialMode(int numberOfWorkers)
@@ -39,6 +44,9 @@ namespace EdgeCaffe
         {
             workers.push_back(new Worker(taskPool, &outPool, i));
         }
+
+        // Do not enforce inter dependencies to prevent linear inter-network behaviour
+        this->enforceInterDependencies = false;
     }
 
     void Orchestrator::setupLinearMode()
@@ -48,6 +56,9 @@ namespace EdgeCaffe
 
         int i = 0;
         workers.push_back(new Worker(taskPool, &outPool, i++));
+
+        // Enforce inter dependencies to create linear inter-network behaviour
+        this->enforceInterDependencies = true;
         #ifdef MEMORY_CHECK_ON
         // This will only be used when the MEMORY_CHECK_ON is set in CMAKE
         workers.back()->perf = &perf;
@@ -87,7 +98,7 @@ namespace EdgeCaffe
     void Orchestrator::submitInferenceTask(Arrival arrivalTask, bool use_scales)
     {
 
-        for(auto arrivalNetwork : arrivalTask.networks)
+        for(const auto& arrivalNetwork : arrivalTask.networks)
         {
             InferenceTask *iTask = new InferenceTask;
 //            iTask->pathToNetwork = arrivalTask.pathToNetwork;
@@ -109,18 +120,19 @@ namespace EdgeCaffe
             {
                 // Generated network
 //                iTask->net = new GeneratedNetwork(arrivalTask.pathToNetwork);
-                iTask->net = new GeneratedNetwork(arrivalNetwork.pathToNetwork);
+                iTask->net = new GeneratedNetwork(arrivalNetwork.pathToNetwork, &this->enforceInterDependencies);
                 iTask->net->init(description);
                 iTask->output.networkName = iTask->net->subTasks.front()->networkName;
             } else {
                 // Default network
 //                iTask->net = new InferenceNetwork(arrivalTask.pathToNetwork);
-                iTask->net = new InferenceNetwork(arrivalNetwork.pathToNetwork);
+                iTask->net = new InferenceNetwork(arrivalNetwork.pathToNetwork, &this->enforceInterDependencies);
                 iTask->net->init(description);
                 iTask->net->use_scales = description["use-scales"].as<bool>(false);
                 iTask->net->dataPath = arrivalTask.pathToData;
                 iTask->output.networkName = iTask->net->subTasks.front()->networkName;
             }
+            iTask->net->mc = &this->mc;
 
             for(auto tp : taskPools)
                 iTask->net->taskpools.push_back(tp);
@@ -133,13 +145,24 @@ namespace EdgeCaffe
             std::vector<Task *> listOfTasks = iTask->net->getTasks();
 
 
-            if (splitMode == MODEL_SPLIT_MODE::LINEAR || splitMode == MODEL_SPLIT_MODE::BULK || splitMode == MODEL_SPLIT_MODE::PRIO_EXEC_INTER)
+            /**
+             * Lets give all networks optional constraints
+             * The constraints are not enforced by default.
+             * We can optimize to later on by using two lists for conditional constraints and normal constraints
+             */
+            if(last != nullptr)
             {
-                if(last != nullptr)
-                {
-                    iTask->net->subTasks.front()->firstTask->addTaskDependency(last);
-                }
+                auto obj = ConditionalDependency(last, &this->enforceInterDependencies);
+                iTask->net->subTasks.front()->firstTask->addTaskDependency(ConditionalDependency(last, &this->enforceInterDependencies));
             }
+
+//            if (splitMode == MODEL_SPLIT_MODE::LINEAR || splitMode == MODEL_SPLIT_MODE::BULK || splitMode == MODEL_SPLIT_MODE::PRIO_EXEC_INTER)
+//            {
+//                if(last != nullptr)
+//                {
+//                    iTask->net->subTasks.front()->firstTask->addTaskDependency(TaskDependency(last));
+//                }
+//            }
             for(auto task : listOfTasks)
                 task->measureTime(Task::TIME::TO_WAITING);
 //            last = listOfTasks.back();
@@ -190,6 +213,7 @@ namespace EdgeCaffe
         inferenceTasks.push_back(nullptr);
         inferenceTasks[0] = nullptr;
         inferenceTasks.clear();
+        mc.interNetworkCondition = &enforceInterDependencies;
     }
 
     bool Orchestrator::allFinished()
@@ -238,7 +262,9 @@ namespace EdgeCaffe
 
                 // deallocate
                 inferenceTask->output.policy = splitModeAsString;
+
                 inferenceTask->dealloc();
+
 
             }
         }
@@ -297,12 +323,23 @@ namespace EdgeCaffe
                 break;
             case PRIO_EXEC:
                 setupExecPrioMode(2);
+
+                // This is not a clean way, but its quick
+                // Make sure this is after the setup call
+                // Do not enforce inter dependencies to prevent linear inter-network behaviour
+                this->enforceInterDependencies = false;
                 break;
             case PRIO_EXEC_INTER:
                 setupExecPrioMode(2);
+
+                // This is not a clean way, but its quick
+                // Make sure this is after the setup call
+                // Enforce inter dependencies to create linear inter-network behaviour
+                this->enforceInterDependencies = true;
                 break;
             default:
-                setupPartialMode(2);
+//                Partial Mode is default
+                setupPartialMode(4);
         }
         splitMode = mode;
         splitModeAsString = modeAsString;
