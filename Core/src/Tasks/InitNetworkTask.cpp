@@ -8,7 +8,7 @@
 void EdgeCaffe::InitNetworkTask::run()
 {
     // Subtract memory usage from free memory space
-    inet->mc->lockMemory(inet->maxMemoryUsage);
+//    inet->mc->lockMemory(inet->maxMemoryUsage);
     inet->networkProfile.measure(NetworkProfile::START);
     std::cout << "Loading input from " << pathToInput << std::endl;
     cv::Mat input_img = cv::imread(pathToInput);

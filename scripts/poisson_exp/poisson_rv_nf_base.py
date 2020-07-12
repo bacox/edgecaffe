@@ -47,7 +47,7 @@ with open(pathToConfig, 'r') as stream:
 # rho = config['rho']
 rho = []
 # networks = ['AgeNet', 'GenderNet','FaceNet', 'SoS_GoogleNet', 'SoS']
-networks = [['SoS', 'SoS']]
+networks = [['AgeNet', 'GenderNet', 'FaceNet']]
 memory_constraints = config['memory-constraints']
 repetitions = config['repetitions']
 modes = config['modes']

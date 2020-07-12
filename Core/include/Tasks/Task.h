@@ -72,6 +72,7 @@ namespace EdgeCaffe
 
         // Condition to enforce linear behaviour for inter- network dependencies
         bool * dependencyCondition;
+        double requiredMemory = 0;
 
 
         // To measure the actual execution time

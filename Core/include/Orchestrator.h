@@ -17,6 +17,7 @@
 #include "InferenceOutput.h"
 #include "ArrivalList.h"
 #include "MemoryCounter.h"
+#include "NetworkRegistry.h"
 
 #ifdef MEMORY_CHECK_ON
 // This will only be used when the MEMORY_CHECK_ON is set in CMAKE
@@ -109,7 +110,9 @@ namespace EdgeCaffe
             PARTIAL = 2,
             LINEAR = 3,
             PRIO_EXEC = 4,
-            PRIO_EXEC_INTER = 5
+            PRIO_EXEC_INTER = 5,
+            MASA_P = 6,
+            MASA_E = 7
         };
         void setup(MODEL_SPLIT_MODE mode, std::string modeAsString);
         bool allowedToStop();
@@ -146,9 +149,15 @@ namespace EdgeCaffe
         bool enforceInterDependencies = false;
         double memoryCapacity = 0; // In MB
         double memoryBaseFootprint = 4.87; // In MB
+        bool masaEnabled = false;
+    public:
+        bool isMasaEnabled() const;
+
+        void setMasaEnabled(bool masaEnabled);
 
     public:
         MemoryCounter mc;
+        NetworkRegistry nr;
         const std::vector<Worker *> &getWorkers() const;
         bool verbose = true;
 
@@ -189,6 +198,9 @@ namespace EdgeCaffe
         void setupPartialMode(int numberOfWorkers);
 
         void setupExecPrioMode(int numberOfWorkers);
+
+        void setupMasa_P(int numberOfWorkers);
+        void setupMasa_E(int numberOfWorkers);
 
 //        void submitInferenceTask(const std::string &networkPath, const std::string &dataPath, bool use_scales = false);
     };

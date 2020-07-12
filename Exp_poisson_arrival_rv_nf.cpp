@@ -143,6 +143,14 @@ int main(int argc, char *argv[])
     double mst = getArgs<double>(result, "mst", 1, config, configAsText);
     double iat = getArgs<double>(result, "iat", 1000, config, configAsText);
 
+
+    std::unordered_map<std::string, int> memory_values = {
+            {"512M", 512}
+            , {"1G", 1024}
+            , {"2G", 2048}
+            , {"4G", 4096}
+
+    };
     // std::vector<std::string> selectedNetwork = {"AgeNet", "FaceNet", "SoS_GoogleNet"};
     // std::vector<std::string> selectedNetwork = {"AgeNet", "GenderNet"};
     std::vector<std::string> selectedNetwork = {"AgeNet", "GenderNet", "FaceNet", "SoS"};
@@ -176,6 +184,14 @@ int main(int argc, char *argv[])
     {
         mode = EdgeCaffe::Orchestrator::MODEL_SPLIT_MODE::PRIO_EXEC_INTER;
         modeAsString = "execprio-inter";
+    } else if (defaultMode == "masa-p")
+    {
+        mode = EdgeCaffe::Orchestrator::MODEL_SPLIT_MODE::MASA_P;
+        modeAsString = "masa-p";
+    } else if (defaultMode == "masa-e")
+    {
+        mode = EdgeCaffe::Orchestrator::MODEL_SPLIT_MODE::MASA_E;
+        modeAsString = "masa-e";
     }
     configAsText["defaultMode"] = modeAsString;
     std::string outputFile = "output.csv";
@@ -258,7 +274,7 @@ poissonDistribution = true;
     orchestrator.setArrivals(arrivals);
 
     auto startTime = std::chrono::high_resolution_clock::now();
-    orchestrator.mc.setCapacity(350); // In MB
+    orchestrator.mc.setCapacity(memory_values[memLimit]); // In MB
     orchestrator.mc.lockMemory(4.87); // Base usage of the pipeline
     orchestrator.start();
     orchestrator.processTasks();
@@ -267,6 +283,9 @@ poissonDistribution = true;
     auto endTime = std::chrono::high_resolution_clock::now();
     auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(endTime - startTime).count();
     std::cout << duration << " milliseconds" << std::endl;
+
+
+
 
 
     /**
@@ -300,5 +319,7 @@ poissonDistribution = true;
         auto lines = worker->workerProfileToCSVLines();
         output.toCSV(workerStatFile, lines, EdgeCaffe::Output::WORKER);
     }
+
+    output.toCSV(pathToOutput + "/" + outputPrefix + "cc-networks.csv", orchestrator.nr.toCSV(), EdgeCaffe::Output::CONCURRENT_NETWORKS);
     return 0;
 }

@@ -9,62 +9,6 @@
 
 namespace EdgeCaffe
 {
-    void Orchestrator::setupBulkMode()
-    {
-        TaskPool *taskPool = new TaskPool;
-        taskPools.push_back(taskPool);
-        int i = 0;
-        workers.push_back(new Worker(taskPool, &outPool, i++));
-
-        // Enforce inter dependencies to create linear inter-network behaviour
-        this->enforceInterDependencies = true;
-    }
-
-    void Orchestrator::setupDeepEyeMode()
-    {
-        TaskPool *convPool = new TaskPool;
-        TaskPool *fcPool = new TaskPool;
-        taskPools.push_back(convPool);
-        taskPools.push_back(fcPool);
-        int i = 0;
-        workers.push_back(new Worker(convPool, &outPool, i++));
-        workers.push_back(new Worker(fcPool, &outPool, i++));
-
-        // Enforce inter dependencies to create linear inter-network behaviour
-        this->enforceInterDependencies = true;
-    }
-
-    void Orchestrator::setupPartialMode(int numberOfWorkers)
-    {
-
-        TaskPool *taskPool = new TaskPool;
-        taskPools.push_back(taskPool);
-
-        for (int i = 0; i < numberOfWorkers; ++i)
-        {
-            workers.push_back(new Worker(taskPool, &outPool, i));
-        }
-
-        // Do not enforce inter dependencies to prevent linear inter-network behaviour
-        this->enforceInterDependencies = false;
-    }
-
-    void Orchestrator::setupLinearMode()
-    {
-        TaskPool *taskPool = new TaskPool;
-        taskPools.push_back(taskPool);
-
-        int i = 0;
-        workers.push_back(new Worker(taskPool, &outPool, i++));
-
-        // Enforce inter dependencies to create linear inter-network behaviour
-        this->enforceInterDependencies = true;
-        #ifdef MEMORY_CHECK_ON
-        // This will only be used when the MEMORY_CHECK_ON is set in CMAKE
-        workers.back()->perf = &perf;
-        #endif
-    }
-
     void Orchestrator::start()
     {
         #ifdef MEMORY_CHECK_ON
@@ -144,25 +88,27 @@ namespace EdgeCaffe
             iTask->net->createTasks(splitMode);
             std::vector<Task *> listOfTasks = iTask->net->getTasks();
 
-
             /**
-             * Lets give all networks optional constraints
-             * The constraints are not enforced by default.
-             * We can optimize to later on by using two lists for conditional constraints and normal constraints
+             * Do not use the conditional constraints for. Just force linearity with hard constraints
              */
-            if(last != nullptr)
-            {
-                auto obj = ConditionalDependency(last, &this->enforceInterDependencies);
-                iTask->net->subTasks.front()->firstTask->addTaskDependency(ConditionalDependency(last, &this->enforceInterDependencies));
-            }
-
-//            if (splitMode == MODEL_SPLIT_MODE::LINEAR || splitMode == MODEL_SPLIT_MODE::BULK || splitMode == MODEL_SPLIT_MODE::PRIO_EXEC_INTER)
+//            /**
+//             * Lets give all networks optional constraints
+//             * The constraints are not enforced by default.
+//             * We can optimize to later on by using two lists for conditional constraints and normal constraints
+//             */
+//            if(last != nullptr)
 //            {
-//                if(last != nullptr)
-//                {
-//                    iTask->net->subTasks.front()->firstTask->addTaskDependency(TaskDependency(last));
-//                }
+//                auto obj = ConditionalDependency(last, &this->enforceInterDependencies);
+//                iTask->net->subTasks.front()->firstTask->addTaskDependency(ConditionalDependency(last, &this->enforceInterDependencies));
 //            }
+
+            if (splitMode == MODEL_SPLIT_MODE::LINEAR || splitMode == MODEL_SPLIT_MODE::BULK || splitMode == MODEL_SPLIT_MODE::PRIO_EXEC_INTER)
+            {
+                if(last != nullptr)
+                {
+                    iTask->net->subTasks.front()->firstTask->addTaskDependency(TaskDependency(last));
+                }
+            }
             for(auto task : listOfTasks)
                 task->measureTime(Task::TIME::TO_WAITING);
 //            last = listOfTasks.back();
@@ -262,8 +208,11 @@ namespace EdgeCaffe
 
                 // deallocate
                 inferenceTask->output.policy = splitModeAsString;
-
+                auto netId = inferenceTask->net->networkId;
                 inferenceTask->dealloc();
+                nr.deactivateNetwork();
+//                std::cout << "DEALLOC network id: " << netId << std::endl;
+
 
 
             }
@@ -322,7 +271,7 @@ namespace EdgeCaffe
                 setupLinearMode();
                 break;
             case PRIO_EXEC:
-                setupExecPrioMode(2);
+                setupExecPrioMode(4);
 
                 // This is not a clean way, but its quick
                 // Make sure this is after the setup call
@@ -330,12 +279,18 @@ namespace EdgeCaffe
                 this->enforceInterDependencies = false;
                 break;
             case PRIO_EXEC_INTER:
-                setupExecPrioMode(2);
+                setupExecPrioMode(4);
 
                 // This is not a clean way, but its quick
                 // Make sure this is after the setup call
                 // Enforce inter dependencies to create linear inter-network behaviour
                 this->enforceInterDependencies = true;
+                break;
+            case MASA_P:
+                setupMasa_P(4);
+                break;
+            case MASA_E:
+                setupMasa_E(4);
                 break;
             default:
 //                Partial Mode is default
@@ -402,14 +357,110 @@ namespace EdgeCaffe
         return workers;
     }
 
-    void Orchestrator::setupExecPrioMode(int numberOfWorkers)
+    void Orchestrator::setupBulkMode()
     {
-        TaskPool *taskPool = new PriorityTaskPool;
+        TaskPool *taskPool = new TaskPool;
+        taskPool->mc = &mc;
+        taskPool->nr = &nr;
+        taskPool->masaEnabled = &masaEnabled;
+        taskPools.push_back(taskPool);
+        int i = 0;
+        workers.push_back(new Worker(taskPool, &outPool, i++));
+
+        // Enforce inter dependencies to create linear inter-network behaviour
+        this->enforceInterDependencies = false;
+    }
+
+    void Orchestrator::setupDeepEyeMode()
+    {
+        TaskPool *convPool = new TaskPool;
+        convPool->mc = &mc;
+        convPool->nr = &nr;
+        convPool->masaEnabled = &masaEnabled;
+        TaskPool *fcPool = new TaskPool;
+        fcPool->mc = &mc;
+        fcPool->nr = &nr;
+        fcPool->masaEnabled = &masaEnabled;
+        taskPools.push_back(convPool);
+        taskPools.push_back(fcPool);
+        int i = 0;
+        workers.push_back(new Worker(convPool, &outPool, i++));
+        workers.push_back(new Worker(fcPool, &outPool, i++));
+
+        // Enforce inter dependencies to create linear inter-network behaviour
+        this->enforceInterDependencies = true;
+    }
+
+    void Orchestrator::setupPartialMode(int numberOfWorkers)
+    {
+
+        TaskPool *taskPool = new TaskPool;
+        taskPool->mc = &mc;
+        taskPool->nr = &nr;
+        taskPool->masaEnabled = &masaEnabled;
         taskPools.push_back(taskPool);
 
         for (int i = 0; i < numberOfWorkers; ++i)
         {
             workers.push_back(new Worker(taskPool, &outPool, i));
         }
+
+        // Do not enforce inter dependencies to prevent linear inter-network behaviour
+        this->enforceInterDependencies = false;
+    }
+
+    void Orchestrator::setupLinearMode()
+    {
+        TaskPool *taskPool = new TaskPool;
+        taskPool->mc = &mc;
+        taskPool->nr = &nr;
+        taskPool->masaEnabled = &masaEnabled;
+        taskPools.push_back(taskPool);
+
+        int i = 0;
+        workers.push_back(new Worker(taskPool, &outPool, i++));
+
+        // Enforce inter dependencies to create linear inter-network behaviour
+        this->enforceInterDependencies = true;
+        #ifdef MEMORY_CHECK_ON
+                // This will only be used when the MEMORY_CHECK_ON is set in CMAKE
+                workers.back()->perf = &perf;
+        #endif
+    }
+
+    void Orchestrator::setupExecPrioMode(int numberOfWorkers)
+    {
+        TaskPool *taskPool = new PriorityTaskPool;
+        taskPool->mc = &mc;
+        taskPool->nr = &nr;
+        taskPool->masaEnabled = &masaEnabled;
+        taskPools.push_back(taskPool);
+
+        for (int i = 0; i < numberOfWorkers; ++i)
+        {
+            workers.push_back(new Worker(taskPool, &outPool, i));
+        }
+    }
+
+    void Orchestrator::setupMasa_P(int numberOfWorkers)
+    {
+        setupPartialMode(numberOfWorkers);
+        masaEnabled = true;
+    }
+
+    void Orchestrator::setupMasa_E(int numberOfWorkers)
+    {
+        setupExecPrioMode(numberOfWorkers);
+        masaEnabled = true;
+    }
+
+    bool Orchestrator::isMasaEnabled() const
+    {
+        return masaEnabled;
+    }
+
+    void Orchestrator::setMasaEnabled(bool masaEnabled)
+    {
+        Orchestrator::masaEnabled = masaEnabled;
     }
 }

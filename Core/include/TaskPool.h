@@ -10,6 +10,8 @@
 #include <deque>
 #include <map>
 #include "Tasks/Task.h"
+#include "MemoryCounter.h"
+#include "NetworkRegistry.h"
 
 namespace EdgeCaffe
 {
@@ -30,11 +32,14 @@ namespace EdgeCaffe
         std::mutex mtx;
     private:
         SCHEDULING_POLICY policy;
-
         void add_FCFS(Task *t_ptr);
-        void add_SJF(Task *t_ptr);
 
+        void add_SJF(Task *t_ptr);
     public:
+
+        MemoryCounter *mc = nullptr;
+        NetworkRegistry *nr = nullptr;
+        bool *masaEnabled = nullptr;
 
         /**
          * Checks whethter a specific task is present in the pool

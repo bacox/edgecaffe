@@ -54,13 +54,41 @@ bool EdgeCaffe::PriorityTaskPool::getNext(EdgeCaffe::Task **task)
         return true;
     }
 
-    if(loadTasks.size() > 0)
+
+    auto it = loadTasks.begin();
+    for(it ; it!=loadTasks.end(); ++it)
     {
-        // Get the first exec task
-        *task = loadTasks.begin()->second;
-        // Remove the first task from the map
-        loadTasks.erase(loadTasks.begin());
-        return true;
+        // Check if task is valid
+        if(!*masaEnabled || this->nr->numActiveNetworks() == 0 || it->second->requiredMemory <= mc->getFreeSpace() || it->second->requiredMemory == 0)
+//            if(it->second->requiredMemory <= mc->getFreeSpace() || this->nr->numActiveNetworks() == 0)
+        {
+            // Degub output
+            // std::cout << "Task " << it->second->id << " is allowed to run because t:" << it->second->requiredMemory << " <= mc:" << mc->getFreeSpace()  << std::endl;
+            *task = it->second;
+            mc->lockMemory((*task)->requiredMemory);
+            loadTasks.erase(it);
+            if((*task)->taskType == "init")
+            {
+                nr->activateNetwork();
+            }
+//            // This task is small enough in terms of memory
+//            *task = it->second;
+//            mc->lockMemory((*task)->requiredMemory);
+//            loadTasks.erase(it);
+            return true;
+        }
     }
+
+//    if(loadTasks.size() > 0)
+//    {
+//
+//
+//
+//        // Get the first exec task
+//        *task = loadTasks.begin()->second;
+//        // Remove the first task from the map
+//        loadTasks.erase(loadTasks.begin());
+//        return true;
+//    }
     return false;
 }

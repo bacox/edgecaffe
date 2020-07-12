@@ -26,7 +26,8 @@ namespace EdgeCaffe{
             ARRIVALS,
             NETWORK,
             WORKER,
-            CONFIG
+            CONFIG,
+            CONCURRENT_NETWORKS
         };
 
         std::map <TYPE, std::string> headers {
@@ -39,6 +40,7 @@ namespace EdgeCaffe{
                  , { NETWORK, "networkId,networkName,arrivalTimestamp,waitingTime,executionTime"}
                 , { WORKER, "startTime,stopTime,duration,type"}
                 , { CONFIG, "variable,value"}
+                , {CONCURRENT_NETWORKS, "timestamp,number-of-networks"}
         };
 
         void toCSV(std::string pathToFile, std::vector<std::string> lines, TYPE type, bool writeHeaders = true);

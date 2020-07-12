@@ -560,6 +560,7 @@ namespace EdgeCaffe
         init->use_scales = this->use_scales;
         init->pathToInput = this->dataPath;
         init->dependencyCondition = this->dependencyCondition;
+        init->requiredMemory = this->maxMemoryUsage;
         return init;
     }
 

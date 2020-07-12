@@ -11,6 +11,7 @@ layer-statistics: Salient-Object-Subitizing.stats.csv
 has-input-layer: true
 num-conv-layers: 16
 num-fc-layers: 6
+max-memory-usage: 656.01
 conv-layers:
   - id: 0
     name: input

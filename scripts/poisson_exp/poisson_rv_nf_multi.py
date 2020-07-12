@@ -2,7 +2,7 @@
 # Read config file
 import os
 
-pathToConfig = 'config/exp-python-poisson-rv-nf-multi-double-sos.yaml'
+pathToConfig = 'config/masa/exp-python-poisson-rv-nf-multi-4w-age-gender-face.yaml'
 
 import yaml
 import itertools
@@ -46,14 +46,15 @@ with open(pathToConfig, 'r') as stream:
         exit(1)
 
 rho = config['rho']
-networks = [['SoS', 'SoS']]
+networks = [['AgeNet', 'GenderNet', 'FaceNet']]
 memory_constraints = config['memory-constraints']
 repetitions = config['repetitions']
 modes = config['modes']
 cmd_base = config['cmd-base']
 build_folder = config['build-folder']
 output_path = config['output-path']
-ait_multipliers = [0.6, 0.7, 0.8, 0.9, 0.925, 0.95, 0.975, 1, 1.025, 1.05, 1.075, 1.1]
+# ait_multipliers = [0.6, 0.7, 0.8, 0.9, 0.925, 0.95, 0.975, 1, 1.025, 1.05, 1.075, 1.1]
+ait_multipliers = [0.6, 0.7, 0.8, 0.9, 0.925, 0.95, 0.975, 1]
 # ait_multipliers = [1.1]
 
 cwd = os.getcwd()

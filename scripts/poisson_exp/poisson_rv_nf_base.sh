@@ -6,7 +6,7 @@ BYTE_LIMIT=$1
 BUILD_FOLDER=$2
 CMD=$3
 CUR_WD=$(eval pwd)
-export OPENBLAS_NUM_THREADS=2
+export OPENBLAS_NUM_THREADS=4
 cd ./$BUILD_FOLDER
 sudo cgcreate -g memory:bulk-inference
 sudo cgset -r memory.limit_in_bytes="${BYTE_LIMIT}" bulk-inference

@@ -28,7 +28,17 @@ namespace EdgeCaffe{
 
         void setCapacity(double capacity);
 
+        /**
+         * Returns the absolute free space value, hence is always a non-negative value
+         * @return
+         */
         double getFreeSpace() const;
+
+        /**
+         * Returns the free space value. NOTE: this value can be negative.
+         * @return
+         */
+        double getRealFreeSpace() const;
 
         void lockMemory(double usage);
         void releaseMemory(double usage);
