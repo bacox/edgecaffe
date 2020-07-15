@@ -7,7 +7,7 @@
 #include "../include/Tasks/ExecTask.h"
 #include <yaml-cpp/yaml.h>
 #include <opencv2/imgproc.hpp>
-#include <cv.hpp>
+#include <opencv2/opencv.hpp>
 #include <BaseNet.h>
 #include <caffe/caffe.hpp>
 #include <Tasks/InitNetworkTask.h>
