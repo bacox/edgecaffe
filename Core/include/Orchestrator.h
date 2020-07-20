@@ -114,7 +114,7 @@ namespace EdgeCaffe
             MASA_P = 6,
             MASA_E = 7
         };
-        void setup(MODEL_SPLIT_MODE mode, std::string modeAsString);
+        void setup(MODEL_SPLIT_MODE mode, std::string modeAsString, int num_threads = 2);
         bool allowedToStop();
         void start();
         void waitForStop();

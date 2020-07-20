@@ -257,7 +257,7 @@ namespace EdgeCaffe
 
     }
 
-    void Orchestrator::setup(Orchestrator::MODEL_SPLIT_MODE mode,  std::string modeAsString)
+    void Orchestrator::setup(Orchestrator::MODEL_SPLIT_MODE mode,  std::string modeAsString, int num_threads)
     {
         switch (mode)
         {
@@ -271,7 +271,7 @@ namespace EdgeCaffe
                 setupLinearMode();
                 break;
             case PRIO_EXEC:
-                setupExecPrioMode(4);
+                setupExecPrioMode(num_threads);
 
                 // This is not a clean way, but its quick
                 // Make sure this is after the setup call
@@ -279,7 +279,7 @@ namespace EdgeCaffe
                 this->enforceInterDependencies = false;
                 break;
             case PRIO_EXEC_INTER:
-                setupExecPrioMode(4);
+                setupExecPrioMode(num_threads);
 
                 // This is not a clean way, but its quick
                 // Make sure this is after the setup call
@@ -287,14 +287,14 @@ namespace EdgeCaffe
                 this->enforceInterDependencies = true;
                 break;
             case MASA_P:
-                setupMasa_P(4);
+                setupMasa_P(num_threads);
                 break;
             case MASA_E:
-                setupMasa_E(4);
+                setupMasa_E(num_threads);
                 break;
             default:
 //                Partial Mode is default
-                setupPartialMode(4);
+                setupPartialMode(num_threads);
         }
         splitMode = mode;
         splitModeAsString = modeAsString;

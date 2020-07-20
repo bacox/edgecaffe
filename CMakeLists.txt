@@ -160,8 +160,8 @@ macro(ADD_BINARY_TARGET TARGET_NAME)
 endmacro()
 
 # ---[ Set all the targets to be build
-ADD_BINARY_TARGET(ScheduledPipeline)
-ADD_BINARY_TARGET(RunPipeline)
+#ADD_BINARY_TARGET(ScheduledPipeline)
+#ADD_BINARY_TARGET(RunPipeline)
 ADD_BINARY_TARGET(Exp_const_arrivals)
 ADD_BINARY_TARGET(Exp_poisson_arrival_baseline)
 ADD_BINARY_TARGET(Exp_poisson_arrival_rv_nf)
@@ -182,7 +182,7 @@ add_custom_target(EdgeCaffe_build_all
 add_dependencies(EdgeCaffe_build_all
         caffe
         EdgeCaffeCore
-        RunPipeline
+#        RunPipeline
         Exp_const_arrivals
         ModelSplitter
         __pycaffe

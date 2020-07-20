@@ -40,9 +40,7 @@ macro(LINK_TOOL_TARGET TARGET_NAME)
         #        The whole archive of caffe needs to be set for static linking
         target_link_libraries(${TARGET_NAME}
                 Threads::Threads
-                -Wl,--whole-archive
                 caffe
-                -Wl,--no-whole-archive
                 EdgeCaffeCore
                 stdc++fs
                 ${YAML_CPP_LINK_LIBRARIES}

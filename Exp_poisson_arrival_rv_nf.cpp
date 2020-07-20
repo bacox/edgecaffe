@@ -95,6 +95,7 @@ int main(int argc, char *argv[])
                     , cxxopts::value<double>())
             ("mst", "Set the mean service time to use", cxxopts::value<double>())
             ("iat", "Set the inter arrival time to use", cxxopts::value<double>())
+            ("n-workers", "Set the number of workers to be used for execution of the tasks. This only has effect on algorithms that do not use a fixed number of workers", cxxopts::value<int>())
             ("poisson-distribution","enable or disable poisson distribution as the arrival process. With this flag disabled, a constant distribution will be used.", cxxopts::value<bool>())
             ("h,help", "Print help message");
 
@@ -137,6 +138,7 @@ int main(int argc, char *argv[])
     std::string pathToNetworks = getArgs<std::string>(result, "network-path", "networks", config, configAsText);
     std::string pathToResources = getArgs<std::string>(result, "resources-path", "../resources", config, configAsText);
     std::string generalOutputFile = getArgs<std::string>(result, "general-outputfile", "generalOutput.csv", config, configAsText);
+    int n_workers = getArgs<int>(result, "n-workers", 2, config, configAsText);
     bool poissonDistribution = getArgs<bool>(result, "poisson-distribution", true, config, configAsText);
 
     double rho = getArgs<double>(result, "rho", 0, config, configAsText);
@@ -267,7 +269,7 @@ poissonDistribution = true;
     }
 
 
-    orchestrator.setup(mode, modeAsString);
+    orchestrator.setup(mode, modeAsString, n_workers);
     orchestrator.verbose = verbose;
     for(const auto &worker : orchestrator.getWorkers())
         worker->verbose = verbose;
@@ -308,7 +310,7 @@ poissonDistribution = true;
      * If the file does not exist it is created.
      */
     EdgeCaffe::Output output;
-    std::string generalLine = memLimit + "," + modeAsString + "," + std::to_string(duration) + "," + std::to_string(numArrivals) + "," + selectedNetwork.front() + "," + std::to_string(rho) + "," + std::to_string(meanServiceTime) + "," + std::to_string(interArrivalTime);
+    std::string generalLine = memLimit + "," + modeAsString + "," + std::to_string(duration) + "," + std::to_string(numArrivals) + "," + selectedNetwork.front() + "," + std::to_string(rho) + "," + std::to_string(meanServiceTime) + "," + std::to_string(interArrivalTime) + "," + std::to_string(n_workers);
     output.toCSVAppend(pathToOutput + "/" + generalOutputFile, {generalLine}, EdgeCaffe::Output::PIPELINE_EXT);
 
 

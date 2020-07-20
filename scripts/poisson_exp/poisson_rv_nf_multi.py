@@ -2,7 +2,7 @@
 # Read config file
 import os
 
-pathToConfig = 'config/masa/exp-python-poisson-rv-nf-multi-4w-age-gender-face.yaml'
+pathToConfig = 'config/masa/exp-python-poisson-rv-nf-multi-n_w-age-gender-face.yaml'
 
 import yaml
 import itertools
@@ -11,11 +11,11 @@ import itertools
 def network_args(list_of_networks):
     return ' '.join(['--network={}'.format(n) for n in list_of_networks])
 
-def gen_cmd_call(cmd_base , pathToConfig, repetitions, rho, mem_limit, mode, ait_multiplier,networks, iat):
+def gen_cmd_call(cmd_base , pathToConfig, repetitions, rho, mem_limit, mode, ait_multiplier,networks, iat, n_workers):
     # print('Got config for roh: {}, mem limit: {}, and mode: {}'. format(rho, mem_limit, mode))
-    output_prefix = 'r{}-m{}-{}-{}-'.format(rho, ait_multiplier, mem_limit, mode)
+    output_prefix = 'r{}-m{}-{}-{}-w{}'.format(rho, ait_multiplier, mem_limit, mode, n_workers)
     # cmd_str = './{} --read-config={} --output-prefix={} --mem_limit={} --verbose=false --num-arrivals={} --poisson-distribution={} --network={} --mode={}'.format(cmd_base, pathToConfig, output_prefix, mem_limit, repetitions, use_poisson, selected_network, mode)
-    cmd_str = './{} --read-config={} --output-prefix={} --mem_limit={} --verbose=false --num-arrivals={} --poisson-distribution=true --rho={} --iat={} --mode={} {}'.format(cmd_base, pathToConfig, output_prefix, mem_limit, repetitions, rho, iat, mode, network_args(networks))
+    cmd_str = './{} --read-config={} --output-prefix={} --mem_limit={} --verbose=false --num-arrivals={} --poisson-distribution=true --rho={} --iat={} --mode={} --n-workers={} {}'.format(cmd_base, pathToConfig, output_prefix, mem_limit, repetitions, rho, iat, mode, n_workers, network_args(networks))
     return cmd_str
 
 
@@ -46,22 +46,26 @@ with open(pathToConfig, 'r') as stream:
         exit(1)
 
 rho = config['rho']
-networks = [['AgeNet', 'GenderNet', 'FaceNet']]
+# networks = [['AgeNet', 'GenderNet', 'FaceNet']]
 memory_constraints = config['memory-constraints']
 repetitions = config['repetitions']
 modes = config['modes']
 cmd_base = config['cmd-base']
 build_folder = config['build-folder']
 output_path = config['output-path']
+
+networks = config['networks']
+ait_multipliers = config['ait_multipliers']
+n_workers = config['n_workers']
 # ait_multipliers = [0.6, 0.7, 0.8, 0.9, 0.925, 0.95, 0.975, 1, 1.025, 1.05, 1.075, 1.1]
-ait_multipliers = [0.6, 0.7, 0.8, 0.9, 0.925, 0.95, 0.975, 1]
+# ait_multipliers = [0.6, 0.7, 0.8, 0.9, 0.925, 0.95, 0.975, 1]
 # ait_multipliers = [1.1]
 
 cwd = os.getcwd()
 
-variations = list(itertools.product(*[rho, memory_constraints, modes, ait_multipliers, networks]))
+variations = list(itertools.product(*[rho, memory_constraints, modes, ait_multipliers, networks, n_workers]))
 # pathToConfig = './config/pipeline-rv-nf-poisson-arrival.yaml'
-numberOfVariations = (len(rho) * len(memory_constraints) * len(modes) * len(ait_multipliers) * len(networks))
+numberOfVariations = (len(rho) * len(memory_constraints) * len(modes) * len(ait_multipliers) * len(networks) * len(n_workers))
 
 
 lines = []
@@ -69,6 +73,7 @@ lines.append(['command',cmd_base])
 lines.append(['build folder',build_folder])
 lines.append(['path to config',pathToConfig])
 lines.append(['output path', output_path])
+lines.append(['Number of workers', ' '.join([str(n) for n in n_workers])])
 lines.append(['number of variations',str(numberOfVariations)])
 lines.append(['rho',' '.join([str(r) for r in rho])])
 lines.append(['networks',' '.join([str(r) for r in networks])])
@@ -94,7 +99,7 @@ base_script = 'sudo bash ./scripts/poisson_exp/poisson_rv_nf_base.sh'
 
 idx = 1
 # execute = False
-for rho, memory_constraints, modes, ait_multipliers, networks in variations:
+for rho, memory_constraints, modes, ait_multipliers, networks, n_worker in variations:
     # print(gen_cmd_call(cmd_base, pathToConfig, repetitions, *variation))
 
     # if variation ==  (1, '1G', 'deepeye', 0.975):
@@ -105,7 +110,7 @@ for rho, memory_constraints, modes, ait_multipliers, networks in variations:
     print(rho, memory_constraints, modes, ait_multipliers, networks)
     service_time = config['mean-service-time'][memory_constraints]
     iat = service_time * ait_multipliers
-    CMD = gen_cmd_call(cmd_base, pathToConfig, repetitions, rho, memory_constraints, modes, ait_multipliers, networks, iat)
+    CMD = gen_cmd_call(cmd_base, pathToConfig, repetitions, rho, memory_constraints, modes, ait_multipliers, networks, iat, n_worker)
 
 
 
