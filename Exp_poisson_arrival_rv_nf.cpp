@@ -72,7 +72,7 @@ int main(int argc, char *argv[])
             ("N,num-arrivals", "Number of arrivals to be generated", cxxopts::value<int>())
             (
                     "a,arrival-list"
-                    , "NOT_YET_IMPLEMENTED. Use this arrival list to inject arrivals instead of the generated one"
+                    , "Use this arrival list to inject arrivals instead of the generated one"
                     , cxxopts::value<std::string>())
             (
                     "p,output-prefix", "Prefix for all output files to make it them unique for a certain run"
