@@ -8,6 +8,9 @@
 #include <mutex>
 
 namespace EdgeCaffe{
+    /**
+     * MemoryCounter keeps track of the memory within the system
+     */
     class MemoryCounter
     {
     private:
