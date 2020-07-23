@@ -12,6 +12,7 @@
 #include <Util/Output.h>
 #include <cxxopts.h>
 #include <iomanip>      // std::setw
+#include <Util/Config.h>
 
 template<typename T>
 T getArgs(const cxxopts::ParseResult &result, std::string key, T defaultValue,const YAML::Node &yamlConfig,std::map<std::string, std::string> &configAsText)
@@ -57,6 +58,11 @@ int main(int argc, char *argv[])
     std::string helpMessage = "\n\nExp_const_arrivals executes DNN's using the EdgeCaffe framework based on different arrivals."
                               "\nArrivals arrive at the system based on the generated inter-arrival time."
                               "\nNote: some cli options are not yet implemented";
+    EdgeCaffe::Config &c_config = EdgeCaffe::Config::getInstance();
+
+    c_config.parseCli(argc, argv);
+    c_config.printConfig();
+
 
     cxxopts::Options options("Exp_const_arrivals", "One line description of MyProgram" + helpMessage);
     options.add_options()
