@@ -164,7 +164,7 @@ int main(int argc, char *argv[])
      */
     EdgeCaffe::Output output;
     std::string generalLine = c_config.memoryLimit() + "," + modeAsString + "," + std::to_string(duration) + "," + std::to_string(c_config.numArrivals()) + "," + c_config.networks().front() + "," + std::to_string(1) + "," + std::to_string(0) + "," + std::to_string(c_config.iat()) + "," + std::to_string(c_config.numberOfWorkers());
-    output.toCSVAppend(c_config.defaultOutPath(), {generalLine}, EdgeCaffe::Output::PIPELINE_EXT);
+    output.toCSVAppend(c_config.outputDirectory() + "/" + c_config.generalOutputFile(), {generalLine}, EdgeCaffe::Output::PIPELINE_EXT);
 
 
     for(auto worker : orchestrator.getWorkers())
