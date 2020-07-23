@@ -30,9 +30,13 @@ namespace EdgeCaffe {
             return configItem.value();
         }
 
-        T valueOrDefault()
+        T valueOrDefault() const
         {
             return configItem.has_value() ? configItem.value() : defaultValue;
+        }
+
+        T operator()() const {
+            return valueOrDefault();
         }
 
     };
@@ -46,7 +50,10 @@ namespace EdgeCaffe {
     class Config {
     private:
         std::string programName = "EdgeCaffe";
-        cxxopts::Options options = cxxopts::Options(programName,"Efficient execution of DNN on edge devices");
+        std::string helpMessage = "\n\nExp_const_arrivals executes DNN's using the EdgeCaffe framework based on different arrivals."
+                                  "\nArrivals arrive at the system based on the generated inter-arrival time."
+                                  "\nNote: some cli options are not yet implemented";
+        cxxopts::Options options = cxxopts::Options(programName,"Efficient execution of DNN on edge devices." + helpMessage);
     public:
 
         // Values of the config file that can be set
@@ -180,6 +187,11 @@ namespace EdgeCaffe {
             configAsText["network"] = networksAsString;
             parseArg(result, "ait", iat);
             configAsText["ait"] = std::to_string(iat.valueOrDefault());
+        }
+
+        std::string defaultOutPath()
+        {
+            return outputDirectory() + "/" + outputPrefix();
         }
 
 
