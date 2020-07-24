@@ -8,6 +8,8 @@
 #include <Util/Output.h>
 #include <cxxopts.h>
 #include <Util/Config.h>
+#include <TaskPool/AbstractTaskPool.h>
+#include <TaskPool/AbstractPriorityTaskPool.h>
 
 int main(int argc, char *argv[])
 {
@@ -74,6 +76,20 @@ int main(int argc, char *argv[])
         std::string configOutputFile = c_config.outputPrefix.valueOrDefault() + "config.csv";
         output.toCSV(c_config.outputDirectory.valueOrDefault() + "/" + configOutputFile, c_config.configAsText, EdgeCaffe::Output::CONFIG);
     }
+
+
+    EdgeCaffe::AbstractPriorityTaskPool atp;
+
+    EdgeCaffe::Task *t1 = new EdgeCaffe::LoadTask(0, 1, "First task");
+    t1->t_type = EdgeCaffe::Task::LOAD;
+    EdgeCaffe::Task *t2 = new EdgeCaffe::LoadTask(1, 1, "Second task");
+    t2->t_type = EdgeCaffe::Task::LOAD;
+    EdgeCaffe::Task *t3 = new EdgeCaffe::ExecTask(2, 1, "First Exec Task");
+    t3->t_type = EdgeCaffe::Task::EXEC;
+
+    atp.addTask(t1);
+    atp.addTask(t2);
+    atp.addTask(t3);
 
 
     /**

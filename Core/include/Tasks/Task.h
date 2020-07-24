@@ -25,6 +25,18 @@ namespace EdgeCaffe
     class Task
     {
     public:
+
+        enum TYPE {
+            INIT= 2,
+            LOAD= 1,
+            EXEC= 0
+        };
+
+        enum LAYER_TYPE {
+            CONV = 0,
+            FC = 1
+        };
+
         enum TIME {
 //            NET_SUBMIT,
             TO_WAITING,
@@ -59,6 +71,9 @@ namespace EdgeCaffe
         std::string layerName = "";
         std::string networkName = "";
         std::string taskType = "";
+
+        TYPE t_type;
+
 
         // Information for the scheduler (orchestrator) to use specific taskpools for this task if the poolId is set.
         int assignedPoolId = -1;
