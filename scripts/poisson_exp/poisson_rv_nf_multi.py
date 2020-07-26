@@ -4,7 +4,7 @@ import yaml
 import itertools
 
 # Read config file
-pathToConfig = 'config/masa/exp-python-poisson-rv-nf-multi-n_w-age-gender-face.yaml'
+pathToConfig = 'config/masa/exp-python-poisson-rv-nf-memory-matters.yaml'
 
 
 # Read the configuration that was stored in the bash scripts

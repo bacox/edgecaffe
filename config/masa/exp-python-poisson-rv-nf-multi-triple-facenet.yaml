@@ -2,7 +2,7 @@
 # Base configuration for the experiments for the poisson arrivals
 network-path: networks
 resources-path: ../resources
-output-path: ../analysis/experiments/poisson_arrivals/rv-nf-masa-triple-facenet
+output-path: ../analysis/experiments/poisson_arrivals/rv-nf-masa-memory-matters
 general-outputfile: generalOutput_poisson_arrivals.csv
 mean-service-time:
   128M: 1096.65320827
@@ -18,9 +18,9 @@ mean-service-time:
   512M: 10982
 rho: [1]
 # rho: [0.8]
-memory-constraints: [512M, 1G, 2G]
+memory-constraints: [256M, 512M, 1G, 2G]
 # memory-constraints: [512M]
-modes: [masa-e, bulk, deepeye]
+modes: [bulk, deepeye]
 #modes: [execprio]
 # modes: [deepeye]
 repetitions: 50

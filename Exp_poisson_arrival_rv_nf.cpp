@@ -251,7 +251,7 @@ int main(int argc, char *argv[])
         arrivals.setEnabledNetworks({selectedNetwork});
         arrivals.setSeed(seed);
 
-        poissonDistribution = true;
+        poissonDistribution = false;
         if (poissonDistribution)
         {
             arrivals.generateList(numArrivals, EdgeCaffe::ArrivalList::DISTRIBUTION_TYPE::POISSON, {interArrivalTime});
