@@ -38,8 +38,11 @@ set(EDGECAFFE_INCLUDE "")
 set(EDGECAFFE_LINK "")
 
 # ---[ EdgeCaffe version
-set(EDGECAFFE_TARGET_VERSION "1.1.3" CACHE STRING "EdgeCaffe logical version")
-set(EDGECAFFE_TARGET_SOVERSION "1.1.3" CACHE STRING "EdgeCaffe soname version")
+SET(CPACK_PACKAGE_VERSION_MAJOR "1")
+SET(CPACK_PACKAGE_VERSION_MINOR "2")
+SET(CPACK_PACKAGE_VERSION_PATCH "0")
+set(EDGECAFFE_TARGET_VERSION "1.2" CACHE STRING "EdgeCaffe logical version")
+set(EDGECAFFE_TARGET_SOVERSION "1.2" CACHE STRING "EdgeCaffe soname version")
 add_definitions(-DEDGECAFFE_VERSION=${EDGECAFFE_TARGET_VERSION})
 
 # ---[ Flags
@@ -162,8 +165,8 @@ endmacro()
 # ---[ Set all the targets to be build
 #ADD_BINARY_TARGET(ScheduledPipeline)
 #ADD_BINARY_TARGET(RunPipeline)
-ADD_BINARY_TARGET(Exp_const_arrivals)
-ADD_BINARY_TARGET(Exp_poisson_arrival_baseline)
+#ADD_BINARY_TARGET(Exp_const_arrivals)
+#ADD_BINARY_TARGET(Exp_poisson_arrival_baseline)
 ADD_BINARY_TARGET(Exp_poisson_arrival_rv_nf)
 
 # ---[ Copy resourcess
@@ -183,7 +186,7 @@ add_dependencies(EdgeCaffe_build_all
         caffe
         EdgeCaffeCore
 #        RunPipeline
-        Exp_const_arrivals
+#        Exp_const_arrivals
         ModelSplitter
         __pycaffe
         pycaffe
@@ -259,6 +262,8 @@ set(CPACK_ARCHIVE_COMPONENT_INSTALL ON)
 set(CPACK_DEBIAN_PACKAGE_DEBUG ON)
 set(CPACK_DEB_COMPONENT_INSTALL ON)
 set(CPACK_DEBIAN_PACKAGE_GENERATE_SHLIBS ON)
+SET(CPACK_PACKAGE_DESCRIPTION_SUMMARY "DNN Inference for Edge Devices")
+SET(CPACK_PACKAGE_VENDOR "Bart Cox")
 INCLUDE(CPack)
 
 MESSAGE(STATUS "CXX flags ${CMAKE_CXX_FLAGS}")

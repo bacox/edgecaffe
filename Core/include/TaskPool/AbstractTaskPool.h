@@ -12,14 +12,18 @@
 #include "NetworkRegistry.h"
 
 namespace EdgeCaffe {
-    template<typename T>
+//    template<typename T>
     class AbstractTaskPool {
-    protected:
-        std::mutex mtx;
 
     public:
-        MemoryCounter *mc = nullptr;
-        NetworkRegistry *nr = nullptr;
+//        AbstractTaskPool(const std::shared_ptr<MemoryCounter> &mc, const std::shared_ptr<NetworkRegistry> &nr) : mc(mc),
+//                                                                                                                 nr(nr)
+//        {}
+
+//        std::shared_ptr<MemoryCounter> mc;
+//        std::shared_ptr<NetworkRegistry> nr;
+
+
 
         int poolId = -1;
 
@@ -31,19 +35,9 @@ namespace EdgeCaffe {
          * std::sort causes memory corruption in the specifc case and should therefor not be used.
          * Use use pointers for tasks to prevent copying of memory.
          */
-        std::map<T, Task*> pool;
+//        std::map<T, Task*> pool;
 
-        virtual bool hasTask(int taskId)
-        {
-            std::lock_guard guard(mtx);
-
-            // We iterate over all object because the key used depends on the scheduling policy and is not
-            // always the taskid.
-            for(auto poolPair : pool)
-                if(poolPair.second->id == taskId)
-                    return true;
-            return false;
-        }
+        virtual bool hasTask(int taskId) = 0;
 
         /**
          * Add a reference of a task to the taskpool
@@ -55,20 +49,28 @@ namespace EdgeCaffe {
          * Checks if the taskpool is empty
          * @return Boolean      True if empty, false if not empty
          */
-        virtual bool isEmpty()
-        {
-            // Use lock-guard for the mutex in the same way as a smart pointer
-            // The mutex will be released when the lock-guard goes out of scope (end of function)
-            std::lock_guard guard(mtx);
-            return pool.empty();
-        }
+        virtual bool isEmpty() = 0;
+//        {
+//            // Use lock-guard for the mutex in the same way as a smart pointer
+//            // The mutex will be released when the lock-guard goes out of scope (end of function)
+////            std::lock_guard guard(mtx);
+//            return pool.empty();
+//        }
 
         /**
          * Gets the next task from the task pool and binds it to the provided pointer in the argument
          * @param task      Double pointer to store the reference to the task in.
          * @return Boolan   Returns false if the pool is empty and true if a task was bound to the given pointer
          */
-//        virtual bool getNext(Task **task) = 0;
+        virtual bool getNext(Task **task) = 0;
+//        {
+//            if (pool.size() == 0)
+//                return false;
+//            auto it = pool.begin();
+//            *task = it->second;
+//            pool.erase(it);
+//            return true;
+//        }
     };
 }
 #endif //EDGECAFFE_ABSTRACTTASKPOOL_H

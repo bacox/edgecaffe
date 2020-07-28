@@ -253,8 +253,12 @@ namespace EdgeCaffe
         int numLayers = param.layer_size();
         Task *lastTask = nullptr;
 
+        // Keep track of the taskPool Id; set to pool 0 for now
+        int poolId = 0;
+
         // Important to first create the network initialisation task
         Task *init = createInitTask(dnn);
+        init->assignedPoolId = poolId;
         tasks.push_back(init);
         // Set the init task as the first task of this network for intra-network linking
         dnn->firstTask = init;
@@ -278,8 +282,6 @@ namespace EdgeCaffe
         Task *lastLoadFc = nullptr;
         Task *lastLoadConv = nullptr;
 
-        // Keep track of the taskPool Id; set to pool 0 for now
-        int poolId = 0;
         // Loop for the conv layers
         for(int i = 0; i < numConv; ++i)
         {
@@ -438,51 +440,78 @@ namespace EdgeCaffe
         return finished;
     }
 
-
-    void InferenceNetwork::createTasks(int splittingPolicy)
+    void InferenceNetwork::createTasks(Type::MODE_TYPE mode)
     {
-        std::string policyName = "";
-        if (splittingPolicy == 0)
+        switch(mode)
         {
-            policyName = "Bulk";
-        } else if (splittingPolicy == 1)
-        {
-            policyName = "DeepEye";
-        } else if (splittingPolicy == 3)
-        {
-            policyName = "Linear";
-        } else if (splittingPolicy == 4)
-        {
-            policyName = "execprio";
-        }else if (splittingPolicy == 5)
-        {
-            policyName = "execprio-inter";
-        } else
-        {
-            policyName = "Partial";
-        }
+            case Type::MODE_TYPE::DEEPEYE:
+                createTasksConvFC();
+                break;
+            case Type::MODE_TYPE::LINEAR:
+                createTasksLinear();
+                break;
+            case Type::MODE_TYPE::PARTIAL:
+                createPartialTasks();
+                break;
+            case Type::MODE_TYPE::MASA:
+                createPartialTasks();
+                break;
+            case Type::MODE_TYPE::EXECPRIO:
+                createPartialTasks();
+                break;
+            case Type::MODE_TYPE::EXECPRIO_INTER:
+                createPartialTasks();
+                break;
+            default: // Default case is bulk
+                createTasksBulk();
+                break;
 
-        if (splittingPolicy == 0) // bulk
-        {
-            createTasksBulk();
-        } else if (splittingPolicy == 1)
-        { // conv-fc | deepeye
-            createTasksConvFC();
-        } else if (splittingPolicy == 3)
-        { // Linear
-            createTasksLinear();
-        } else if (splittingPolicy == 4)
-        { // Linear
-            createPartialTasks();
-        }else if (splittingPolicy == 5)
-        { // Linear
-            createPartialTasks();
-        } else
-        { // Partial
-            createPartialTasks();
         }
-//        NETWORKID_COUNTER++;
     }
+//    void InferenceNetwork::createTasks(int splittingPolicy)
+//    {
+//        std::string policyName = "";
+//        if (splittingPolicy == 0)
+//        {
+//            policyName = "Bulk";
+//        } else if (splittingPolicy == 1)
+//        {
+//            policyName = "DeepEye";
+//        } else if (splittingPolicy == 3)
+//        {
+//            policyName = "Linear";
+//        } else if (splittingPolicy == 4)
+//        {
+//            policyName = "execprio";
+//        }else if (splittingPolicy == 5)
+//        {
+//            policyName = "execprio-inter";
+//        } else
+//        {
+//            policyName = "Partial";
+//        }
+//
+//        if (splittingPolicy == 0) // bulk
+//        {
+//            createTasksBulk();
+//        } else if (splittingPolicy == 1)
+//        { // conv-fc | deepeye
+//            createTasksConvFC();
+//        } else if (splittingPolicy == 3)
+//        { // Linear
+//            createTasksLinear();
+//        } else if (splittingPolicy == 4)
+//        { // Linear
+//            createPartialTasks();
+//        }else if (splittingPolicy == 5)
+//        { // Linear
+//            createPartialTasks();
+//        } else
+//        { // Partial
+//            createPartialTasks();
+//        }
+////        NETWORKID_COUNTER++;
+//    }
 
     void InferenceNetwork::showResult()
     {
@@ -554,6 +583,7 @@ namespace EdgeCaffe
                 dnn->networkName + "-init-network");
 
         init->inet = this;
+        init->t_type = Task::INIT;
         init->networkName = dnn->networkName;
         init->taskType = "init";
         init->layerName = "net-init";
@@ -571,6 +601,7 @@ namespace EdgeCaffe
                 networkId,
                 dnn->networkName + "-exec-" + descr.name
         );
+        load->t_type = Task::LOAD;
         load->network_ptr = &(dnn->net_ptr);
         load->layerId = descr.layerId;
         load->networkName = dnn->networkName;
@@ -590,6 +621,7 @@ namespace EdgeCaffe
                 dnn->networkName + "-exec-" + descr.name
         );
         exec->networkName = dnn->networkName;
+        exec->t_type = Task::EXEC;
         exec->taskType = "exec";
         exec->layerName = descr.name;
         exec->network_ptr = &(dnn->net_ptr);

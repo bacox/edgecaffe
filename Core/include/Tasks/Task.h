@@ -73,6 +73,7 @@ namespace EdgeCaffe
         std::string taskType = "";
 
         TYPE t_type;
+        LAYER_TYPE layerType;
 
 
         // Information for the scheduler (orchestrator) to use specific taskpools for this task if the poolId is set.

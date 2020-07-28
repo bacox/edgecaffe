@@ -8,6 +8,8 @@
 #include <cxxopts.h>
 #include <iostream>
 #include <iomanip>
+#include <Orchestrator/Orchestrator.h>
+
 #ifndef EDGECAFFE_CONFIG_H
 #define EDGECAFFE_CONFIG_H
 
@@ -67,7 +69,9 @@ namespace EdgeCaffe {
         ConfigOption<std::size_t> seed = ConfigOption<std::size_t>(0);
         ConfigOption<bool> verbose = ConfigOption<bool>(false);
         ConfigOption<std::string> memoryLimit = ConfigOption<std::string>("4G");
+        ConfigOption<int> memoryLimitAsNum = ConfigOption<int>(Type::memory_values.at("4G"));
         ConfigOption<std::string> mode= ConfigOption<std::string>("partial");
+        ConfigOption<Type::MODE_TYPE> modeAsType= ConfigOption<Type::MODE_TYPE>(Type::MODE_TYPE::PARTIAL);
         ConfigOption<std::size_t> numArrivals = ConfigOption<std::size_t>(1);
         ConfigOption<std::string> pathToConfig = ConfigOption<std::string>("");
         ConfigOption<std::string> schedAlg = ConfigOption<std::string>("FCFS");
@@ -79,17 +83,6 @@ namespace EdgeCaffe {
         ConfigOption<YAML::Node> configFile = YAML::Node();
         std::map<std::string, std::string> configAsText;
 
-//        template<typename A>
-//        void parseAndSave(const cxxopts::ParseResult &result, std::string key,ConfigOption<A> & c_option)
-//        {
-//            parseArg(result, key, c_option);
-//            std::stringstream stream;
-//            A parsed = A();
-////            = c_option.valueOrDefault();
-//            stream << parsed;
-//            configAsText[key] = stream.str();
-////            configAsText[key] = c_option.valueOrDefault();
-//        }
 
         void printConfig()
         {
@@ -150,11 +143,15 @@ namespace EdgeCaffe {
                 }
 
             }
+
+
             parseArg(result, "mode", mode);
+            modeAsType.configItem = Type::mapToVals.at(mode.valueOrDefault());
             configAsText["mode"] = mode.valueOrDefault();
             parseArg(result, "seed", seed);
             configAsText["seed"] = std::to_string(seed.valueOrDefault());
             parseArg(result, "mem_limit", memoryLimit);
+            memoryLimitAsNum.configItem = Type::memory_values.at(memoryLimit.valueOrDefault());
             configAsText["mem_limit"] = memoryLimit.valueOrDefault();
             parseArg(result, "verbose", verbose);
             configAsText["verbose"] = std::to_string(verbose.valueOrDefault());

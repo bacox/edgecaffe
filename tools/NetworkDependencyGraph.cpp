@@ -2,9 +2,13 @@
 // Created by bacox on 15/05/2020.
 //
 #include <iostream>
-#include <Orchestrator.h>
 #include <filesystem>
 #include <cxxopts.h>
+#include <glog/logging.h>
+#include <Types.h>
+#include <ArrivalList.h>
+#include <fstream>
+#include <Orchestrator/OrchestratorFactory.h>
 
 
 /**
@@ -55,30 +59,39 @@ int main(int argc, char *argv[])
     int delay = 0;
     EdgeCaffe::Arrival arr{{networkPath, networkKey}, "", delay};
 
-    std::vector<std::pair<EdgeCaffe::Orchestrator::MODEL_SPLIT_MODE, std::string>> modes = {
-            {EdgeCaffe::Orchestrator::PARTIAL, "partial"}
-            ,{EdgeCaffe::Orchestrator::BULK, "bulk"}
-            ,{EdgeCaffe::Orchestrator::DEEPEYE, "deepeye"}
-            ,{EdgeCaffe::Orchestrator::LINEAR, "linear"}
+    std::vector<std::pair<EdgeCaffe::Type::MODE_TYPE, std::string>> modes = {
+            {EdgeCaffe::Type::MODE_TYPE::PARTIAL,  "partial"}
+            ,{EdgeCaffe::Type::MODE_TYPE::BULK,    "bulk"}
+            ,{EdgeCaffe::Type::MODE_TYPE::DEEPEYE, "deepeye"}
+            ,{EdgeCaffe::Type::MODE_TYPE::LINEAR,  "linear"}
     };
-
+    auto &runtimeConfig = EdgeCaffe::Config::getInstance();
     // Iterate over all modes
     for(const auto& pair : modes)
     {
         // Setup orchestrator
-        EdgeCaffe::Orchestrator orchestrator;
-        auto mode = pair.first;
-        auto modeAsString = pair.second;
-        orchestrator.setup(mode, modeAsString);
+//        auto orchestratorFactory = new EdgeCaffe::OrchestratorFactory();
+//        auto orchestrator = orchestratorFactory->GetOrchestratorAlt();
+        runtimeConfig.modeAsType.configItem = pair.first;
+        std::unique_ptr<EdgeCaffe::OrchestratorFactory> ofactory = std::make_unique<EdgeCaffe::OrchestratorFactory>();
+        auto orchestrator = ofactory->GetOrchestratorAlt();
+//        EdgeCaffe::Orchestrator orchestrator;
+
+//        EdgeCaffe::OrchestratorFactory ofactory;
+//        ofactory.GetOrchestrator()
+
+//        auto mode = pair.first;
+//        auto modeAsString = pair.second;
+//        orchestrator.setup(mode, modeAsString);
 
         // Submit arrival to generate the tasks
-        orchestrator.submitInferenceTask(arr);
+        orchestrator->submitInferenceTask(arr);
 
         // Lets create the output dot files
-        for(auto iTask : orchestrator.getInferenceTasks())
+        for(auto iTask : orchestrator->getInferenceTasks())
         {
             std::string dotContent = iTask->net->tasksToDotDebug();
-            std::string _name = iTask->net->subTasks.front()->networkName + std::to_string(iTask->net->networkId) + "-" + modeAsString;
+            std::string _name = iTask->net->subTasks.front()->networkName + std::to_string(iTask->net->networkId) + "-" + pair.second;
             std::string basePath = "../dot/";
             // Make sure that the output location exists
             std::filesystem::create_directories(basePath);

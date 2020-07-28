@@ -30,7 +30,7 @@ void EdgeCaffe::GeneratedNetwork::init(YAML::Node &description)
     }
 }
 
-void EdgeCaffe::GeneratedNetwork::createTasks(int splittingPolicy)
+void EdgeCaffe::GeneratedNetwork::createTasks(Type::MODE_TYPE splittingPolicy)
 {
     InferenceSubTask *dnn = subTasks.front();
     int numberOfLayers  = dnn->num_conv + dnn->num_fc;
