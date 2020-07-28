@@ -230,6 +230,10 @@ if (${INSTALL_RESOURCES})
     INSTALL(DIRECTORY ${CMAKE_SOURCE_DIR}/resources DESTINATION /opt/edgecaffe COMPONENT EdgeCaffeApp)
 endif ()
 
+# Install experiment configs
+INSTALL(DIRECTORY ${CMAKE_SOURCE_DIR}/experiments DESTINATION /opt/edgecaffe COMPONENT EdgeCaffeApp)
+
+
 if (${INSTALL_NETWORKS})
 #    INSTALL(DIRECTORY ${CMAKE_BINARY_DIR}/networks DESTINATION /opt/edgecaffe  COMPONENT EdgeCaffeApp)
 endif ()

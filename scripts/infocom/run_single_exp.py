@@ -102,5 +102,5 @@ def run_single_exp(config_file, base_script):
     # print_run_call(progress_text, CMD, repetitions, rho, memory_constraints, modes, ait_multipliers, networks, iat)
     print(script_cmd)
     # print(script_cmd)
-    # os.system(script_cmd)
+    os.system(script_cmd)
     # idx += 1
