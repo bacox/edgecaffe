@@ -10,6 +10,18 @@ namespace EdgeCaffe
     class Type
     {
     public:
+
+        enum ARRIVAL_MODE {
+            BATCH = 0,
+            STOCHASTIC = 1
+        };
+
+        inline const static std::map<std::string, ARRIVAL_MODE> arrivalModeToVals = {
+                {"batch", BATCH},
+                {"stochastic", STOCHASTIC}
+
+        };
+
         enum MODE_TYPE {
             BULK = 0,
             DEEPEYE = 1,

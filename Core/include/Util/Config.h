@@ -79,6 +79,8 @@ namespace EdgeCaffe {
         ConfigOption<bool> help = ConfigOption<bool>(false);
         ConfigOption<double> iat = ConfigOption<double>(100);
         ConfigOption<std::vector<std::string>> networks = ConfigOption<std::vector<std::string>>({});
+        ConfigOption<std::string> arrivalMode= ConfigOption<std::string>("batch");
+        ConfigOption<Type::ARRIVAL_MODE> arrivalModeAsType= ConfigOption<Type::ARRIVAL_MODE>(Type::ARRIVAL_MODE::BATCH);
 
         ConfigOption<YAML::Node> configFile = YAML::Node();
         std::map<std::string, std::string> configAsText;
@@ -148,6 +150,11 @@ namespace EdgeCaffe {
             parseArg(result, "mode", mode);
             modeAsType.configItem = Type::mapToVals.at(mode.valueOrDefault());
             configAsText["mode"] = mode.valueOrDefault();
+
+            parseArg(result, "arrival-mode", arrivalMode);
+            arrivalModeAsType.configItem = Type::arrivalModeToVals.at(arrivalMode.valueOrDefault());
+            configAsText["arrival-mode"] = arrivalMode.valueOrDefault();
+
             parseArg(result, "seed", seed);
             configAsText["seed"] = std::to_string(seed.valueOrDefault());
             parseArg(result, "mem_limit", memoryLimit);
@@ -219,7 +226,7 @@ namespace EdgeCaffe {
                             , cxxopts::value<std::string>())
                     ("seed", "Seed for random number generator", cxxopts::value<std::size_t>())
                     ("V,verbose", "Verbose")
-                    ("N,num-arrivals", "Number of arrivals to be generated", cxxopts::value<std::size_t>())
+                    ("N,n-arrivals", "Number of arrivals to be generated", cxxopts::value<std::size_t>())
                     (
                             "a,arrival-list"
                             , "Use this arrival list to inject arrivals instead of the generated one"

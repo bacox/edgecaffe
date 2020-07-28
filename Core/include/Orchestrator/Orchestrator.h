@@ -41,6 +41,7 @@ namespace EdgeCaffe {
         std::shared_ptr<MemoryCounter> mc = std::make_shared<MemoryCounter>();
 
         Type::MODE_TYPE mode = Type::MODE_TYPE::BULK;
+        Type::ARRIVAL_MODE arrivalMode = Type::ARRIVAL_MODE::BATCH;
         std::string modeAsString;
         Output output;
     public:

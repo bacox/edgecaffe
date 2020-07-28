@@ -13,6 +13,7 @@ EdgeCaffe::Orchestrator::Orchestrator()
     Config &config = Config::getInstance();
     verbose = config.verbose();
     mode = config.modeAsType();
+    arrivalMode = config.arrivalModeAsType();
     modeAsString = config.mode();
     numberOfWorkers = config.numberOfWorkers();
     mc->interNetworkCondition = &enforceInterDependencies;
@@ -81,6 +82,13 @@ void EdgeCaffe::Orchestrator::waitForStop()
 
 void EdgeCaffe::Orchestrator::checkArrivals()
 {
+    if(arrivalMode == Type::ARRIVAL_MODE::BATCH)
+    {
+        // Only check if there are no networks active, hence the batch is finished --> start a new batch
+        if(nr->numActiveNetworks() > 0)
+            return;
+    }
+
     if(arrivals.isEmpty())
         return;
     Arrival head = arrivals.first();
