@@ -208,7 +208,7 @@ void EdgeCaffe::Orchestrator::submitInferenceTask(const EdgeCaffe::Arrival arriv
 //                iTask->net->subTasks.front()->firstTask->addTaskDependency(ConditionalDependency(last, &this->enforceInterDependencies));
 //            }
 
-        if(mode == Type::MODE_TYPE::LINEAR, mode == Type::MODE_TYPE::BULK, mode == Type::MODE_TYPE::EXECPRIO_INTER)
+        if(mode == Type::MODE_TYPE::LINEAR || mode == Type::MODE_TYPE::BULK || mode == Type::MODE_TYPE::EXECPRIO_INTER)
         {
             if(last != nullptr)
             {
