@@ -1,0 +1,9 @@
+#Experiment goal: Show the effect of batch arrivals with 3 mixed size networks in the batch
+# The networks are: AgeNet, GenderNet, FaceNet
+
+n_workers: [2]
+ait-multiplier: [1]
+modes: [masa, bulk, deepeye]
+memory-constraints: [2G, 1G, 512M]
+networks: [AgeNet, FaceNet, ObjectNet]
+experiment-tag: mixed-3

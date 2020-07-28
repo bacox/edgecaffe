@@ -227,6 +227,7 @@ namespace EdgeCaffe {
                     ("seed", "Seed for random number generator", cxxopts::value<std::size_t>())
                     ("V,verbose", "Verbose")
                     ("N,n-arrivals", "Number of arrivals to be generated", cxxopts::value<std::size_t>())
+                    ("arrival-mode", "How arrivals should be handled: batch or stochastic", cxxopts::value<std::string>())
                     (
                             "a,arrival-list"
                             , "Use this arrival list to inject arrivals instead of the generated one"

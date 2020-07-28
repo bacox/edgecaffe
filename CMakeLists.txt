@@ -39,10 +39,10 @@ set(EDGECAFFE_LINK "")
 
 # ---[ EdgeCaffe version
 SET(CPACK_PACKAGE_VERSION_MAJOR "1")
-SET(CPACK_PACKAGE_VERSION_MINOR "2")
+SET(CPACK_PACKAGE_VERSION_MINOR "3")
 SET(CPACK_PACKAGE_VERSION_PATCH "0")
-set(EDGECAFFE_TARGET_VERSION "1.2" CACHE STRING "EdgeCaffe logical version")
-set(EDGECAFFE_TARGET_SOVERSION "1.2" CACHE STRING "EdgeCaffe soname version")
+set(EDGECAFFE_TARGET_VERSION "1.3" CACHE STRING "EdgeCaffe logical version")
+set(EDGECAFFE_TARGET_SOVERSION "1.3" CACHE STRING "EdgeCaffe soname version")
 add_definitions(-DEDGECAFFE_VERSION=${EDGECAFFE_TARGET_VERSION})
 
 # ---[ Flags
@@ -174,6 +174,7 @@ file(COPY ${CMAKE_SOURCE_DIR}/networks DESTINATION ${CMAKE_BINARY_DIR})
 file(COPY ${CMAKE_SOURCE_DIR}/config DESTINATION ${CMAKE_BINARY_DIR})
 file(COPY ${CMAKE_SOURCE_DIR}/scripts DESTINATION ${CMAKE_BINARY_DIR})
 file(COPY ${CMAKE_SOURCE_DIR}/resources DESTINATION ${CMAKE_BINARY_DIR})
+file(COPY ${CMAKE_SOURCE_DIR}/experiments DESTINATION ${CMAKE_BINARY_DIR})
 
 # ---[ Set a target to build multiple targets at the same time
 add_custom_target(EdgeCaffe_build_all

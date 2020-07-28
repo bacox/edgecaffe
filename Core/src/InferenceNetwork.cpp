@@ -13,6 +13,7 @@
 #include <Tasks/InitNetworkTask.h>
 #include <algorithm>
 #include <string>
+#include <Util/Config.h>
 
 namespace EdgeCaffe
 {
@@ -25,17 +26,17 @@ namespace EdgeCaffe
     void InferenceNetwork::init(YAML::Node &description)
     {
         InferenceSubTask *sub = new InferenceSubTask;
-
+        auto &globalConfig = Config::getInstance();
         sub->networkName = description["name"].as<std::string>();
 
         std::string networkFile = description["network-file"].as<std::string>();
         std::string partialsLocation = description["partials-location"].as<std::string>();
         sub->basePath = description["base-path"].as<std::string>();
         sub->modelFileName = networkFile;
-        sub->pathToModelFile = pathToDescription + "/" + networkFile;
-        sub->pathToPartials = pathToDescription + "/" + partialsLocation;
+        sub->pathToModelFile = globalConfig.pathToNetworks() + "/" + pathToDescription + "/" + networkFile;
+        sub->pathToPartials = globalConfig.pathToNetworks() + "/" + pathToDescription + "/" + partialsLocation;
 
-        sub->pathToParamFile = pathToDescription + "/" + description["model-file"].as<std::string>();
+        sub->pathToParamFile = globalConfig.pathToNetworks() + "/" + pathToDescription + "/" + description["model-file"].as<std::string>();
 
         sub->hasInputLayer = description["has-input-layer"].as<bool>();
         sub->num_conv = description["num-conv-layers"].as<int>();
@@ -588,7 +589,7 @@ namespace EdgeCaffe
         init->taskType = "init";
         init->layerName = "net-init";
         init->use_scales = this->use_scales;
-        init->pathToInput = this->dataPath;
+        init->pathToInput =  this->dataPath;
         init->dependencyCondition = this->dependencyCondition;
         init->requiredMemory = this->maxMemoryUsage;
         return init;

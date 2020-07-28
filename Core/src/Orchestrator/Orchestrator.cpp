@@ -160,11 +160,12 @@ void EdgeCaffe::Orchestrator::submitInferenceTask(const EdgeCaffe::Arrival arriv
     {
         InferenceTask *iTask = new InferenceTask;
 //            iTask->pathToNetwork = arrivalTask.pathToNetwork;
+        auto &globalConfig = Config::getInstance();
         iTask->pathToNetwork = arrivalNetwork.pathToNetwork;
-        iTask->pathToData = arrivalTask.pathToData;
+        iTask->pathToData = globalConfig.pathToResources() + "/" + arrivalTask.pathToData;
         // Load yaml
 //            std::string pathToDescription = arrivalTask.pathToNetwork;
-        std::string pathToDescription = arrivalNetwork.pathToNetwork;
+        std::string pathToDescription = globalConfig.pathToNetworks() + "/" + arrivalNetwork.pathToNetwork;
         std::string pathToYaml = pathToDescription + "/description.yaml";
         YAML::Node description;
         try{
@@ -187,7 +188,7 @@ void EdgeCaffe::Orchestrator::submitInferenceTask(const EdgeCaffe::Arrival arriv
             iTask->net = new InferenceNetwork(arrivalNetwork.pathToNetwork, &this->enforceInterDependencies);
             iTask->net->init(description);
             iTask->net->use_scales = description["use-scales"].as<bool>(false);
-            iTask->net->dataPath = arrivalTask.pathToData;
+            iTask->net->dataPath = globalConfig.pathToResources() + "/" + arrivalTask.pathToData;
             iTask->output.networkName = iTask->net->subTasks.front()->networkName;
         }
         iTask->net->mc = this->mc.get();
