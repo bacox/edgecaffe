@@ -74,6 +74,7 @@ namespace EdgeCaffe
         std::vector<LayerDescription> layerDescriptions;
     public:
         double maxMemoryUsage = 0;
+        double meanExecutionTime = std::numeric_limits<double>::max();
         std::vector<Task *> tasks;
         bool use_scales = false;
         std::string dataPath;

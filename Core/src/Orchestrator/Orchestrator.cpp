@@ -191,6 +191,7 @@ void EdgeCaffe::Orchestrator::submitInferenceTask(const EdgeCaffe::Arrival arriv
             iTask->net->dataPath = globalConfig.pathToResources() + "/" + arrivalTask.pathToData;
             iTask->output.networkName = iTask->net->subTasks.front()->networkName;
         }
+        iTask->net->meanExecutionTime = description["mean-execution-time"].as<double>(std::numeric_limits<double>::max());
         iTask->net->mc = this->mc.get();
 
         for(auto tp : taskPools)

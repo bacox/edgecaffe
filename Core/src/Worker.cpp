@@ -17,7 +17,7 @@ namespace EdgeCaffe
 
     /**
      * Main function of the threaded worker.
-     * This will run continously during execution.
+     * This will run continuously during execution.
      * The worker checks if a task is available in the ready pool (`pool` variable)
      * If a task is available, the worker will:
      *  1. Retrieve the task

@@ -80,7 +80,7 @@ namespace EdgeCaffe {
         void start();
         void processTasks();
         void waitForStop();
-        void submitInferenceTask(const Arrival  arrivalTask, bool use_scales = false);
+        virtual void submitInferenceTask(const Arrival  arrivalTask, bool use_scales = false);
         void setArrivals(ArrivalList arrivals);
 
         Orchestrator();

@@ -7,15 +7,17 @@
 
 #include <Tasks/Task.h>
 #include <TaskPool/TypePriorityTaskPool.h>
+#include <TaskPool/SNFTypePriorityTaskPool.h>
 #include "Scheduler.h"
 
 namespace EdgeCaffe {
     class MasaScheduler : public Scheduler
     {
-        TypePriorityTaskPool execTasks;
-        TypePriorityTaskPool loadTasks;
+        SNFTypePriorityTaskPool execTasks;
+        SNFTypePriorityTaskPool loadTasks;
     public:
         void addTask(Task *t_ptr) override;
+
 
         bool isEmpty() override;
 

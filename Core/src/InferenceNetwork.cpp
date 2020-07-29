@@ -582,7 +582,7 @@ namespace EdgeCaffe
                 TASKID_COUNTER++,
                 networkId,
                 dnn->networkName + "-init-network");
-
+        init->networkExecutionTime = this->meanExecutionTime;
         init->inet = this;
         init->t_type = Task::INIT;
         init->networkName = dnn->networkName;
@@ -602,6 +602,7 @@ namespace EdgeCaffe
                 networkId,
                 dnn->networkName + "-exec-" + descr.name
         );
+        load->networkExecutionTime = this->meanExecutionTime;
         load->t_type = Task::LOAD;
         load->network_ptr = &(dnn->net_ptr);
         load->layerId = descr.layerId;
@@ -621,6 +622,7 @@ namespace EdgeCaffe
                 networkId,
                 dnn->networkName + "-exec-" + descr.name
         );
+        exec->networkExecutionTime = this->meanExecutionTime;
         exec->networkName = dnn->networkName;
         exec->t_type = Task::EXEC;
         exec->taskType = "exec";

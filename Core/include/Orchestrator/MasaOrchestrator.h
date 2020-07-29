@@ -21,6 +21,8 @@ namespace EdgeCaffe
             ptr->setup();
             return ptr;
         }
+
+        void submitInferenceTask(Arrival arrivalTask, bool use_scales) override;
     };
 }
 

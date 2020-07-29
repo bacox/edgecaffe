@@ -127,7 +127,10 @@ int main(int argc, char *argv[])
      * If the file does not exist it is created.
      */
     EdgeCaffe::Output output;
-    std::string generalLine = c_config.memoryLimit() + "," + modeAsString + "," + std::to_string(duration) + "," + std::to_string(c_config.numArrivals()) + "," + c_config.networks().front() + "," + std::to_string(1) + "," + std::to_string(0) + "," + std::to_string(c_config.iat()) + "," + std::to_string(c_config.numberOfWorkers());
+    std::string tmp_network = "";
+    if(c_config.networks.valueOrDefault().size())
+        tmp_network = c_config.networks().front();
+    std::string generalLine = c_config.memoryLimit() + "," + modeAsString + "," + std::to_string(duration) + "," + std::to_string(c_config.numArrivals()) + "," + tmp_network + "," + std::to_string(1) + "," + std::to_string(0) + "," + std::to_string(c_config.iat()) + "," + std::to_string(c_config.numberOfWorkers());
     output.toCSVAppend(c_config.outputDirectory() + "/" + c_config.generalOutputFile(), {generalLine}, EdgeCaffe::Output::PIPELINE_EXT);
 
     for(const auto worker : orchest->getWorkers())

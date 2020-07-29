@@ -62,6 +62,8 @@ namespace EdgeCaffe
         // The estimated memory needed to execution of this task. Can be used for scheduling
         int estimatedNeededMemory = 0;
 
+        double networkExecutionTime = std::numeric_limits<double>::max();
+
         // Describes the task
         std::string taskName;
 
@@ -179,6 +181,11 @@ namespace EdgeCaffe
             if(dependency == nullptr)
                 return true;
             return dependency->executed;
+        }
+
+        static bool compareByNetworkTime(const Task & l, const Task & r) //(2)
+        {
+            return l.networkExecutionTime < r.networkExecutionTime;
         }
     };
 }
