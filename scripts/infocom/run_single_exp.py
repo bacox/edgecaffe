@@ -8,7 +8,7 @@ def gen_cmd_config_call(cmd_base: str, pathToConfig: str) -> str :
     return cmd_str
 
 
-def run_single_exp(config_file, base_script):
+def run_single_exp(config_file, base_script, dry_run : bool = False):
     config = None
     with open(config_file, 'r') as stream:
         try:
@@ -38,7 +38,8 @@ def run_single_exp(config_file, base_script):
     ##
     # @TODO: Insert start measuring thermal values here
     ##
-    os.system(script_cmd)
+    if not dry_run:
+        os.system(script_cmd)
     ##
     # @TODO: Insert stop measuring thermal values here
     ##

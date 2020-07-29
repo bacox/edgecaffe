@@ -113,19 +113,24 @@ def generate_variations(config):
     # n_workers = config['n_workers']
 
 
-path_to_exp_base = './experiments/infocom/batch'
 
-path_to_base_config = '{}/base.yaml'.format(path_to_exp_base)
+def main():
+    path_to_exp_base = './experiments/infocom/batch'
 
-with open(path_to_base_config, 'r') as stream:
-    try:
-        # print(yaml.safe_load(stream).keys())
-        config = yaml.safe_load(stream)
-        config['path_to_base_exp'] = path_to_exp_base
-        base_exp_config(config)
+    path_to_base_config = '{}/base.yaml'.format(path_to_exp_base)
 
-    except yaml.YAMLError as exc:
-        print(exc)
-        exit(1)
+    with open(path_to_base_config, 'r') as stream:
+        try:
+            # print(yaml.safe_load(stream).keys())
+            config = yaml.safe_load(stream)
+            config['path_to_base_exp'] = path_to_exp_base
+            base_exp_config(config)
 
-print(config)
+        except yaml.YAMLError as exc:
+            print(exc)
+            exit(1)
+
+    print(config)
+
+if __name__ == "__main__":
+    main()
