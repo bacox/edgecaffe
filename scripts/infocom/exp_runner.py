@@ -24,7 +24,7 @@ def write_progress_to_log(idx: int, total: int, exp_file: str, log_file: str = '
         log_file.write(line)
         log_file.flush()
 
-def main(path_base : str = './experiments/infocom/batch', mem_limit : str = '*', reverse: bool = False, dry_run : bool = False, logging: bool=False, build_folder='.'):
+def main(path_base : str = './experiments/infocom/batch', mem_limit : str = '*', reverse: bool = False, dry_run : bool = False, logging: bool=False, build_folder='.', record_thermal: bool = True):
     list_of_mem = mem_limit.split('|')
     list_config_directory = ['{}/*/configs/{}/*.exp.yaml'.format(path_base, x) for x in mem_limit.split('|')]
     exp_config_files = [glob.glob(f) for f in list_config_directory]
@@ -35,7 +35,7 @@ def main(path_base : str = './experiments/infocom/batch', mem_limit : str = '*',
     total_files = len(exp_config_files)
     for idx, exp_file in enumerate(exp_config_files):
         print_progress(idx, total_files)
-        run_single_exp(exp_file, base_script, dry_run=dry_run, build_folder=build_folder)
+        run_single_exp(exp_file, base_script, dry_run=dry_run, build_folder=build_folder, record_thermal=record_thermal)
         if logging:
             write_progress_to_log(idx, total_files, exp_file)
 
@@ -47,11 +47,13 @@ if __name__ == "__main__":
     parser.add_argument("--path", type=str, help="Set the path pointing to the experiments")
     parser.add_argument("--logging", type=bool, help="Set write basic logging to the file out.log")
     parser.add_argument("--build-folder", type=str, help="Set the build folder if needed. The default is .")
+    parser.add_argument("--record-thermal", type=bool, help="Enable or disable temperature recording. Default is enabled; recording only works in RPI")
     args = parser.parse_args()
     args_dict = {
         'dry_run': False,
         'reverse': False,
-        'logging': False
+        'logging': False,
+        'record_thermal': True
     }
     if args.dry_run:
         args_dict['dry_run'] = True
@@ -59,6 +61,8 @@ if __name__ == "__main__":
         args_dict['logging'] = True
     if args.reverse:
         args_dict['reverse'] = True
+    if args.record_thermal:
+        args_dict['record_thermal'] = True
     if args.mem_limit:
         args_dict['mem_limit'] = args.mem_limit
     if args.path:

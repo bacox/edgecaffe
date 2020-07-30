@@ -1,0 +1,8 @@
+[Unit]
+Description=Runs every second
+[Timer]
+OnActiveSec=0
+OnUnitActiveSec=1
+AccuracySec=20msec
+[Install]
+WantedBy = multiuser.target

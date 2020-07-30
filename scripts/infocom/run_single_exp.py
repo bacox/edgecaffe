@@ -8,7 +8,7 @@ def gen_cmd_config_call(cmd_base: str, pathToConfig: str) -> str :
     return cmd_str
 
 
-def run_single_exp(config_file, base_script, dry_run : bool = False, build_folder='.'):
+def run_single_exp(config_file, base_script, dry_run : bool = False, build_folder='.', record_thermal: bool = True):
     config = None
     with open(config_file, 'r') as stream:
         try:
@@ -27,19 +27,27 @@ def run_single_exp(config_file, base_script, dry_run : bool = False, build_folde
     # Get data to construct a output file for thermal measurements
     exp_output_base_path = config['output-path']
     exp_tag = config['tag']
-    thermal_filename = 'thermal.csv'
+    thermal_filename = 'cpu_temp.log'
     # This file path below is unique for the experiment to be run
     thermal_file_path = '{}/{}-{}'.format(exp_output_base_path, exp_tag, thermal_filename)
 
     script_cmd = '{} {} {} \'{}\''.format(base_script, memory_constraint, build_folder, CMD)
 
     print(script_cmd)
-
-    ##
-    # @TODO: Insert start measuring thermal values here
-    ##
+    if record_thermal:
+        ##
+        # start measuring thermal values here
+        ##
+        start_thermal_cmd = 'sudo systemctl enable --now temperature.timer'
+        os.system(start_thermal_cmd)
     if not dry_run:
         os.system(script_cmd)
-    ##
-    # @TODO: Insert stop measuring thermal values here
-    ##
+
+    if record_thermal:
+        ##
+        # stop measuring thermal values here
+        ##
+        stop_thermal_cmd = 'sudo systemctl enable --now temperature.timer'
+        os.system(stop_thermal_cmd)
+        # Move file to corresponding experiment directory
+        os.system('sudo mv /opt/analysis/thermal/cpu_temp.log {} 2>/dev/null'.format(thermal_file_path))

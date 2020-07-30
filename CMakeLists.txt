@@ -175,6 +175,7 @@ file(COPY ${CMAKE_SOURCE_DIR}/config DESTINATION ${CMAKE_BINARY_DIR})
 file(COPY ${CMAKE_SOURCE_DIR}/scripts DESTINATION ${CMAKE_BINARY_DIR})
 file(COPY ${CMAKE_SOURCE_DIR}/resources DESTINATION ${CMAKE_BINARY_DIR})
 file(COPY ${CMAKE_SOURCE_DIR}/experiments DESTINATION ${CMAKE_BINARY_DIR})
+file(COPY ${CMAKE_SOURCE_DIR}/thermal DESTINATION ${CMAKE_BINARY_DIR})
 
 # ---[ Set a target to build multiple targets at the same time
 add_custom_target(EdgeCaffe_build_all
@@ -241,6 +242,11 @@ endif ()
 MESSAGE(STATUS "CMAKE INSTALL PREFIX '${CMAKE_INSTALL_PREFIX}'")
 #INSTALL(DIRECTORY ${CMAKE_SOURCE_DIR}/scripts DESTINATION ${CMAKE_INSTALL_PREFIX} COMPONENT EdgeCaffeApp)
 INSTALL(DIRECTORY ${CMAKE_SOURCE_DIR}/scripts DESTINATION /opt/edgecaffe COMPONENT EdgeCaffeApp)
+INSTALL(DIRECTORY ${CMAKE_SOURCE_DIR}/thermal DESTINATION /opt/edgecaffe COMPONENT EdgeCaffeApp)
+install(FILES ${CMAKE_SOURCE_DIR}/thermal/temperature.service DESTINATION /etc/systemd/system/ COMPONENT EdgeCaffeApp)
+install(FILES ${CMAKE_SOURCE_DIR}/thermal/temperature.timer DESTINATION /etc/systemd/system/ COMPONENT EdgeCaffeApp)
+# Make sure /opt/analysis exists
+INSTALL(CODE "EXECUTE_PROCESS(COMMAND mkdir -p /opt/analysis)" COMPONENT EdgeCaffeApp)
 
 install(
         DIRECTORY ${CMAKE_SOURCE_DIR}/networks
@@ -270,6 +276,8 @@ set(CPACK_DEB_COMPONENT_INSTALL ON)
 set(CPACK_DEBIAN_PACKAGE_GENERATE_SHLIBS ON)
 SET(CPACK_PACKAGE_DESCRIPTION_SUMMARY "DNN Inference for Edge Devices")
 SET(CPACK_PACKAGE_VENDOR "Bart Cox")
+
+set(CPACK_DEBIAN_PACKAGE_CONTROL_EXTRA "systemctl daemon-reload;mkdir -p /opt/analysis/thermal;")
 INCLUDE(CPack)
 
 MESSAGE(STATUS "CXX flags ${CMAKE_CXX_FLAGS}")

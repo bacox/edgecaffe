@@ -13,6 +13,11 @@ ssh ubuntu@rpi_1 'sudo mkdir -p /opt/edgecaffe/networks' &
 ssh ubuntu@rpi_2 'sudo mkdir -p /opt/edgecaffe/networks' &
 ssh ubuntu@rpi_4 'sudo mkdir -p /opt/edgecaffe/networks'
 
+echo '> Creating analysis directories'
+ssh ubuntu@rpi_1 'sudo mkdir -p /opt/analysis' &
+ssh ubuntu@rpi_2 'sudo mkdir -p /opt/analysis' &
+ssh ubuntu@rpi_4 'sudo mkdir -p /opt/analysis'
+
 echo '> Setting permissions'
 ssh ubuntu@rpi_1 'sudo chown -R $USER:$USER /opt/edgecaffe'&
 ssh ubuntu@rpi_2 'sudo chown -R $USER:$USER /opt/edgecaffe' &

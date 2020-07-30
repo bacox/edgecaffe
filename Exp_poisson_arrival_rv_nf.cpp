@@ -98,12 +98,14 @@ int main(int argc, char *argv[])
 
     orchest->setArrivals(arrivals);
 
+    auto system_time_start = std::chrono::system_clock::now();
     auto startTime = std::chrono::high_resolution_clock::now();
     orchest->start();
     orchest->processTasks();
     orchest->waitForStop();
 
     auto endTime = std::chrono::high_resolution_clock::now();
+    auto system_time_end = std::chrono::system_clock::now();
     auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(endTime - startTime).count();
     std::cout << duration << " milliseconds" << std::endl;
 
@@ -130,7 +132,14 @@ int main(int argc, char *argv[])
     std::string tmp_network = "";
     if(c_config.networks.valueOrDefault().size())
         tmp_network = c_config.networks().front();
-    std::string generalLine = c_config.memoryLimit() + "," + modeAsString + "," + std::to_string(duration) + "," + std::to_string(c_config.numArrivals()) + "," + tmp_network + "," + std::to_string(1) + "," + std::to_string(0) + "," + std::to_string(c_config.iat()) + "," + std::to_string(c_config.numberOfWorkers());
+
+    auto start_time_t = std::chrono::system_clock::to_time_t(system_time_start);
+    auto end_time_t = std::chrono::system_clock::to_time_t(system_time_end);
+    std::string generalLine;
+    generalLine = c_config.memoryLimit() + "," + modeAsString + "," + std::to_string(duration) + "," +
+                  std::to_string(c_config.numArrivals()) + "," + tmp_network + "," + std::to_string(1) + "," +
+                  std::to_string(0) + "," + std::to_string(c_config.iat()) + "," +
+                  std::to_string(c_config.numberOfWorkers()) + "," + std::to_string(start_time_t) + "," + std::to_string(end_time_t);
     output.toCSVAppend(c_config.outputDirectory() + "/" + c_config.generalOutputFile(), {generalLine}, EdgeCaffe::Output::PIPELINE_EXT);
 
     for(const auto worker : orchest->getWorkers())
