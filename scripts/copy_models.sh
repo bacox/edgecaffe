@@ -27,5 +27,5 @@ echo '> compressing models'
 tar -cvzf networks.tar.gz --exclude='*Generated*' ./networks
 
 copy_model rpi_4
-copy_model rpi_2 &
+copy_model rpi_2
 copy_model rpi_1

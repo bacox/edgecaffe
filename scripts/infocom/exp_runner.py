@@ -45,7 +45,7 @@ if __name__ == "__main__":
     parser.add_argument("--reverse", type=bool, help="Run all the scripts in reverse order")
     parser.add_argument("--mem-limit", type=str, help="Filter the scripts by the memory limit: [2G, 1G 512M]")
     parser.add_argument("--path", type=str, help="Set the path pointing to the experiments")
-    parser.add_argument("--logging", type=bool, help="Set write basic logging to the file out.log")
+    parser.add_argument("--logging", type=bool, help="Set write basic logging to the file out.log. Default is false.")
     parser.add_argument("--build-folder", type=str, help="Set the build folder if needed. The default is .")
     parser.add_argument("--record-thermal", type=bool, help="Enable or disable temperature recording. Default is enabled; recording only works in RPI")
     args = parser.parse_args()
