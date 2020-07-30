@@ -1,0 +1,15 @@
+---
+name: ObjectNet
+network-file: VGG_ILSVRC_19_layers_deploy.prototxt
+model-file: VGG_ILSVRC_19_layers.caffemodel
+mean-scalar: [104, 117, 123]
+uses-result-vector: false
+input-scale: [227, 227]
+base-path: networks/ObjectNet/
+partials-location: VGG_ILSVRC_19_layers_partials
+excluded-partials: []
+layer-statistics: Salient-Object-Subitizing.stats.csv
+has-input-layer: false
+num-conv-layers: 36
+num-fc-layers: 9
+max-memory-usage: 1700

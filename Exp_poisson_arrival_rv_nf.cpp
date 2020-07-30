@@ -2,48 +2,14 @@
 // Created by bacox on 25/05/2020.
 //
 
-//
-// Created by bacox on 25/05/2020.
-//
-
 #include <iostream>
 #include <EdgeCaffe.h>
 #include <chrono>
 #include <Util/Output.h>
 #include <cxxopts.h>
-#include <iomanip>      // std::setw
-
-template<typename T>
-T getArgs(const cxxopts::ParseResult &result, std::string key, T defaultValue,const YAML::Node &yamlConfig,std::map<std::string, std::string> &configAsText)
-{
-    T parsed = defaultValue;
-    try{
-        parsed = yamlConfig[key].as<T>();
-    } catch(...){}
-    if(result.count(key))
-    {
-        parsed = result[key].as<T>();
-    }
-    std::stringstream stream;
-    stream << parsed;
-    configAsText[key] = stream.str();
-    return parsed;
-}
-
-void printConfig(const std::string &programName, std::map<std::string, std::string> &configAsText)
-{
-    std::cout << "==========[Config]==========" << std::endl;
-    int align = 20;
-    std::cout << "Running" << std::setw(align - 7) << "'" << programName << "'" << std::endl;
-    for(auto pair : configAsText)
-    {
-        if (pair.second.empty())
-            continue;
-        std::cout << pair.first << std::setw(align - pair.first.length()) << ": " << pair.second << std::endl;
-    }
-    std::cout << std::endl;
-}
-
+#include <Util/Config.h>
+#include <Orchestrator/Orchestrator.h>
+#include <Orchestrator/OrchestratorFactory.h>
 
 int main(int argc, char *argv[])
 {
@@ -54,98 +20,11 @@ int main(int argc, char *argv[])
     /**
      * Start parsing input parameters
      */
-    std::string helpMessage = "\n\nExp_const_arrivals executes DNN's using the EdgeCaffe framework based on different arrivals."
-                              "\nArrivals arrive at the system based on the generated inter-arrival time."
-                              "\nNote: some cli options are not yet implemented";
 
-    cxxopts::Options options("Exp_const_arrivals", "One line description of MyProgram" + helpMessage);
-    options.add_options()
-            (
-                    "m,mode", "Mode to split and run the networks. Values [partial|linear|deepeye|bulk]"
-                    , cxxopts::value<std::string>())
-            (
-                    "mem_limit"
-                    , "The memory limit given by the OS to EdgeCaffe. NOTE: this does not limit the memory for this process but is used in output generation and in scheduling."
-                    , cxxopts::value<std::string>())
-            ("seed", "Seed for random number generator", cxxopts::value<long>())
-            ("V,verbose", "Verbose")
-            ("N,num-arrivals", "Number of arrivals to be generated", cxxopts::value<int>())
-            (
-                    "a,arrival-list"
-                    , "Use this arrival list to inject arrivals instead of the generated one"
-                    , cxxopts::value<std::string>())
-            (
-                    "p,output-prefix", "Prefix for all output files to make it them unique for a certain run"
-                    , cxxopts::value<std::string>())
-            ("output-path", "Define the path to store all output files", cxxopts::value<std::string>())
-            ("network-path", "Define the path to store all output files", cxxopts::value<std::string>())
-            ("resources-path", "Define the path to store all output files", cxxopts::value<std::string>())
-            ("s, sched-alg", "The scheduling algorithm to be used: [FCFS|SJF]", cxxopts::value<std::string>())
-            (
-                    "c,read-config"
-                    , "Use a yaml config file to configure this run instead of the cli. This will overrule all other arguments. Example 'config/pipeline-template.yaml'"
-                    , cxxopts::value<std::string>())
-            (
-                    "network"
-                    , "The network(s) to run"
-                    , cxxopts::value<std::vector<std::string>>())
-            (
-                    "rho"
-                    , "Set the Rho value to use"
-                    , cxxopts::value<double>())
-            ("mst", "Set the mean service time to use", cxxopts::value<double>())
-            ("iat", "Set the inter arrival time to use", cxxopts::value<double>())
-            ("n-workers", "Set the number of workers to be used for execution of the tasks. This only has effect on algorithms that do not use a fixed number of workers", cxxopts::value<int>())
-            ("poisson-distribution","enable or disable poisson distribution as the arrival process. With this flag disabled, a constant distribution will be used.", cxxopts::value<bool>())
-            ("h,help", "Print help message");
+    EdgeCaffe::Config &c_config = EdgeCaffe::Config::getInstance();
 
-    cxxopts::ParseResult result = options.parse(argc, argv);
-
-    // Check if the help message needs to be printed;
-    if (result.count("help") or result.arguments().size() == 0)
-    {
-        std::cout << options.help({"", "Group"}) << std::endl;
-        exit(0);
-    }
-
-    YAML::Node config;
-    std::map<std::string,std::string> configAsText;
-    std::string pathToConfig = getArgs<std::string>(result, "read-config", "", config, configAsText);
-    // Check if yaml file is provided
-    try{
-        config = YAML::LoadFile(pathToConfig);
-        // Update parameters if found
-
-    } catch(...)
-    {
-        if(result.count("read-config") == 0)
-        {
-            if(result.count("verbose") > 0)
-            {
-                std::cerr << "Error while attempting to read yaml file!" << std::endl;
-                std::cerr << "Yaml file: " << pathToConfig << std::endl;
-            }
-        }
-    }
-    std::string defaultMode = getArgs<std::string>(result, "mode", "partial", config, configAsText);
-    long seed = getArgs<long>(result, "seed", -1, config, configAsText);
-    std::string memLimit = getArgs<std::string>(result, "mem_limit", "1G", config, configAsText);
-    bool verbose = getArgs<bool>(result, "verbose", false, config, configAsText);
-    std::string schedAlg = getArgs<std::string>(result, "sched-alg", "FCFS", config, configAsText);
-    int numArrivals = getArgs<int>(result, "num-arrivals", 10, config, configAsText);
-    std::string outputPrefix = getArgs<std::string>(result, "output-prefix", "", config, configAsText);
-    std::string pathToOutput = getArgs<std::string>(result, "output-path", "../analysis", config, configAsText);
-    std::string pathToNetworks = getArgs<std::string>(result, "network-path", "networks", config, configAsText);
-    std::string pathToResources = getArgs<std::string>(result, "resources-path", "../resources", config, configAsText);
-    std::string generalOutputFile = getArgs<std::string>(result, "general-outputfile", "generalOutput.csv", config, configAsText);
-    std::string pathToArrivalList = getArgs<std::string>(result, "arrival-list", "", config, configAsText);
-    int n_workers = getArgs<int>(result, "n-workers", 2, config, configAsText);
-    bool poissonDistribution = getArgs<bool>(result, "poisson-distribution", true, config, configAsText);
-
-    double rho = getArgs<double>(result, "rho", 0, config, configAsText);
-    double mst = getArgs<double>(result, "mst", 1, config, configAsText);
-    double iat = getArgs<double>(result, "iat", 1000, config, configAsText);
-
+    c_config.parseCli(argc, argv);
+    c_config.printConfig();
 
     std::unordered_map<std::string, int> memory_values = {
             {"512M", 512}
@@ -154,71 +33,20 @@ int main(int argc, char *argv[])
             , {"4G", 4096}
 
     };
-    // std::vector<std::string> selectedNetwork = {"AgeNet", "FaceNet", "SoS_GoogleNet"};
-    // std::vector<std::string> selectedNetwork = {"AgeNet", "GenderNet"};
-    std::vector<std::string> selectedNetwork = {"AgeNet", "GenderNet", "FaceNet", "SoS"};
-    if(result.count("network"))
-    {
-        selectedNetwork = result["network"].as<std::vector<std::string>>();
-    }
     /**
      * End parsing input parameters
      */
 
-    EdgeCaffe::Orchestrator::MODEL_SPLIT_MODE mode = EdgeCaffe::Orchestrator::MODEL_SPLIT_MODE::PARTIAL;
-    std::string modeAsString = "partial";
-    if (defaultMode == "bulk")
-    {
-        mode = EdgeCaffe::Orchestrator::MODEL_SPLIT_MODE::BULK;
-        modeAsString = "bulk";
-    } else if (defaultMode == "deepeye")
-    {
-        mode = EdgeCaffe::Orchestrator::MODEL_SPLIT_MODE::DEEPEYE;
-        modeAsString = "deepeye";
-    } else if (defaultMode == "linear")
-    {
-        mode = EdgeCaffe::Orchestrator::MODEL_SPLIT_MODE::LINEAR;
-        modeAsString = "linear";
-    } else if (defaultMode == "execprio")
-    {
-        mode = EdgeCaffe::Orchestrator::MODEL_SPLIT_MODE::PRIO_EXEC;
-        modeAsString = "execprio";
-    }else if (defaultMode == "execprio-inter")
-    {
-        mode = EdgeCaffe::Orchestrator::MODEL_SPLIT_MODE::PRIO_EXEC_INTER;
-        modeAsString = "execprio-inter";
-    } else if (defaultMode == "masa-p")
-    {
-        mode = EdgeCaffe::Orchestrator::MODEL_SPLIT_MODE::MASA_P;
-        modeAsString = "masa-p";
-    } else if (defaultMode == "masa-e")
-    {
-        mode = EdgeCaffe::Orchestrator::MODEL_SPLIT_MODE::MASA_E;
-        modeAsString = "masa-e";
-    }
-    configAsText["defaultMode"] = modeAsString;
+    EdgeCaffe::Type::MODE_TYPE mode =  c_config.modeAsType();
+    std::string modeAsString = c_config.mode();
     std::string outputFile = "output.csv";
-    configAsText["outputFile"] = outputFile;
-//    std::string generalOutputFile = "./generalOutput.csv";
-//    configAsText["generalOutputFile"] = generalOutputFile;
 
-    double meanServiceTime = 0;
-    try
-    {
-        auto meanServiceTimes = config["mean-service-time"].as<std::map<std::string, double>>();
-        meanServiceTime = meanServiceTimes[memLimit];
-    } catch(...){}
-    configAsText["meanServiceTime"] = std::to_string(meanServiceTime);
-    // double interArrivalTime = 1.0 /( (1.0/meanServiceTime) * rho);
-    double interArrivalTime = iat;
-    configAsText["interArrivalTime"] = std::to_string(interArrivalTime);
-
-    printConfig("Exp_const_arrivals", configAsText);
     {
         EdgeCaffe::Output output;
-        std::string configOutputFile = outputPrefix + "config.csv";
-        output.toCSV(pathToOutput + "/" + configOutputFile, configAsText, EdgeCaffe::Output::CONFIG);
+        std::string configOutputFile = c_config.outputPrefix.valueOrDefault() + "config.csv";
+        output.toCSV(c_config.outputDirectory.valueOrDefault() + "/" + configOutputFile, c_config.configAsText, EdgeCaffe::Output::CONFIG);
     }
+
 
 
     /**
@@ -226,14 +54,16 @@ int main(int argc, char *argv[])
      * The real running begins here
      */
 //    if(!verbose)
-    ::google::InitGoogleLogging(argv[0]);
-
-    EdgeCaffe::Orchestrator orchestrator;
+//    ::google::InitGoogleLogging(argv[0]);
 
     /**
      * Instead of defining the networks and the input, we let it be generated by a distribution
      */
     EdgeCaffe::ArrivalList arrivals;
+
+
+    std::unique_ptr<EdgeCaffe::OrchestratorFactory> ofactory = std::make_unique<EdgeCaffe::OrchestratorFactory>();
+    auto orchest = ofactory->GetOrchestratorAlt();
 
     /**
      * Check if an arrival-list is given
@@ -241,53 +71,41 @@ int main(int argc, char *argv[])
      * If no arrival-list --> generate arrivals according to the distribution
      */
 
-    if( pathToArrivalList != "")
+    if( c_config.pathToArrivalList.isSet())
     {
 //        std::cout << "I found an arrival-list at " << pathToArrivalList << std::endl;
-        arrivals.loadFromYaml(pathToArrivalList);
+        arrivals.loadFromYaml(c_config.pathToArrivalList());
     } else
     {
 //        std::cout << "No arrivalList to be found" << std::endl;
-        arrivals.setEnabledNetworks({selectedNetwork});
-        arrivals.setSeed(seed);
+        arrivals.setEnabledNetworks({c_config.networks()});
+        arrivals.setSeed(c_config.seed());
 
-        poissonDistribution = false;
-        if (poissonDistribution)
+        if (c_config.poissonDistribution())
         {
-            arrivals.generateList(numArrivals, EdgeCaffe::ArrivalList::DISTRIBUTION_TYPE::POISSON, {interArrivalTime});
+            arrivals.generateList(c_config.numArrivals(), EdgeCaffe::ArrivalList::DISTRIBUTION_TYPE::POISSON, {c_config.iat()});
         } else
         {
-            arrivals.generateList(numArrivals, EdgeCaffe::ArrivalList::DISTRIBUTION_TYPE::CONSTANT, {0});
+            arrivals.generateList(c_config.numArrivals(), EdgeCaffe::ArrivalList::DISTRIBUTION_TYPE::CONSTANT, {0});
         }
     }
     {
         // Make sure to save the arrival distribution
-        std::string arrivalListOutputFile = pathToOutput + "/" + outputPrefix + "arrivals.csv";
+        std::string arrivalListOutputFile = c_config.defaultOutPath() + "arrivals.csv";
         EdgeCaffe::Output output;
         output.toCSV(arrivalListOutputFile, arrivals.toCSVLines(), EdgeCaffe::Output::ARRIVALS);
     }
 
-
-    orchestrator.setup(mode, modeAsString, n_workers);
-    orchestrator.verbose = verbose;
-    for(const auto &worker : orchestrator.getWorkers())
-        worker->verbose = verbose;
-    orchestrator.setArrivals(arrivals);
+    orchest->setArrivals(arrivals);
 
     auto startTime = std::chrono::high_resolution_clock::now();
-    orchestrator.mc.setCapacity(memory_values[memLimit]); // In MB
-    orchestrator.mc.lockMemory(4.87); // Base usage of the pipeline
-    orchestrator.start();
-    orchestrator.processTasks();
-    orchestrator.waitForStop();
+    orchest->start();
+    orchest->processTasks();
+    orchest->waitForStop();
 
     auto endTime = std::chrono::high_resolution_clock::now();
     auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(endTime - startTime).count();
     std::cout << duration << " milliseconds" << std::endl;
-
-
-
-
 
     /**
      * Processing the gathered data
@@ -296,12 +114,12 @@ int main(int argc, char *argv[])
      *  for each run of move the data in between runs to prevent losing data.
      */
 
-    std::string layerOutputFile = pathToOutput + "/" + outputPrefix + outputFile;
-    orchestrator.processLayerData(layerOutputFile);
-    std::string queueEventsFile = pathToOutput + "/" + outputPrefix + "stepEvents.csv";
-    orchestrator.processEventData(queueEventsFile, startTime);
-    std::string networkOutputFile = pathToOutput + "/" + outputPrefix + "networkStats6.csv";
-    orchestrator.processNetworkData(networkOutputFile, startTime);
+    std::string layerOutputFile = c_config.defaultOutPath() + outputFile;
+    orchest->processLayerData(layerOutputFile);
+    std::string queueEventsFile = c_config.defaultOutPath() + "stepEvents.csv";
+    orchest->processEventData(queueEventsFile, startTime);
+    std::string networkOutputFile = c_config.defaultOutPath() + "networkStats6.csv";
+    orchest->processNetworkData(networkOutputFile, startTime);
 
     /**
      * Save the output of the end-to-end measurement
@@ -309,18 +127,20 @@ int main(int argc, char *argv[])
      * If the file does not exist it is created.
      */
     EdgeCaffe::Output output;
-    std::string generalLine = memLimit + "," + modeAsString + "," + std::to_string(duration) + "," + std::to_string(numArrivals) + "," + selectedNetwork.front() + "," + std::to_string(rho) + "," + std::to_string(meanServiceTime) + "," + std::to_string(interArrivalTime) + "," + std::to_string(n_workers);
-    output.toCSVAppend(pathToOutput + "/" + generalOutputFile, {generalLine}, EdgeCaffe::Output::PIPELINE_EXT);
+    std::string tmp_network = "";
+    if(c_config.networks.valueOrDefault().size())
+        tmp_network = c_config.networks().front();
+    std::string generalLine = c_config.memoryLimit() + "," + modeAsString + "," + std::to_string(duration) + "," + std::to_string(c_config.numArrivals()) + "," + tmp_network + "," + std::to_string(1) + "," + std::to_string(0) + "," + std::to_string(c_config.iat()) + "," + std::to_string(c_config.numberOfWorkers());
+    output.toCSVAppend(c_config.outputDirectory() + "/" + c_config.generalOutputFile(), {generalLine}, EdgeCaffe::Output::PIPELINE_EXT);
 
-
-    for(auto worker : orchestrator.getWorkers())
+    for(const auto worker : orchest->getWorkers())
     {
         auto id = worker->workerId;
-        std::string workerStatFile = pathToOutput + "/" + outputPrefix + "worker" + std::to_string(id) + ".csv";
+        std::string workerStatFile = c_config.defaultOutPath() + "worker" + std::to_string(id) + ".csv";
         auto lines = worker->workerProfileToCSVLines();
         output.toCSV(workerStatFile, lines, EdgeCaffe::Output::WORKER);
     }
 
-    output.toCSV(pathToOutput + "/" + outputPrefix + "cc-networks.csv", orchestrator.nr.toCSV(), EdgeCaffe::Output::CONCURRENT_NETWORKS);
+    output.toCSV(c_config.defaultOutPath() + "cc-networks.csv", orchest->getNr()->toCSV(), EdgeCaffe::Output::CONCURRENT_NETWORKS);
     return 0;
 }

@@ -1,0 +1,38 @@
+# Experiment description
+
+# Set paths
+network-path: networks
+resources-path: ../resources
+output-path: ../analysis/experiments/poisson_arrivals/rv-nf-masa-triple-agenet-4w
+memory-constraints: 512M
+modes: masa-e
+repetitions: 150
+arrival-mode: batch
+
+cmd-base: bin/Exp_poisson_arrival_rv_nf
+build-folder: cmake-build-release
+
+general-outputfile: generalOutput_poisson_arrivals.csv
+n_workers: 2
+arrivals:
+  - networks:
+      - networkName: AgeNet
+        pathToNetwork: networks/AgeNet
+      - networkName: GenderNet
+        pathToNetwork: networks/GenderNet
+    pathToData: resources/test_1.jpg
+    time: 0
+  - networks:
+      - networkName: AgeNet
+        pathToNetwork: networks/AgeNet
+      - networkName: GenderNet
+        pathToNetwork: networks/GenderNet
+    pathToData: resources/test_1.jpg
+    time: 5000
+  - networks:
+      - networkName: AgeNet
+        pathToNetwork: networks/AgeNet
+      - networkName: GenderNet
+        pathToNetwork: networks/GenderNet
+    pathToData: resources/test_1.jpg
+    time: 6000

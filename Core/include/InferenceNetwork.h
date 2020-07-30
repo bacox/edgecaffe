@@ -11,11 +11,13 @@
 #include "InferenceSubTask.h"
 #include "TaskPool.h"
 #include "MemoryCounter.h"
+#include "Types.h"
 #include <string>
 #include <opencv2/core/mat.hpp>
 //#include "../thirdparty/caffe/include/caffe/caffe.hpp"
 #include <memory>
 #include <yaml-cpp/yaml.h>
+#include <TaskPool/AbstractTaskPool.h>
 
 namespace EdgeCaffe
 {
@@ -72,12 +74,14 @@ namespace EdgeCaffe
         std::vector<LayerDescription> layerDescriptions;
     public:
         double maxMemoryUsage = 0;
+        double meanExecutionTime = std::numeric_limits<double>::max();
         std::vector<Task *> tasks;
         bool use_scales = false;
         std::string dataPath;
         const std::vector<Task *> &getTasks() const;
         NetworkProfile networkProfile;
-        std::vector<TaskPool*> taskpools;
+//        std::vector<TaskPool*> taskpools;
+        std::vector<std::shared_ptr<AbstractTaskPool>> taskpools;
         std::vector<Task *> *bagOfTasks_ptr;
         int networkId;
 
@@ -147,7 +151,8 @@ namespace EdgeCaffe
         void createTasksLinear();
         void createTasksExecPrio();
 
-        virtual void createTasks(int splittingPolicy);
+//        virtual void createTasks(int splittingPolicy);
+        virtual void createTasks(Type::MODE_TYPE mode);
 
         void showResult();
 

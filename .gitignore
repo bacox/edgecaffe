@@ -28,3 +28,5 @@ venv
 networks_export
 networks_descr.tar.xz
 *tar.xz
+archive
+*.tmp.yaml

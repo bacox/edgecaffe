@@ -25,6 +25,18 @@ namespace EdgeCaffe
     class Task
     {
     public:
+
+        enum TYPE {
+            INIT= 2,
+            LOAD= 1,
+            EXEC= 0
+        };
+
+        enum LAYER_TYPE {
+            CONV = 0,
+            FC = 1
+        };
+
         enum TIME {
 //            NET_SUBMIT,
             TO_WAITING,
@@ -50,6 +62,8 @@ namespace EdgeCaffe
         // The estimated memory needed to execution of this task. Can be used for scheduling
         int estimatedNeededMemory = 0;
 
+        double networkExecutionTime = std::numeric_limits<double>::max();
+
         // Describes the task
         std::string taskName;
 
@@ -59,6 +73,10 @@ namespace EdgeCaffe
         std::string layerName = "";
         std::string networkName = "";
         std::string taskType = "";
+
+        TYPE t_type;
+        LAYER_TYPE layerType;
+
 
         // Information for the scheduler (orchestrator) to use specific taskpools for this task if the poolId is set.
         int assignedPoolId = -1;
@@ -163,6 +181,11 @@ namespace EdgeCaffe
             if(dependency == nullptr)
                 return true;
             return dependency->executed;
+        }
+
+        static bool compareByNetworkTime(const Task & l, const Task & r) //(2)
+        {
+            return l.networkExecutionTime < r.networkExecutionTime;
         }
     };
 }

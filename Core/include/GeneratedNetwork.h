@@ -22,7 +22,7 @@ namespace EdgeCaffe
     public:
         GeneratedNetwork(const std::string &pathToDescription, bool * dependencyCondition);
 
-        void createTasks(int splittingPolicy) override;
+        void createTasks(Type::MODE_TYPE splittingPolicy) override;
 
         virtual ~GeneratedNetwork();
 

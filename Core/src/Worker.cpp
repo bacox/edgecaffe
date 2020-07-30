@@ -17,7 +17,7 @@ namespace EdgeCaffe
 
     /**
      * Main function of the threaded worker.
-     * This will run continously during execution.
+     * This will run continuously during execution.
      * The worker checks if a task is available in the ready pool (`pool` variable)
      * If a task is available, the worker will:
      *  1. Retrieve the task
@@ -32,7 +32,7 @@ namespace EdgeCaffe
         {
             // Checking the pool to execute a new task
             Task *task = nullptr;
-            if (pool->getNext(&task))
+            if (scheduler->getNext(&task))
             {
                 measureBusyTime();
                 #ifdef MEMORY_CHECK_ON
@@ -42,7 +42,7 @@ namespace EdgeCaffe
                 if(verbose)
                 {
                     std::cout << std::this_thread::get_id() << " [" << workerId << "]" << " -> Running task ("
-                              << task->networkId << ") | " << task->id
+                              << task->networkId << "|t:"<< task->layerName << ") | " << task->id
                               << " = '" << task->getTaskDescription() << "'" << std::endl;
                 }
                 #ifdef MEMORY_CHECK_ON
@@ -89,17 +89,17 @@ namespace EdgeCaffe
         _thread = std::thread(&Worker::Execution, this);
     }
 
-    Worker::Worker(TaskPool *pool, TaskPool *outpool) : pool(pool), outpool(outpool)
-    {}
-
-    Worker::Worker(TaskPool *pool, TaskPool *outpool, int workerId) : pool(pool), outpool(outpool), workerId(workerId)
-    {}
+//    Worker::Worker(TaskPool *pool, TaskPool *outpool) : pool(pool), outpool(outpool)
+//    {}
+//
+//    Worker::Worker(TaskPool *pool, TaskPool *outpool, int workerId) : pool(pool), outpool(outpool), workerId(workerId)
+//    {}
 
     bool Worker::AllowedToStop()
     {
-        if (pool != nullptr)
+        if (scheduler.get() != nullptr)
         {
-            if (pool->isEmpty())
+            if (scheduler->isEmpty())
                 return allowed_to_stop;
             // Never stop if there are tasks left in the incomming pool
             return false;
@@ -153,4 +153,9 @@ namespace EdgeCaffe
         }
         return lines;
     }
+
+    Worker::Worker(
+            const std::shared_ptr<TaskPool> &outpool, const std::shared_ptr<Scheduler> &scheduler, int workerId
+    ) : outpool(outpool), scheduler(scheduler), workerId(workerId)
+    {}
 }

@@ -9,6 +9,8 @@
 #include "TaskPool.h"
 #include <thread>
 #include <Profiler/MemCheck.h>
+#include <TaskPool/AbstractTaskPool.h>
+#include <Scheduler/Scheduler.h>
 
 namespace EdgeCaffe
 {
@@ -60,10 +62,12 @@ namespace EdgeCaffe
         #endif
 
         // Taskpool holding the references to the ready tasks
-        TaskPool *outpool;
+        std::shared_ptr<TaskPool> outpool;
 
         // Taskpool holding the references to the finished tasks
-        TaskPool *pool;
+//        TaskPool *pool;
+//        std::shared_ptr<AbstractTaskPool> pool;
+        std::shared_ptr<Scheduler> scheduler;
 
         int workerId = -1;
 
@@ -101,7 +105,7 @@ namespace EdgeCaffe
          * @param pool      TaskPool pointer
          * @param outpool   TaskPool pointer
          */
-        Worker(TaskPool *pool, TaskPool *outpool);
+//        Worker(TaskPool *pool, TaskPool *outpool);
 
         /**
          * Constructor
@@ -109,8 +113,10 @@ namespace EdgeCaffe
          * @param outpool   TaskPool pointer
          * @param workerId  Int - Assign a specific id to the worker
          */
-        Worker(TaskPool *pool, TaskPool *outpool, int workerId);
+//        Worker(TaskPool *pool, TaskPool *outpool, int workerId);
 
+//        Worker(const std::shared_ptr<TaskPool> &outpool, const std::shared_ptr<AbstractTaskPool> &pool, int workerId);
+        Worker(const std::shared_ptr<TaskPool> &outpool, const std::shared_ptr<Scheduler> &pool, int workerId);
 
         void measureIdleTime();
         void measureBusyTime();
