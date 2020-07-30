@@ -1,1358 +1,1358 @@
 cmd_base: bin/Exp_poisson_arrival_rv_nf
-build_folder: cmake-build-release
+build_folder: .
 tag: small-3-2G-masa-w2-a1
 mem_limit: 2G
 mode: masa
 num_workers: 2
 arrivals:
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: GenderNet
     pathToNetwork: GenderNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: GenderNet
     pathToNetwork: GenderNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: GenderNet
     pathToNetwork: GenderNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: GenderNet
     pathToNetwork: GenderNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: GenderNet
     pathToNetwork: GenderNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: GenderNet
     pathToNetwork: GenderNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: GenderNet
     pathToNetwork: GenderNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: GenderNet
     pathToNetwork: GenderNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: GenderNet
     pathToNetwork: GenderNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: GenderNet
     pathToNetwork: GenderNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: GenderNet
     pathToNetwork: GenderNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: GenderNet
     pathToNetwork: GenderNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: GenderNet
     pathToNetwork: GenderNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: GenderNet
     pathToNetwork: GenderNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: GenderNet
     pathToNetwork: GenderNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: GenderNet
     pathToNetwork: GenderNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: GenderNet
     pathToNetwork: GenderNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: GenderNet
     pathToNetwork: GenderNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: GenderNet
     pathToNetwork: GenderNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: GenderNet
     pathToNetwork: GenderNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: GenderNet
     pathToNetwork: GenderNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: GenderNet
     pathToNetwork: GenderNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: GenderNet
     pathToNetwork: GenderNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: GenderNet
     pathToNetwork: GenderNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: GenderNet
     pathToNetwork: GenderNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: GenderNet
     pathToNetwork: GenderNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: GenderNet
     pathToNetwork: GenderNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: GenderNet
     pathToNetwork: GenderNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: GenderNet
     pathToNetwork: GenderNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: GenderNet
     pathToNetwork: GenderNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: GenderNet
     pathToNetwork: GenderNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: GenderNet
     pathToNetwork: GenderNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: GenderNet
     pathToNetwork: GenderNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: GenderNet
     pathToNetwork: GenderNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: GenderNet
     pathToNetwork: GenderNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: GenderNet
     pathToNetwork: GenderNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: GenderNet
     pathToNetwork: GenderNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: GenderNet
     pathToNetwork: GenderNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: GenderNet
     pathToNetwork: GenderNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: GenderNet
     pathToNetwork: GenderNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: GenderNet
     pathToNetwork: GenderNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: GenderNet
     pathToNetwork: GenderNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: GenderNet
     pathToNetwork: GenderNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: GenderNet
     pathToNetwork: GenderNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: GenderNet
     pathToNetwork: GenderNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: GenderNet
     pathToNetwork: GenderNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: GenderNet
     pathToNetwork: GenderNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: GenderNet
     pathToNetwork: GenderNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: GenderNet
     pathToNetwork: GenderNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: GenderNet
     pathToNetwork: GenderNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: GenderNet
     pathToNetwork: GenderNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: GenderNet
     pathToNetwork: GenderNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: GenderNet
     pathToNetwork: GenderNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: GenderNet
     pathToNetwork: GenderNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: GenderNet
     pathToNetwork: GenderNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: GenderNet
     pathToNetwork: GenderNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: GenderNet
     pathToNetwork: GenderNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: GenderNet
     pathToNetwork: GenderNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: GenderNet
     pathToNetwork: GenderNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: GenderNet
     pathToNetwork: GenderNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: GenderNet
     pathToNetwork: GenderNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: GenderNet
     pathToNetwork: GenderNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: GenderNet
     pathToNetwork: GenderNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: GenderNet
     pathToNetwork: GenderNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: GenderNet
     pathToNetwork: GenderNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: GenderNet
     pathToNetwork: GenderNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: GenderNet
     pathToNetwork: GenderNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: GenderNet
     pathToNetwork: GenderNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: GenderNet
     pathToNetwork: GenderNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: GenderNet
     pathToNetwork: GenderNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: GenderNet
     pathToNetwork: GenderNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: GenderNet
     pathToNetwork: GenderNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: GenderNet
     pathToNetwork: GenderNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: GenderNet
     pathToNetwork: GenderNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: GenderNet
     pathToNetwork: GenderNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: GenderNet
     pathToNetwork: GenderNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: GenderNet
     pathToNetwork: GenderNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: GenderNet
     pathToNetwork: GenderNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: GenderNet
     pathToNetwork: GenderNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: GenderNet
     pathToNetwork: GenderNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: GenderNet
     pathToNetwork: GenderNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: GenderNet
     pathToNetwork: GenderNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: GenderNet
     pathToNetwork: GenderNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: GenderNet
     pathToNetwork: GenderNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: GenderNet
     pathToNetwork: GenderNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: GenderNet
     pathToNetwork: GenderNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: GenderNet
     pathToNetwork: GenderNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: GenderNet
     pathToNetwork: GenderNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: GenderNet
     pathToNetwork: GenderNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: GenderNet
     pathToNetwork: GenderNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: GenderNet
     pathToNetwork: GenderNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: GenderNet
     pathToNetwork: GenderNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: GenderNet
     pathToNetwork: GenderNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: GenderNet
     pathToNetwork: GenderNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: GenderNet
     pathToNetwork: GenderNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: GenderNet
     pathToNetwork: GenderNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: GenderNet
     pathToNetwork: GenderNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: GenderNet
     pathToNetwork: GenderNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: GenderNet
     pathToNetwork: GenderNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: GenderNet
     pathToNetwork: GenderNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: GenderNet
     pathToNetwork: GenderNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: GenderNet
     pathToNetwork: GenderNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: GenderNet
     pathToNetwork: GenderNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: GenderNet
     pathToNetwork: GenderNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: GenderNet
     pathToNetwork: GenderNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: GenderNet
     pathToNetwork: GenderNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: GenderNet
     pathToNetwork: GenderNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: GenderNet
     pathToNetwork: GenderNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: GenderNet
     pathToNetwork: GenderNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: GenderNet
     pathToNetwork: GenderNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: GenderNet
     pathToNetwork: GenderNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: GenderNet
     pathToNetwork: GenderNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: GenderNet
     pathToNetwork: GenderNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: GenderNet
     pathToNetwork: GenderNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: GenderNet
     pathToNetwork: GenderNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: GenderNet
     pathToNetwork: GenderNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: GenderNet
     pathToNetwork: GenderNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: GenderNet
     pathToNetwork: GenderNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: GenderNet
     pathToNetwork: GenderNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: GenderNet
     pathToNetwork: GenderNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: GenderNet
     pathToNetwork: GenderNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: GenderNet
     pathToNetwork: GenderNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: GenderNet
     pathToNetwork: GenderNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: GenderNet
     pathToNetwork: GenderNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: GenderNet
     pathToNetwork: GenderNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: GenderNet
     pathToNetwork: GenderNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: GenderNet
     pathToNetwork: GenderNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: GenderNet
     pathToNetwork: GenderNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: GenderNet
     pathToNetwork: GenderNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: GenderNet
     pathToNetwork: GenderNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: GenderNet
     pathToNetwork: GenderNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: GenderNet
     pathToNetwork: GenderNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: GenderNet
     pathToNetwork: GenderNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: GenderNet
     pathToNetwork: GenderNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: GenderNet
     pathToNetwork: GenderNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: GenderNet
     pathToNetwork: GenderNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: GenderNet
     pathToNetwork: GenderNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: GenderNet
     pathToNetwork: GenderNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: GenderNet
     pathToNetwork: GenderNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: GenderNet
     pathToNetwork: GenderNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: GenderNet
     pathToNetwork: GenderNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: GenderNet
     pathToNetwork: GenderNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: GenderNet
     pathToNetwork: GenderNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: GenderNet
     pathToNetwork: GenderNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: GenderNet
     pathToNetwork: GenderNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: GenderNet
     pathToNetwork: GenderNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: GenderNet
     pathToNetwork: GenderNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: GenderNet
     pathToNetwork: GenderNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: GenderNet
     pathToNetwork: GenderNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: GenderNet
     pathToNetwork: GenderNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   pathToData: test_1.jpg
   time: 0
 n-arrivals: 150

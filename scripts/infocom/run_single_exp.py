@@ -8,7 +8,7 @@ def gen_cmd_config_call(cmd_base: str, pathToConfig: str) -> str :
     return cmd_str
 
 
-def run_single_exp(config_file, base_script, dry_run : bool = False):
+def run_single_exp(config_file, base_script, dry_run : bool = False, build_folder='.'):
     config = None
     with open(config_file, 'r') as stream:
         try:
@@ -19,7 +19,7 @@ def run_single_exp(config_file, base_script, dry_run : bool = False):
             exit(1)
 
     memory_constraint = config['mem_limit']
-    build_folder = config['build_folder']
+    # build_folder = config['build_folder']
     n_workers = config['num_workers']
     cmd_base = config['cmd_base']
     CMD = gen_cmd_config_call(cmd_base, config_file)

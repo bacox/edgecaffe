@@ -1,1356 +1,1356 @@
 cmd_base: bin/Exp_poisson_arrival_rv_nf
-build_folder: cmake-build-release
+build_folder: .
 tag: mixed-3-512M-bulk-w2-a1
 mem_limit: 512M
 mode: bulk
 num_workers: 2
 arrivals:
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   - networkName: ObjectNet
     pathToNetwork: ObjectNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   - networkName: ObjectNet
     pathToNetwork: ObjectNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   - networkName: ObjectNet
     pathToNetwork: ObjectNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   - networkName: ObjectNet
     pathToNetwork: ObjectNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   - networkName: ObjectNet
     pathToNetwork: ObjectNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   - networkName: ObjectNet
     pathToNetwork: ObjectNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   - networkName: ObjectNet
     pathToNetwork: ObjectNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   - networkName: ObjectNet
     pathToNetwork: ObjectNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   - networkName: ObjectNet
     pathToNetwork: ObjectNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   - networkName: ObjectNet
     pathToNetwork: ObjectNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   - networkName: ObjectNet
     pathToNetwork: ObjectNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   - networkName: ObjectNet
     pathToNetwork: ObjectNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   - networkName: ObjectNet
     pathToNetwork: ObjectNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   - networkName: ObjectNet
     pathToNetwork: ObjectNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   - networkName: ObjectNet
     pathToNetwork: ObjectNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   - networkName: ObjectNet
     pathToNetwork: ObjectNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   - networkName: ObjectNet
     pathToNetwork: ObjectNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   - networkName: ObjectNet
     pathToNetwork: ObjectNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   - networkName: ObjectNet
     pathToNetwork: ObjectNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   - networkName: ObjectNet
     pathToNetwork: ObjectNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   - networkName: ObjectNet
     pathToNetwork: ObjectNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   - networkName: ObjectNet
     pathToNetwork: ObjectNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   - networkName: ObjectNet
     pathToNetwork: ObjectNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   - networkName: ObjectNet
     pathToNetwork: ObjectNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   - networkName: ObjectNet
     pathToNetwork: ObjectNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   - networkName: ObjectNet
     pathToNetwork: ObjectNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   - networkName: ObjectNet
     pathToNetwork: ObjectNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   - networkName: ObjectNet
     pathToNetwork: ObjectNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   - networkName: ObjectNet
     pathToNetwork: ObjectNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   - networkName: ObjectNet
     pathToNetwork: ObjectNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   - networkName: ObjectNet
     pathToNetwork: ObjectNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   - networkName: ObjectNet
     pathToNetwork: ObjectNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   - networkName: ObjectNet
     pathToNetwork: ObjectNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   - networkName: ObjectNet
     pathToNetwork: ObjectNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   - networkName: ObjectNet
     pathToNetwork: ObjectNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   - networkName: ObjectNet
     pathToNetwork: ObjectNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   - networkName: ObjectNet
     pathToNetwork: ObjectNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   - networkName: ObjectNet
     pathToNetwork: ObjectNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   - networkName: ObjectNet
     pathToNetwork: ObjectNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   - networkName: ObjectNet
     pathToNetwork: ObjectNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   - networkName: ObjectNet
     pathToNetwork: ObjectNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   - networkName: ObjectNet
     pathToNetwork: ObjectNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   - networkName: ObjectNet
     pathToNetwork: ObjectNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   - networkName: ObjectNet
     pathToNetwork: ObjectNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   - networkName: ObjectNet
     pathToNetwork: ObjectNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   - networkName: ObjectNet
     pathToNetwork: ObjectNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   - networkName: ObjectNet
     pathToNetwork: ObjectNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   - networkName: ObjectNet
     pathToNetwork: ObjectNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   - networkName: ObjectNet
     pathToNetwork: ObjectNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   - networkName: ObjectNet
     pathToNetwork: ObjectNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   - networkName: ObjectNet
     pathToNetwork: ObjectNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   - networkName: ObjectNet
     pathToNetwork: ObjectNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   - networkName: ObjectNet
     pathToNetwork: ObjectNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   - networkName: ObjectNet
     pathToNetwork: ObjectNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   - networkName: ObjectNet
     pathToNetwork: ObjectNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   - networkName: ObjectNet
     pathToNetwork: ObjectNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   - networkName: ObjectNet
     pathToNetwork: ObjectNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   - networkName: ObjectNet
     pathToNetwork: ObjectNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   - networkName: ObjectNet
     pathToNetwork: ObjectNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   - networkName: ObjectNet
     pathToNetwork: ObjectNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   - networkName: ObjectNet
     pathToNetwork: ObjectNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   - networkName: ObjectNet
     pathToNetwork: ObjectNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   - networkName: ObjectNet
     pathToNetwork: ObjectNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   - networkName: ObjectNet
     pathToNetwork: ObjectNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   - networkName: ObjectNet
     pathToNetwork: ObjectNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   - networkName: ObjectNet
     pathToNetwork: ObjectNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   - networkName: ObjectNet
     pathToNetwork: ObjectNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   - networkName: ObjectNet
     pathToNetwork: ObjectNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   - networkName: ObjectNet
     pathToNetwork: ObjectNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   - networkName: ObjectNet
     pathToNetwork: ObjectNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   - networkName: ObjectNet
     pathToNetwork: ObjectNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   - networkName: ObjectNet
     pathToNetwork: ObjectNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   - networkName: ObjectNet
     pathToNetwork: ObjectNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   - networkName: ObjectNet
     pathToNetwork: ObjectNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   - networkName: ObjectNet
     pathToNetwork: ObjectNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   - networkName: ObjectNet
     pathToNetwork: ObjectNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   - networkName: ObjectNet
     pathToNetwork: ObjectNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   - networkName: ObjectNet
     pathToNetwork: ObjectNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   - networkName: ObjectNet
     pathToNetwork: ObjectNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   - networkName: ObjectNet
     pathToNetwork: ObjectNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   - networkName: ObjectNet
     pathToNetwork: ObjectNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   - networkName: ObjectNet
     pathToNetwork: ObjectNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   - networkName: ObjectNet
     pathToNetwork: ObjectNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   - networkName: ObjectNet
     pathToNetwork: ObjectNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   - networkName: ObjectNet
     pathToNetwork: ObjectNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   - networkName: ObjectNet
     pathToNetwork: ObjectNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   - networkName: ObjectNet
     pathToNetwork: ObjectNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   - networkName: ObjectNet
     pathToNetwork: ObjectNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   - networkName: ObjectNet
     pathToNetwork: ObjectNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   - networkName: ObjectNet
     pathToNetwork: ObjectNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   - networkName: ObjectNet
     pathToNetwork: ObjectNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   - networkName: ObjectNet
     pathToNetwork: ObjectNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   - networkName: ObjectNet
     pathToNetwork: ObjectNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   - networkName: ObjectNet
     pathToNetwork: ObjectNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   - networkName: ObjectNet
     pathToNetwork: ObjectNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   - networkName: ObjectNet
     pathToNetwork: ObjectNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   - networkName: ObjectNet
     pathToNetwork: ObjectNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   - networkName: ObjectNet
     pathToNetwork: ObjectNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   - networkName: ObjectNet
     pathToNetwork: ObjectNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   - networkName: ObjectNet
     pathToNetwork: ObjectNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   - networkName: ObjectNet
     pathToNetwork: ObjectNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   - networkName: ObjectNet
     pathToNetwork: ObjectNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   - networkName: ObjectNet
     pathToNetwork: ObjectNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   - networkName: ObjectNet
     pathToNetwork: ObjectNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   - networkName: ObjectNet
     pathToNetwork: ObjectNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   - networkName: ObjectNet
     pathToNetwork: ObjectNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   - networkName: ObjectNet
     pathToNetwork: ObjectNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   - networkName: ObjectNet
     pathToNetwork: ObjectNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   - networkName: ObjectNet
     pathToNetwork: ObjectNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   - networkName: ObjectNet
     pathToNetwork: ObjectNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   - networkName: ObjectNet
     pathToNetwork: ObjectNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   - networkName: ObjectNet
     pathToNetwork: ObjectNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   - networkName: ObjectNet
     pathToNetwork: ObjectNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   - networkName: ObjectNet
     pathToNetwork: ObjectNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   - networkName: ObjectNet
     pathToNetwork: ObjectNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   - networkName: ObjectNet
     pathToNetwork: ObjectNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   - networkName: ObjectNet
     pathToNetwork: ObjectNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   - networkName: ObjectNet
     pathToNetwork: ObjectNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   - networkName: ObjectNet
     pathToNetwork: ObjectNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   - networkName: ObjectNet
     pathToNetwork: ObjectNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   - networkName: ObjectNet
     pathToNetwork: ObjectNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   - networkName: ObjectNet
     pathToNetwork: ObjectNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   - networkName: ObjectNet
     pathToNetwork: ObjectNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   - networkName: ObjectNet
     pathToNetwork: ObjectNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   - networkName: ObjectNet
     pathToNetwork: ObjectNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   - networkName: ObjectNet
     pathToNetwork: ObjectNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   - networkName: ObjectNet
     pathToNetwork: ObjectNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   - networkName: ObjectNet
     pathToNetwork: ObjectNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   - networkName: ObjectNet
     pathToNetwork: ObjectNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   - networkName: ObjectNet
     pathToNetwork: ObjectNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   - networkName: ObjectNet
     pathToNetwork: ObjectNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   - networkName: ObjectNet
     pathToNetwork: ObjectNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   - networkName: ObjectNet
     pathToNetwork: ObjectNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   - networkName: ObjectNet
     pathToNetwork: ObjectNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   - networkName: ObjectNet
     pathToNetwork: ObjectNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   - networkName: ObjectNet
     pathToNetwork: ObjectNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   - networkName: ObjectNet
     pathToNetwork: ObjectNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   - networkName: ObjectNet
     pathToNetwork: ObjectNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   - networkName: ObjectNet
     pathToNetwork: ObjectNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   - networkName: ObjectNet
     pathToNetwork: ObjectNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   - networkName: ObjectNet
     pathToNetwork: ObjectNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   - networkName: ObjectNet
     pathToNetwork: ObjectNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   - networkName: ObjectNet
     pathToNetwork: ObjectNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   - networkName: ObjectNet
     pathToNetwork: ObjectNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   - networkName: ObjectNet
     pathToNetwork: ObjectNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   - networkName: ObjectNet
     pathToNetwork: ObjectNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   - networkName: ObjectNet
     pathToNetwork: ObjectNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   - networkName: ObjectNet
     pathToNetwork: ObjectNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   - networkName: ObjectNet
     pathToNetwork: ObjectNet
   pathToData: test_1.jpg
   time: 0
 - networks:
-  - networkName: AgeNet
-    pathToNetwork: AgeNet
   - networkName: FaceNet
     pathToNetwork: FaceNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
   - networkName: ObjectNet
     pathToNetwork: ObjectNet
   pathToData: test_1.jpg
