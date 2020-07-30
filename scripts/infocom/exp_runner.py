@@ -4,7 +4,7 @@ import re
 import glob
 import argparse
 from datetime import datetime
-from scripts.infocom.run_single_exp import run_single_exp
+from run_single_exp import run_single_exp
 
 def glob_re(pattern, strings):
     return filter(re.compile(pattern).match, strings)
