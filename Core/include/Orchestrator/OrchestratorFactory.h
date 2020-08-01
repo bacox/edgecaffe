@@ -8,17 +8,12 @@
 
 #include <map>
 #include <typeindex>
-//#include <utils/config.h>
-//#include <TaskPool/LJFTaskPool.h>
 #include <Util/Config.h>
 #include "Orchestrator.h"
-//#include "LinearOrchestrator.h"
-//#include "DeepEyeOrchestrator.h"
 #include "BulkOrchestrator.h"
-//#include "PartialOrchestrator.h"
-//#include "LongestProcessingTimeOrchestrator.h"
 #include "MasaOrchestrator.h"
 #include "DeepEyeOrchestrator.h"
+#include "LinearOrchestrator.h"
 
 namespace EdgeCaffe {
 
@@ -69,21 +64,6 @@ namespace EdgeCaffe {
          * @param args Optional arguments to be passed to the construction of an Orchestrator.
          * @return
          */
-//        template<typename... Args>
-//        std::shared_ptr<Orchestrator> GetOrchestrator(Args &&... args) {
-//            auto &runtimeConfig = EdgeCaffe::Config::getInstance();
-//
-//            auto modus = runtimeConfig.modeAsType();
-//            auto it = orchestratorMap.find(modus);
-//            if (it == orchestratorMap.end()) {
-//                std::cout << "Not implemented or invalid orchestrator type was requested, exiting..." << std::endl;
-//                exit(-1);
-//            }
-//            auto mapValue = it->second;
-//            auto casted = (Orchestrator(*)(Args...)) (mapValue.first);
-//            return casted(std::forward<Args>(args)...);
-//        }
-
         std::shared_ptr<Orchestrator> GetOrchestratorAlt()
         {
             auto &runtimeConfig = EdgeCaffe::Config::getInstance();
@@ -97,6 +77,8 @@ namespace EdgeCaffe {
                     return EdgeCaffe::MasaOrchestrator::Create();
                 case Type::MODE_TYPE::DEEPEYE:
                     return EdgeCaffe::DeepEyeOrchestrator::Create();
+                case Type::MODE_TYPE::LINEAR:
+                    return EdgeCaffe::LinearOrchestrator::Create();
                 default:
                     std::cout << "Not implemented or invalid orchestrator type was requested, exiting..." << std::endl;
                     exit(-1);
@@ -106,34 +88,14 @@ namespace EdgeCaffe {
         /**
          * @brief Constructor for OrchestratorFactory, initializes by populating the reference map.
          */
-        OrchestratorFactory() {
+        OrchestratorFactory()
+        {
             Register(Type::MODE_TYPE::DEEPEYE, EdgeCaffe::DeepEyeOrchestrator::Create);
-//            Register(Type::MODE_TYPE::LINEAR, EdgeCaffe::LinearOrchestrator::Create);
             Register(Type::MODE_TYPE::BULK, EdgeCaffe::BulkOrchestrator::Create);
-//            Register(Type::MODE_TYPE::PARTIAL, EdgeCaffe::PartialOrchestrator::Create);};
-            Register(Type::MODE_TYPE::MASA, EdgeCaffe::MasaOrchestrator::Create);};
+            Register(Type::MODE_TYPE::MASA, EdgeCaffe::MasaOrchestrator::Create);
+            Register(Type::MODE_TYPE::LINEAR, EdgeCaffe::LinearOrchestrator::Create);
+        }
     };
-
-//
-//    class Builder {
-//
-//
-//    public:
-//
-//        OrchestratorFactory<FCFSTaskPool> *fcfs_factory;
-//        OrchestratorFactory<LJFTaskPool> *ljf_factory;
-//        OrchestratorFactory<SJFTaskPool> *sjf_factory;
-//
-//        OrchestratorBase::MODEL_SPLIT_MODE mode;
-//
-//        void setMode(OrchestratorBase::MODEL_SPLIT_MODE mode_) {
-//            mode = mode_;
-//        }
-//
-//        Orchestrator f getOrchestrator
-//    };
-
-
 }
 
 
