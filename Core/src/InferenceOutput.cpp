@@ -7,7 +7,7 @@
 namespace EdgeCaffe
 {
 
-    void InferenceOutput::initFromLayerVector(const std::vector<std::string> layerNames)
+    void InferenceOutput::initFromLayerVector(const std::vector<std::string>& layerNames)
     {
         int idx = 0;
         for (const auto &layer : layerNames)

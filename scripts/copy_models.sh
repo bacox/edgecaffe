@@ -3,9 +3,9 @@
 function copy_model() {
 local TARGET=$1
 echo "> Transfer archive to ${TARGET}"
-scp -r ./networks.tar.gz ubuntu@${TARGET}:/opt/edgecaffe/networks/networks.tar.gz
-ssh ubuntu@${TARGET} 'tar -xvzf /opt/edgecaffe/networks/networks.tar.gz'
-ssh ubuntu@${TARGET} 'rm /opt/edgecaffe/networks/networks.tar.gz'
+scp -r ./networks.tar.gz ubuntu@${TARGET}:~/networks.tar.gz
+ssh ubuntu@${TARGET} 'tar -C /opt/edgecaffe/networks -xvzf ~/networks.tar.gz'
+ssh ubuntu@${TARGET} 'rm ~/networks/networks.tar.gz'
 
 }
 echo '> Creating target directories'

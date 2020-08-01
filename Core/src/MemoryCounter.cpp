@@ -35,15 +35,15 @@ void EdgeCaffe::MemoryCounter::lockMemory(double usage)
     // The mutex will be released when the lock-guard goes out of scope (end of function)
     std::lock_guard guard(mtx);
 //    std::cout << "[Load before] Memory Usage: " << (freeSpace < 0 ? 0 : freeSpace) << " inter-network enforcement? " << *interNetworkCondition << std::endl;
-    freeSpace -= usage;
-    if(freeSpace < 155.87)
-    {
-        *interNetworkCondition = true;
-    }
-    else
-    {
-        *interNetworkCondition = false;
-    }
+//    freeSpace -= usage;
+//    if(freeSpace < 155.87)
+//    {
+//        *interNetworkCondition = true;
+//    }
+//    else
+//    {
+//        *interNetworkCondition = false;
+//    }
 
 //    std::cout << "[Load after] Memory Usage: " << (freeSpace < 0 ? 0 : freeSpace) << " inter-network enforcement? " << *interNetworkCondition << std::endl;
 }
@@ -53,16 +53,17 @@ void EdgeCaffe::MemoryCounter::releaseMemory(double usage)
     // Use lock-guard for the mutex in the same way as a smart pointer
     // The mutex will be released when the lock-guard goes out of scope (end of function)
     std::lock_guard guard(mtx);
+//    std::cout << "[MC] releasing memory" << std::endl;
 //    std::cout << "[Unload before] Memory Usage: " << freeSpace << " inter-network enforcement? " << *interNetworkCondition << std::endl;
     freeSpace += usage;
-    if(freeSpace < 155.87)
-    {
-        *interNetworkCondition = true;
-    }
-    else
-    {
-        *interNetworkCondition = false;
-    }
+//    if(freeSpace < 155.87)
+//    {
+//        *interNetworkCondition = true;
+//    }
+//    else
+//    {
+//        *interNetworkCondition = false;
+//    }
 //    std::cout << "[Unload after] Memory Usage: " << (freeSpace < 0 ? 0 : freeSpace) << " inter-network enforcement? " << *interNetworkCondition << std::endl;
 
 }

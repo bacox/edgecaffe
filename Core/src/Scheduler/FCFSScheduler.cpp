@@ -18,7 +18,14 @@ bool EdgeCaffe::FCFSScheduler::getNext(Task **t_ptr)
     // Use lock-guard for the mutex in the same way as a smart pointer
     // The mutex will be released when the lock-guard goes out of scope (end of function)
     std::lock_guard guard(mtx);
-    return taskPool.getNext(t_ptr);
+    bool foundTask = taskPool.getNext(t_ptr);
+
+    if(foundTask && (*t_ptr)->taskType == "init")
+    {
+        nr->activateNetwork();
+    }
+
+    return foundTask;
 }
 
 bool EdgeCaffe::FCFSScheduler::isEmpty()

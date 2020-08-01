@@ -32,18 +32,17 @@ bool EdgeCaffe::MasaScheduler::getNext(Task **t_ptr)
         return true;
     }
 
-
-    auto it = loadTasks.pool.begin();
-    for(it ; it!=loadTasks.pool.end(); ++it)
+    for(auto it = loadTasks.pool.begin() ; it!=loadTasks.pool.end(); ++it)
     {
         // Check if task is valid
         // Removed `!*masaEnabled || ` because masa should be enabled.
         if(this->nr->numActiveNetworks() == 0 || it->second->requiredMemory <= mc->getFreeSpace() || it->second->requiredMemory == 0)
         {
             *t_ptr = it->second;
-            mc->lockMemory((*t_ptr)->requiredMemory);
+            auto requiredMem = (*t_ptr)->requiredMemory;
+            mc->lockMemory(requiredMem);
             loadTasks.pool.erase(it);
-            if((*t_ptr)->taskType == "init")
+            if((*t_ptr)->t_type == Task::INIT)
             {
                 nr->activateNetwork();
             }
@@ -56,7 +55,7 @@ bool EdgeCaffe::MasaScheduler::getNext(Task **t_ptr)
 bool EdgeCaffe::MasaScheduler::isEmpty()
 {
     std::lock_guard guard(mtx);
-    return execTasks.isEmpty() || loadTasks.isEmpty();
+    return execTasks.isEmpty() && loadTasks.isEmpty();
 }
 
 EdgeCaffe::MasaScheduler::MasaScheduler(

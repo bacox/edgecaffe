@@ -65,5 +65,5 @@ sudo swapoff -a && sudo mkswap /swapfile && sudo swapon /swapfile && sudo swapon
 * Run the experiments: 
 ```bash
 cd /opt/edgecaffe 
-sudo nohup python3 scripts/poisson_exp/rpi/poisson_rv_nf_exp_4G.pypython3 scripts/infocom/exp_runner.py --mem-limit 2G --logging true &
+sudo nohup python3 scripts/infocom/exp_runner.py --mem-limit 512M|1G|2G --logging true &
 ```

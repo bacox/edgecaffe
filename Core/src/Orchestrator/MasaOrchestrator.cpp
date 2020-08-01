@@ -4,6 +4,7 @@
 
 #include <TaskPool/TypePriorityTaskPool.h>
 #include <Scheduler/MasaScheduler.h>
+#include <Scheduler/FCFSScheduler.h>
 #include "../../include/Orchestrator/MasaOrchestrator.h"
 
 void EdgeCaffe::MasaOrchestrator::setup()
@@ -13,6 +14,7 @@ void EdgeCaffe::MasaOrchestrator::setup()
     {
         workers.emplace_back(std::make_shared<Worker>(outPool, schedulers.front(), i));
     }
+    enforceInterDependencies = false;
 }
 
 void EdgeCaffe::MasaOrchestrator::checkBagOfTasks()
@@ -29,7 +31,7 @@ void EdgeCaffe::MasaOrchestrator::checkBagOfTasks()
         if (!task->waitsForOtherTasks())
         {
             bagOfTasks.erase(it--);
-            if(task->t_type == Task::INIT && initCount < bufferSize)
+            if(task->t_type == Task::INIT)
             {
                 buffer.push_back(task);
                 initCount++;

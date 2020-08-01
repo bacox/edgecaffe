@@ -1,4 +1,5 @@
 import os
+import sys
 from typing import List
 import yaml
 import itertools
@@ -51,3 +52,9 @@ def run_single_exp(config_file, base_script, dry_run : bool = False, build_folde
         os.system(stop_thermal_cmd)
         # Move file to corresponding experiment directory
         os.system('sudo mv /opt/analysis/thermal/cpu_temp.log {} 2>/dev/null'.format(thermal_file_path))
+
+
+if __name__ == "__main__":
+    config_file = sys.argv[1]
+    base_script = sys.argv[2]
+    run_single_exp(config_file=config_file, base_script=base_script, dry_run=False, build_folder='.', record_thermal=True)

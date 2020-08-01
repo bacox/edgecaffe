@@ -76,6 +76,7 @@ namespace EdgeCaffe
             MemoryCounter *mc = net->mc;
             double networkMemoryUsage = net->maxMemoryUsage;
             delete net;
+
             mc->releaseMemory(networkMemoryUsage);
 
         };

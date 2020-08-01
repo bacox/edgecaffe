@@ -31,6 +31,7 @@ namespace EdgeCaffe {
     class Orchestrator
     {
     protected:
+        int arrivalCount = 0;
     public:
         const std::shared_ptr<NetworkRegistry> &getNr() const;
 

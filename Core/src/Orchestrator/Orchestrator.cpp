@@ -99,8 +99,7 @@ void EdgeCaffe::Orchestrator::checkArrivals()
     if(duration >= head.time)
     {
         // Enough time has passed to this arrival to arrive
-        if(verbose)
-            std::cout << "New arrival " << head.toString() << std::endl;
+        std::cout << "["<< arrivalCount++ << "] New arrival " << head.toString() << std::endl;
 
         submitInferenceTask(head);
 
@@ -184,7 +183,6 @@ void EdgeCaffe::Orchestrator::submitInferenceTask(const EdgeCaffe::Arrival arriv
             iTask->output.networkName = iTask->net->subTasks.front()->networkName;
         } else {
             // Default network
-//                iTask->net = new InferenceNetwork(arrivalTask.pathToNetwork);
             iTask->net = new InferenceNetwork(arrivalNetwork.pathToNetwork, &this->enforceInterDependencies);
             iTask->net->init(description);
             iTask->net->use_scales = description["use-scales"].as<bool>(false);
