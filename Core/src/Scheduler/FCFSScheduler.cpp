@@ -20,7 +20,7 @@ bool EdgeCaffe::FCFSScheduler::getNext(Task **t_ptr)
     std::lock_guard guard(mtx);
     bool foundTask = taskPool.getNext(t_ptr);
 
-    if(foundTask && (*t_ptr)->taskType == "init")
+    if(foundTask && (*t_ptr)->t_type == Task::INIT)
     {
         nr->activateNetwork();
     }
