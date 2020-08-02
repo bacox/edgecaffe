@@ -1,0 +1,16 @@
+---
+name: "TinyYolo"
+network-file: "tiny_yolo_deploy.prototxt"
+model-file: "tiny_yolo.caffemodel"
+mean-scalar: [78.4263377603, 87.7689143744, 114.895847746]
+result-vector: ["(0-2)", "(4-6)", "(8-12)", "(15-20)", "(25-32)", "(38-43)", "(48-53)", "(60-100)"]
+uses-result-vector: false
+input-scale: [416, 416]
+base-path: "networks/TinyYolo/"
+partials-location: "tiny_yolo_partials"
+layer-statistics: TinyYolo.stats.csv
+has-input-layer: true
+num-conv-layers: 39
+num-fc-layers: 1
+mean-execution-time: 800
+max-memory-usage: 160.74

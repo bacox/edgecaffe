@@ -1,0 +1,185 @@
+name: SceneNet
+network-file: places205CNN_deploy_upgraded.prototxt
+model-file: places205CNN_iter_300000_upgraded.caffemodel
+mean-scalar: [78.4263377603, 87.7689143744, 114.895847746]
+result-vector: [(0-2), (4-6), (8-12), (15-20), (25-32), (38-43), (48-53), (60-100)]
+uses-result-vector: false
+input-scale: [227, 227]
+base-path: networks/SceneNet/
+partials-location: places205CNN_iter_300000_upgraded_partials
+layer-statistics: SceneNet.stats.csv
+has-input-layer: true
+num-conv-layers: 16
+num-fc-layers: 8
+mean-execution-time: 800
+max-memory-usage: 160.74
+conv-layers:
+  - id: 0
+    name: input
+    partialFile: places205CNN_iter_300000_upgraded00.partial.caffemodel
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    isConvLayer: true
+    hasModelFile: true
+  - id: 1
+    name: conv1
+    partialFile: places205CNN_iter_300000_upgraded01.partial.caffemodel
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    isConvLayer: true
+    hasModelFile: true
+  - id: 2
+    name: relu1
+    partialFile: places205CNN_iter_300000_upgraded02.partial.caffemodel
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    isConvLayer: true
+    hasModelFile: true
+  - id: 3
+    name: pool1
+    partialFile: places205CNN_iter_300000_upgraded03.partial.caffemodel
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    isConvLayer: true
+    hasModelFile: true
+  - id: 4
+    name: norm1
+    partialFile: places205CNN_iter_300000_upgraded04.partial.caffemodel
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    isConvLayer: true
+    hasModelFile: true
+  - id: 5
+    name: conv2
+    partialFile: places205CNN_iter_300000_upgraded05.partial.caffemodel
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    isConvLayer: true
+    hasModelFile: true
+  - id: 6
+    name: relu2
+    partialFile: places205CNN_iter_300000_upgraded06.partial.caffemodel
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    isConvLayer: true
+    hasModelFile: true
+  - id: 7
+    name: pool2
+    partialFile: places205CNN_iter_300000_upgraded07.partial.caffemodel
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    isConvLayer: true
+    hasModelFile: true
+  - id: 8
+    name: norm2
+    partialFile: places205CNN_iter_300000_upgraded08.partial.caffemodel
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    isConvLayer: true
+    hasModelFile: true
+  - id: 9
+    name: conv3
+    partialFile: places205CNN_iter_300000_upgraded09.partial.caffemodel
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    isConvLayer: true
+    hasModelFile: true
+  - id: 10
+    name: relu3
+    partialFile: places205CNN_iter_300000_upgraded10.partial.caffemodel
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    isConvLayer: true
+    hasModelFile: true
+  - id: 11
+    name: conv4
+    partialFile: places205CNN_iter_300000_upgraded11.partial.caffemodel
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    isConvLayer: true
+    hasModelFile: true
+  - id: 12
+    name: relu4
+    partialFile: places205CNN_iter_300000_upgraded12.partial.caffemodel
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    isConvLayer: true
+    hasModelFile: true
+  - id: 13
+    name: conv5
+    partialFile: places205CNN_iter_300000_upgraded13.partial.caffemodel
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    isConvLayer: true
+    hasModelFile: true
+  - id: 14
+    name: relu5
+    partialFile: places205CNN_iter_300000_upgraded14.partial.caffemodel
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    isConvLayer: true
+    hasModelFile: true
+  - id: 15
+    name: pool5
+    partialFile: places205CNN_iter_300000_upgraded15.partial.caffemodel
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    isConvLayer: true
+    hasModelFile: true
+fc-layers:
+  - id: 16
+    name: fc6
+    partialFile: places205CNN_iter_300000_upgraded16.partial.caffemodel
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    isConvLayer: false
+    hasModelFile: true
+  - id: 17
+    name: relu6
+    partialFile: places205CNN_iter_300000_upgraded17.partial.caffemodel
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    isConvLayer: false
+    hasModelFile: true
+  - id: 18
+    name: drop6
+    partialFile: places205CNN_iter_300000_upgraded18.partial.caffemodel
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    isConvLayer: false
+    hasModelFile: true
+  - id: 19
+    name: fc7
+    partialFile: places205CNN_iter_300000_upgraded19.partial.caffemodel
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    isConvLayer: false
+    hasModelFile: true
+  - id: 20
+    name: relu7
+    partialFile: places205CNN_iter_300000_upgraded20.partial.caffemodel
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    isConvLayer: false
+    hasModelFile: true
+  - id: 21
+    name: drop7
+    partialFile: places205CNN_iter_300000_upgraded21.partial.caffemodel
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    isConvLayer: false
+    hasModelFile: true
+  - id: 22
+    name: fc8
+    partialFile: places205CNN_iter_300000_upgraded22.partial.caffemodel
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    isConvLayer: false
+    hasModelFile: true
+  - id: 23
+    name: prob
+    partialFile: places205CNN_iter_300000_upgraded23.partial.caffemodel
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    isConvLayer: false
+    hasModelFile: true
