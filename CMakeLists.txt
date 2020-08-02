@@ -19,9 +19,6 @@ message(STATUS "CMAKE BUILD TYPE IS ${CMAKE_BUILD_TYPE}")
 # Enable this line to include the memcheck in the build
 #add_definitions ( -DMEMORY_CHECK_ON)
 
-# Enable to inject waiting time for memory benchmark
-#add_definitions ( -DMEMORY_BENCHMARK_ON)
-
 # Make sure that the install path is set to /opt/edgecaffe
 SET(CMAKE_INSTALL_PREFIX /opt/edgecaffe)
 set(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib")

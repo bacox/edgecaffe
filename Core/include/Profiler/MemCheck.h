@@ -18,7 +18,8 @@ namespace EdgeCaffe
         std::thread _thread;
         std::ofstream filebuffer;
         std::chrono::time_point<std::chrono::system_clock> start_tp;
-
+        double latestMeasurement = 0;
+        double latestTaskId = -1;
         void run();
     public:
         void start();
@@ -31,6 +32,7 @@ namespace EdgeCaffe
         int layerId = -1;
         int networkId = -1;
         int taskId = -1;
+        int sign = 0;
         std::string layerType = "net-init";
         std::string network = "";
         std::string taskType = "";
