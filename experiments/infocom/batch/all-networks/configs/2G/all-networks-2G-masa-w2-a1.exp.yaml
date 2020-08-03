@@ -3,7 +3,14 @@ build_folder: .
 tag: all-networks-2G-masa-w2-a1
 mem_limit: 2G
 mode: masa
-num_workers: 2
+n-arrivals: 150
+n-workers: 2
+network-path: networks
+resources-path: resources
+output-path: ../analysis/experiments/infocom/batch
+arrival-mode: batch
+arrival-list: ./experiments/infocom/batch/all-networks/configs/2G/all-networks-2G-masa-w2-a1.exp.yaml
+output-prefix: all-networks-2G-masa-w2-a1
 arrivals:
 - networks:
   - networkName: FaceNet
@@ -3155,10 +3162,3 @@ arrivals:
     pathToNetwork: SoS
   pathToData: test_1.jpg
   time: 0
-n-arrivals: 150
-network-path: networks
-resources-path: resources
-output-path: ../analysis/experiments/infocom/batch
-arrival-mode: batch
-arrival-list: ./experiments/infocom/batch/all-networks/configs/2G/all-networks-2G-masa-w2-a1.exp.yaml
-output-prefix: all-networks-2G-masa-w2-a1

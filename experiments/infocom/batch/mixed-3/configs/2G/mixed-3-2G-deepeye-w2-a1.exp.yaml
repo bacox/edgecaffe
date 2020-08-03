@@ -3,7 +3,14 @@ build_folder: .
 tag: mixed-3-2G-deepeye-w2-a1
 mem_limit: 2G
 mode: deepeye
-num_workers: 2
+n-arrivals: 150
+n-workers: 2
+network-path: networks
+resources-path: resources
+output-path: ../analysis/experiments/infocom/batch
+arrival-mode: batch
+arrival-list: ./experiments/infocom/batch/mixed-3/configs/2G/mixed-3-2G-deepeye-w2-a1.exp.yaml
+output-prefix: mixed-3-2G-deepeye-w2-a1
 arrivals:
 - networks:
   - networkName: FaceNet
@@ -1355,10 +1362,3 @@ arrivals:
     pathToNetwork: ObjectNet
   pathToData: test_1.jpg
   time: 0
-n-arrivals: 150
-network-path: networks
-resources-path: resources
-output-path: ../analysis/experiments/infocom/batch
-arrival-mode: batch
-arrival-list: ./experiments/infocom/batch/mixed-3/configs/2G/mixed-3-2G-deepeye-w2-a1.exp.yaml
-output-prefix: mixed-3-2G-deepeye-w2-a1

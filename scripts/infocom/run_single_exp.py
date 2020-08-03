@@ -21,7 +21,7 @@ def run_single_exp(config_file, base_script, dry_run : bool = False, build_folde
 
     memory_constraint = config['mem_limit']
     # build_folder = config['build_folder']
-    n_workers = config['num_workers']
+    n_workers = config['n-workers']
     cmd_base = config['cmd_base']
     CMD = gen_cmd_config_call(cmd_base, config_file)
 
@@ -32,7 +32,7 @@ def run_single_exp(config_file, base_script, dry_run : bool = False, build_folde
     # This file path below is unique for the experiment to be run
     thermal_file_path = '{}/{}-{}'.format(exp_output_base_path, exp_tag, thermal_filename)
 
-    script_cmd = '{} {} {} \'{}\''.format(base_script, memory_constraint, build_folder, CMD)
+    script_cmd = '{} {} {} \'{}\' {}'.format(base_script, memory_constraint, build_folder, CMD, n_workers)
 
     print(script_cmd)
     if record_thermal:

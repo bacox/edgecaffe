@@ -15,7 +15,7 @@ BaseConfig = collections.namedtuple('BaseConfig', 'network_path resources_path o
 Network = collections.namedtuple('Network', 'networkName pathToNetwork')
 Arrival = collections.namedtuple('Arrival', 'networks pathToData time')
 ExpConfig = collections.namedtuple('ExpConfig', 'network_path resources_path output_path arrival_mode n_arrivals '
-                                             'cmd_base build_folder tag mem_limit mode num_workers arrivals')
+                                             'cmd_base build_folder tag mem_limit mode n_workers arrivals')
 
 network_dict = {
     'AgeNet': Network(networkName='AgeNet', pathToNetwork='AgeNet'),
@@ -62,7 +62,12 @@ def base_exp_config(config):
             generate_variations(exp_config)
         # print(path_to_exp_file)
 
-def dict_unerscore_to_dash(dict, key: str):
+def reset_config_position(dict, key: str):
+    tmp_value = dict[key]
+    dict.pop(key)
+    dict[key] = tmp_value
+
+def dict_underscore_to_dash(dict, key: str):
     new_key = key.replace('_','-')
     dict[new_key] = dict[key]
     dict.pop(key)
@@ -90,17 +95,19 @@ def generate_variations(config):
             path_exists(config_file_path)
             # tag mem_limit mode num_workers arrivals
             arrivals = generateArrivalList(base_config.n_arrivals, base_config.arrival_mode, networks)
-            exp_config = ExpConfig(**base_config._asdict(), tag=exp_tag, mem_limit=memory_constraint, mode=mode, num_workers=n_workers, arrivals=arrivals)
+            exp_config = ExpConfig(**base_config._asdict(), tag=exp_tag, mem_limit=memory_constraint, mode=mode, n_workers=n_workers, arrivals=arrivals)
             with open(config_file, 'w') as yaml_file:
                 # print(yaml.safe_dump({**exp_config._asdict()}))
                 tmp_dict = {**exp_config._asdict()}
-                dict_unerscore_to_dash(tmp_dict, 'n_arrivals')
-                dict_unerscore_to_dash(tmp_dict, 'network_path')
-                dict_unerscore_to_dash(tmp_dict, 'resources_path')
-                dict_unerscore_to_dash(tmp_dict, 'output_path')
-                dict_unerscore_to_dash(tmp_dict, 'arrival_mode')
+                dict_underscore_to_dash(tmp_dict, 'n_arrivals')
+                dict_underscore_to_dash(tmp_dict, 'n_workers')
+                dict_underscore_to_dash(tmp_dict, 'network_path')
+                dict_underscore_to_dash(tmp_dict, 'resources_path')
+                dict_underscore_to_dash(tmp_dict, 'output_path')
+                dict_underscore_to_dash(tmp_dict, 'arrival_mode')
                 tmp_dict['arrival-list'] = config_file
                 tmp_dict['output-prefix'] = exp_tag
+                reset_config_position(tmp_dict, 'arrivals')
                 yaml.safe_dump(tmp_dict, yaml_file, sort_keys=False)
 
     print(memory_constraints)
