@@ -22,6 +22,11 @@ network_dict = {
     'GenderNet': Network(networkName='GenderNet', pathToNetwork='GenderNet'),
     'FaceNet': Network(networkName='FaceNet', pathToNetwork='FaceNet'),
     'ObjectNet': Network(networkName='ObjectNet', pathToNetwork='ObjectNet')
+    , 'TinyYolo': Network(networkName='TinyYolo', pathToNetwork='TinyYolo')
+    , 'EmotionNet': Network(networkName='EmotionNet', pathToNetwork='EmotionNet')
+    , 'MemNet': Network(networkName='MemNet', pathToNetwork='MemNet')
+    , 'SceneNet': Network(networkName='SceneNet', pathToNetwork='SceneNet')
+    , 'SoS': Network(networkName='SoS', pathToNetwork='SoS')
 }
 
 

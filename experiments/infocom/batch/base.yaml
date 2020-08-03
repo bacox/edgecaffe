@@ -13,3 +13,6 @@ build-folder: .
 experiments:
   - small-3
   - mixed-3
+  - large-3
+  - all-networks
+  - lifelogging
