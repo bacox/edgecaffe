@@ -1,0 +1,35 @@
+cmd_base: bin/Exp_poisson_arrival_rv_nf
+build_folder: cmake-build-release
+tag: baseline-single-2G-linear-w1-a1
+mem_limit: 2G
+mode: linear
+n-arrivals: 1
+n-workers: 1
+network-path: networks
+resources-path: resources
+output-path: ../analysis/experiments/infocom/baseline/baseline-single
+arrival-mode: batch
+arrival-list: ./experiments/infocom/baseline/baseline-single/configs/2G/baseline-single-2G-linear-w1-a1.exp.yaml
+output-prefix: baseline-single-2G-linear-w1-a1
+arrivals:
+- networks:
+  - networkName: FaceNet
+    pathToNetwork: FaceNet
+  - networkName: ObjectNet
+    pathToNetwork: ObjectNet
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
+  - networkName: MemNet
+    pathToNetwork: MemNet
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
+  - networkName: GenderNet
+    pathToNetwork: GenderNet
+  - networkName: TinyYolo
+    pathToNetwork: TinyYolo
+  - networkName: SceneNet
+    pathToNetwork: SceneNet
+  - networkName: SoS
+    pathToNetwork: SoS
+  pathToData: test_1.jpg
+  time: 0

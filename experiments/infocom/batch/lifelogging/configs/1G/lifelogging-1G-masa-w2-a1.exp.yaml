@@ -7,7 +7,7 @@ n-arrivals: 150
 n-workers: 2
 network-path: networks
 resources-path: resources
-output-path: ../analysis/experiments/infocom/batch
+output-path: ../analysis/experiments/infocom/batch/lifelogging
 arrival-mode: batch
 arrival-list: ./experiments/infocom/batch/lifelogging/configs/1G/lifelogging-1G-masa-w2-a1.exp.yaml
 output-prefix: lifelogging-1G-masa-w2-a1

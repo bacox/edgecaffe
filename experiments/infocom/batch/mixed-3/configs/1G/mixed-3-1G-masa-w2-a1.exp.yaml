@@ -7,7 +7,7 @@ n-arrivals: 150
 n-workers: 2
 network-path: networks
 resources-path: resources
-output-path: ../analysis/experiments/infocom/batch
+output-path: ../analysis/experiments/infocom/batch/mixed-3
 arrival-mode: batch
 arrival-list: ./experiments/infocom/batch/mixed-3/configs/1G/mixed-3-1G-masa-w2-a1.exp.yaml
 output-prefix: mixed-3-1G-masa-w2-a1

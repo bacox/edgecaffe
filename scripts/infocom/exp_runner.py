@@ -33,6 +33,7 @@ def main(path_base: str = './experiments/infocom/batch', mem_limit: str = '*', r
          exp_name: str = "*"):
     list_of_mem = mem_limit.split('|')
     list_config_directory = ['{}/{}/configs/{}/*.exp.yaml'.format(path_base, exp_name, x) for x in mem_limit.split('|')]
+    # list_config_directory = ['{}/{}/configs/{}/*.exp.yaml'.format(path_base, 'small-3', x) for x in mem_limit.split('|')] + ['{}/{}/configs/{}/*.exp.yaml'.format(path_base, 'lifelogging', x) for x in mem_limit.split('|')]
     exp_config_files = [glob.glob(f) for f in list_config_directory]
     exp_config_files = [item for sublist in exp_config_files for item in sublist]
     if reverse:

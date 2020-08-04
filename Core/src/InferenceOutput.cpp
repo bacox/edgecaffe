@@ -94,6 +94,8 @@ namespace EdgeCaffe
                     count_finished++;
                     line = std::to_string(e.time) + "," + std::to_string(count_finished) + "," + "finished";
                     break;
+                case FINISHED_DOWN:
+                    break;
             }
             lines.push_back(line);
         }

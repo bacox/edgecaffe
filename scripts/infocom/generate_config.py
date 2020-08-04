@@ -96,9 +96,13 @@ def generate_variations(config):
             # tag mem_limit mode num_workers arrivals
             arrivals = generateArrivalList(base_config.n_arrivals, base_config.arrival_mode, networks)
             exp_config = ExpConfig(**base_config._asdict(), tag=exp_tag, mem_limit=memory_constraint, mode=mode, n_workers=n_workers, arrivals=arrivals)
+            # exp_config.output_path = '{}/{}'.format(exp_config.output_path, exp_base_tag)
+
             with open(config_file, 'w') as yaml_file:
                 # print(yaml.safe_dump({**exp_config._asdict()}))
                 tmp_dict = {**exp_config._asdict()}
+                tmp_dict['output_path'] = '{}/{}'.format(exp_config.output_path, exp_base_tag)
+
                 dict_underscore_to_dash(tmp_dict, 'n_arrivals')
                 dict_underscore_to_dash(tmp_dict, 'n_workers')
                 dict_underscore_to_dash(tmp_dict, 'network_path')
@@ -111,20 +115,6 @@ def generate_variations(config):
                 yaml.safe_dump(tmp_dict, yaml_file, sort_keys=False)
 
     print(memory_constraints)
-    # rho = config['rho']
-    # # networks = [['AgeNet', 'GenderNet', 'FaceNet']]
-    # memory_constraints = config['memory-constraints']
-    # repetitions = config['repetitions']
-    # modes = config['modes']
-    # cmd_base = config['cmd-base']
-    # build_folder = config['build-folder']
-    # output_path = config['output-path']
-    #
-    # networks = config['networks']
-    # ait_multipliers = config['ait_multipliers']
-    # n_workers = config['n_workers']
-
-
 
 def main():
     path_to_exp_base = './experiments/infocom/batch'

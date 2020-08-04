@@ -7,7 +7,7 @@ n-arrivals: 150
 n-workers: 2
 network-path: networks
 resources-path: resources
-output-path: ../analysis/experiments/infocom/batch
+output-path: ../analysis/experiments/infocom/batch/small-3
 arrival-mode: batch
 arrival-list: ./experiments/infocom/batch/small-3/configs/512M/small-3-512M-masa-w2-a1.exp.yaml
 output-prefix: small-3-512M-masa-w2-a1

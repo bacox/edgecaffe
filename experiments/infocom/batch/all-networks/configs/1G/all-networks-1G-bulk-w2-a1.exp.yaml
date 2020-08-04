@@ -7,7 +7,7 @@ n-arrivals: 150
 n-workers: 2
 network-path: networks
 resources-path: resources
-output-path: ../analysis/experiments/infocom/batch
+output-path: ../analysis/experiments/infocom/batch/all-networks
 arrival-mode: batch
 arrival-list: ./experiments/infocom/batch/all-networks/configs/1G/all-networks-1G-bulk-w2-a1.exp.yaml
 output-prefix: all-networks-1G-bulk-w2-a1
