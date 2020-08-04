@@ -12,4 +12,5 @@ has-input-layer: false
 num-conv-layers: 16
 num-fc-layers: 8
 use-scales: true
-max-memory-usage: 363.05
+max-memory-usage: 430
+mean-execution-time: 631

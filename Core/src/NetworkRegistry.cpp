@@ -12,7 +12,6 @@ void EdgeCaffe::NetworkRegistry::activateNetwork()
     std::lock_guard guard(mtx);
     activeNetworks += 1;
     updateHistory();
-//    std::cout << "Incr network counter to " << activeNetworks << std::endl;
 }
 
 void EdgeCaffe::NetworkRegistry::deactivateNetwork()
@@ -22,7 +21,6 @@ void EdgeCaffe::NetworkRegistry::deactivateNetwork()
     std::lock_guard guard(mtx);
     activeNetworks -= 1;
     updateHistory();
-//    std::cout << "Decr network counter to " << activeNetworks << std::endl;
 
 }
 

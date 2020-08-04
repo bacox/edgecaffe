@@ -11,8 +11,8 @@ layer-statistics: EmotionNet.stats.csv
 has-input-layer: true
 num-conv-layers: 15
 num-fc-layers: 8
-mean-execution-time: 800
-max-memory-usage: 160.74
+mean-execution-time: 1057
+max-memory-usage: 845
 conv-layers:
   - id: 0
     name: input

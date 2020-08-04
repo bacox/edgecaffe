@@ -13,6 +13,10 @@ void EdgeCaffe::BulkOrchestrator::setup()
     schedulers.emplace_back(std::make_shared<FCFSScheduler>(mc, nr));
     workers.emplace_back(std::make_shared<Worker>(outPool, schedulers.front(), 0));
     enforceInterDependencies = false;
+#ifdef MEMORY_CHECK_ON
+    // This will only be used when the MEMORY_CHECK_ON is set in CMAKE
+    workers.back()->perf = &perf;
+#endif
 }
 
 void EdgeCaffe::BulkOrchestrator::checkBagOfTasks()

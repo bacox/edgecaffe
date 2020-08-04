@@ -11,8 +11,8 @@ layer-statistics: TinyYolo.stats.csv
 has-input-layer: true
 num-conv-layers: 39
 num-fc-layers: 1
-mean-execution-time: 800
-max-memory-usage: 160.74
+mean-execution-time: 696
+max-memory-usage: 214
 conv-layers:
   - id: 0
     name: data

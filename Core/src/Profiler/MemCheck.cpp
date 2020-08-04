@@ -5,6 +5,7 @@
 #include <thread>
 #include <iostream>
 #include <unistd.h>
+#include <Util/Config.h>
 #include "../../include/Profiler/MemCheck.h"
 
 double EdgeCaffe::MemCheck::getRSS()
@@ -22,7 +23,8 @@ double EdgeCaffe::MemCheck::getRSS()
 
 void EdgeCaffe::MemCheck::run()
 {
-     filebuffer.open("../analysis/allocations.csv", std::ios::out);
+//     filebuffer.open("../analysis/allocations.csv", std::ios::out);
+     filebuffer.open(file_path, std::ios::out);
 
     filebuffer << "time,rss_kb,networkId,layerId,taskId,layerType,network,taskType,diff-sign" << std::endl;
     start_tp = std::chrono::high_resolution_clock::now();
@@ -74,4 +76,10 @@ void EdgeCaffe::MemCheck::stop()
 void EdgeCaffe::MemCheck::join()
 {
     _thread.join();
+}
+
+EdgeCaffe::MemCheck::MemCheck()
+{
+    auto &config = Config::getInstance();
+    file_path = config.outputDirectory() + "/" + "allocations.csv";
 }

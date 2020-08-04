@@ -11,8 +11,8 @@ layer-statistics: SceneNet.stats.csv
 has-input-layer: true
 num-conv-layers: 16
 num-fc-layers: 8
-mean-execution-time: 800
-max-memory-usage: 160.74
+mean-execution-time: 2105
+max-memory-usage: 771
 conv-layers:
   - id: 0
     name: input

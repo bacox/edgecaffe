@@ -119,13 +119,13 @@ void EdgeCaffe::Orchestrator::checkFinishedNetworks()
         if (!inferenceTask->finished && inferenceTask->net->isFinished())
         {
             // Create results obj
+            nr->deactivateNetwork();
             inferenceTask->finished = true;
 
             // deallocate
             inferenceTask->output.policy = modeAsString;
             auto netId = inferenceTask->net->networkId;
             inferenceTask->dealloc();
-            nr->deactivateNetwork();
 //                std::cout << "DEALLOC network id: " << netId << std::endl;
 
 

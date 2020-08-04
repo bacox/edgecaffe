@@ -31,3 +31,4 @@ networks_descr.tar.xz
 archive
 *.tmp.yaml
 *.log
+*.tar

@@ -10,7 +10,8 @@ layer-statistics: FaceNet.stats.csv
 has-input-layer: false
 num-conv-layers: 16
 num-fc-layers: 8
-max-memory-usage: 363.05
+mean-execution-time: 631
+max-memory-usage: 430
 conv-layers:
   - id: 0
     name: input

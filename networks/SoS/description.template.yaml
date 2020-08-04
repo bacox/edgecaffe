@@ -12,3 +12,5 @@ layer-statistics: Salient-Object-Subitizing.stats.csv
 has-input-layer: true
 num-conv-layers: 16
 num-fc-layers: 6
+mean-execution-time: 937
+max-memory-usage: 771

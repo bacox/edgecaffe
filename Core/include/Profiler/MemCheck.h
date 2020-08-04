@@ -17,12 +17,16 @@ namespace EdgeCaffe
         bool tracking = false;
         std::thread _thread;
         std::ofstream filebuffer;
+        std::string file_path;
         std::chrono::time_point<std::chrono::system_clock> start_tp;
         double latestMeasurement = 0;
         double latestTaskId = -1;
         void run();
     public:
         void start();
+
+        MemCheck();
+
         void stop();
 
         void startTracking();
