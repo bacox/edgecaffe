@@ -71,8 +71,8 @@ namespace EdgeCaffe
         {
             sub->partialNames.push_back(sub->pathToPartials + "/" + l_layer.partialFileName);
         }
-
-        maxMemoryUsage = description["max-memory-usage"].as<double>(0);
+        std::string memoryKey = globalConfig.memoryKey();
+        maxMemoryUsage = description[memoryKey].as<double>(0);
 
 //        std::cout << "Compare sizes " << sub->net_ptr->layers().size() << " && " << layerDescriptions.size() << std::endl;
 

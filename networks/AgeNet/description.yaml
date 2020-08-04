@@ -11,8 +11,9 @@ layer-statistics: AgeNet.stats.csv
 has-input-layer: true
 num-conv-layers: 12
 num-fc-layers: 8
-max-memory-usage: 160.74
 mean-execution-time: 303
+max-memory-valgrind: 161.74
+max-memory-rss: 303
 conv-layers:
   - id: 0
     name: input

@@ -12,5 +12,6 @@ layer-statistics: GenderNet.stats.csv
 has-input-layer: true
 num-conv-layers: 12
 num-fc-layers: 8
-max-memory-usage: 243
 mean-execution-time: 587
+max-memory-valgrind: 161.74
+max-memory-rss: 242

@@ -5,7 +5,7 @@ import yaml
 import itertools
 
 def gen_cmd_config_call(cmd_base: str, pathToConfig: str) -> str :
-    cmd_str = './{} --read-config={}'.format(cmd_base, pathToConfig)
+    cmd_str = 'nice -n -5 ./{} --read-config={}'.format(cmd_base, pathToConfig)
     return cmd_str
 
 

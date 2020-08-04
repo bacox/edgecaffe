@@ -80,6 +80,7 @@ namespace EdgeCaffe {
         ConfigOption<double> iat = ConfigOption<double>(100);
         ConfigOption<std::vector<std::string>> networks = ConfigOption<std::vector<std::string>>({});
         ConfigOption<std::string> arrivalMode= ConfigOption<std::string>("batch");
+        ConfigOption<std::string> memoryKey= ConfigOption<std::string>("valgrind");
         ConfigOption<Type::ARRIVAL_MODE> arrivalModeAsType= ConfigOption<Type::ARRIVAL_MODE>(Type::ARRIVAL_MODE::BATCH);
 
         ConfigOption<YAML::Node> configFile = YAML::Node();
@@ -164,6 +165,19 @@ namespace EdgeCaffe {
             configAsText["verbose"] = std::to_string(verbose.valueOrDefault());
             parseArg(result, "sched-alg", schedAlg);
             configAsText["sched"] = schedAlg.valueOrDefault();
+
+            parseArg(result, "memory-key", memoryKey);
+            if(memoryKey() != "rss" && memoryKey() != "valgrind")
+            {
+                std::cerr << "Invalid config: " << memoryKey() << " is not allowed for 'memory-key'" << std::endl;
+                memoryKey.configItem = "valgrind";
+            }
+
+            memoryKey.configItem = "max-memory-" + memoryKey();
+            configAsText["memory-key"] = memoryKey.valueOrDefault();
+
+
+
             parseArg(result, "n-arrivals", numArrivals);
             configAsText["n-arrivals"] = std::to_string(numArrivals.valueOrDefault());
             parseArg(result, "output-prefix", outputPrefix);
@@ -238,6 +252,7 @@ namespace EdgeCaffe {
                     ("output-path", "Define the path to store all output files", cxxopts::value<std::string>())
                     ("network-path", "Define the path to store all output files", cxxopts::value<std::string>())
                     ("resources-path", "Define the path to store all output files", cxxopts::value<std::string>())
+                    ("memory-key", "Define the key to be used in the config for reading the required memory for the network. Options: one of ['valgrind', 'rss'] Default is 'valgrind'", cxxopts::value<std::string>())
                     ("s, sched-alg", "The scheduling algorithm to be used: [FCFS|SJF]", cxxopts::value<std::string>())
                     (
                             "c,read-config"

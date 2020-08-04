@@ -13,4 +13,5 @@ has-input-layer: true
 num-conv-layers: 15
 num-fc-layers: 8
 mean-execution-time: 1057
-max-memory-usage: 845
+max-memory-valgrind: 672
+max-memory-rss: 845
