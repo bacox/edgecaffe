@@ -14,6 +14,7 @@
 #include <algorithm>
 #include <string>
 #include <Util/Config.h>
+#include <Tasks/ExecBulkTask.h>
 
 namespace EdgeCaffe
 {
@@ -427,6 +428,40 @@ namespace EdgeCaffe
         dnn->lastTask = lastExecTask;
     }
 
+    void InferenceNetwork::createTasksBulkV2()
+    {
+        InferenceSubTask *dnn = subTasks.front();
+        caffe::NetParameter param;
+        caffe::ReadNetParamsFromTextFileOrDie(dnn->pathToModelFile, &param);
+        int numLayers = param.layer_size();
+
+
+        // Create init task
+        Task *lastTask = nullptr;
+        // Important to first create the network initialisation task
+        Task *init = createInitTask(dnn);
+
+        if(dnn->lastTask != nullptr)
+            init->addTaskDependency(TaskDependency(dnn->lastTask));
+        tasks.push_back(init);
+        // Set the init task as the first task of this network for intra-network linking
+        dnn->firstTask = init;
+
+        // Create bulk load task
+        std::string loadDescription = "Bulk loading";
+        LoadTask *load = (LoadTask *) createLoadTask(dnn, layerDescriptions[0]);
+        load->addTaskDependency(TaskDependency(init));
+        load->pathToPartial = dnn->pathToParamFile;
+        load->needsLoading = true;
+        tasks.push_back(load);
+
+
+        Task * execBulk = createExecTask(dnn, layerDescriptions[0], true);
+        execBulk->addTaskDependency(TaskDependency(load));
+        tasks.push_back(execBulk);
+        dnn->lastTask = execBulk;
+    }
+
     bool InferenceNetwork::isFinished()
     {
         bool finished = true;
@@ -464,7 +499,8 @@ namespace EdgeCaffe
                 createPartialTasks();
                 break;
             default: // Default case is bulk
-                createTasksBulk();
+//                createTasksBulk();
+                createTasksBulkV2();
                 break;
 
         }
@@ -615,13 +651,24 @@ namespace EdgeCaffe
         return load;
     }
 
-    Task *InferenceNetwork::createExecTask(InferenceSubTask *dnn, const LayerDescription &descr)
+    Task *InferenceNetwork::createExecTask(InferenceSubTask *dnn, const LayerDescription &descr, bool bulk)
     {
-        ExecTask *exec = new ExecTask(
-                TASKID_COUNTER++,
-                networkId,
-                dnn->networkName + "-exec-" + descr.name
-        );
+        ExecTask *exec = nullptr;
+        if(bulk)
+        {
+            exec = new ExecBulkTask(
+                    TASKID_COUNTER++,
+                    networkId,
+                    dnn->networkName + "-exec-" + descr.name
+            );
+        } else {
+            exec = new ExecTask(
+                    TASKID_COUNTER++,
+                    networkId,
+                    dnn->networkName + "-exec-" + descr.name
+            );
+        }
+
         exec->networkExecutionTime = this->meanExecutionTime;
         exec->networkName = dnn->networkName;
         exec->t_type = Task::EXEC;

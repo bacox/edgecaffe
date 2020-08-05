@@ -147,6 +147,7 @@ namespace EdgeCaffe
         void createTasksConvFC();
 
         void createTasksBulk();
+        void createTasksBulkV2();
 
         void createTasksLinear();
         void createTasksExecPrio();
@@ -162,7 +163,7 @@ namespace EdgeCaffe
 
         Task * createInitTask(InferenceSubTask *dnn);
         Task * createLoadTask(InferenceSubTask *dnn, const LayerDescription &descr);
-        Task * createExecTask(InferenceSubTask *dnn, const LayerDescription &descr);
+        Task * createExecTask(InferenceSubTask *dnn, const LayerDescription &descr, bool bulk = false);
     };
 }
 
