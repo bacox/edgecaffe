@@ -42,6 +42,15 @@ namespace EdgeCaffe
         Task *lastTask = nullptr;
         Task *firstTask = nullptr;
 
+        // Task linking values
+        Task *conv_load_first = nullptr;
+        Task *conv_load_last = nullptr;
+        Task *conv_exec_first = nullptr;
+        Task *conv_exec_last = nullptr;
+        Task *fc_load_first = nullptr;
+        Task *fc_load_last = nullptr;
+        Task *fc_exec_first = nullptr;
+        Task *fc_exec_last = nullptr;
     };
 }
 

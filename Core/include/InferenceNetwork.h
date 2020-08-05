@@ -145,6 +145,7 @@ namespace EdgeCaffe
         virtual void createPartialTasks();
 
         void createTasksConvFC();
+        void createTasksConvFCV2();
 
         void createTasksBulk();
         void createTasksBulkV2();

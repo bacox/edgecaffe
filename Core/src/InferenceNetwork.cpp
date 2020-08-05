@@ -353,6 +353,125 @@ namespace EdgeCaffe
         dnn->lastTask = lastTask;
     }
 
+    void InferenceNetwork::createTasksConvFCV2()
+    {
+        /**
+         * Create the tasks according to the DeepEye paper
+         */
+        InferenceSubTask *dnn = subTasks.front();
+        caffe::NetParameter param;
+        caffe::ReadNetParamsFromTextFileOrDie(dnn->pathToModelFile, &param);
+        int numLayers = param.layer_size();
+        Task *lastTask = nullptr;
+
+        // Keep track of the taskPool Id; set to pool 0 for now
+        int poolId = 0;
+        int numConv = dnn->num_conv;
+        int numFC = dnn->num_fc;
+        Task *lastLoad = nullptr;
+        Task *lastExec = nullptr;
+
+        // Important to first create the network initialisation task
+        Task *init = createInitTask(dnn);
+        init->assignedPoolId = poolId;
+        tasks.push_back(init);
+        // Set the init task as the first task of this network for intra-network linking
+        dnn->firstTask = init;
+        dnn->conv_load_first = init;
+        lastTask = init;
+
+        /**
+         * Paper extract:
+         * "In the convolution-execution thread, the convolution filter parameters of all models are loaded into
+         * the memory and the convolution operations begin on the pre-processed input data for each model"
+         *
+         * This means that we first load all the convolutional layers of all models and then execute them one model at
+         * a time.
+         */
+
+        // Loop over all the conv layers
+        for(int i = 0; i < numConv; ++i)
+        {
+            auto layerDescription = layerDescriptions[i];
+            Task *load = createLoadTask(dnn, layerDescription);
+            load->assignedPoolId = poolId;
+            if(i == 0)
+                load->addTaskDependency(TaskDependency(init));
+            else
+                load->addTaskDependency(TaskDependency(lastLoad));
+            lastLoad = load;
+            tasks.push_back(load);
+            lastTask = load;
+            dnn->conv_load_last = load;
+
+
+            Task *exec = createExecTask(dnn, layerDescription);
+            exec->assignedPoolId = poolId;
+            if(i == 0)
+                dnn->conv_exec_first = exec;
+            else
+                exec->addTaskDependency(TaskDependency(lastExec));
+            dnn->conv_exec_last = exec;
+            lastExec = exec;
+            lastTask = exec;
+            tasks.push_back(exec);
+        }
+
+        /**
+         * Paper extract:
+         * "The data-loading thread which is spawned in parallel with the convolution thread is responsible for
+         * loading the FC layer parameters for all models into the mem- ory, again in a pipelined manner
+         * (i.e., one model after the other). The objective of the convolution-execution thread is to perform
+         * all convolutions on the input image, and pass the results of the final convolution layer of
+         * each model to the data-loading thread. When the data-loading thread finishes loading the FC layer
+         * parameters for a model, it can use the pre-computed convolution outputs from the
+         * convolution-execution and proceed to obtain the final classification results."
+         *
+         * This means we continue to load the fc layers of all networks.
+         * When the fc layers of a network is loaded and the conv layers of that same network are executed, we can
+         * start with the execution of the fc layers. If the conv layers are not ready yet, continue to preload
+         * the other models.
+         */
+
+        poolId = 1;
+        // Loop over all the fc layers
+        for (int i = numConv; i < numLayers; ++i)
+        {
+            auto layerDescription = layerDescriptions[i];
+            Task *load = createLoadTask(dnn, layerDescription);
+            load->assignedPoolId = poolId;
+            if(i == numConv)
+            {
+                load->addTaskDependency(TaskDependency(init));
+                dnn->fc_load_first = load;
+            }
+            else
+                load->addTaskDependency(TaskDependency(lastLoad));
+            lastLoad = load;
+            dnn->fc_load_last = load;
+            tasks.push_back(load);
+            lastTask = load;
+
+            Task *exec = createExecTask(dnn, layerDescription);
+            exec->assignedPoolId = poolId;
+            exec->addTaskDependency(TaskDependency(lastTask));
+            if(i == numConv)
+            {
+                exec->addTaskDependency(TaskDependency(lastLoad));
+                exec->addTaskDependency(TaskDependency(dnn->conv_exec_last));
+                dnn->fc_exec_first = exec;
+            }
+            else
+                exec->addTaskDependency(TaskDependency(lastExec));
+            lastExec = exec;
+            dnn->fc_exec_last = exec;
+            lastTask = exec;
+            tasks.push_back(exec);
+        }
+        dnn->fc_exec_first->addTaskDependency(TaskDependency(dnn->fc_load_last));
+        dnn->lastTask = lastTask;
+    }
+
     void InferenceNetwork::createTasksBulk()
     {
         InferenceSubTask *dnn = subTasks.front();
@@ -481,7 +600,8 @@ namespace EdgeCaffe
         switch(mode)
         {
             case Type::MODE_TYPE::DEEPEYE:
-                createTasksConvFC();
+//                createTasksConvFC();
+                createTasksConvFCV2();
                 break;
             case Type::MODE_TYPE::LINEAR:
                 createTasksLinear();

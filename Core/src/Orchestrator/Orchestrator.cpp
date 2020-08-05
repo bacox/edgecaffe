@@ -216,7 +216,7 @@ void EdgeCaffe::Orchestrator::submitInferenceTask(const EdgeCaffe::Arrival arriv
 //                iTask->net->subTasks.front()->firstTask->addTaskDependency(ConditionalDependency(last, &this->enforceInterDependencies));
 //            }
 
-        if(mode == Type::MODE_TYPE::LINEAR || mode == Type::MODE_TYPE::BULK || mode == Type::MODE_TYPE::EXECPRIO_INTER)
+        if(mode == Type::MODE_TYPE::LINEAR || mode == Type::MODE_TYPE::EXECPRIO_INTER || mode == Type::MODE_TYPE::BULK)
         {
             if(last != nullptr)
             {
@@ -232,7 +232,39 @@ void EdgeCaffe::Orchestrator::submitInferenceTask(const EdgeCaffe::Arrival arriv
 
         bagOfTasks.reserve(listOfTasks.size()); // preallocate memory
         bagOfTasks.insert(bagOfTasks.end(), listOfTasks.begin(), listOfTasks.end());
+    }
+    if(mode == Type::MODE_TYPE::DEEPEYE)
+    {
 
+        int startIndex = std::max<int>(inferenceTasks.size() - arrivalTask.networks.size(), 0);
+        auto it = std::begin(inferenceTasks);
+        std::advance(it, startIndex);
+
+        const auto startiTask = *it;
+        auto lastConvLoad = inferenceTasks.back()->net->subTasks.front()->conv_load_last;
+        auto firstConvExec = startiTask->net->subTasks.front()->conv_exec_first;
+        firstConvExec->addTaskDependency(TaskDependency(lastConvLoad));
+
+        auto previous = *it;
+        ++it;
+        for (auto end=std::end(inferenceTasks); it!=end; ++it)
+        {
+            const auto iTask = (*it);
+
+            // Link init with previous load tasks
+            iTask->net->subTasks.front()->conv_load_first->addTaskDependency(TaskDependency(previous->net->subTasks.front()->conv_load_last));
+
+
+            // Link conv exec tasks
+            iTask->net->subTasks.front()->conv_exec_first->addTaskDependency(
+                    TaskDependency(previous->net->subTasks.front()->conv_exec_last));
+
+            // Link fc load tasks
+            iTask->net->subTasks.front()->fc_load_first->addTaskDependency(
+                    TaskDependency(previous->net->subTasks.front()->fc_load_last));
+
+            previous = (*it);
+        }
     }
 }
 
