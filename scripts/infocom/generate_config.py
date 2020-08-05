@@ -102,7 +102,7 @@ def generate_variations(config):
                 # print(yaml.safe_dump({**exp_config._asdict()}))
                 tmp_dict = {**exp_config._asdict()}
                 tmp_dict['output_path'] = '{}/{}'.format(exp_config.output_path, exp_base_tag)
-
+                tmp_dict['memory-key'] = config['memory-key']
                 dict_underscore_to_dash(tmp_dict, 'n_arrivals')
                 dict_underscore_to_dash(tmp_dict, 'n_workers')
                 dict_underscore_to_dash(tmp_dict, 'network_path')

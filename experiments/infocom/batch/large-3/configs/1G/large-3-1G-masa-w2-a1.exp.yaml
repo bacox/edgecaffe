@@ -3,6 +3,7 @@ build_folder: .
 tag: large-3-1G-masa-w2-a1
 mem_limit: 1G
 mode: masa
+memory-key: valgrind
 n-arrivals: 150
 n-workers: 2
 network-path: networks

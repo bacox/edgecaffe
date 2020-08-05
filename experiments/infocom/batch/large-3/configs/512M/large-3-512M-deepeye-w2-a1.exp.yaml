@@ -3,6 +3,7 @@ build_folder: .
 tag: large-3-512M-deepeye-w2-a1
 mem_limit: 512M
 mode: deepeye
+memory-key: valgrind
 n-arrivals: 150
 n-workers: 2
 network-path: networks

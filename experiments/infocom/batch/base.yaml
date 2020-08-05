@@ -8,6 +8,7 @@ repetitions: 150
 arrival-mode: batch
 n_workers: [2]
 cmd-base: bin/Exp_poisson_arrival_rv_nf
+memory-key: valgrind
 build-folder: .
 
 experiments:

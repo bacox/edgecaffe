@@ -3,6 +3,7 @@ build_folder: .
 tag: lifelogging-1G-bulk-w2-a1
 mem_limit: 1G
 mode: bulk
+memory-key: valgrind
 n-arrivals: 150
 n-workers: 2
 network-path: networks

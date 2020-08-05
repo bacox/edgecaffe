@@ -3,6 +3,7 @@ build_folder: .
 tag: all-networks-512M-bulk-w2-a1
 mem_limit: 512M
 mode: bulk
+memory-key: valgrind
 n-arrivals: 150
 n-workers: 2
 network-path: networks
