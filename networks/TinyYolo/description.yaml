@@ -9,8 +9,8 @@ base-path: networks/TinyYolo/
 partials-location: tiny_yolo_partials
 layer-statistics: TinyYolo.stats.csv
 has-input-layer: true
-num-conv-layers: 39
-num-fc-layers: 1
+num-conv-layers: 40
+num-fc-layers: 0
 mean-execution-time: 696
 max-memory-valgrind: 146
 max-memory-rss: 214
@@ -288,11 +288,10 @@ conv-layers:
     estimated_time_execution: 0
     isConvLayer: true
     hasModelFile: true
-fc-layers:
   - id: 39
     name: conv9
     partialFile: tiny_yolo39.partial.caffemodel
     estimated_time_loading: 0
     estimated_time_execution: 0
-    isConvLayer: false
+    isConvLayer: true
     hasModelFile: true

@@ -468,7 +468,9 @@ namespace EdgeCaffe
             lastTask = exec;
             tasks.push_back(exec);
         }
-        dnn->fc_exec_first->addTaskDependency(TaskDependency(dnn->fc_load_last));
+        // Edge case for TinyYolo where there do not exist any fully connected layers
+        if(numFC > 0)
+            dnn->fc_exec_first->addTaskDependency(TaskDependency(dnn->fc_load_last));
         dnn->lastTask = lastTask;
     }
 

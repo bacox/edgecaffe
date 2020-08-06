@@ -10,8 +10,8 @@ base-path: "networks/TinyYolo/"
 partials-location: "tiny_yolo_partials"
 layer-statistics: TinyYolo.stats.csv
 has-input-layer: true
-num-conv-layers: 39
-num-fc-layers: 1
+num-conv-layers: 40
+num-fc-layers: 0
 mean-execution-time: 696
 max-memory-valgrind: 146
 max-memory-rss: 214

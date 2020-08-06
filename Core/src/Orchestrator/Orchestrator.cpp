@@ -247,6 +247,11 @@ void EdgeCaffe::Orchestrator::submitInferenceTask(const EdgeCaffe::Arrival arriv
 
         auto previous = *it;
         ++it;
+
+        // Keep track to the last load task for fc layers during this batch
+        Task *local_fc_load_last = nullptr;
+
+
         for (auto end=std::end(inferenceTasks); it!=end; ++it)
         {
             const auto iTask = (*it);
@@ -260,9 +265,16 @@ void EdgeCaffe::Orchestrator::submitInferenceTask(const EdgeCaffe::Arrival arriv
                     TaskDependency(previous->net->subTasks.front()->conv_exec_last));
 
             // Link fc load tasks
-            iTask->net->subTasks.front()->fc_load_first->addTaskDependency(
-                    TaskDependency(previous->net->subTasks.front()->fc_load_last));
+            Task * tmp_fc_load_first = iTask->net->subTasks.front()->fc_load_first;
+            Task * tmp_fc_load_last = previous->net->subTasks.front()->fc_load_last;
+            // Make sure to use the last known reference is this one does not exist
+            if(tmp_fc_load_last != nullptr)
+                local_fc_load_last = tmp_fc_load_last;
 
+            // Do not try to link the task is one the reference does not exist
+            if(tmp_fc_load_first != nullptr && local_fc_load_last != nullptr)
+                tmp_fc_load_first->addTaskDependency(
+                        TaskDependency(local_fc_load_last));
             previous = (*it);
         }
     }
