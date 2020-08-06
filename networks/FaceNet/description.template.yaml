@@ -8,6 +8,7 @@ input-scale: [227, 227]
 base-path: "networks/FaceNet/"
 partials-location: "face_full_conv_partials"
 layer-statistics: FaceNet.stats.csv
+layer-parameters-stats: parameters-layers.stat.csv
 has-input-layer: false
 num-conv-layers: 16
 num-fc-layers: 8

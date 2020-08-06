@@ -8,151 +8,192 @@ input-scale: [227, 227]
 base-path: networks/AgeNet/
 partials-location: age_net_partials
 layer-statistics: AgeNet.stats.csv
+layer-parameters-stats: parameters-layers.stat.csv
 has-input-layer: true
 num-conv-layers: 12
 num-fc-layers: 8
-mean-execution-time: 303
+mean-execution-time: 294
 max-memory-valgrind: 161.74
 max-memory-rss: 303
 conv-layers:
   - id: 0
     name: input
     partialFile: age_net00.partial.caffemodel
+    partialFileSize: 188
     estimated_time_loading: 462
     estimated_time_execution: 14
+    number-of-paramters: 0
     isConvLayer: true
     hasModelFile: true
   - id: 1
     name: conv1
     partialFile: age_net01.partial.caffemodel
+    partialFileSize: 56961
     estimated_time_loading: 745
     estimated_time_execution: 11007
+    number-of-paramters: 14112
     isConvLayer: true
     hasModelFile: true
   - id: 2
     name: relu1
     partialFile: age_net02.partial.caffemodel
+    partialFileSize: 36
     estimated_time_loading: 119
     estimated_time_execution: 3857
+    number-of-paramters: 0
     isConvLayer: true
     hasModelFile: true
   - id: 3
     name: pool1
     partialFile: age_net03.partial.caffemodel
+    partialFileSize: 45
     estimated_time_loading: 145
     estimated_time_execution: 7734
+    number-of-paramters: 0
     isConvLayer: true
     hasModelFile: true
   - id: 4
     name: norm1
     partialFile: age_net04.partial.caffemodel
+    partialFileSize: 51
     estimated_time_loading: 142
     estimated_time_execution: 3215
+    number-of-paramters: 0
     isConvLayer: true
     hasModelFile: true
   - id: 5
     name: conv2
     partialFile: age_net05.partial.caffemodel
+    partialFileSize: 2458760
     estimated_time_loading: 26102
     estimated_time_execution: 77261
+    number-of-paramters: 614400
     isConvLayer: true
     hasModelFile: true
   - id: 6
     name: relu2
     partialFile: age_net06.partial.caffemodel
+    partialFileSize: 36
     estimated_time_loading: 118
     estimated_time_execution: 2242
+    number-of-paramters: 0
     isConvLayer: true
     hasModelFile: true
   - id: 7
     name: pool2
     partialFile: age_net07.partial.caffemodel
+    partialFileSize: 45
     estimated_time_loading: 116
     estimated_time_execution: 4838
+    number-of-paramters: 0
     isConvLayer: true
     hasModelFile: true
   - id: 8
     name: norm2
     partialFile: age_net08.partial.caffemodel
+    partialFileSize: 51
     estimated_time_loading: 126
     estimated_time_execution: 3327
+    number-of-paramters: 0
     isConvLayer: true
     hasModelFile: true
   - id: 9
     name: conv3
     partialFile: age_net09.partial.caffemodel
+    partialFileSize: 3540617
     estimated_time_loading: 33754
     estimated_time_execution: 25500
+    number-of-paramters: 884736
     isConvLayer: true
     hasModelFile: true
   - id: 10
     name: relu3
     partialFile: age_net10.partial.caffemodel
+    partialFileSize: 36
     estimated_time_loading: 118
     estimated_time_execution: 765
+    number-of-paramters: 0
     isConvLayer: true
     hasModelFile: true
   - id: 11
     name: pool5
     partialFile: age_net11.partial.caffemodel
+    partialFileSize: 45
     estimated_time_loading: 114
     estimated_time_execution: 2802
+    number-of-paramters: 0
     isConvLayer: true
     hasModelFile: true
 fc-layers:
   - id: 12
     name: fc6
     partialFile: age_net12.partial.caffemodel
+    partialFileSize: 38537347
     estimated_time_loading: 411474
     estimated_time_execution: 14199
+    number-of-paramters: 9633792
     isConvLayer: false
     hasModelFile: true
   - id: 13
     name: relu6
     partialFile: age_net13.partial.caffemodel
+    partialFileSize: 32
     estimated_time_loading: 128
     estimated_time_execution: 19
+    number-of-paramters: 0
     isConvLayer: false
     hasModelFile: true
   - id: 14
     name: drop6
     partialFile: age_net14.partial.caffemodel
+    partialFileSize: 39
     estimated_time_loading: 103
     estimated_time_execution: 14
+    number-of-paramters: 0
     isConvLayer: false
     hasModelFile: true
   - id: 15
     name: fc7
     partialFile: age_net15.partial.caffemodel
+    partialFileSize: 1050749
     estimated_time_loading: 9951
     estimated_time_execution: 371
+    number-of-paramters: 262144
     isConvLayer: false
     hasModelFile: true
   - id: 16
     name: relu7
     partialFile: age_net16.partial.caffemodel
+    partialFileSize: 32
     estimated_time_loading: 142
     estimated_time_execution: 27
+    number-of-paramters: 0
     isConvLayer: false
     hasModelFile: true
   - id: 17
     name: drop7
     partialFile: age_net17.partial.caffemodel
+    partialFileSize: 39
     estimated_time_loading: 141
     estimated_time_execution: 20
+    number-of-paramters: 0
     isConvLayer: false
     hasModelFile: true
   - id: 18
     name: fc8
     partialFile: age_net18.partial.caffemodel
+    partialFileSize: 16536
     estimated_time_loading: 333
     estimated_time_execution: 35
+    number-of-paramters: 4096
     isConvLayer: false
     hasModelFile: true
   - id: 19
     name: prob
     partialFile: age_net19.partial.caffemodel
+    partialFileSize: 45
     estimated_time_loading: 124
     estimated_time_execution: 32
+    number-of-paramters: 0
     isConvLayer: false
     hasModelFile: true

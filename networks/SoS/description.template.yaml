@@ -9,6 +9,7 @@ base-path: "networks/SoS/"
 partials-location: "AlexNet_SalObjSub_partials"
 excluded-partials: [18,21]
 layer-statistics: Salient-Object-Subitizing.stats.csv
+layer-parameters-stats: parameters-layers.stat.csv
 has-input-layer: true
 num-conv-layers: 16
 num-fc-layers: 6

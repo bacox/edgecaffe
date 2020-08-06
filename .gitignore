@@ -32,3 +32,4 @@ archive
 *.tmp.yaml
 *.log
 *.tar
+*.stat.csv
