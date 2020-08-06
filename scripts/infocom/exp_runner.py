@@ -19,21 +19,22 @@ def print_progress(idx: int, total: int):
     print('*' * 25)
 
 
-def write_progress_to_log(idx: int, total: int, exp_file: str, log_file: str = './out.log'):
+def write_progress_to_log(idx: int, total: int, exp_file: str, log_file: str = './out.log', started: bool = False):
     now = datetime.now()
     datetime_str = now.strftime("%d/%m/%Y %H:%M:%S")
-    line = 'Finished {}\t{}/{}\t{}\n'.format(datetime_str, idx, total - 1, exp_file)
+    action = 'Finished'
+    if started:
+        action = 'Started\t'
+    line = '{} {}\t{}/{}\t{}\n'.format(action, datetime_str, idx, total - 1, exp_file)
     with open(log_file, "a") as log_file:
         log_file.write(line)
         log_file.flush()
-
 
 def main(path_base: str = './experiments/infocom/batch', mem_limit: str = '*', reverse: bool = False,
          dry_run: bool = False, logging: bool = False, build_folder='.', record_thermal: bool = True,
          exp_name: str = "*"):
     list_of_mem = mem_limit.split('|')
-    list_config_directory = ['{}/{}/configs/{}/*.exp.yaml'.format(path_base, exp_name, x) for x in mem_limit.split('|')]
-    # list_config_directory = ['{}/{}/configs/{}/*.exp.yaml'.format(path_base, 'small-3', x) for x in mem_limit.split('|')] + ['{}/{}/configs/{}/*.exp.yaml'.format(path_base, 'lifelogging', x) for x in mem_limit.split('|')]
+    list_config_directory = ['{}/{}/configs/{}/*.exp.yaml'.format(path_base, exp_name, x) for x in list_of_mem]
     exp_config_files = [glob.glob(f) for f in list_config_directory]
     exp_config_files = [item for sublist in exp_config_files for item in sublist]
     if reverse:
@@ -41,6 +42,8 @@ def main(path_base: str = './experiments/infocom/batch', mem_limit: str = '*', r
     base_script = 'sudo bash ./scripts/infocom/exp_base_cgroup.sh'
     total_files = len(exp_config_files)
     for idx, exp_file in enumerate(exp_config_files):
+        if logging:
+            write_progress_to_log(idx, total_files, exp_file, started=True)
         print_progress(idx, total_files)
         run_single_exp(exp_file, base_script, dry_run=dry_run, build_folder=build_folder, record_thermal=record_thermal)
         if logging:

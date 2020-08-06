@@ -5,5 +5,5 @@ n_workers: [2]
 ait-multiplier: [1]
 modes: [masa, bulk, deepeye]
 memory-constraints: [2G, 1G, 512M]
-networks: [FaceNet, AgeNet, ObjectNet]
+networks: [FaceNet, AgeNet, EmotionNet]
 experiment-tag: mixed-3

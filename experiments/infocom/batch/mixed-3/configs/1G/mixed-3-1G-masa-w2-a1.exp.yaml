@@ -18,8 +18,8 @@ arrivals:
     pathToNetwork: FaceNet
   - networkName: AgeNet
     pathToNetwork: AgeNet
-  - networkName: ObjectNet
-    pathToNetwork: ObjectNet
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
   pathToData: test_1.jpg
   time: 0
 - networks:
@@ -27,8 +27,8 @@ arrivals:
     pathToNetwork: FaceNet
   - networkName: AgeNet
     pathToNetwork: AgeNet
-  - networkName: ObjectNet
-    pathToNetwork: ObjectNet
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
   pathToData: test_1.jpg
   time: 0
 - networks:
@@ -36,8 +36,8 @@ arrivals:
     pathToNetwork: FaceNet
   - networkName: AgeNet
     pathToNetwork: AgeNet
-  - networkName: ObjectNet
-    pathToNetwork: ObjectNet
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
   pathToData: test_1.jpg
   time: 0
 - networks:
@@ -45,8 +45,8 @@ arrivals:
     pathToNetwork: FaceNet
   - networkName: AgeNet
     pathToNetwork: AgeNet
-  - networkName: ObjectNet
-    pathToNetwork: ObjectNet
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
   pathToData: test_1.jpg
   time: 0
 - networks:
@@ -54,8 +54,8 @@ arrivals:
     pathToNetwork: FaceNet
   - networkName: AgeNet
     pathToNetwork: AgeNet
-  - networkName: ObjectNet
-    pathToNetwork: ObjectNet
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
   pathToData: test_1.jpg
   time: 0
 - networks:
@@ -63,8 +63,8 @@ arrivals:
     pathToNetwork: FaceNet
   - networkName: AgeNet
     pathToNetwork: AgeNet
-  - networkName: ObjectNet
-    pathToNetwork: ObjectNet
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
   pathToData: test_1.jpg
   time: 0
 - networks:
@@ -72,8 +72,8 @@ arrivals:
     pathToNetwork: FaceNet
   - networkName: AgeNet
     pathToNetwork: AgeNet
-  - networkName: ObjectNet
-    pathToNetwork: ObjectNet
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
   pathToData: test_1.jpg
   time: 0
 - networks:
@@ -81,8 +81,8 @@ arrivals:
     pathToNetwork: FaceNet
   - networkName: AgeNet
     pathToNetwork: AgeNet
-  - networkName: ObjectNet
-    pathToNetwork: ObjectNet
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
   pathToData: test_1.jpg
   time: 0
 - networks:
@@ -90,8 +90,8 @@ arrivals:
     pathToNetwork: FaceNet
   - networkName: AgeNet
     pathToNetwork: AgeNet
-  - networkName: ObjectNet
-    pathToNetwork: ObjectNet
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
   pathToData: test_1.jpg
   time: 0
 - networks:
@@ -99,8 +99,8 @@ arrivals:
     pathToNetwork: FaceNet
   - networkName: AgeNet
     pathToNetwork: AgeNet
-  - networkName: ObjectNet
-    pathToNetwork: ObjectNet
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
   pathToData: test_1.jpg
   time: 0
 - networks:
@@ -108,8 +108,8 @@ arrivals:
     pathToNetwork: FaceNet
   - networkName: AgeNet
     pathToNetwork: AgeNet
-  - networkName: ObjectNet
-    pathToNetwork: ObjectNet
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
   pathToData: test_1.jpg
   time: 0
 - networks:
@@ -117,8 +117,8 @@ arrivals:
     pathToNetwork: FaceNet
   - networkName: AgeNet
     pathToNetwork: AgeNet
-  - networkName: ObjectNet
-    pathToNetwork: ObjectNet
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
   pathToData: test_1.jpg
   time: 0
 - networks:
@@ -126,8 +126,8 @@ arrivals:
     pathToNetwork: FaceNet
   - networkName: AgeNet
     pathToNetwork: AgeNet
-  - networkName: ObjectNet
-    pathToNetwork: ObjectNet
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
   pathToData: test_1.jpg
   time: 0
 - networks:
@@ -135,8 +135,8 @@ arrivals:
     pathToNetwork: FaceNet
   - networkName: AgeNet
     pathToNetwork: AgeNet
-  - networkName: ObjectNet
-    pathToNetwork: ObjectNet
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
   pathToData: test_1.jpg
   time: 0
 - networks:
@@ -144,8 +144,8 @@ arrivals:
     pathToNetwork: FaceNet
   - networkName: AgeNet
     pathToNetwork: AgeNet
-  - networkName: ObjectNet
-    pathToNetwork: ObjectNet
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
   pathToData: test_1.jpg
   time: 0
 - networks:
@@ -153,8 +153,8 @@ arrivals:
     pathToNetwork: FaceNet
   - networkName: AgeNet
     pathToNetwork: AgeNet
-  - networkName: ObjectNet
-    pathToNetwork: ObjectNet
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
   pathToData: test_1.jpg
   time: 0
 - networks:
@@ -162,8 +162,8 @@ arrivals:
     pathToNetwork: FaceNet
   - networkName: AgeNet
     pathToNetwork: AgeNet
-  - networkName: ObjectNet
-    pathToNetwork: ObjectNet
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
   pathToData: test_1.jpg
   time: 0
 - networks:
@@ -171,8 +171,8 @@ arrivals:
     pathToNetwork: FaceNet
   - networkName: AgeNet
     pathToNetwork: AgeNet
-  - networkName: ObjectNet
-    pathToNetwork: ObjectNet
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
   pathToData: test_1.jpg
   time: 0
 - networks:
@@ -180,8 +180,8 @@ arrivals:
     pathToNetwork: FaceNet
   - networkName: AgeNet
     pathToNetwork: AgeNet
-  - networkName: ObjectNet
-    pathToNetwork: ObjectNet
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
   pathToData: test_1.jpg
   time: 0
 - networks:
@@ -189,8 +189,8 @@ arrivals:
     pathToNetwork: FaceNet
   - networkName: AgeNet
     pathToNetwork: AgeNet
-  - networkName: ObjectNet
-    pathToNetwork: ObjectNet
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
   pathToData: test_1.jpg
   time: 0
 - networks:
@@ -198,8 +198,8 @@ arrivals:
     pathToNetwork: FaceNet
   - networkName: AgeNet
     pathToNetwork: AgeNet
-  - networkName: ObjectNet
-    pathToNetwork: ObjectNet
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
   pathToData: test_1.jpg
   time: 0
 - networks:
@@ -207,8 +207,8 @@ arrivals:
     pathToNetwork: FaceNet
   - networkName: AgeNet
     pathToNetwork: AgeNet
-  - networkName: ObjectNet
-    pathToNetwork: ObjectNet
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
   pathToData: test_1.jpg
   time: 0
 - networks:
@@ -216,8 +216,8 @@ arrivals:
     pathToNetwork: FaceNet
   - networkName: AgeNet
     pathToNetwork: AgeNet
-  - networkName: ObjectNet
-    pathToNetwork: ObjectNet
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
   pathToData: test_1.jpg
   time: 0
 - networks:
@@ -225,8 +225,8 @@ arrivals:
     pathToNetwork: FaceNet
   - networkName: AgeNet
     pathToNetwork: AgeNet
-  - networkName: ObjectNet
-    pathToNetwork: ObjectNet
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
   pathToData: test_1.jpg
   time: 0
 - networks:
@@ -234,8 +234,8 @@ arrivals:
     pathToNetwork: FaceNet
   - networkName: AgeNet
     pathToNetwork: AgeNet
-  - networkName: ObjectNet
-    pathToNetwork: ObjectNet
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
   pathToData: test_1.jpg
   time: 0
 - networks:
@@ -243,8 +243,8 @@ arrivals:
     pathToNetwork: FaceNet
   - networkName: AgeNet
     pathToNetwork: AgeNet
-  - networkName: ObjectNet
-    pathToNetwork: ObjectNet
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
   pathToData: test_1.jpg
   time: 0
 - networks:
@@ -252,8 +252,8 @@ arrivals:
     pathToNetwork: FaceNet
   - networkName: AgeNet
     pathToNetwork: AgeNet
-  - networkName: ObjectNet
-    pathToNetwork: ObjectNet
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
   pathToData: test_1.jpg
   time: 0
 - networks:
@@ -261,8 +261,8 @@ arrivals:
     pathToNetwork: FaceNet
   - networkName: AgeNet
     pathToNetwork: AgeNet
-  - networkName: ObjectNet
-    pathToNetwork: ObjectNet
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
   pathToData: test_1.jpg
   time: 0
 - networks:
@@ -270,8 +270,8 @@ arrivals:
     pathToNetwork: FaceNet
   - networkName: AgeNet
     pathToNetwork: AgeNet
-  - networkName: ObjectNet
-    pathToNetwork: ObjectNet
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
   pathToData: test_1.jpg
   time: 0
 - networks:
@@ -279,8 +279,8 @@ arrivals:
     pathToNetwork: FaceNet
   - networkName: AgeNet
     pathToNetwork: AgeNet
-  - networkName: ObjectNet
-    pathToNetwork: ObjectNet
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
   pathToData: test_1.jpg
   time: 0
 - networks:
@@ -288,8 +288,8 @@ arrivals:
     pathToNetwork: FaceNet
   - networkName: AgeNet
     pathToNetwork: AgeNet
-  - networkName: ObjectNet
-    pathToNetwork: ObjectNet
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
   pathToData: test_1.jpg
   time: 0
 - networks:
@@ -297,8 +297,8 @@ arrivals:
     pathToNetwork: FaceNet
   - networkName: AgeNet
     pathToNetwork: AgeNet
-  - networkName: ObjectNet
-    pathToNetwork: ObjectNet
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
   pathToData: test_1.jpg
   time: 0
 - networks:
@@ -306,8 +306,8 @@ arrivals:
     pathToNetwork: FaceNet
   - networkName: AgeNet
     pathToNetwork: AgeNet
-  - networkName: ObjectNet
-    pathToNetwork: ObjectNet
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
   pathToData: test_1.jpg
   time: 0
 - networks:
@@ -315,8 +315,8 @@ arrivals:
     pathToNetwork: FaceNet
   - networkName: AgeNet
     pathToNetwork: AgeNet
-  - networkName: ObjectNet
-    pathToNetwork: ObjectNet
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
   pathToData: test_1.jpg
   time: 0
 - networks:
@@ -324,8 +324,8 @@ arrivals:
     pathToNetwork: FaceNet
   - networkName: AgeNet
     pathToNetwork: AgeNet
-  - networkName: ObjectNet
-    pathToNetwork: ObjectNet
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
   pathToData: test_1.jpg
   time: 0
 - networks:
@@ -333,8 +333,8 @@ arrivals:
     pathToNetwork: FaceNet
   - networkName: AgeNet
     pathToNetwork: AgeNet
-  - networkName: ObjectNet
-    pathToNetwork: ObjectNet
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
   pathToData: test_1.jpg
   time: 0
 - networks:
@@ -342,8 +342,8 @@ arrivals:
     pathToNetwork: FaceNet
   - networkName: AgeNet
     pathToNetwork: AgeNet
-  - networkName: ObjectNet
-    pathToNetwork: ObjectNet
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
   pathToData: test_1.jpg
   time: 0
 - networks:
@@ -351,8 +351,8 @@ arrivals:
     pathToNetwork: FaceNet
   - networkName: AgeNet
     pathToNetwork: AgeNet
-  - networkName: ObjectNet
-    pathToNetwork: ObjectNet
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
   pathToData: test_1.jpg
   time: 0
 - networks:
@@ -360,8 +360,8 @@ arrivals:
     pathToNetwork: FaceNet
   - networkName: AgeNet
     pathToNetwork: AgeNet
-  - networkName: ObjectNet
-    pathToNetwork: ObjectNet
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
   pathToData: test_1.jpg
   time: 0
 - networks:
@@ -369,8 +369,8 @@ arrivals:
     pathToNetwork: FaceNet
   - networkName: AgeNet
     pathToNetwork: AgeNet
-  - networkName: ObjectNet
-    pathToNetwork: ObjectNet
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
   pathToData: test_1.jpg
   time: 0
 - networks:
@@ -378,8 +378,8 @@ arrivals:
     pathToNetwork: FaceNet
   - networkName: AgeNet
     pathToNetwork: AgeNet
-  - networkName: ObjectNet
-    pathToNetwork: ObjectNet
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
   pathToData: test_1.jpg
   time: 0
 - networks:
@@ -387,8 +387,8 @@ arrivals:
     pathToNetwork: FaceNet
   - networkName: AgeNet
     pathToNetwork: AgeNet
-  - networkName: ObjectNet
-    pathToNetwork: ObjectNet
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
   pathToData: test_1.jpg
   time: 0
 - networks:
@@ -396,8 +396,8 @@ arrivals:
     pathToNetwork: FaceNet
   - networkName: AgeNet
     pathToNetwork: AgeNet
-  - networkName: ObjectNet
-    pathToNetwork: ObjectNet
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
   pathToData: test_1.jpg
   time: 0
 - networks:
@@ -405,8 +405,8 @@ arrivals:
     pathToNetwork: FaceNet
   - networkName: AgeNet
     pathToNetwork: AgeNet
-  - networkName: ObjectNet
-    pathToNetwork: ObjectNet
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
   pathToData: test_1.jpg
   time: 0
 - networks:
@@ -414,8 +414,8 @@ arrivals:
     pathToNetwork: FaceNet
   - networkName: AgeNet
     pathToNetwork: AgeNet
-  - networkName: ObjectNet
-    pathToNetwork: ObjectNet
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
   pathToData: test_1.jpg
   time: 0
 - networks:
@@ -423,8 +423,8 @@ arrivals:
     pathToNetwork: FaceNet
   - networkName: AgeNet
     pathToNetwork: AgeNet
-  - networkName: ObjectNet
-    pathToNetwork: ObjectNet
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
   pathToData: test_1.jpg
   time: 0
 - networks:
@@ -432,8 +432,8 @@ arrivals:
     pathToNetwork: FaceNet
   - networkName: AgeNet
     pathToNetwork: AgeNet
-  - networkName: ObjectNet
-    pathToNetwork: ObjectNet
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
   pathToData: test_1.jpg
   time: 0
 - networks:
@@ -441,8 +441,8 @@ arrivals:
     pathToNetwork: FaceNet
   - networkName: AgeNet
     pathToNetwork: AgeNet
-  - networkName: ObjectNet
-    pathToNetwork: ObjectNet
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
   pathToData: test_1.jpg
   time: 0
 - networks:
@@ -450,8 +450,8 @@ arrivals:
     pathToNetwork: FaceNet
   - networkName: AgeNet
     pathToNetwork: AgeNet
-  - networkName: ObjectNet
-    pathToNetwork: ObjectNet
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
   pathToData: test_1.jpg
   time: 0
 - networks:
@@ -459,8 +459,8 @@ arrivals:
     pathToNetwork: FaceNet
   - networkName: AgeNet
     pathToNetwork: AgeNet
-  - networkName: ObjectNet
-    pathToNetwork: ObjectNet
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
   pathToData: test_1.jpg
   time: 0
 - networks:
@@ -468,8 +468,8 @@ arrivals:
     pathToNetwork: FaceNet
   - networkName: AgeNet
     pathToNetwork: AgeNet
-  - networkName: ObjectNet
-    pathToNetwork: ObjectNet
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
   pathToData: test_1.jpg
   time: 0
 - networks:
@@ -477,8 +477,8 @@ arrivals:
     pathToNetwork: FaceNet
   - networkName: AgeNet
     pathToNetwork: AgeNet
-  - networkName: ObjectNet
-    pathToNetwork: ObjectNet
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
   pathToData: test_1.jpg
   time: 0
 - networks:
@@ -486,8 +486,8 @@ arrivals:
     pathToNetwork: FaceNet
   - networkName: AgeNet
     pathToNetwork: AgeNet
-  - networkName: ObjectNet
-    pathToNetwork: ObjectNet
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
   pathToData: test_1.jpg
   time: 0
 - networks:
@@ -495,8 +495,8 @@ arrivals:
     pathToNetwork: FaceNet
   - networkName: AgeNet
     pathToNetwork: AgeNet
-  - networkName: ObjectNet
-    pathToNetwork: ObjectNet
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
   pathToData: test_1.jpg
   time: 0
 - networks:
@@ -504,8 +504,8 @@ arrivals:
     pathToNetwork: FaceNet
   - networkName: AgeNet
     pathToNetwork: AgeNet
-  - networkName: ObjectNet
-    pathToNetwork: ObjectNet
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
   pathToData: test_1.jpg
   time: 0
 - networks:
@@ -513,8 +513,8 @@ arrivals:
     pathToNetwork: FaceNet
   - networkName: AgeNet
     pathToNetwork: AgeNet
-  - networkName: ObjectNet
-    pathToNetwork: ObjectNet
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
   pathToData: test_1.jpg
   time: 0
 - networks:
@@ -522,8 +522,8 @@ arrivals:
     pathToNetwork: FaceNet
   - networkName: AgeNet
     pathToNetwork: AgeNet
-  - networkName: ObjectNet
-    pathToNetwork: ObjectNet
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
   pathToData: test_1.jpg
   time: 0
 - networks:
@@ -531,8 +531,8 @@ arrivals:
     pathToNetwork: FaceNet
   - networkName: AgeNet
     pathToNetwork: AgeNet
-  - networkName: ObjectNet
-    pathToNetwork: ObjectNet
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
   pathToData: test_1.jpg
   time: 0
 - networks:
@@ -540,8 +540,8 @@ arrivals:
     pathToNetwork: FaceNet
   - networkName: AgeNet
     pathToNetwork: AgeNet
-  - networkName: ObjectNet
-    pathToNetwork: ObjectNet
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
   pathToData: test_1.jpg
   time: 0
 - networks:
@@ -549,8 +549,8 @@ arrivals:
     pathToNetwork: FaceNet
   - networkName: AgeNet
     pathToNetwork: AgeNet
-  - networkName: ObjectNet
-    pathToNetwork: ObjectNet
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
   pathToData: test_1.jpg
   time: 0
 - networks:
@@ -558,8 +558,8 @@ arrivals:
     pathToNetwork: FaceNet
   - networkName: AgeNet
     pathToNetwork: AgeNet
-  - networkName: ObjectNet
-    pathToNetwork: ObjectNet
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
   pathToData: test_1.jpg
   time: 0
 - networks:
@@ -567,8 +567,8 @@ arrivals:
     pathToNetwork: FaceNet
   - networkName: AgeNet
     pathToNetwork: AgeNet
-  - networkName: ObjectNet
-    pathToNetwork: ObjectNet
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
   pathToData: test_1.jpg
   time: 0
 - networks:
@@ -576,8 +576,8 @@ arrivals:
     pathToNetwork: FaceNet
   - networkName: AgeNet
     pathToNetwork: AgeNet
-  - networkName: ObjectNet
-    pathToNetwork: ObjectNet
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
   pathToData: test_1.jpg
   time: 0
 - networks:
@@ -585,8 +585,8 @@ arrivals:
     pathToNetwork: FaceNet
   - networkName: AgeNet
     pathToNetwork: AgeNet
-  - networkName: ObjectNet
-    pathToNetwork: ObjectNet
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
   pathToData: test_1.jpg
   time: 0
 - networks:
@@ -594,8 +594,8 @@ arrivals:
     pathToNetwork: FaceNet
   - networkName: AgeNet
     pathToNetwork: AgeNet
-  - networkName: ObjectNet
-    pathToNetwork: ObjectNet
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
   pathToData: test_1.jpg
   time: 0
 - networks:
@@ -603,8 +603,8 @@ arrivals:
     pathToNetwork: FaceNet
   - networkName: AgeNet
     pathToNetwork: AgeNet
-  - networkName: ObjectNet
-    pathToNetwork: ObjectNet
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
   pathToData: test_1.jpg
   time: 0
 - networks:
@@ -612,8 +612,8 @@ arrivals:
     pathToNetwork: FaceNet
   - networkName: AgeNet
     pathToNetwork: AgeNet
-  - networkName: ObjectNet
-    pathToNetwork: ObjectNet
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
   pathToData: test_1.jpg
   time: 0
 - networks:
@@ -621,8 +621,8 @@ arrivals:
     pathToNetwork: FaceNet
   - networkName: AgeNet
     pathToNetwork: AgeNet
-  - networkName: ObjectNet
-    pathToNetwork: ObjectNet
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
   pathToData: test_1.jpg
   time: 0
 - networks:
@@ -630,8 +630,8 @@ arrivals:
     pathToNetwork: FaceNet
   - networkName: AgeNet
     pathToNetwork: AgeNet
-  - networkName: ObjectNet
-    pathToNetwork: ObjectNet
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
   pathToData: test_1.jpg
   time: 0
 - networks:
@@ -639,8 +639,8 @@ arrivals:
     pathToNetwork: FaceNet
   - networkName: AgeNet
     pathToNetwork: AgeNet
-  - networkName: ObjectNet
-    pathToNetwork: ObjectNet
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
   pathToData: test_1.jpg
   time: 0
 - networks:
@@ -648,8 +648,8 @@ arrivals:
     pathToNetwork: FaceNet
   - networkName: AgeNet
     pathToNetwork: AgeNet
-  - networkName: ObjectNet
-    pathToNetwork: ObjectNet
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
   pathToData: test_1.jpg
   time: 0
 - networks:
@@ -657,8 +657,8 @@ arrivals:
     pathToNetwork: FaceNet
   - networkName: AgeNet
     pathToNetwork: AgeNet
-  - networkName: ObjectNet
-    pathToNetwork: ObjectNet
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
   pathToData: test_1.jpg
   time: 0
 - networks:
@@ -666,8 +666,8 @@ arrivals:
     pathToNetwork: FaceNet
   - networkName: AgeNet
     pathToNetwork: AgeNet
-  - networkName: ObjectNet
-    pathToNetwork: ObjectNet
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
   pathToData: test_1.jpg
   time: 0
 - networks:
@@ -675,8 +675,8 @@ arrivals:
     pathToNetwork: FaceNet
   - networkName: AgeNet
     pathToNetwork: AgeNet
-  - networkName: ObjectNet
-    pathToNetwork: ObjectNet
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
   pathToData: test_1.jpg
   time: 0
 - networks:
@@ -684,8 +684,8 @@ arrivals:
     pathToNetwork: FaceNet
   - networkName: AgeNet
     pathToNetwork: AgeNet
-  - networkName: ObjectNet
-    pathToNetwork: ObjectNet
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
   pathToData: test_1.jpg
   time: 0
 - networks:
@@ -693,8 +693,8 @@ arrivals:
     pathToNetwork: FaceNet
   - networkName: AgeNet
     pathToNetwork: AgeNet
-  - networkName: ObjectNet
-    pathToNetwork: ObjectNet
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
   pathToData: test_1.jpg
   time: 0
 - networks:
@@ -702,8 +702,8 @@ arrivals:
     pathToNetwork: FaceNet
   - networkName: AgeNet
     pathToNetwork: AgeNet
-  - networkName: ObjectNet
-    pathToNetwork: ObjectNet
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
   pathToData: test_1.jpg
   time: 0
 - networks:
@@ -711,8 +711,8 @@ arrivals:
     pathToNetwork: FaceNet
   - networkName: AgeNet
     pathToNetwork: AgeNet
-  - networkName: ObjectNet
-    pathToNetwork: ObjectNet
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
   pathToData: test_1.jpg
   time: 0
 - networks:
@@ -720,8 +720,8 @@ arrivals:
     pathToNetwork: FaceNet
   - networkName: AgeNet
     pathToNetwork: AgeNet
-  - networkName: ObjectNet
-    pathToNetwork: ObjectNet
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
   pathToData: test_1.jpg
   time: 0
 - networks:
@@ -729,8 +729,8 @@ arrivals:
     pathToNetwork: FaceNet
   - networkName: AgeNet
     pathToNetwork: AgeNet
-  - networkName: ObjectNet
-    pathToNetwork: ObjectNet
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
   pathToData: test_1.jpg
   time: 0
 - networks:
@@ -738,8 +738,8 @@ arrivals:
     pathToNetwork: FaceNet
   - networkName: AgeNet
     pathToNetwork: AgeNet
-  - networkName: ObjectNet
-    pathToNetwork: ObjectNet
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
   pathToData: test_1.jpg
   time: 0
 - networks:
@@ -747,8 +747,8 @@ arrivals:
     pathToNetwork: FaceNet
   - networkName: AgeNet
     pathToNetwork: AgeNet
-  - networkName: ObjectNet
-    pathToNetwork: ObjectNet
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
   pathToData: test_1.jpg
   time: 0
 - networks:
@@ -756,8 +756,8 @@ arrivals:
     pathToNetwork: FaceNet
   - networkName: AgeNet
     pathToNetwork: AgeNet
-  - networkName: ObjectNet
-    pathToNetwork: ObjectNet
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
   pathToData: test_1.jpg
   time: 0
 - networks:
@@ -765,8 +765,8 @@ arrivals:
     pathToNetwork: FaceNet
   - networkName: AgeNet
     pathToNetwork: AgeNet
-  - networkName: ObjectNet
-    pathToNetwork: ObjectNet
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
   pathToData: test_1.jpg
   time: 0
 - networks:
@@ -774,8 +774,8 @@ arrivals:
     pathToNetwork: FaceNet
   - networkName: AgeNet
     pathToNetwork: AgeNet
-  - networkName: ObjectNet
-    pathToNetwork: ObjectNet
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
   pathToData: test_1.jpg
   time: 0
 - networks:
@@ -783,8 +783,8 @@ arrivals:
     pathToNetwork: FaceNet
   - networkName: AgeNet
     pathToNetwork: AgeNet
-  - networkName: ObjectNet
-    pathToNetwork: ObjectNet
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
   pathToData: test_1.jpg
   time: 0
 - networks:
@@ -792,8 +792,8 @@ arrivals:
     pathToNetwork: FaceNet
   - networkName: AgeNet
     pathToNetwork: AgeNet
-  - networkName: ObjectNet
-    pathToNetwork: ObjectNet
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
   pathToData: test_1.jpg
   time: 0
 - networks:
@@ -801,8 +801,8 @@ arrivals:
     pathToNetwork: FaceNet
   - networkName: AgeNet
     pathToNetwork: AgeNet
-  - networkName: ObjectNet
-    pathToNetwork: ObjectNet
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
   pathToData: test_1.jpg
   time: 0
 - networks:
@@ -810,8 +810,8 @@ arrivals:
     pathToNetwork: FaceNet
   - networkName: AgeNet
     pathToNetwork: AgeNet
-  - networkName: ObjectNet
-    pathToNetwork: ObjectNet
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
   pathToData: test_1.jpg
   time: 0
 - networks:
@@ -819,8 +819,8 @@ arrivals:
     pathToNetwork: FaceNet
   - networkName: AgeNet
     pathToNetwork: AgeNet
-  - networkName: ObjectNet
-    pathToNetwork: ObjectNet
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
   pathToData: test_1.jpg
   time: 0
 - networks:
@@ -828,8 +828,8 @@ arrivals:
     pathToNetwork: FaceNet
   - networkName: AgeNet
     pathToNetwork: AgeNet
-  - networkName: ObjectNet
-    pathToNetwork: ObjectNet
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
   pathToData: test_1.jpg
   time: 0
 - networks:
@@ -837,8 +837,8 @@ arrivals:
     pathToNetwork: FaceNet
   - networkName: AgeNet
     pathToNetwork: AgeNet
-  - networkName: ObjectNet
-    pathToNetwork: ObjectNet
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
   pathToData: test_1.jpg
   time: 0
 - networks:
@@ -846,8 +846,8 @@ arrivals:
     pathToNetwork: FaceNet
   - networkName: AgeNet
     pathToNetwork: AgeNet
-  - networkName: ObjectNet
-    pathToNetwork: ObjectNet
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
   pathToData: test_1.jpg
   time: 0
 - networks:
@@ -855,8 +855,8 @@ arrivals:
     pathToNetwork: FaceNet
   - networkName: AgeNet
     pathToNetwork: AgeNet
-  - networkName: ObjectNet
-    pathToNetwork: ObjectNet
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
   pathToData: test_1.jpg
   time: 0
 - networks:
@@ -864,8 +864,8 @@ arrivals:
     pathToNetwork: FaceNet
   - networkName: AgeNet
     pathToNetwork: AgeNet
-  - networkName: ObjectNet
-    pathToNetwork: ObjectNet
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
   pathToData: test_1.jpg
   time: 0
 - networks:
@@ -873,8 +873,8 @@ arrivals:
     pathToNetwork: FaceNet
   - networkName: AgeNet
     pathToNetwork: AgeNet
-  - networkName: ObjectNet
-    pathToNetwork: ObjectNet
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
   pathToData: test_1.jpg
   time: 0
 - networks:
@@ -882,8 +882,8 @@ arrivals:
     pathToNetwork: FaceNet
   - networkName: AgeNet
     pathToNetwork: AgeNet
-  - networkName: ObjectNet
-    pathToNetwork: ObjectNet
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
   pathToData: test_1.jpg
   time: 0
 - networks:
@@ -891,8 +891,8 @@ arrivals:
     pathToNetwork: FaceNet
   - networkName: AgeNet
     pathToNetwork: AgeNet
-  - networkName: ObjectNet
-    pathToNetwork: ObjectNet
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
   pathToData: test_1.jpg
   time: 0
 - networks:
@@ -900,8 +900,8 @@ arrivals:
     pathToNetwork: FaceNet
   - networkName: AgeNet
     pathToNetwork: AgeNet
-  - networkName: ObjectNet
-    pathToNetwork: ObjectNet
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
   pathToData: test_1.jpg
   time: 0
 - networks:
@@ -909,8 +909,8 @@ arrivals:
     pathToNetwork: FaceNet
   - networkName: AgeNet
     pathToNetwork: AgeNet
-  - networkName: ObjectNet
-    pathToNetwork: ObjectNet
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
   pathToData: test_1.jpg
   time: 0
 - networks:
@@ -918,8 +918,8 @@ arrivals:
     pathToNetwork: FaceNet
   - networkName: AgeNet
     pathToNetwork: AgeNet
-  - networkName: ObjectNet
-    pathToNetwork: ObjectNet
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
   pathToData: test_1.jpg
   time: 0
 - networks:
@@ -927,8 +927,8 @@ arrivals:
     pathToNetwork: FaceNet
   - networkName: AgeNet
     pathToNetwork: AgeNet
-  - networkName: ObjectNet
-    pathToNetwork: ObjectNet
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
   pathToData: test_1.jpg
   time: 0
 - networks:
@@ -936,8 +936,8 @@ arrivals:
     pathToNetwork: FaceNet
   - networkName: AgeNet
     pathToNetwork: AgeNet
-  - networkName: ObjectNet
-    pathToNetwork: ObjectNet
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
   pathToData: test_1.jpg
   time: 0
 - networks:
@@ -945,8 +945,8 @@ arrivals:
     pathToNetwork: FaceNet
   - networkName: AgeNet
     pathToNetwork: AgeNet
-  - networkName: ObjectNet
-    pathToNetwork: ObjectNet
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
   pathToData: test_1.jpg
   time: 0
 - networks:
@@ -954,8 +954,8 @@ arrivals:
     pathToNetwork: FaceNet
   - networkName: AgeNet
     pathToNetwork: AgeNet
-  - networkName: ObjectNet
-    pathToNetwork: ObjectNet
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
   pathToData: test_1.jpg
   time: 0
 - networks:
@@ -963,8 +963,8 @@ arrivals:
     pathToNetwork: FaceNet
   - networkName: AgeNet
     pathToNetwork: AgeNet
-  - networkName: ObjectNet
-    pathToNetwork: ObjectNet
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
   pathToData: test_1.jpg
   time: 0
 - networks:
@@ -972,8 +972,8 @@ arrivals:
     pathToNetwork: FaceNet
   - networkName: AgeNet
     pathToNetwork: AgeNet
-  - networkName: ObjectNet
-    pathToNetwork: ObjectNet
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
   pathToData: test_1.jpg
   time: 0
 - networks:
@@ -981,8 +981,8 @@ arrivals:
     pathToNetwork: FaceNet
   - networkName: AgeNet
     pathToNetwork: AgeNet
-  - networkName: ObjectNet
-    pathToNetwork: ObjectNet
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
   pathToData: test_1.jpg
   time: 0
 - networks:
@@ -990,8 +990,8 @@ arrivals:
     pathToNetwork: FaceNet
   - networkName: AgeNet
     pathToNetwork: AgeNet
-  - networkName: ObjectNet
-    pathToNetwork: ObjectNet
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
   pathToData: test_1.jpg
   time: 0
 - networks:
@@ -999,8 +999,8 @@ arrivals:
     pathToNetwork: FaceNet
   - networkName: AgeNet
     pathToNetwork: AgeNet
-  - networkName: ObjectNet
-    pathToNetwork: ObjectNet
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
   pathToData: test_1.jpg
   time: 0
 - networks:
@@ -1008,8 +1008,8 @@ arrivals:
     pathToNetwork: FaceNet
   - networkName: AgeNet
     pathToNetwork: AgeNet
-  - networkName: ObjectNet
-    pathToNetwork: ObjectNet
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
   pathToData: test_1.jpg
   time: 0
 - networks:
@@ -1017,8 +1017,8 @@ arrivals:
     pathToNetwork: FaceNet
   - networkName: AgeNet
     pathToNetwork: AgeNet
-  - networkName: ObjectNet
-    pathToNetwork: ObjectNet
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
   pathToData: test_1.jpg
   time: 0
 - networks:
@@ -1026,8 +1026,8 @@ arrivals:
     pathToNetwork: FaceNet
   - networkName: AgeNet
     pathToNetwork: AgeNet
-  - networkName: ObjectNet
-    pathToNetwork: ObjectNet
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
   pathToData: test_1.jpg
   time: 0
 - networks:
@@ -1035,8 +1035,8 @@ arrivals:
     pathToNetwork: FaceNet
   - networkName: AgeNet
     pathToNetwork: AgeNet
-  - networkName: ObjectNet
-    pathToNetwork: ObjectNet
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
   pathToData: test_1.jpg
   time: 0
 - networks:
@@ -1044,8 +1044,8 @@ arrivals:
     pathToNetwork: FaceNet
   - networkName: AgeNet
     pathToNetwork: AgeNet
-  - networkName: ObjectNet
-    pathToNetwork: ObjectNet
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
   pathToData: test_1.jpg
   time: 0
 - networks:
@@ -1053,8 +1053,8 @@ arrivals:
     pathToNetwork: FaceNet
   - networkName: AgeNet
     pathToNetwork: AgeNet
-  - networkName: ObjectNet
-    pathToNetwork: ObjectNet
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
   pathToData: test_1.jpg
   time: 0
 - networks:
@@ -1062,8 +1062,8 @@ arrivals:
     pathToNetwork: FaceNet
   - networkName: AgeNet
     pathToNetwork: AgeNet
-  - networkName: ObjectNet
-    pathToNetwork: ObjectNet
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
   pathToData: test_1.jpg
   time: 0
 - networks:
@@ -1071,8 +1071,8 @@ arrivals:
     pathToNetwork: FaceNet
   - networkName: AgeNet
     pathToNetwork: AgeNet
-  - networkName: ObjectNet
-    pathToNetwork: ObjectNet
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
   pathToData: test_1.jpg
   time: 0
 - networks:
@@ -1080,8 +1080,8 @@ arrivals:
     pathToNetwork: FaceNet
   - networkName: AgeNet
     pathToNetwork: AgeNet
-  - networkName: ObjectNet
-    pathToNetwork: ObjectNet
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
   pathToData: test_1.jpg
   time: 0
 - networks:
@@ -1089,8 +1089,8 @@ arrivals:
     pathToNetwork: FaceNet
   - networkName: AgeNet
     pathToNetwork: AgeNet
-  - networkName: ObjectNet
-    pathToNetwork: ObjectNet
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
   pathToData: test_1.jpg
   time: 0
 - networks:
@@ -1098,8 +1098,8 @@ arrivals:
     pathToNetwork: FaceNet
   - networkName: AgeNet
     pathToNetwork: AgeNet
-  - networkName: ObjectNet
-    pathToNetwork: ObjectNet
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
   pathToData: test_1.jpg
   time: 0
 - networks:
@@ -1107,8 +1107,8 @@ arrivals:
     pathToNetwork: FaceNet
   - networkName: AgeNet
     pathToNetwork: AgeNet
-  - networkName: ObjectNet
-    pathToNetwork: ObjectNet
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
   pathToData: test_1.jpg
   time: 0
 - networks:
@@ -1116,8 +1116,8 @@ arrivals:
     pathToNetwork: FaceNet
   - networkName: AgeNet
     pathToNetwork: AgeNet
-  - networkName: ObjectNet
-    pathToNetwork: ObjectNet
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
   pathToData: test_1.jpg
   time: 0
 - networks:
@@ -1125,8 +1125,8 @@ arrivals:
     pathToNetwork: FaceNet
   - networkName: AgeNet
     pathToNetwork: AgeNet
-  - networkName: ObjectNet
-    pathToNetwork: ObjectNet
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
   pathToData: test_1.jpg
   time: 0
 - networks:
@@ -1134,8 +1134,8 @@ arrivals:
     pathToNetwork: FaceNet
   - networkName: AgeNet
     pathToNetwork: AgeNet
-  - networkName: ObjectNet
-    pathToNetwork: ObjectNet
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
   pathToData: test_1.jpg
   time: 0
 - networks:
@@ -1143,8 +1143,8 @@ arrivals:
     pathToNetwork: FaceNet
   - networkName: AgeNet
     pathToNetwork: AgeNet
-  - networkName: ObjectNet
-    pathToNetwork: ObjectNet
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
   pathToData: test_1.jpg
   time: 0
 - networks:
@@ -1152,8 +1152,8 @@ arrivals:
     pathToNetwork: FaceNet
   - networkName: AgeNet
     pathToNetwork: AgeNet
-  - networkName: ObjectNet
-    pathToNetwork: ObjectNet
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
   pathToData: test_1.jpg
   time: 0
 - networks:
@@ -1161,8 +1161,8 @@ arrivals:
     pathToNetwork: FaceNet
   - networkName: AgeNet
     pathToNetwork: AgeNet
-  - networkName: ObjectNet
-    pathToNetwork: ObjectNet
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
   pathToData: test_1.jpg
   time: 0
 - networks:
@@ -1170,8 +1170,8 @@ arrivals:
     pathToNetwork: FaceNet
   - networkName: AgeNet
     pathToNetwork: AgeNet
-  - networkName: ObjectNet
-    pathToNetwork: ObjectNet
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
   pathToData: test_1.jpg
   time: 0
 - networks:
@@ -1179,8 +1179,8 @@ arrivals:
     pathToNetwork: FaceNet
   - networkName: AgeNet
     pathToNetwork: AgeNet
-  - networkName: ObjectNet
-    pathToNetwork: ObjectNet
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
   pathToData: test_1.jpg
   time: 0
 - networks:
@@ -1188,8 +1188,8 @@ arrivals:
     pathToNetwork: FaceNet
   - networkName: AgeNet
     pathToNetwork: AgeNet
-  - networkName: ObjectNet
-    pathToNetwork: ObjectNet
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
   pathToData: test_1.jpg
   time: 0
 - networks:
@@ -1197,8 +1197,8 @@ arrivals:
     pathToNetwork: FaceNet
   - networkName: AgeNet
     pathToNetwork: AgeNet
-  - networkName: ObjectNet
-    pathToNetwork: ObjectNet
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
   pathToData: test_1.jpg
   time: 0
 - networks:
@@ -1206,8 +1206,8 @@ arrivals:
     pathToNetwork: FaceNet
   - networkName: AgeNet
     pathToNetwork: AgeNet
-  - networkName: ObjectNet
-    pathToNetwork: ObjectNet
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
   pathToData: test_1.jpg
   time: 0
 - networks:
@@ -1215,8 +1215,8 @@ arrivals:
     pathToNetwork: FaceNet
   - networkName: AgeNet
     pathToNetwork: AgeNet
-  - networkName: ObjectNet
-    pathToNetwork: ObjectNet
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
   pathToData: test_1.jpg
   time: 0
 - networks:
@@ -1224,8 +1224,8 @@ arrivals:
     pathToNetwork: FaceNet
   - networkName: AgeNet
     pathToNetwork: AgeNet
-  - networkName: ObjectNet
-    pathToNetwork: ObjectNet
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
   pathToData: test_1.jpg
   time: 0
 - networks:
@@ -1233,8 +1233,8 @@ arrivals:
     pathToNetwork: FaceNet
   - networkName: AgeNet
     pathToNetwork: AgeNet
-  - networkName: ObjectNet
-    pathToNetwork: ObjectNet
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
   pathToData: test_1.jpg
   time: 0
 - networks:
@@ -1242,8 +1242,8 @@ arrivals:
     pathToNetwork: FaceNet
   - networkName: AgeNet
     pathToNetwork: AgeNet
-  - networkName: ObjectNet
-    pathToNetwork: ObjectNet
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
   pathToData: test_1.jpg
   time: 0
 - networks:
@@ -1251,8 +1251,8 @@ arrivals:
     pathToNetwork: FaceNet
   - networkName: AgeNet
     pathToNetwork: AgeNet
-  - networkName: ObjectNet
-    pathToNetwork: ObjectNet
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
   pathToData: test_1.jpg
   time: 0
 - networks:
@@ -1260,8 +1260,8 @@ arrivals:
     pathToNetwork: FaceNet
   - networkName: AgeNet
     pathToNetwork: AgeNet
-  - networkName: ObjectNet
-    pathToNetwork: ObjectNet
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
   pathToData: test_1.jpg
   time: 0
 - networks:
@@ -1269,8 +1269,8 @@ arrivals:
     pathToNetwork: FaceNet
   - networkName: AgeNet
     pathToNetwork: AgeNet
-  - networkName: ObjectNet
-    pathToNetwork: ObjectNet
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
   pathToData: test_1.jpg
   time: 0
 - networks:
@@ -1278,8 +1278,8 @@ arrivals:
     pathToNetwork: FaceNet
   - networkName: AgeNet
     pathToNetwork: AgeNet
-  - networkName: ObjectNet
-    pathToNetwork: ObjectNet
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
   pathToData: test_1.jpg
   time: 0
 - networks:
@@ -1287,8 +1287,8 @@ arrivals:
     pathToNetwork: FaceNet
   - networkName: AgeNet
     pathToNetwork: AgeNet
-  - networkName: ObjectNet
-    pathToNetwork: ObjectNet
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
   pathToData: test_1.jpg
   time: 0
 - networks:
@@ -1296,8 +1296,8 @@ arrivals:
     pathToNetwork: FaceNet
   - networkName: AgeNet
     pathToNetwork: AgeNet
-  - networkName: ObjectNet
-    pathToNetwork: ObjectNet
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
   pathToData: test_1.jpg
   time: 0
 - networks:
@@ -1305,8 +1305,8 @@ arrivals:
     pathToNetwork: FaceNet
   - networkName: AgeNet
     pathToNetwork: AgeNet
-  - networkName: ObjectNet
-    pathToNetwork: ObjectNet
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
   pathToData: test_1.jpg
   time: 0
 - networks:
@@ -1314,8 +1314,8 @@ arrivals:
     pathToNetwork: FaceNet
   - networkName: AgeNet
     pathToNetwork: AgeNet
-  - networkName: ObjectNet
-    pathToNetwork: ObjectNet
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
   pathToData: test_1.jpg
   time: 0
 - networks:
@@ -1323,8 +1323,8 @@ arrivals:
     pathToNetwork: FaceNet
   - networkName: AgeNet
     pathToNetwork: AgeNet
-  - networkName: ObjectNet
-    pathToNetwork: ObjectNet
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
   pathToData: test_1.jpg
   time: 0
 - networks:
@@ -1332,8 +1332,8 @@ arrivals:
     pathToNetwork: FaceNet
   - networkName: AgeNet
     pathToNetwork: AgeNet
-  - networkName: ObjectNet
-    pathToNetwork: ObjectNet
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
   pathToData: test_1.jpg
   time: 0
 - networks:
@@ -1341,8 +1341,8 @@ arrivals:
     pathToNetwork: FaceNet
   - networkName: AgeNet
     pathToNetwork: AgeNet
-  - networkName: ObjectNet
-    pathToNetwork: ObjectNet
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
   pathToData: test_1.jpg
   time: 0
 - networks:
@@ -1350,8 +1350,8 @@ arrivals:
     pathToNetwork: FaceNet
   - networkName: AgeNet
     pathToNetwork: AgeNet
-  - networkName: ObjectNet
-    pathToNetwork: ObjectNet
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
   pathToData: test_1.jpg
   time: 0
 - networks:
@@ -1359,7 +1359,7 @@ arrivals:
     pathToNetwork: FaceNet
   - networkName: AgeNet
     pathToNetwork: AgeNet
-  - networkName: ObjectNet
-    pathToNetwork: ObjectNet
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
   pathToData: test_1.jpg
   time: 0

@@ -48,7 +48,7 @@ def run_single_exp(config_file, base_script, dry_run : bool = False, build_folde
         ##
         # stop measuring thermal values here
         ##
-        stop_thermal_cmd = 'sudo systemctl enable --now temperature.timer'
+        stop_thermal_cmd = 'sudo systemctl disable --now temperature.timer'
         os.system(stop_thermal_cmd)
         # Move file to corresponding experiment directory
         os.system('sudo mv /opt/analysis/thermal/cpu_temp.log {} 2>/dev/null'.format(thermal_file_path))
