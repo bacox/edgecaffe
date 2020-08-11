@@ -37,7 +37,7 @@ namespace EdgeCaffe
                 measureBusyTime();
                 #ifdef MEMORY_CHECK_ON
                 // This will only be used when the MEMORY_CHECK_ON is set in CMAKE
-                std::this_thread::sleep_for(std::chrono::milliseconds(1 ));
+                std::this_thread::sleep_for(std::chrono::milliseconds(100 ));
                 #endif
                 if(verbose)
                 {
@@ -70,7 +70,7 @@ namespace EdgeCaffe
 
 #ifdef MEMORY_CHECK_ON
                 // This will only be used when the MEMORY_CHECK_ON is set in CMAKE
-                std::this_thread::sleep_for(std::chrono::milliseconds(1 ));
+                std::this_thread::sleep_for(std::chrono::milliseconds(100 ));
                 perf->networkId = -1;
                 perf->network = "";
                 #endif
