@@ -27,6 +27,7 @@ network_dict = {
     , 'MemNet': Network(networkName='MemNet', pathToNetwork='MemNet')
     , 'SceneNet': Network(networkName='SceneNet', pathToNetwork='SceneNet')
     , 'SoS': Network(networkName='SoS', pathToNetwork='SoS')
+    , 'SoS_GoogleNet': Network(networkName='SoS_GoogleNet', pathToNetwork='SoS_GoogleNet')
 }
 
 
@@ -117,7 +118,7 @@ def generate_variations(config):
     print(memory_constraints)
 
 def main():
-    path_to_exp_base = './experiments/infocom/batch'
+    path_to_exp_base = './experiments/infocom/profile-baseline'
 
     path_to_base_config = '{}/base.yaml'.format(path_to_exp_base)
 

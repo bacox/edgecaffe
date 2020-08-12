@@ -97,7 +97,7 @@ def generate_arrivals_all_random(device: str, mem_limit: str, duration_df: pd.Da
 
 def augment_arrivals(arrivals, iat_mul):
     for arrival in arrivals:
-        arrival['time'] *= iat_mul
+        arrival['time'] = int(arrival['time'] * iat_mul)
     return arrivals
 
 def get_network_durations() -> pd.DataFrame:
