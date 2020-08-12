@@ -233,7 +233,7 @@ void EdgeCaffe::Orchestrator::submitInferenceTask(const EdgeCaffe::Arrival arriv
         bagOfTasks.reserve(listOfTasks.size()); // preallocate memory
         bagOfTasks.insert(bagOfTasks.end(), listOfTasks.begin(), listOfTasks.end());
     }
-    if(mode == Type::MODE_TYPE::DEEPEYE)
+    if(mode == Type::MODE_TYPE::DEEPEYE || mode == Type::MODE_TYPE::DEEPEYE_FRUGAL)
     {
 
         int startIndex = std::max<int>(inferenceTasks.size() - arrivalTask.networks.size(), 0);
@@ -250,6 +250,7 @@ void EdgeCaffe::Orchestrator::submitInferenceTask(const EdgeCaffe::Arrival arriv
 
         // Keep track to the last load task for fc layers during this batch
         Task *local_fc_load_last = nullptr;
+        Task *local_fc_exec_last = nullptr;
 
 
         for (auto end=std::end(inferenceTasks); it!=end; ++it)
@@ -267,14 +268,22 @@ void EdgeCaffe::Orchestrator::submitInferenceTask(const EdgeCaffe::Arrival arriv
             // Link fc load tasks
             Task * tmp_fc_load_first = iTask->net->subTasks.front()->fc_load_first;
             Task * tmp_fc_load_last = previous->net->subTasks.front()->fc_load_last;
+            Task * tmp_fc_exec_last = previous->net->subTasks.front()->fc_exec_last;
             // Make sure to use the last known reference is this one does not exist
             if(tmp_fc_load_last != nullptr)
                 local_fc_load_last = tmp_fc_load_last;
+            if(tmp_fc_exec_last != nullptr)
+                local_fc_exec_last = tmp_fc_exec_last;
 
             // Do not try to link the task is one the reference does not exist
             if(tmp_fc_load_first != nullptr && local_fc_load_last != nullptr)
                 tmp_fc_load_first->addTaskDependency(
                         TaskDependency(local_fc_load_last));
+            if(mode == Type::MODE_TYPE::DEEPEYE_FRUGAL)
+            {
+                if (tmp_fc_load_first != nullptr && local_fc_exec_last != nullptr)
+                    tmp_fc_load_first->addTaskDependency(TaskDependency(local_fc_exec_last));
+            }
             previous = (*it);
         }
     }

@@ -118,7 +118,7 @@ def generate_variations(config):
     print(memory_constraints)
 
 def main():
-    path_to_exp_base = './experiments/infocom/profile-baseline'
+    path_to_exp_base = './experiments/infocom/batch'
 
     path_to_base_config = '{}/base.yaml'.format(path_to_exp_base)
 

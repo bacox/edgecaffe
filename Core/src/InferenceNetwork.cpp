@@ -605,6 +605,9 @@ namespace EdgeCaffe
 //                createTasksConvFC();
                 createTasksConvFCV2();
                 break;
+            case Type::MODE_TYPE::DEEPEYE_FRUGAL:
+                createTasksConvFCV2();
+                break;
             case Type::MODE_TYPE::LINEAR:
                 createTasksLinear();
                 break;

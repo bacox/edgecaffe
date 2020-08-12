@@ -29,7 +29,8 @@ namespace EdgeCaffe
             PARTIAL = 3,
             LINEAR = 4,
             EXECPRIO= 5,
-            EXECPRIO_INTER= 6
+            EXECPRIO_INTER= 6,
+            DEEPEYE_FRUGAL= 7
         };
         inline const static std::map<std::string, MODE_TYPE> mapToVals = {
                 {"bulk", BULK},
@@ -38,7 +39,8 @@ namespace EdgeCaffe
                 {"linear",  LINEAR},
                 {"masa", MASA},
                 {"execprio", EXECPRIO},
-                {"execprio-inter", EXECPRIO_INTER}
+                {"execprio-inter", EXECPRIO_INTER},
+                {"deepeye-frugal", DEEPEYE_FRUGAL}
 
         };
 

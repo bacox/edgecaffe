@@ -77,6 +77,8 @@ namespace EdgeCaffe {
                     return EdgeCaffe::MasaOrchestrator::Create();
                 case Type::MODE_TYPE::DEEPEYE:
                     return EdgeCaffe::DeepEyeOrchestrator::Create();
+                case Type::MODE_TYPE::DEEPEYE_FRUGAL:
+                    return EdgeCaffe::DeepEyeOrchestrator::Create();
                 case Type::MODE_TYPE::LINEAR:
                     return EdgeCaffe::LinearOrchestrator::Create();
                 default:
