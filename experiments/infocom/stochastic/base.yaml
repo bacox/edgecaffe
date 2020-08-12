@@ -1,0 +1,19 @@
+#The base configuration for all batch experiments
+network-path: networks
+resources-path: resources
+output-path-base: ../analysis/experiments/infocom/stochastic
+memory-constraints: [512M, 1G, 2G]
+modes: [masa, bulk, deepeye]
+repetitions: 150
+arrival-mode: stochastic
+n_workers: [2]
+cmd-base: bin/Exp_poisson_arrival_rv_nf
+memory-key: valgrind
+build-folder: .
+
+experiments:
+#  - all-random-rpi-1
+#  - all-random-rpi-2
+  - all-random-rpi-4
+#  - quadcopter
+#  - random-composition
