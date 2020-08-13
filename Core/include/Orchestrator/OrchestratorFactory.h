@@ -14,6 +14,7 @@
 #include "MasaOrchestrator.h"
 #include "DeepEyeOrchestrator.h"
 #include "LinearOrchestrator.h"
+#include "MultiBulkOrchestrator.h"
 
 namespace EdgeCaffe {
 
@@ -81,6 +82,8 @@ namespace EdgeCaffe {
                     return EdgeCaffe::DeepEyeOrchestrator::Create();
                 case Type::MODE_TYPE::LINEAR:
                     return EdgeCaffe::LinearOrchestrator::Create();
+                case Type::MODE_TYPE::MULTI_BULK:
+                    return EdgeCaffe::MultiBulkOrchestrator::Create();
                 default:
                     std::cout << "Not implemented or invalid orchestrator type was requested, exiting..." << std::endl;
                     exit(-1);

@@ -198,19 +198,20 @@ def generate_variations(config, network_values):
     base_config = BaseConfig(config['network-path'], config['resources-path'], config['output-path-base']
                              , config['arrival-mode'], config['repetitions']
                              , config['cmd-base'], config['build-folder'])
+
     for memory_constraint in memory_constraints:
+        batch_size = 1
+        base_arrivals = generate_arrivals_all_random(device, memory_constraint, network_values, base_config.n_arrivals, batch_size)
         variations = list(itertools.product(*[modes, n_workers_list, ait_multipliers]))
         for mode, n_workers, ait in variations:
+            arrivals_copy = copy.deepcopy(base_arrivals)
+            arrivals = augment_arrivals(arrivals_copy, ait)
+
             exp_tag = '{}-{}-{}-w{}-a{}'.format(exp_base_tag, memory_constraint, mode, n_workers,ait)
             config_file_path = '{}/{}/{}'.format(config['path-to-exp'], 'configs', memory_constraint)
             config_file = '{}/{}.exp.yaml'.format(config_file_path, exp_tag)
             path_exists(config_file_path)
-            # tag mem_limit mode num_workers arrivals
-            # arrivals = generateArrivalList(base_config.n_arrivals, base_config.arrival_mode, networks)
-            batch_size = 3
-            arrivals = generate_arrivals_all_random(device, memory_constraint, network_values, base_config.n_arrivals, batch_size)
-            # a2 = copy.deepcopy(arrivals)
-            arrivals = augment_arrivals(arrivals, ait)
+
             exp_config = ExpConfig(**base_config._asdict(), tag=exp_tag, mem_limit=memory_constraint, mode=mode, n_workers=n_workers, arrivals=arrivals)
             # exp_config.output_path = '{}/{}'.format(exp_config.output_path, exp_base_tag)
 

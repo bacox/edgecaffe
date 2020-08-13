@@ -623,6 +623,9 @@ namespace EdgeCaffe
             case Type::MODE_TYPE::EXECPRIO_INTER:
                 createPartialTasks();
                 break;
+            case Type::MODE_TYPE::MULTI_BULK:
+                createTasksBulkV2();
+                break;
             default: // Default case is bulk
 //                createTasksBulk();
                 createTasksBulkV2();
