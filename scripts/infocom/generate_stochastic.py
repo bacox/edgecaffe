@@ -77,9 +77,7 @@ def generate_arrivals_all_random(device: str, mem_limit: str, duration_df: pd.Da
         # networks = [create_network_dict(x) for x in net_names]
         # networks = [x for x in net_names]
         arrivals.append({
-            'networks': [
-                networks
-            ],
+            'networks': networks,
             'pathToData': path_to_data,
             'time': float(arrival_time)
         })
