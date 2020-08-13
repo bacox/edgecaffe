@@ -1,0 +1,465 @@
+cmd_base: bin/Exp_poisson_arrival_rv_nf
+build_folder: .
+tag: random-composition-rpi-1-512M-deepeye-frugal-w2-a1
+mem_limit: 512M
+mode: deepeye-frugal
+memory-key: valgrind
+n-arrivals: 50
+n-workers: 2
+network-path: networks
+resources-path: resources
+output-path: ../analysis/experiments/infocom/stochastic/random-composition-rpi-1
+arrival-mode: stochastic
+arrival-list: ./experiments/infocom/stochastic/random-composition-rpi-1/configs/512M/random-composition-rpi-1-512M-deepeye-frugal-w2-a1.exp.yaml
+output-prefix: random-composition-rpi-1-512M-deepeye-frugal-w2-a1
+arrivals:
+- networks:
+  - - networkName: EmotionNet
+      pathToNetwork: EmotionNet
+    - networkName: FaceNet
+      pathToNetwork: FaceNet
+    - networkName: EmotionNet
+      pathToNetwork: EmotionNet
+  pathToData: test_1.jpg
+  time: 176503
+- networks:
+  - - networkName: MemNet
+      pathToNetwork: MemNet
+    - networkName: EmotionNet
+      pathToNetwork: EmotionNet
+    - networkName: SoS
+      pathToNetwork: SoS
+  pathToData: test_1.jpg
+  time: 175243
+- networks:
+  - - networkName: EmotionNet
+      pathToNetwork: EmotionNet
+    - networkName: EmotionNet
+      pathToNetwork: EmotionNet
+    - networkName: AgeNet
+      pathToNetwork: AgeNet
+  pathToData: test_1.jpg
+  time: 175141
+- networks:
+  - - networkName: SceneNet
+      pathToNetwork: SceneNet
+    - networkName: SoS_GoogleNet
+      pathToNetwork: SoS_GoogleNet
+    - networkName: SoS_GoogleNet
+      pathToNetwork: SoS_GoogleNet
+  pathToData: test_1.jpg
+  time: 174107
+- networks:
+  - - networkName: GenderNet
+      pathToNetwork: GenderNet
+    - networkName: EmotionNet
+      pathToNetwork: EmotionNet
+    - networkName: TinyYolo
+      pathToNetwork: TinyYolo
+  pathToData: test_1.jpg
+  time: 175421
+- networks:
+  - - networkName: EmotionNet
+      pathToNetwork: EmotionNet
+    - networkName: EmotionNet
+      pathToNetwork: EmotionNet
+    - networkName: AgeNet
+      pathToNetwork: AgeNet
+  pathToData: test_1.jpg
+  time: 175593
+- networks:
+  - - networkName: SceneNet
+      pathToNetwork: SceneNet
+    - networkName: TinyYolo
+      pathToNetwork: TinyYolo
+    - networkName: EmotionNet
+      pathToNetwork: EmotionNet
+  pathToData: test_1.jpg
+  time: 175590
+- networks:
+  - - networkName: EmotionNet
+      pathToNetwork: EmotionNet
+    - networkName: FaceNet
+      pathToNetwork: FaceNet
+    - networkName: AgeNet
+      pathToNetwork: AgeNet
+  pathToData: test_1.jpg
+  time: 174802
+- networks:
+  - - networkName: TinyYolo
+      pathToNetwork: TinyYolo
+    - networkName: MemNet
+      pathToNetwork: MemNet
+    - networkName: EmotionNet
+      pathToNetwork: EmotionNet
+  pathToData: test_1.jpg
+  time: 175424
+- networks:
+  - - networkName: MemNet
+      pathToNetwork: MemNet
+    - networkName: SoS_GoogleNet
+      pathToNetwork: SoS_GoogleNet
+    - networkName: GenderNet
+      pathToNetwork: GenderNet
+  pathToData: test_1.jpg
+  time: 175638
+- networks:
+  - - networkName: MemNet
+      pathToNetwork: MemNet
+    - networkName: MemNet
+      pathToNetwork: MemNet
+    - networkName: SoS
+      pathToNetwork: SoS
+  pathToData: test_1.jpg
+  time: 174434
+- networks:
+  - - networkName: SoS
+      pathToNetwork: SoS
+    - networkName: EmotionNet
+      pathToNetwork: EmotionNet
+    - networkName: SoS_GoogleNet
+      pathToNetwork: SoS_GoogleNet
+  pathToData: test_1.jpg
+  time: 174095
+- networks:
+  - - networkName: MemNet
+      pathToNetwork: MemNet
+    - networkName: EmotionNet
+      pathToNetwork: EmotionNet
+    - networkName: GenderNet
+      pathToNetwork: GenderNet
+  pathToData: test_1.jpg
+  time: 175088
+- networks:
+  - - networkName: AgeNet
+      pathToNetwork: AgeNet
+    - networkName: FaceNet
+      pathToNetwork: FaceNet
+    - networkName: MemNet
+      pathToNetwork: MemNet
+  pathToData: test_1.jpg
+  time: 175094
+- networks:
+  - - networkName: EmotionNet
+      pathToNetwork: EmotionNet
+    - networkName: SoS
+      pathToNetwork: SoS
+    - networkName: TinyYolo
+      pathToNetwork: TinyYolo
+  pathToData: test_1.jpg
+  time: 174539
+- networks:
+  - - networkName: FaceNet
+      pathToNetwork: FaceNet
+    - networkName: GenderNet
+      pathToNetwork: GenderNet
+    - networkName: EmotionNet
+      pathToNetwork: EmotionNet
+  pathToData: test_1.jpg
+  time: 174733
+- networks:
+  - - networkName: SoS_GoogleNet
+      pathToNetwork: SoS_GoogleNet
+    - networkName: AgeNet
+      pathToNetwork: AgeNet
+    - networkName: SoS_GoogleNet
+      pathToNetwork: SoS_GoogleNet
+  pathToData: test_1.jpg
+  time: 174594
+- networks:
+  - - networkName: SoS
+      pathToNetwork: SoS
+    - networkName: AgeNet
+      pathToNetwork: AgeNet
+    - networkName: EmotionNet
+      pathToNetwork: EmotionNet
+  pathToData: test_1.jpg
+  time: 174572
+- networks:
+  - - networkName: GenderNet
+      pathToNetwork: GenderNet
+    - networkName: SoS_GoogleNet
+      pathToNetwork: SoS_GoogleNet
+    - networkName: AgeNet
+      pathToNetwork: AgeNet
+  pathToData: test_1.jpg
+  time: 174957
+- networks:
+  - - networkName: SceneNet
+      pathToNetwork: SceneNet
+    - networkName: SceneNet
+      pathToNetwork: SceneNet
+    - networkName: FaceNet
+      pathToNetwork: FaceNet
+  pathToData: test_1.jpg
+  time: 174493
+- networks:
+  - - networkName: FaceNet
+      pathToNetwork: FaceNet
+    - networkName: FaceNet
+      pathToNetwork: FaceNet
+    - networkName: EmotionNet
+      pathToNetwork: EmotionNet
+  pathToData: test_1.jpg
+  time: 174762
+- networks:
+  - - networkName: SoS_GoogleNet
+      pathToNetwork: SoS_GoogleNet
+    - networkName: SoS_GoogleNet
+      pathToNetwork: SoS_GoogleNet
+    - networkName: TinyYolo
+      pathToNetwork: TinyYolo
+  pathToData: test_1.jpg
+  time: 174434
+- networks:
+  - - networkName: EmotionNet
+      pathToNetwork: EmotionNet
+    - networkName: SceneNet
+      pathToNetwork: SceneNet
+    - networkName: GenderNet
+      pathToNetwork: GenderNet
+  pathToData: test_1.jpg
+  time: 174252
+- networks:
+  - - networkName: TinyYolo
+      pathToNetwork: TinyYolo
+    - networkName: AgeNet
+      pathToNetwork: AgeNet
+    - networkName: GenderNet
+      pathToNetwork: GenderNet
+  pathToData: test_1.jpg
+  time: 174772
+- networks:
+  - - networkName: SceneNet
+      pathToNetwork: SceneNet
+    - networkName: SoS
+      pathToNetwork: SoS
+    - networkName: EmotionNet
+      pathToNetwork: EmotionNet
+  pathToData: test_1.jpg
+  time: 174838
+- networks:
+  - - networkName: GenderNet
+      pathToNetwork: GenderNet
+    - networkName: SceneNet
+      pathToNetwork: SceneNet
+    - networkName: TinyYolo
+      pathToNetwork: TinyYolo
+  pathToData: test_1.jpg
+  time: 174573
+- networks:
+  - - networkName: FaceNet
+      pathToNetwork: FaceNet
+    - networkName: AgeNet
+      pathToNetwork: AgeNet
+    - networkName: SoS_GoogleNet
+      pathToNetwork: SoS_GoogleNet
+  pathToData: test_1.jpg
+  time: 174810
+- networks:
+  - - networkName: SoS
+      pathToNetwork: SoS
+    - networkName: GenderNet
+      pathToNetwork: GenderNet
+    - networkName: FaceNet
+      pathToNetwork: FaceNet
+  pathToData: test_1.jpg
+  time: 174900
+- networks:
+  - - networkName: GenderNet
+      pathToNetwork: GenderNet
+    - networkName: GenderNet
+      pathToNetwork: GenderNet
+    - networkName: GenderNet
+      pathToNetwork: GenderNet
+  pathToData: test_1.jpg
+  time: 174998
+- networks:
+  - - networkName: MemNet
+      pathToNetwork: MemNet
+    - networkName: MemNet
+      pathToNetwork: MemNet
+    - networkName: FaceNet
+      pathToNetwork: FaceNet
+  pathToData: test_1.jpg
+  time: 175602
+- networks:
+  - - networkName: GenderNet
+      pathToNetwork: GenderNet
+    - networkName: GenderNet
+      pathToNetwork: GenderNet
+    - networkName: TinyYolo
+      pathToNetwork: TinyYolo
+  pathToData: test_1.jpg
+  time: 175437
+- networks:
+  - - networkName: SoS
+      pathToNetwork: SoS
+    - networkName: MemNet
+      pathToNetwork: MemNet
+    - networkName: SoS_GoogleNet
+      pathToNetwork: SoS_GoogleNet
+  pathToData: test_1.jpg
+  time: 174464
+- networks:
+  - - networkName: TinyYolo
+      pathToNetwork: TinyYolo
+    - networkName: SoS_GoogleNet
+      pathToNetwork: SoS_GoogleNet
+    - networkName: FaceNet
+      pathToNetwork: FaceNet
+  pathToData: test_1.jpg
+  time: 175037
+- networks:
+  - - networkName: AgeNet
+      pathToNetwork: AgeNet
+    - networkName: EmotionNet
+      pathToNetwork: EmotionNet
+    - networkName: EmotionNet
+      pathToNetwork: EmotionNet
+  pathToData: test_1.jpg
+  time: 174832
+- networks:
+  - - networkName: TinyYolo
+      pathToNetwork: TinyYolo
+    - networkName: FaceNet
+      pathToNetwork: FaceNet
+    - networkName: GenderNet
+      pathToNetwork: GenderNet
+  pathToData: test_1.jpg
+  time: 174476
+- networks:
+  - - networkName: FaceNet
+      pathToNetwork: FaceNet
+    - networkName: MemNet
+      pathToNetwork: MemNet
+    - networkName: EmotionNet
+      pathToNetwork: EmotionNet
+  pathToData: test_1.jpg
+  time: 174695
+- networks:
+  - - networkName: GenderNet
+      pathToNetwork: GenderNet
+    - networkName: GenderNet
+      pathToNetwork: GenderNet
+    - networkName: SoS_GoogleNet
+      pathToNetwork: SoS_GoogleNet
+  pathToData: test_1.jpg
+  time: 174620
+- networks:
+  - - networkName: EmotionNet
+      pathToNetwork: EmotionNet
+    - networkName: MemNet
+      pathToNetwork: MemNet
+    - networkName: MemNet
+      pathToNetwork: MemNet
+  pathToData: test_1.jpg
+  time: 173806
+- networks:
+  - - networkName: GenderNet
+      pathToNetwork: GenderNet
+    - networkName: AgeNet
+      pathToNetwork: AgeNet
+    - networkName: SoS_GoogleNet
+      pathToNetwork: SoS_GoogleNet
+  pathToData: test_1.jpg
+  time: 175448
+- networks:
+  - - networkName: FaceNet
+      pathToNetwork: FaceNet
+    - networkName: AgeNet
+      pathToNetwork: AgeNet
+    - networkName: SoS
+      pathToNetwork: SoS
+  pathToData: test_1.jpg
+  time: 174734
+- networks:
+  - - networkName: FaceNet
+      pathToNetwork: FaceNet
+    - networkName: EmotionNet
+      pathToNetwork: EmotionNet
+    - networkName: SoS_GoogleNet
+      pathToNetwork: SoS_GoogleNet
+  pathToData: test_1.jpg
+  time: 173889
+- networks:
+  - - networkName: SceneNet
+      pathToNetwork: SceneNet
+    - networkName: AgeNet
+      pathToNetwork: AgeNet
+    - networkName: AgeNet
+      pathToNetwork: AgeNet
+  pathToData: test_1.jpg
+  time: 174577
+- networks:
+  - - networkName: SoS_GoogleNet
+      pathToNetwork: SoS_GoogleNet
+    - networkName: SoS_GoogleNet
+      pathToNetwork: SoS_GoogleNet
+    - networkName: MemNet
+      pathToNetwork: MemNet
+  pathToData: test_1.jpg
+  time: 175293
+- networks:
+  - - networkName: SoS_GoogleNet
+      pathToNetwork: SoS_GoogleNet
+    - networkName: SoS_GoogleNet
+      pathToNetwork: SoS_GoogleNet
+    - networkName: MemNet
+      pathToNetwork: MemNet
+  pathToData: test_1.jpg
+  time: 175203
+- networks:
+  - - networkName: EmotionNet
+      pathToNetwork: EmotionNet
+    - networkName: AgeNet
+      pathToNetwork: AgeNet
+    - networkName: TinyYolo
+      pathToNetwork: TinyYolo
+  pathToData: test_1.jpg
+  time: 174970
+- networks:
+  - - networkName: FaceNet
+      pathToNetwork: FaceNet
+    - networkName: EmotionNet
+      pathToNetwork: EmotionNet
+    - networkName: SoS_GoogleNet
+      pathToNetwork: SoS_GoogleNet
+  pathToData: test_1.jpg
+  time: 173804
+- networks:
+  - - networkName: GenderNet
+      pathToNetwork: GenderNet
+    - networkName: TinyYolo
+      pathToNetwork: TinyYolo
+    - networkName: GenderNet
+      pathToNetwork: GenderNet
+  pathToData: test_1.jpg
+  time: 174665
+- networks:
+  - - networkName: SoS
+      pathToNetwork: SoS
+    - networkName: SoS
+      pathToNetwork: SoS
+    - networkName: MemNet
+      pathToNetwork: MemNet
+  pathToData: test_1.jpg
+  time: 174666
+- networks:
+  - - networkName: EmotionNet
+      pathToNetwork: EmotionNet
+    - networkName: EmotionNet
+      pathToNetwork: EmotionNet
+    - networkName: SceneNet
+      pathToNetwork: SceneNet
+  pathToData: test_1.jpg
+  time: 175051
+- networks:
+  - - networkName: MemNet
+      pathToNetwork: MemNet
+    - networkName: GenderNet
+      pathToNetwork: GenderNet
+    - networkName: AgeNet
+      pathToNetwork: AgeNet
+  pathToData: test_1.jpg
+  time: 175249

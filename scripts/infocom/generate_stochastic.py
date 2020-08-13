@@ -49,44 +49,36 @@ def find_close_series(target_mean: float, mu: float, sigma: float, n: int, offse
         delta = diff / target_mean
     return series
 
-def generate_arrivals_all_random(device: str, mem_limit: str, duration_df: pd.DataFrame, n: int):
+
+def create_network_dict(net_name):
+    return {'networkName': str(net_name), 'pathToNetwork': str(net_name)}
+
+def generate_arrivals_all_random(device: str, mem_limit: str, duration_df: pd.DataFrame, n: int, batch_size: int = 1):
     local_df = duration_df[(duration_df['device'] == device) & (duration_df['mem_limit'] == mem_limit)]
     average_duration = local_df['duration'].mean()
     # arrival_times = np.random.poisson(average_duration, n)
     sigma = 500
-    arrival_times_normal = find_close_series(average_duration, average_duration, sigma, n)
+    arrival_times_normal = find_close_series(average_duration*batch_size, average_duration*batch_size, sigma, n)
     # arrival_times_normal = np.random.normal(average_duration, sigma , n)
 
-    networks = local_df['network'].unique().tolist()
+    network_names = local_df['network'].unique().tolist()
     path_to_data = 'test_1.jpg'
     arrivals = []
-    for arrival_time in arrival_times_normal:
+    for arrival_time in list(arrival_times_normal):
+        # net_names = list(np.random.choice(networks, 3))
+        networks = []
+        for item in range(batch_size):
+            net_name = str(random.choice(network_names))
+            networks.append(create_network_dict(net_name))
+# for net_name in net_names:
+#             networks.append(create_network_dict(net_name).copy())
 
-
-        # net_name = copy.deepcopy(str(np.random.choice(networks, 1)[0]))
-        # index = np.random.choice(np.array(networks).shape[0], 1, replace=False)
-        # net_name = networks[index[0]]
-        net_name = str(random.choice(networks))
-        # arrival = {
-        #     'networks': [
-        #         {'networkName': net_name, 'pathToNetwork': net_name}
-        #     ]
-        # }
-        # networks = []
-        # #
-        # networks.append({'networkName': net_name, 'pathToNetwork': net_name})
-        # # arrival = {
-        # #
-        # #
-        # #     'pathToData': path_to_data,
-        # #     'time': arrival_time
-        # # }
-        # # arrival['networks'] = networks
-        # arrival['pathToData'] = path_to_data
-        # arrival['time'] = float(arrival_time)
+        # Really weird why python keeps hanging
+        # networks = [create_network_dict(x) for x in net_names]
+        # networks = [x for x in net_names]
         arrivals.append({
             'networks': [
-                {'networkName': net_name, 'pathToNetwork': net_name}
+                networks
             ],
             'pathToData': path_to_data,
             'time': float(arrival_time)
@@ -217,8 +209,9 @@ def generate_variations(config, network_values):
             path_exists(config_file_path)
             # tag mem_limit mode num_workers arrivals
             # arrivals = generateArrivalList(base_config.n_arrivals, base_config.arrival_mode, networks)
-            arrivals = generate_arrivals_all_random(device, memory_constraint, network_values, base_config.n_arrivals)
-            a2 = copy.deepcopy(arrivals)
+            batch_size = 3
+            arrivals = generate_arrivals_all_random(device, memory_constraint, network_values, base_config.n_arrivals, batch_size)
+            # a2 = copy.deepcopy(arrivals)
             arrivals = augment_arrivals(arrivals, ait)
             exp_config = ExpConfig(**base_config._asdict(), tag=exp_tag, mem_limit=memory_constraint, mode=mode, n_workers=n_workers, arrivals=arrivals)
             # exp_config.output_path = '{}/{}'.format(exp_config.output_path, exp_base_tag)

@@ -3,8 +3,8 @@
 
 n_workers: [2]
 ait-multiplier: [0.8, 1, 1.2]
-modes: [masa, bulk, deepeye]
-memory-constraints: [1G, 512M]
+modes: [masa, bulk, deepeye-frugal]
+memory-constraints: [2G, 1G, 512M]
 networks: [FaceNet, ObjectNet, EmotionNet, MemNet, AgeNet, GenderNet, TinyYolo, SceneNet, SoS]
-experiment-tag: all-random-rpi-1
-device: rpi-1
+experiment-tag: random-composition-rpi-4
+device: rpi-4
