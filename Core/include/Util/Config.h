@@ -167,7 +167,7 @@ namespace EdgeCaffe {
             configAsText["sched"] = schedAlg.valueOrDefault();
 
             parseArg(result, "memory-key", memoryKey);
-            if(memoryKey() != "rss" && memoryKey() != "valgrind")
+            if(memoryKey() != "rss" && memoryKey() != "valgrind" && memoryKey() != "valgrind-050"  && memoryKey() != "valgrind-150" && memoryKey() != "valgrind-075"  && memoryKey() != "valgrind-125")
             {
                 std::cerr << "Invalid config: " << memoryKey() << " is not allowed for 'memory-key'" << std::endl;
                 memoryKey.configItem = "valgrind";

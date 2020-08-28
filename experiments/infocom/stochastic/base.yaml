@@ -22,4 +22,5 @@ experiments:
 #  - random-composition-rpi-1-50-shot
 #  - random-composition-rpi-2
 #  - random-composition-rpi-4
-  - random-composition-rpi-4-50-shot
+#  - random-composition-rpi-4-50-shot
+  - random-composition-rpi-4-2nd-50-shot

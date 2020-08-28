@@ -14,6 +14,8 @@ num-conv-layers: 16
 num-fc-layers: 8
 mean-execution-time: 2105
 max-memory-valgrind: 664
+max-memory-valgrind-150: 996
+max-memory-valgrind-050: 332
 max-memory-rss: 771
 conv-layers:
   - id: 0

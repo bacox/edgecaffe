@@ -200,7 +200,7 @@ def generate_variations(config, network_values):
                              , config['cmd-base'], config['build-folder'])
 
     for memory_constraint in memory_constraints:
-        batch_size = 1
+        batch_size = 3
         base_arrivals = generate_arrivals_all_random(device, memory_constraint, network_values, base_config.n_arrivals, batch_size)
         variations = list(itertools.product(*[modes, n_workers_list, ait_multipliers]))
         for mode, n_workers, ait in variations:
