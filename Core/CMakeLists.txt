@@ -54,3 +54,23 @@ else()
             ${EDGECAFFE_LINK}
             )
 endif ()
+
+
+add_executable(hrrn_test test/hrrn_test.cpp)
+if (${BUILD_SHARED_LIBS})
+    target_link_libraries(hrrn_test
+            gtest
+            ${PROJECT_NAME}
+            caffe
+            ${EDGECAFFE_LINK}
+            )
+else()
+    target_link_libraries(hrrn_test
+            ${PROJECT_NAME}
+            gtest
+            -Wl,--whole-archive
+            caffe
+            -Wl,--no-whole-archive
+            ${EDGECAFFE_LINK}
+            )
+endif ()

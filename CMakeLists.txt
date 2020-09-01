@@ -55,7 +55,7 @@ if (UNIX OR APPLE)
 endif ()
 
 # Setting compiler flags
-SET(LINK_FLAGS "-L/usr/local/lib/ -lprotobuf -pthread -lyaml-cpp -lpthread -lboost_system -Wl,--no-whole-archive")
+SET(LINK_FLAGS "-L/usr/local/lib/ -lprotobuf -pthread -lpthread -lboost_system -Wl,--no-whole-archive")
 SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${COMPILE_FLAGS}")
 SET(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${LINK_FLAGS}")
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
@@ -68,7 +68,7 @@ find_package(PkgConfig REQUIRED)
 find_package(yaml-cpp REQUIRED)
 pkg_check_modules(YAML_CPP REQUIRED yaml-cpp)
 list(APPEND EDGECAFFE_LINK ${YAML_CPP_LINK_LIBRARIES})
-
+MESSAGE(STATUS "YAML_LINK: ${YAML_CPP_LINK_LIBRARIES} && ${YAML_CPP_LIBRARIES}")
 # ---[ Google-Glog
 include("${CMAKE_SOURCE_DIR}/caffe/cmake/Modules/FindGlog.cmake")
 list(APPEND EDGECAFFE_INCLUDE ${GLOG_INCLUDE_DIR})
