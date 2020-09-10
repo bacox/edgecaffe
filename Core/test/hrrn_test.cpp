@@ -15,16 +15,19 @@ protected:
     void SetUp() override {
         scheduler = std::make_shared<EdgeCaffe::MasaHrrnScheduler>(mc, nr);
         tasks.push_back(std::make_shared<EdgeCaffe::DummyTask>(2, 0, "", 5));
+        tasks.front()->t_type = EdgeCaffe::Task::EXEC;
         tasks.push_back(std::make_shared<EdgeCaffe::DummyTask>(1, 0, "", 1));
+        tasks.front()->t_type = EdgeCaffe::Task::EXEC;
         tasks.push_back(std::make_shared<EdgeCaffe::DummyTask>(3, 0, "", 10));
+        tasks.front()->t_type = EdgeCaffe::Task::EXEC;
         tasks.push_back(std::make_shared<EdgeCaffe::DummyTask>(4, 0, "", 100));
+        tasks.front()->t_type = EdgeCaffe::Task::EXEC;
     }
 
     // void TearDown() override {}
     std::shared_ptr<EdgeCaffe::NetworkRegistry> nr = std::make_shared<EdgeCaffe::NetworkRegistry>();
     std::shared_ptr<EdgeCaffe::MemoryCounter> mc = std::make_shared<EdgeCaffe::MemoryCounter>();
     std::shared_ptr<EdgeCaffe::MasaHrrnScheduler> scheduler;
-
     std::vector<std::shared_ptr<EdgeCaffe::Task>> tasks;
 };
 
@@ -59,7 +62,7 @@ TEST_F(HrrnTest, NotSortedBeforeUse)
     int idx = 0;
     for(auto&& item : scheduler->getPool())
         // The order in the scheduler should be the same as the order of the input list.
-        EXPECT_EQ(tasks[idx++]->id, item.id);
+        EXPECT_EQ(tasks[idx++]->id, *item.id);
 }
 
 /**
@@ -107,9 +110,9 @@ TEST_F(HrrnTest, LongFirst)
 {
     scheduler->addTask(tasks[3].get());
     std::this_thread::sleep_for(std::chrono::milliseconds(200));
-    // Make sure the passed time has been registered and processed.
-    scheduler->calcElapsedTime();
-    scheduler->updateTime();
+//    // Make sure the passed time has been registered and processed.
+//    scheduler->calcElapsedTime();
+//    scheduler->updateTime();
     scheduler->addTask(tasks[0].get());
     scheduler->addTask(tasks[1].get());
     scheduler->addTask(tasks[2].get());
@@ -140,9 +143,9 @@ TEST_F(HrrnTest, ShortKeepOrder)
 {
     scheduler->addTask(tasks[3].get());
     std::this_thread::sleep_for(std::chrono::milliseconds(5));
-    // Make sure the passed time has been registered and processed.
-    scheduler->calcElapsedTime();
-    scheduler->updateTime();
+//    // Make sure the passed time has been registered and processed.
+//    scheduler->calcElapsedTime();
+//    scheduler->updateTime();
     scheduler->addTask(tasks[0].get());
     scheduler->addTask(tasks[1].get());
     scheduler->addTask(tasks[2].get());
@@ -151,14 +154,11 @@ TEST_F(HrrnTest, ShortKeepOrder)
     scheduler->sortTasks();
     auto sortedTasks = scheduler->getPool();
 
-    EXPECT_EQ(1, sortedTasks[0].id);
-    EXPECT_EQ(2, sortedTasks[1].id);
-    EXPECT_EQ(3, sortedTasks[2].id);
-    EXPECT_EQ(4, sortedTasks[3].id);
-
-
+    EXPECT_EQ(1, *(sortedTasks[0].id));
+    EXPECT_EQ(2, *(sortedTasks[1].id));
+    EXPECT_EQ(3, *(sortedTasks[2].id));
+    EXPECT_EQ(4, *(sortedTasks[3].id));
 }
-
 
 int main(int argc, char *argv[]) {
     ::testing::InitGoogleTest(&argc, argv);

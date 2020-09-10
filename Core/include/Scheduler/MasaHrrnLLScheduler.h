@@ -1,16 +1,16 @@
 //
-// Created by bacox on 28/08/2020.
+// Created by bacox on 03/09/2020.
 //
 
-#ifndef EDGECAFFE_MASAHRRNSCHEDULER_H
-#define EDGECAFFE_MASAHRRNSCHEDULER_H
+#ifndef EDGECAFFE_MASAHRRNLLSCHEDULER_H
+#define EDGECAFFE_MASAHRRNLLSCHEDULER_H
 
 #include "Scheduler.h"
+#include <list>
 
 namespace EdgeCaffe
 {
-
-    class MasaHrrnScheduler : public Scheduler
+    class MasaHrrnLLScheduler: public Scheduler
     {
     public:
         class HrrnItem {
@@ -18,13 +18,13 @@ namespace EdgeCaffe
             Task::TYPE *type;
             int *id;
             HrrnItem(Task::TYPE &type, int &id, int serviceTime, Task *tPtr, int waitingTime = 1, float rr = 0) : type(&type),
-                                                                                                        id(&id),
-                                                                                                        serviceTime(
-                                                                                                                serviceTime
-                                                                                                        ), t_ptr(tPtr),
-                                                                                                        waitingTime(
-                                                                                                                waitingTime
-                                                                                                        ), rr(rr)
+                                                                                                                  id(&id),
+                                                                                                                  serviceTime(
+                                                                                                                          serviceTime
+                                                                                                                  ), t_ptr(tPtr),
+                                                                                                                  waitingTime(
+                                                                                                                          waitingTime
+                                                                                                                  ), rr(rr)
             {}
 
             int serviceTime = 0;
@@ -48,8 +48,7 @@ namespace EdgeCaffe
 
         };
     private:
-//        std::vector<HrrnItem> pool;
-        std::vector<EdgeCaffe::Task *> pool;
+        std::list<HrrnItem> pool;
         int elapsed_time = 0;
         std::chrono::time_point<std::chrono::system_clock> last_tp;
     public:
@@ -71,12 +70,11 @@ namespace EdgeCaffe
 
         bool getNext(Task **t_ptr) override;
 
-        MasaHrrnScheduler(const std::shared_ptr<MemoryCounter> &mc, const std::shared_ptr<NetworkRegistry> &nr);
+        MasaHrrnLLScheduler(const std::shared_ptr<MemoryCounter> &mc, const std::shared_ptr<NetworkRegistry> &nr);
 
-//        const std::vector<HrrnItem> &getPool() const;
-        const std::vector<EdgeCaffe::Task*> &getPool() const;
+        const std::list<HrrnItem> &getPool() const;
     };
 }
 
 
-#endif //EDGECAFFE_MASAHRRNSCHEDULER_H
+#endif //EDGECAFFE_MASAHRRNLLSCHEDULER_H

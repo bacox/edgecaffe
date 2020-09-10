@@ -74,3 +74,5 @@ else()
             ${EDGECAFFE_LINK}
             )
 endif ()
+
+add_subdirectory(benchmark)
