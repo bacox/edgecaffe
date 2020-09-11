@@ -2,6 +2,7 @@ import argparse
 import collections
 from pathlib import Path
 from typing import List
+from run_single_exp import run_single_exp
 
 available_commands = [
     'list'
@@ -10,11 +11,13 @@ available_commands = [
     , 'halt'
     , 'run'
 ]
+current_path = Path(__file__).parent
 
-queue_file = 'queue.tmp.txt'
-pre_queue_file = 'pre-queue.tmp.txt'
-
+queue_file = str(current_path / 'queue.tmp.txt')
+pre_queue_file = str(current_path / 'pre-queue.tmp.txt')
+dry_run_backup_file = str(current_path / 'dry-run.tmp.txt')
 QueueItem = collections.namedtuple('QueueItem', 'name configPath')
+base_script = 'sudo bash ./scripts/infocom/exp_base_cgroup.sh'
 
 
 class ExperimentQueue:
@@ -48,6 +51,12 @@ class ExperimentQueue:
             eq.add_from_line(line)
         return eq
 
+def print_progress(idx: int, total: int):
+    print("")
+    print('*' * 25)
+    print('Running experiment {}'.format(idx + 1))
+    print('Progress {}/{}'.format(idx + 1, total))
+    print('*' * 25)
 
 def load_queue(filename: str) -> ExperimentQueue:
     assert isinstance(filename, str), f'Argument of wrong type, should be a string and is a {type(filename)}!'
@@ -103,6 +112,7 @@ def file_exists(filename: str) -> bool:
 def ensure_files_exists():
     create_file(queue_file)
     create_file(pre_queue_file)
+    create_file(dry_run_backup_file)
 
 
 def create_file(filename: str):
@@ -111,20 +121,35 @@ def create_file(filename: str):
     p.touch()
 
 
+def exp_call(qi: QueueItem, dry_run: bool = False):
+    build_folder = '.'
+    record_thermal = True
+    exp_file = qi.configPath
+
+    run_single_exp(exp_file, base_script, dry_run=dry_run, build_folder=build_folder, record_thermal=record_thermal)
+
+
 def cmd_run(dry_run=False):
     queue = load_queue(queue_file)
-    count = queue.size()
+    total = count = queue.size()
+    print(f'There are {queue.size()} experiments to be run')
+    save_queue(queue, dry_run_backup_file)
     while count:
         next_item = queue.next()
         save_queue(queue, queue_file)
-        print(f'Found a new item {next_item}')
-
+        # print(f'Found a new item {next_item}')
+        print_progress(total - count, total)
         # Execute experiment
-
+        try:
+            exp_call(next_item, dry_run=dry_run)
+        except FileNotFoundError:
+            print(f'Cannot find file: {next_item.configPath}')
         # Update count
         queue = load_queue(queue_file)
         count = queue.size()
-    print('Executing cmd run')
+    if dry_run:
+        dry_run_queue = load_queue(dry_run_backup_file)
+        save_queue(dry_run_queue, queue_file)
 
 
 def cmd_halt(dry_run=False):
@@ -150,15 +175,15 @@ def cmd_list(dry_run=False):
 
 def exec_sumcommand(cmd, **kwargs):
     if cmd == 'list':
-        cmd_list()
+        cmd_list(**kwargs)
     elif cmd == 'size':
-        cmd_list()
+        cmd_list(**kwargs)
     elif cmd == 'run':
-        cmd_run()
+        cmd_run(**kwargs)
     elif cmd == 'add':
-        cmd_add()
+        cmd_add(**kwargs)
     elif cmd == 'halt':
-        cmd_halt()
+        cmd_halt(**kwargs)
     else:
         print(f'Invalid command \'{cmd}\'!')
         exit(1)
@@ -173,4 +198,4 @@ if __name__ == "__main__":
     parser.add_argument("--dry-run", help="Do a dry run; No calling the generated command", action='store_true')
     args = parser.parse_args()
     ensure_files_exists()
-    exec_sumcommand(args.subcommand)
+    exec_sumcommand(args.subcommand, dry_run=args.dry_run)
