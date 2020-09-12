@@ -62,7 +62,7 @@ TEST_F(HrrnTest, NotSortedBeforeUse)
     int idx = 0;
     for(auto&& item : scheduler->getPool())
         // The order in the scheduler should be the same as the order of the input list.
-        EXPECT_EQ(tasks[idx++]->id, *item.id);
+        EXPECT_EQ(tasks[idx++]->id, item->id);
 }
 
 /**
@@ -154,10 +154,10 @@ TEST_F(HrrnTest, ShortKeepOrder)
     scheduler->sortTasks();
     auto sortedTasks = scheduler->getPool();
 
-    EXPECT_EQ(1, *(sortedTasks[0].id));
-    EXPECT_EQ(2, *(sortedTasks[1].id));
-    EXPECT_EQ(3, *(sortedTasks[2].id));
-    EXPECT_EQ(4, *(sortedTasks[3].id));
+    EXPECT_EQ(1, sortedTasks[0]->id);
+    EXPECT_EQ(2, sortedTasks[1]->id);
+    EXPECT_EQ(3, sortedTasks[2]->id);
+    EXPECT_EQ(4, sortedTasks[3]->id);
 }
 
 int main(int argc, char *argv[]) {
