@@ -234,7 +234,7 @@ def generate_variations(config, network_values):
     print(memory_constraints)
 
 def main():
-    path_to_exp_base = './experiments/infocom/stochastic'
+    path_to_exp_base = './experiments/infocom/stochastic-thesis'
 
     path_to_base_config = '{}/base.yaml'.format(path_to_exp_base)
 

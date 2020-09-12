@@ -2,7 +2,9 @@ import argparse
 import collections
 from pathlib import Path
 from typing import List
+from datetime import datetime
 from run_single_exp import run_single_exp
+import glob
 
 available_commands = [
     'list'
@@ -10,6 +12,7 @@ available_commands = [
     , 'add'
     , 'halt'
     , 'run'
+    , 'config2queue'
 ]
 current_path = Path(__file__).parent
 
@@ -51,12 +54,26 @@ class ExperimentQueue:
             eq.add_from_line(line)
         return eq
 
+
 def print_progress(idx: int, total: int):
     print("")
     print('*' * 25)
     print('Running experiment {}'.format(idx + 1))
     print('Progress {}/{}'.format(idx + 1, total))
     print('*' * 25)
+
+
+def write_progress_to_log(idx: int, total: int, exp_file: str, log_file: str = './out.log', started: bool = False):
+    now = datetime.now()
+    datetime_str = now.strftime("%d/%m/%Y %H:%M:%S")
+    action = 'Finished'
+    if started:
+        action = 'Started\t'
+    line = '{} {}\t{}/{}\t{}\n'.format(action, datetime_str, idx, total - 1, exp_file)
+    with open(log_file, "a") as log_file:
+        log_file.write(line)
+        log_file.flush()
+
 
 def load_queue(filename: str) -> ExperimentQueue:
     assert isinstance(filename, str), f'Argument of wrong type, should be a string and is a {type(filename)}!'
@@ -137,13 +154,17 @@ def cmd_run(dry_run=False):
     while count:
         next_item = queue.next()
         save_queue(queue, queue_file)
+        idx = total - count
         # print(f'Found a new item {next_item}')
-        print_progress(total - count, total)
+        print_progress(idx, total)
         # Execute experiment
         try:
+            write_progress_to_log(idx, total, next_item.configPath, started=True)
             exp_call(next_item, dry_run=dry_run)
         except FileNotFoundError:
             print(f'Cannot find file: {next_item.configPath}')
+        finally:
+            write_progress_to_log(idx, total, next_item.configPath)
         # Update count
         queue = load_queue(queue_file)
         count = queue.size()
@@ -159,10 +180,10 @@ def cmd_halt(dry_run=False):
     print(f'{queue.size()} experiments are set back to the pre-queue')
 
 
-def cmd_add(dry_run=False):
-    pre_queue = load_queue(pre_queue_file)
+def cmd_add(dry_run=False, filename: str = pre_queue_file):
+    pre_queue = load_queue(filename)
     append_queue(pre_queue, queue_file)
-    clear_file_contents(pre_queue_file)
+    clear_file_contents(filename)
     print(f'{pre_queue.size()} experiments are added to the queue')
 
 
@@ -172,6 +193,19 @@ def cmd_list(dry_run=False):
     save_queue(queue, queue_file)
     print(f'Number of queued experiments is {count}')
 
+def parse_name(path: str) -> str:
+    parts = path.split('/')
+    return '-'.join([parts[3], parts[4], parts[6]])
+
+def cmd_configs_to_queue_file(dry_run=False, filename: str = 'experiments.tmp.txt'):
+    if filename is None:
+        filename = 'experiments.tmp.txt'
+    glob_str = './experiments/infocom/stochastic-thesis/*rpi-4*/configs/*/*.yaml'
+    files = glob.glob(glob_str)
+    files = [parse_name(f) + ' ' + f for f in files]
+    queue = ExperimentQueue.load_from_lines(files)
+    save_queue(queue, filename)
+    print(f'Saved {queue.size()} experiments to the file: \'{filename}\'')
 
 def exec_sumcommand(cmd, **kwargs):
     if cmd == 'list':
@@ -184,6 +218,8 @@ def exec_sumcommand(cmd, **kwargs):
         cmd_add(**kwargs)
     elif cmd == 'halt':
         cmd_halt(**kwargs)
+    elif cmd == 'config2queue':
+        cmd_configs_to_queue_file(**kwargs)
     else:
         print(f'Invalid command \'{cmd}\'!')
         exit(1)
@@ -198,4 +234,4 @@ if __name__ == "__main__":
     parser.add_argument("--dry-run", help="Do a dry run; No calling the generated command", action='store_true')
     args = parser.parse_args()
     ensure_files_exists()
-    exec_sumcommand(args.subcommand, dry_run=args.dry_run)
+    exec_sumcommand(args.subcommand, dry_run=args.dry_run, filename=args.file)
