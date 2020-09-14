@@ -259,7 +259,7 @@ The folder `analysis` hold two python notebooks that can be used for analysis.
 * `layer-satistics.exp.ipynb`: This notebook can be used to generate the statistic files for each network. It calculates the mean of the loading and execution times of each layer in each network and outputs this to a csv file.
 
 ## Contribute
-
+EdgeCaffe welcomes all contributions.
 The following work-flow is used for contributions:
 
 * Clone repository
