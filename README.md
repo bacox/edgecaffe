@@ -12,7 +12,7 @@ Additional documentation can be found at the [wiki](https://gitlab.com/bacox/edg
 
 The project is divided in six sections:
 
-* `./caffe`: This holds the original caffe code.
+* `./caffe`: This holds the original caffe code (includes license of bvlc/caffe).
 * `./Core`: The code extension to facilitate the partial loading and execution.
 * `./networks`: The networks and their descriptive files. Each model to work needs 3 files:
   * `description.yml` file that describes the network for EdgeCaffe
