@@ -1,4 +1,6 @@
 # EdgeCaffe (Ubuntu 18.04)
+[![License](https://img.shields.io/badge/license-BSD-blue.svg)](LICENSE)
+
 
 The EdgeCaffe project aims to run the [Caffe Deep Learning framework](https://github.com/BVLC/caffe) on edge devices. The code has is targeted for Ubuntu 18.04 for both x86-64 and Raspberry Pi machines (ARMv8-A).
 
