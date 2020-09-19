@@ -4,7 +4,7 @@ resources-path: resources
 output-path-base: ../analysis/experiments/infocom/profile-baseline
 memory-constraints: [512M, 1G, 2G]
 modes: [bulk]
-repetitions: 10
+repetitions: 50
 arrival-mode: batch
 n_workers: [1]
 cmd-base: bin/Exp_poisson_arrival_rv_nf

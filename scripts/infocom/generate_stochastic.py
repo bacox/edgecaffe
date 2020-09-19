@@ -53,6 +53,91 @@ def find_close_series(target_mean: float, mu: float, sigma: float, n: int, offse
 def create_network_dict(net_name):
     return {'networkName': str(net_name), 'pathToNetwork': str(net_name)}
 
+def generate_quad_copter(device: str, mem_limit: str, duration_df: pd.DataFrame, n: int, batch_size: int = 1):
+    # Set probability of single network
+    need_single_dnn_p = 0.75
+    # All network names that participate
+    network_names = ['TinyYolo', 'AgeNet', 'GenderNet', 'FaceNet', 'SceneNet']
+    single_network_name = 'TinyYolo'
+    local_df = duration_df[(duration_df['device'] == device) & (duration_df['mem_limit'] == mem_limit)]
+    tiny_yolo_mean = local_df[local_df['network'] == single_network_name]['duration'].sum()
+    group_mean = local_df[local_df['network'].isin(network_names)]['duration'].sum()
+
+    sigma = 1000 # in ms
+
+    average_duration = (need_single_dnn_p * tiny_yolo_mean) + ((1-need_single_dnn_p) * group_mean)
+
+    arrival_times_normal = find_close_series(average_duration*batch_size, average_duration*batch_size, sigma, n)
+    need_batch_of_networks_choices: List[int] = np.random.choice(2, n, p=[need_single_dnn_p, 1 - need_single_dnn_p]).tolist()
+    path_to_data = 'test_1.jpg'
+    arrivals = []
+    for arrival_time in list(arrival_times_normal):
+    # for need_batch in need_batch_of_networks_choices:
+        networks = []
+        need_batch = need_batch_of_networks_choices.pop()
+        if need_batch:
+            print('Run all 5 networks')
+            for net in network_names:
+                networks.append(create_network_dict(net))
+        else:
+            print('Only run TinyYolo')
+            networks.append(create_network_dict(single_network_name))
+
+        arrivals.append({
+            'networks': networks,
+            'pathToData': path_to_data,
+            'time': float(arrival_time)
+        })
+
+
+    print('generate_quad_copter')
+    return arrivals
+
+
+def generate_arrivals_random_composition(device: str, mem_limit: str, duration_df: pd.DataFrame, n: int, batch_size: int = 1):
+
+    networks_to_use = duration_df['network'].unique()
+    num_networks = len(networks_to_use)
+    local_df = duration_df[(duration_df['device'] == device) & (duration_df['mem_limit'] == mem_limit)]
+
+    average_duration = local_df[local_df['network'].isin(networks_to_use)]['duration'].mean()
+
+    # Average number of networks
+    # Use dist base on geometric series
+    probs = np.ones(num_networks)
+    val = 0.5
+    for idx, i in enumerate(probs):
+        probs[idx] *= val
+        val *= 0.5
+    # Make sure sum is 1.0
+    probs[-1] = (1 - np.sum(probs)) + probs[-1]
+    # # Use uniform dist
+    # probs = np.ones(num_networks) * (1/num_networks)
+
+    numbers = np.arange(1, num_networks+1)
+    avg_num_networks = np.average(numbers, weights=probs)
+
+    sigma = 500
+    arrival_times_normal = find_close_series(average_duration*avg_num_networks, average_duration*avg_num_networks, sigma, n)
+
+    path_to_data = 'test_1.jpg'
+    arrivals = []
+    for arrival_time in list(arrival_times_normal):
+        # net_names = list(np.random.choice(networks, 3))
+        networks = []
+        num_select_networks = np.random.choice(num_networks, p=probs) + 1
+        selected_networks = np.random.choice(networks_to_use, num_select_networks, replace=False)
+        for net_name in selected_networks:
+            networks.append(create_network_dict(net_name))
+
+        arrivals.append({
+            'networks': networks,
+            'pathToData': path_to_data,
+            'time': float(arrival_time)
+        })
+
+    return arrivals
+
 def generate_arrivals_all_random(device: str, mem_limit: str, duration_df: pd.DataFrame, n: int, batch_size: int = 1):
     local_df = duration_df[(duration_df['device'] == device) & (duration_df['mem_limit'] == mem_limit)]
     average_duration = local_df['duration'].mean()
@@ -201,6 +286,8 @@ def generate_variations(config, network_values):
 
     for memory_constraint in memory_constraints:
         batch_size = 3
+        base_arrivals = generate_arrivals_random_composition(device, memory_constraint, network_values, base_config.n_arrivals, batch_size)
+        base_arrivals = generate_quad_copter(device, memory_constraint, network_values, base_config.n_arrivals, batch_size)
         base_arrivals = generate_arrivals_all_random(device, memory_constraint, network_values, base_config.n_arrivals, batch_size)
         variations = list(itertools.product(*[modes, n_workers_list, ait_multipliers]))
         for mode, n_workers, ait in variations:
