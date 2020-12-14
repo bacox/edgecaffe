@@ -59,7 +59,7 @@ namespace EdgeCaffe
 
         std::string networkName;
 
-        void initFromLayerVector(const std::vector<std::string> layerNames);
+        void initFromLayerVector(const std::vector<std::string>& layerNames);
 
         std::string policy;
 

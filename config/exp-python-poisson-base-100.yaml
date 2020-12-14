@@ -1,0 +1,23 @@
+---
+# Base configuration for the experiments for the poisson arrivals
+network-path: networks
+resources-path: ../resources
+output-path: ../analysis/experiments/poisson_arrivals/rv-nf-check-base-100-all-networks
+general-outputfile: generalOutput_poisson_arrivals.csv
+#mean-service-time:
+#  128M: 1096.65320827
+##  1G: 393.55182419
+#  256M: 643.9415593100001
+##  2G: 472.64636834
+#  4G: 368.53780722
+##  512M: 417.98935261
+#  1G: 812.97
+#  2G: 925.08
+#  512M: 903.7
+#rho: [0.7, 0.8, 0.9, 0.95]
+memory-constraints: [2G, 1G, 512M]
+modes: [bulk]
+repetitions: 100
+cmd-base: Exp_poisson_arrival_rv_nf
+build-folder: cmake-build-debug
+poisson-distribution: false

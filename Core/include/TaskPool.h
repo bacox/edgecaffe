@@ -10,6 +10,8 @@
 #include <deque>
 #include <map>
 #include "Tasks/Task.h"
+#include "MemoryCounter.h"
+#include "NetworkRegistry.h"
 
 namespace EdgeCaffe
 {
@@ -26,22 +28,25 @@ namespace EdgeCaffe
             SJF
         };
         TaskPool(SCHEDULING_POLICY policy = FCFS);
-    private:
+    protected:
         std::mutex mtx;
-
+    private:
         SCHEDULING_POLICY policy;
-
         void add_FCFS(Task *t_ptr);
-        void add_SJF(Task *t_ptr);
 
+        void add_SJF(Task *t_ptr);
     public:
+
+        MemoryCounter *mc = nullptr;
+        NetworkRegistry *nr = nullptr;
+        bool *masaEnabled = nullptr;
 
         /**
          * Checks whethter a specific task is present in the pool
          * @param taskId
          * @return Boolean      True is present, false is not present in the pool
          */
-        bool hasTask(int taskId);
+        virtual bool hasTask(int taskId);
 
         int poolId = -1;
         /**
@@ -58,20 +63,20 @@ namespace EdgeCaffe
          * Add a reference of a task to the taskpool
          * @param t_ptr     Task pointer
          */
-        void addTask(Task *t_ptr);
+        virtual void addTask(Task *t_ptr);
 
         /**
          * Checks if the taskpool is empty
          * @return Boolean      True if empty, false if not empty
          */
-        bool isEmpty();
+        virtual bool isEmpty();
 
         /**
          * Gets the next task from the task pool and binds it to the provided pointer in the argument
          * @param task      Double pointer to store the reference to the task in.
          * @return Boolan   Returns false if the pool is empty and true if a task was bound to the given pointer
          */
-        bool getNext(Task **task);
+        virtual bool getNext(Task **task);
     };
 }
 

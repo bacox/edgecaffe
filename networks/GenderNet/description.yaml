@@ -8,148 +8,192 @@ input-scale: [227, 227]
 base-path: networks/GenderNet/
 partials-location: gender_net_partials
 layer-statistics: GenderNet.stats.csv
+layer-parameters-stats: parameters-layers.stat.csv
 has-input-layer: true
 num-conv-layers: 12
 num-fc-layers: 8
+mean-execution-time: 587
+max-memory-valgrind: 161.74
+max-memory-rss: 242
 conv-layers:
   - id: 0
     name: input
     partialFile: gender_net00.partial.caffemodel
+    partialFileSize: 194
     estimated_time_loading: 167
     estimated_time_execution: 14
+    number-of-paramters: 0
     isConvLayer: true
     hasModelFile: true
   - id: 1
     name: conv1
     partialFile: gender_net01.partial.caffemodel
+    partialFileSize: 56964
     estimated_time_loading: 716
     estimated_time_execution: 98339
+    number-of-paramters: 14112
     isConvLayer: true
     hasModelFile: true
   - id: 2
     name: relu1
     partialFile: gender_net02.partial.caffemodel
+    partialFileSize: 39
     estimated_time_loading: 120
     estimated_time_execution: 30238
+    number-of-paramters: 0
     isConvLayer: true
     hasModelFile: true
   - id: 3
     name: pool1
     partialFile: gender_net03.partial.caffemodel
+    partialFileSize: 48
     estimated_time_loading: 138
     estimated_time_execution: 59638
+    number-of-paramters: 0
     isConvLayer: true
     hasModelFile: true
   - id: 4
     name: norm1
     partialFile: gender_net04.partial.caffemodel
+    partialFileSize: 54
     estimated_time_loading: 139
     estimated_time_execution: 32955
+    number-of-paramters: 0
     isConvLayer: true
     hasModelFile: true
   - id: 5
     name: conv2
     partialFile: gender_net05.partial.caffemodel
+    partialFileSize: 2458763
     estimated_time_loading: 25232
     estimated_time_execution: 740155
+    number-of-paramters: 614400
     isConvLayer: true
     hasModelFile: true
   - id: 6
     name: relu2
     partialFile: gender_net06.partial.caffemodel
+    partialFileSize: 39
     estimated_time_loading: 119
     estimated_time_execution: 20064
+    number-of-paramters: 0
     isConvLayer: true
     hasModelFile: true
   - id: 7
     name: pool2
     partialFile: gender_net07.partial.caffemodel
+    partialFileSize: 48
     estimated_time_loading: 126
     estimated_time_execution: 45807
+    number-of-paramters: 0
     isConvLayer: true
     hasModelFile: true
   - id: 8
     name: norm2
     partialFile: gender_net08.partial.caffemodel
+    partialFileSize: 54
     estimated_time_loading: 125
     estimated_time_execution: 34614
+    number-of-paramters: 0
     isConvLayer: true
     hasModelFile: true
   - id: 9
     name: conv3
     partialFile: gender_net09.partial.caffemodel
+    partialFileSize: 3540620
     estimated_time_loading: 35616
     estimated_time_execution: 248147
+    number-of-paramters: 884736
     isConvLayer: true
     hasModelFile: true
   - id: 10
     name: relu3
     partialFile: gender_net10.partial.caffemodel
+    partialFileSize: 39
     estimated_time_loading: 118
     estimated_time_execution: 7296
+    number-of-paramters: 0
     isConvLayer: true
     hasModelFile: true
   - id: 11
     name: pool5
     partialFile: gender_net11.partial.caffemodel
+    partialFileSize: 48
     estimated_time_loading: 129
     estimated_time_execution: 26282
+    number-of-paramters: 0
     isConvLayer: true
     hasModelFile: true
 fc-layers:
   - id: 12
     name: fc6
     partialFile: gender_net12.partial.caffemodel
+    partialFileSize: 38537350
     estimated_time_loading: 411883
     estimated_time_execution: 27185
+    number-of-paramters: 9633792
     isConvLayer: false
     hasModelFile: true
   - id: 13
     name: relu6
     partialFile: gender_net13.partial.caffemodel
+    partialFileSize: 35
     estimated_time_loading: 126
     estimated_time_execution: 76
+    number-of-paramters: 0
     isConvLayer: false
     hasModelFile: true
   - id: 14
     name: drop6
     partialFile: gender_net14.partial.caffemodel
+    partialFileSize: 42
     estimated_time_loading: 133
     estimated_time_execution: 22
+    number-of-paramters: 0
     isConvLayer: false
     hasModelFile: true
   - id: 15
     name: fc7
     partialFile: gender_net15.partial.caffemodel
+    partialFileSize: 1050752
     estimated_time_loading: 10242
     estimated_time_execution: 803
+    number-of-paramters: 262144
     isConvLayer: false
     hasModelFile: true
   - id: 16
     name: relu7
     partialFile: gender_net16.partial.caffemodel
+    partialFileSize: 35
     estimated_time_loading: 136
     estimated_time_execution: 94
+    number-of-paramters: 0
     isConvLayer: false
     hasModelFile: true
   - id: 17
     name: drop7
     partialFile: gender_net17.partial.caffemodel
+    partialFileSize: 42
     estimated_time_loading: 110
     estimated_time_execution: 17
+    number-of-paramters: 0
     isConvLayer: false
     hasModelFile: true
   - id: 18
     name: fc8
     partialFile: gender_net18.partial.caffemodel
+    partialFileSize: 4224
     estimated_time_loading: 195
     estimated_time_execution: 36
+    number-of-paramters: 1024
     isConvLayer: false
     hasModelFile: true
   - id: 19
     name: prob
     partialFile: gender_net19.partial.caffemodel
+    partialFileSize: 48
     estimated_time_loading: 117
     estimated_time_execution: 28
+    number-of-paramters: 0
     isConvLayer: false
     hasModelFile: true

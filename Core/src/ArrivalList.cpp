@@ -5,6 +5,7 @@
 #include <iostream>
 #include <random>
 #include <memory>
+#include <yaml-cpp/yaml.h>
 #include "ArrivalList.h"
 void EdgeCaffe::ArrivalList::generateList(int numberOfArrivals, DISTRIBUTION_TYPE type, DistParam distributionParameters)
 {
@@ -53,7 +54,7 @@ void EdgeCaffe::ArrivalList::generateList(int numberOfArrivals, DISTRIBUTION_TYP
     UniformDist networkDist = UniformDist({0, (double)allowedBatches.size() - 1});
 
     // For now use a static input
-    std::string pathToImg = "../resources/test_1.jpg";
+    std::string pathToImg = "resources/test_1.jpg";
 
     // Generate the arrivals
     for( int i = 0; i < numberOfArrivals; ++i)
@@ -149,6 +150,26 @@ long EdgeCaffe::ArrivalList::getSeed() const
 void EdgeCaffe::ArrivalList::setEnabledNetworks(std::vector<std::vector<std::string>> networks)
 {
     allowedBatches = networks;
+}
+
+void EdgeCaffe::ArrivalList::loadFromYaml(std::string pathToYaml)
+{
+    YAML::Node config = YAML::LoadFile(pathToYaml);
+
+    for (YAML::const_iterator it = config["arrivals"].begin(); it != config["arrivals"].end(); ++it){
+        const YAML::Node& node = *it;
+        int delay = node["time"].as<int>();
+        std::string pathToImg = node["pathToData"].as<std::string>();
+        std::vector<ArrivalNetwork> batch;
+        for (YAML::const_iterator networkIter = node["networks"].begin(); networkIter != node["networks"].end(); ++networkIter)
+        {
+            const YAML::Node& networkNode = *networkIter;
+            std::string networkName = networkNode["networkName"].as<std::string>();
+            std::string pathToNetwork = networkNode["pathToNetwork"].as<std::string>();
+            batch.push_back({pathToNetwork, networkName});
+        }
+        arrivals.emplace_back(Arrival{batch,pathToImg, delay});
+    }
 }
 
 

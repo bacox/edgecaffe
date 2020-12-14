@@ -214,6 +214,10 @@ namespace EdgeCaffe
             POISSON,
             CONSTANT
         };
+
+        void loadFromYaml(std::string pathToYaml);
+
+
         /**
          * Generate a `numberOfArrivals` based on a stochastic distribution
          * The distribution will generate the time between arrivals.

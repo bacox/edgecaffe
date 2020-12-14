@@ -1,0 +1,28 @@
+---
+# Base configuration for the experiments for the poisson arrivals
+network-path: networks
+resources-path: ../resources
+output-path: ../analysis/experiments/poisson_arrivals/rv-nf-masa-double-SoS-one-shot-recheck
+general-outputfile: generalOutput_poisson_arrivals.csv
+mean-service-time:
+  128M: 1096.65320827
+#  1G: 393.55182419
+  256M: 643.9415593100001
+#  2G: 472.64636834
+  4G: 368.53780722
+#  512M: 417.98935261
+  # 1G: 812.97
+  # 1G: 1550.2
+  2G: 5564
+  1G: 5568
+  512M: 11447
+rho: [1]
+# rho: [0.8]
+memory-constraints: [512M, 1G, 2G]
+# memory-constraints: [512M]
+modes: [execprio, partial]
+#modes: [execprio]
+# modes: [deepeye]
+repetitions: 10
+cmd-base: bin/Exp_poisson_arrival_rv_nf
+build-folder: cmake-build-debug

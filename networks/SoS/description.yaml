@@ -8,162 +8,210 @@ base-path: networks/SoS/
 partials-location: AlexNet_SalObjSub_partials
 excluded-partials: [18, 21]
 layer-statistics: Salient-Object-Subitizing.stats.csv
+layer-parameters-stats: parameters-layers.stat.csv
 has-input-layer: true
 num-conv-layers: 16
 num-fc-layers: 6
+mean-execution-time: 937
+max-memory-valgrind: 656
+max-memory-rss: 771
 conv-layers:
   - id: 0
     name: input
     partialFile: AlexNet_SalObjSub00.partial.caffemodel
-    estimated_time_loading: 620
-    estimated_time_execution: 11
+    partialFileSize: 169
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 0
     isConvLayer: true
     hasModelFile: true
   - id: 1
     name: conv1
     partialFile: AlexNet_SalObjSub01.partial.caffemodel
-    estimated_time_loading: 1401
-    estimated_time_execution: 22575
+    partialFileSize: 139915
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 34848
     isConvLayer: true
     hasModelFile: true
   - id: 2
     name: relu1
     partialFile: AlexNet_SalObjSub02.partial.caffemodel
-    estimated_time_loading: 107
-    estimated_time_execution: 3768
+    partialFileSize: 46
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 0
     isConvLayer: true
     hasModelFile: true
   - id: 3
     name: pool1
     partialFile: AlexNet_SalObjSub03.partial.caffemodel
-    estimated_time_loading: 93
-    estimated_time_execution: 6647
+    partialFileSize: 55
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 0
     isConvLayer: true
     hasModelFile: true
   - id: 4
     name: norm1
     partialFile: AlexNet_SalObjSub04.partial.caffemodel
-    estimated_time_loading: 79
-    estimated_time_execution: 2769
+    partialFileSize: 61
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 0
     isConvLayer: true
     hasModelFile: true
   - id: 5
     name: conv2
     partialFile: AlexNet_SalObjSub05.partial.caffemodel
-    estimated_time_loading: 11576
-    estimated_time_execution: 38921
+    partialFileSize: 1229969
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 307200
     isConvLayer: true
     hasModelFile: true
   - id: 6
     name: relu2
     partialFile: AlexNet_SalObjSub06.partial.caffemodel
-    estimated_time_loading: 119
-    estimated_time_execution: 2090
+    partialFileSize: 46
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 0
     isConvLayer: true
     hasModelFile: true
   - id: 7
     name: pool2
     partialFile: AlexNet_SalObjSub07.partial.caffemodel
-    estimated_time_loading: 81
-    estimated_time_execution: 4111
+    partialFileSize: 55
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 0
     isConvLayer: true
     hasModelFile: true
   - id: 8
     name: norm2
     partialFile: AlexNet_SalObjSub08.partial.caffemodel
-    estimated_time_loading: 79
-    estimated_time_execution: 2811
+    partialFileSize: 61
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 0
     isConvLayer: true
     hasModelFile: true
   - id: 9
     name: conv3
     partialFile: AlexNet_SalObjSub09.partial.caffemodel
-    estimated_time_loading: 32519
-    estimated_time_execution: 26865
+    partialFileSize: 3540627
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 884736
     isConvLayer: true
     hasModelFile: true
   - id: 10
     name: relu3
     partialFile: AlexNet_SalObjSub10.partial.caffemodel
-    estimated_time_loading: 120
-    estimated_time_execution: 842
+    partialFileSize: 46
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 0
     isConvLayer: true
     hasModelFile: true
   - id: 11
     name: conv4
     partialFile: AlexNet_SalObjSub11.partial.caffemodel
-    estimated_time_loading: 23715
-    estimated_time_execution: 21967
+    partialFileSize: 2655893
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 663552
     isConvLayer: true
     hasModelFile: true
   - id: 12
     name: relu4
     partialFile: AlexNet_SalObjSub12.partial.caffemodel
-    estimated_time_loading: 108
-    estimated_time_execution: 837
+    partialFileSize: 46
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 0
     isConvLayer: true
     hasModelFile: true
   - id: 13
     name: conv5
     partialFile: AlexNet_SalObjSub13.partial.caffemodel
-    estimated_time_loading: 15604
-    estimated_time_execution: 16136
+    partialFileSize: 1770642
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 442368
     isConvLayer: true
     hasModelFile: true
   - id: 14
     name: relu5
     partialFile: AlexNet_SalObjSub14.partial.caffemodel
-    estimated_time_loading: 108
-    estimated_time_execution: 444
+    partialFileSize: 46
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 0
     isConvLayer: true
     hasModelFile: true
   - id: 15
     name: pool5
     partialFile: AlexNet_SalObjSub15.partial.caffemodel
-    estimated_time_loading: 77
-    estimated_time_execution: 1437
+    partialFileSize: 55
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 0
     isConvLayer: true
     hasModelFile: true
 fc-layers:
   - id: 16
     name: fc6
     partialFile: AlexNet_SalObjSub16.partial.caffemodel
-    estimated_time_loading: 1542655
-    estimated_time_execution: 48063
+    partialFileSize: 151011470
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 37748736
     isConvLayer: false
     hasModelFile: true
   - id: 17
     name: relu6
     partialFile: AlexNet_SalObjSub17.partial.caffemodel
-    estimated_time_loading: 115
-    estimated_time_execution: 60
+    partialFileSize: 42
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 0
     isConvLayer: false
     hasModelFile: true
   - id: 18
     name: fc7
     partialFile: AlexNet_SalObjSub19.partial.caffemodel
-    estimated_time_loading: 690642
-    estimated_time_execution: 22384
+    partialFileSize: 67125388
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 16777216
     isConvLayer: false
     hasModelFile: true
   - id: 19
     name: relu7
     partialFile: AlexNet_SalObjSub20.partial.caffemodel
-    estimated_time_loading: 123
-    estimated_time_execution: 66
+    partialFileSize: 42
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 0
     isConvLayer: false
     hasModelFile: true
   - id: 20
     name: fc8_sbt
     partialFile: AlexNet_SalObjSub22.partial.caffemodel
-    estimated_time_loading: 827
-    estimated_time_execution: 45
+    partialFileSize: 82078
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 20480
     isConvLayer: false
     hasModelFile: true
   - id: 21
     name: prob
     partialFile: AlexNet_SalObjSub23.partial.caffemodel
-    estimated_time_loading: 88
-    estimated_time_execution: 20
+    partialFileSize: 53
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 0
     isConvLayer: false
     hasModelFile: true

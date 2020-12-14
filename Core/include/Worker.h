@@ -9,9 +9,36 @@
 #include "TaskPool.h"
 #include <thread>
 #include <Profiler/MemCheck.h>
+#include <TaskPool/AbstractTaskPool.h>
+#include <Scheduler/Scheduler.h>
 
 namespace EdgeCaffe
 {
+
+    struct WorkerProfileLine {
+        enum TYPE
+        {
+            IDLE,
+            BUSY
+        };
+        TYPE type;
+        std::chrono::time_point<std::chrono::system_clock> start;
+        std::chrono::time_point<std::chrono::system_clock> stop;
+        long duration = 0;
+        void calcDuration() {
+            duration = std::chrono::duration_cast<std::chrono::nanoseconds>(stop - start).count();
+        }
+
+        std::string toCsvLine(std::chrono::time_point<std::chrono::system_clock> ref) {
+            auto startTime = std::chrono::duration_cast<std::chrono::microseconds>(start - ref).count();
+            auto stopTime = std::chrono::duration_cast<std::chrono::microseconds>(stop - ref).count();
+            std::string sep = ",";
+            std::string t = (type == IDLE) ? "idle" : "busy";
+            return std::to_string(startTime) + sep + std::to_string(stopTime) + sep + std::to_string(duration) + sep + t;
+        }
+
+    };
+
     class Worker
     {
         /**
@@ -27,16 +54,20 @@ namespace EdgeCaffe
         // Flag used to indicate to the worker that he is allowed to stop if there are no more tasks left
         bool allowed_to_stop = false;
         std::thread _thread;
+
+        bool verbose = true;
         #ifdef MEMORY_CHECK_ON
         // This will only be used when the MEMORY_CHECK_ON is set in CMAKE
         MemCheck *perf = nullptr;
         #endif
 
         // Taskpool holding the references to the ready tasks
-        TaskPool *outpool;
+        std::shared_ptr<TaskPool> outpool;
 
         // Taskpool holding the references to the finished tasks
-        TaskPool *pool;
+//        TaskPool *pool;
+//        std::shared_ptr<AbstractTaskPool> pool;
+        std::shared_ptr<Scheduler> scheduler;
 
         int workerId = -1;
 
@@ -74,7 +105,7 @@ namespace EdgeCaffe
          * @param pool      TaskPool pointer
          * @param outpool   TaskPool pointer
          */
-        Worker(TaskPool *pool, TaskPool *outpool);
+//        Worker(TaskPool *pool, TaskPool *outpool);
 
         /**
          * Constructor
@@ -82,7 +113,22 @@ namespace EdgeCaffe
          * @param outpool   TaskPool pointer
          * @param workerId  Int - Assign a specific id to the worker
          */
-        Worker(TaskPool *pool, TaskPool *outpool, int workerId);
+//        Worker(TaskPool *pool, TaskPool *outpool, int workerId);
+
+//        Worker(const std::shared_ptr<TaskPool> &outpool, const std::shared_ptr<AbstractTaskPool> &pool, int workerId);
+        Worker(const std::shared_ptr<TaskPool> &outpool, const std::shared_ptr<Scheduler> &pool, int workerId);
+
+        void measureIdleTime();
+        void measureBusyTime();
+        void startTimeMeasuring();
+        void endTimeMeasuring();
+
+        std::vector<std::string> workerProfileToCSVLines();
+
+    private:
+        std::chrono::time_point<std::chrono::system_clock> startTP;
+        std::vector<WorkerProfileLine> workerProfile;
+        WorkerProfileLine::TYPE workerStatus = WorkerProfileLine::IDLE;
     };
 }
 

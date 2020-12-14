@@ -5,6 +5,11 @@ endif()
 if(POLICY CMP0054)
   cmake_policy(SET CMP0054 NEW)
 endif()
+
+macro(Make_Global variable)
+  set( ${variable}_GLOBAL ${${variable}} PARENT_SCOPE )
+endmacro()
+
 set(CMAKE_INSTALL_PREFIX /opt/edgecaffe)
 # ---[ Caffe project
 project(Caffe C CXX)
@@ -106,12 +111,6 @@ if(BUILD_python)
   add_custom_target(pytest COMMAND python${python_version} -m unittest discover -s caffe/test WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/python )
   add_dependencies(pytest pycaffe)
 endif()
-
-
-
-macro(Make_Global variable)
-  set( ${variable}_GLOBAL ${${variable}} PARENT_SCOPE )
-endmacro()
 
 Make_Global(PYTHON_INCLUDE_DIRS)
 Make_Global(NUMPY_INCLUDE_DIR)

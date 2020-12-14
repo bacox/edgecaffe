@@ -24,6 +24,21 @@ target_include_directories(${PROJECT_NAME}
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
         PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/src
+        ../thirdparty/cxxopts
+        )
+
+set_target_properties( ${PROJECT_NAME}
+        PROPERTIES
+        ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib"
+        LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib"
+        RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin"
+        )
+install(TARGETS ${PROJECT_NAME}
+        COMPONENT EdgeCaffeApp
+        RUNTIME DESTINATION "/opt/edgecaffe/bin"
+        LIBRARY DESTINATION "/opt/edgecaffe/lib"
+        ARCHIVE DESTINATION "/opt/edgecaffe/lib"
+        DESTINATION "${CMAKE_INSTALL_PREFIX}"
         )
 
 if (${BUILD_SHARED_LIBS})
@@ -39,3 +54,25 @@ else()
             ${EDGECAFFE_LINK}
             )
 endif ()
+
+
+add_executable(hrrn_test test/hrrn_test.cpp)
+if (${BUILD_SHARED_LIBS})
+    target_link_libraries(hrrn_test
+            gtest
+            ${PROJECT_NAME}
+            caffe
+            ${EDGECAFFE_LINK}
+            )
+else()
+    target_link_libraries(hrrn_test
+            ${PROJECT_NAME}
+            gtest
+            -Wl,--whole-archive
+            caffe
+            -Wl,--no-whole-archive
+            ${EDGECAFFE_LINK}
+            )
+endif ()
+
+add_subdirectory(benchmark)

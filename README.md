@@ -22,7 +22,7 @@ The project is divided in six sections:
 
 ## Install dependencies
 
-Cmake (VERSION  >= 3.11.0)
+Cmake (VERSION  >= 3.13.0)
 
 ```bash
 sudo apt-get install -y cmake

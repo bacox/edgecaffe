@@ -56,3 +56,21 @@ bool EdgeCaffe::Output::fileExists(std::string pathToFile)
 {
     return std::filesystem::exists(pathToFile);
 }
+
+void EdgeCaffe::Output::toCSV(
+        std::string pathToFile, std::map<std::string, std::string> &config, EdgeCaffe::Output::TYPE type
+        , bool writeHeaders
+)
+{
+    ensurePathExists(pathToFile);
+    std::ofstream fout(pathToFile, std::ios::out);
+
+    if(writeHeaders)
+        fout << headers[type] << std::endl;
+
+    for(const auto &kvp : config)
+        fout << kvp.first << "," << kvp.second << std::endl;
+    fout.close();
+
+    std::cout << "Output written to " << pathToFile << std::endl;
+}

@@ -3,6 +3,7 @@
 //
 #include <iostream>
 #include <vector>
+#include <map>
 #include <yaml-cpp/node/node.h>
 #include <yaml-cpp/yaml.h>
 #include <caffe/net.hpp>
@@ -16,21 +17,29 @@ struct LayerStat {
     long execution;
 };
 
+std::uintmax_t getFileSize(std::string file)
+{
+    return std::filesystem::file_size(file);
+}
+
 struct LayerDescription {
     int layerId = 0;
     std::string type = "";
     std::string name = "";
     std::string partialFileName = "";
+    std::uintmax_t partialFileSize= 0;
     long estimated_loading = 0;
     long estimated_execution = 0;
+    long number_of_paramteres = 0;
     bool isConv = true;
     bool hasModelFile = true;
 
     friend std::ostream &operator<<(std::ostream &os, const LayerDescription &description)
     {
         os << "layerId: " << description.layerId << " type: " << description.type << " name: " << description.name
-           << " partialFileName: " << description.partialFileName << " estimated_loading: "
+           << " partialFileName: " << description.partialFileName << " partialFileSize " << std::to_string(description.partialFileSize) << " estimated_loading: "
            << description.estimated_loading << " estimated_execution: " << description.estimated_execution
+           << " number_of_parameters " << description.number_of_paramteres
            << " isConv: " << description.isConv << " hasModelFile: " << description.hasModelFile;
         return os;
     }
@@ -41,8 +50,10 @@ struct LayerDescription {
         node["id"] = layerId;
         node["name"] = name;
         node["partialFile"] = partialFileName;
+        node["partialFileSize"] = partialFileSize;
         node["estimated_time_loading"] = estimated_loading;
         node["estimated_time_execution"] = estimated_execution;
+        node["number-of-paramters"] = number_of_paramteres;
         node["isConvLayer"] = isConv;
         node["hasModelFile"] = hasModelFile;
         return node;
@@ -57,6 +68,33 @@ std::vector<std::string> split(const std::string &s, char delim) {
         elems.push_back(item);
     }
     return elems;
+}
+
+std::map<std::string, int> readParameterStatFile(std::string parameterStatFile)
+{
+    std::map<std::string, int> stats;
+    std::ifstream infile(parameterStatFile);
+    std::string line;
+    bool firstLine = true;
+    while (std::getline(infile, line, '\n'))
+    {
+        if (firstLine)
+        {
+            firstLine = false;
+            continue;
+        }
+        auto items = split(line, ',');
+        std::string layerName = items[0];
+        int numParameters = std::stoi(items[1]);
+        stats.insert({layerName, numParameters});
+    }
+    if(stats.empty())
+    {
+        std::cerr << "Unable to read the statistics file '" << parameterStatFile << "'!" << std::endl;
+        std::cerr << "Using the default 0 values for estimated parameters now for this network" << std::endl;
+    }
+    return stats;
+
 }
 
 void extendDescriptionFile(std::string pathToNetworkDir)
@@ -74,6 +112,7 @@ void extendDescriptionFile(std::string pathToNetworkDir)
     std::string networkFile = pathToNetworkDir + "/" + description["network-file"].as<std::string>();
     std::string modelFile = pathToNetworkDir + "/" + description["model-file"].as<std::string>();
     std::string statsFile = pathToNetworkDir + "/" + description["layer-statistics"].as<std::string>();
+    std::string parameterStatsFile = pathToNetworkDir + "/" + description["layer-parameters-stats"].as<std::string>();
     bool hasInputLayer = description["has-input-layer"].as<bool>(true);
     std::vector<int> excludedPartials = description["excluded-partials"].as<std::vector<int>>(std::vector<int>());
 
@@ -103,6 +142,8 @@ void extendDescriptionFile(std::string pathToNetworkDir)
         std::cerr << "Unable to read the statistics file '" << statsFile << "'!" << std::endl;
         std::cerr << "Using the default 0 values for estimated times now for this network" << std::endl;
     }
+
+    std::map<std::string, int> parameterStats = readParameterStatFile(parameterStatsFile);
 
 
 
@@ -150,16 +191,19 @@ void extendDescriptionFile(std::string pathToNetworkDir)
         std::filesystem::path partialPath{exportPath};
         std::string layerNameFS =
                 partialPath /= partialName;
-
+        int partialFileSize = 0;
         if(hasModelFile)
         {
             partialModelFile = partialName + ".partial.caffemodel";
+
+            partialFileSize = getFileSize(layerNameFS + ".partial.caffemodel");
         } else
         {
             partialOffset--;
         }
+        int numParameters = parameterStats[layerName];
 
-        layers.push_back({layerId, type, layerName, partialModelFile, loading, execution, (layerId < convLayers), hasModelFile});
+        layers.push_back({layerId, type, layerName, partialModelFile, partialFileSize, loading, execution, numParameters,(layerId < convLayers), hasModelFile});
 
     }
     YAML::Node layersNode;

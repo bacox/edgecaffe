@@ -1,0 +1,378 @@
+name: TinyYolo
+network-file: tiny_yolo_deploy.prototxt
+model-file: tiny_yolo.caffemodel
+mean-scalar: [78.4263377603, 87.7689143744, 114.895847746]
+result-vector: [(0-2), (4-6), (8-12), (15-20), (25-32), (38-43), (48-53), (60-100)]
+uses-result-vector: false
+input-scale: [416, 416]
+base-path: networks/TinyYolo/
+partials-location: tiny_yolo_partials
+layer-statistics: TinyYolo.stats.csv
+layer-parameters-stats: parameters-layers.stat.csv
+has-input-layer: true
+num-conv-layers: 40
+num-fc-layers: 0
+mean-execution-time: 696
+max-memory-valgrind: 146
+max-memory-rss: 214
+conv-layers:
+  - id: 0
+    name: data
+    partialFile: tiny_yolo00.partial.caffemodel
+    partialFileSize: 50
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 0
+    isConvLayer: true
+    hasModelFile: true
+  - id: 1
+    name: conv1
+    partialFile: tiny_yolo01.partial.caffemodel
+    partialFileSize: 1807
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 432
+    isConvLayer: true
+    hasModelFile: true
+  - id: 2
+    name: conv1_bn
+    partialFile: tiny_yolo02.partial.caffemodel
+    partialFileSize: 242
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 16
+    isConvLayer: true
+    hasModelFile: true
+  - id: 3
+    name: conv1_scale
+    partialFile: tiny_yolo03.partial.caffemodel
+    partialFileSize: 213
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 16
+    isConvLayer: true
+    hasModelFile: true
+  - id: 4
+    name: relu1
+    partialFile: tiny_yolo04.partial.caffemodel
+    partialFileSize: 65
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 0
+    isConvLayer: true
+    hasModelFile: true
+  - id: 5
+    name: pool1
+    partialFile: tiny_yolo05.partial.caffemodel
+    partialFileSize: 63
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 0
+    isConvLayer: true
+    hasModelFile: true
+  - id: 6
+    name: conv2
+    partialFile: tiny_yolo06.partial.caffemodel
+    partialFileSize: 18515
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 4608
+    isConvLayer: true
+    hasModelFile: true
+  - id: 7
+    name: conv2_bn
+    partialFile: tiny_yolo07.partial.caffemodel
+    partialFileSize: 374
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 32
+    isConvLayer: true
+    hasModelFile: true
+  - id: 8
+    name: conv2_scale
+    partialFile: tiny_yolo08.partial.caffemodel
+    partialFileSize: 345
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 32
+    isConvLayer: true
+    hasModelFile: true
+  - id: 9
+    name: relu2
+    partialFile: tiny_yolo09.partial.caffemodel
+    partialFileSize: 65
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 0
+    isConvLayer: true
+    hasModelFile: true
+  - id: 10
+    name: pool2
+    partialFile: tiny_yolo10.partial.caffemodel
+    partialFileSize: 63
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 0
+    isConvLayer: true
+    hasModelFile: true
+  - id: 11
+    name: conv3
+    partialFile: tiny_yolo11.partial.caffemodel
+    partialFileSize: 73811
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 18432
+    isConvLayer: true
+    hasModelFile: true
+  - id: 12
+    name: conv3_bn
+    partialFile: tiny_yolo12.partial.caffemodel
+    partialFileSize: 630
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 64
+    isConvLayer: true
+    hasModelFile: true
+  - id: 13
+    name: conv3_scale
+    partialFile: tiny_yolo13.partial.caffemodel
+    partialFileSize: 601
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 64
+    isConvLayer: true
+    hasModelFile: true
+  - id: 14
+    name: relu3
+    partialFile: tiny_yolo14.partial.caffemodel
+    partialFileSize: 65
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 0
+    isConvLayer: true
+    hasModelFile: true
+  - id: 15
+    name: pool3
+    partialFile: tiny_yolo15.partial.caffemodel
+    partialFileSize: 63
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 0
+    isConvLayer: true
+    hasModelFile: true
+  - id: 16
+    name: conv4
+    partialFile: tiny_yolo16.partial.caffemodel
+    partialFileSize: 294997
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 73728
+    isConvLayer: true
+    hasModelFile: true
+  - id: 17
+    name: conv4_bn
+    partialFile: tiny_yolo17.partial.caffemodel
+    partialFileSize: 1144
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 128
+    isConvLayer: true
+    hasModelFile: true
+  - id: 18
+    name: conv4_scale
+    partialFile: tiny_yolo18.partial.caffemodel
+    partialFileSize: 1115
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 128
+    isConvLayer: true
+    hasModelFile: true
+  - id: 19
+    name: relu4
+    partialFile: tiny_yolo19.partial.caffemodel
+    partialFileSize: 65
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 0
+    isConvLayer: true
+    hasModelFile: true
+  - id: 20
+    name: pool4
+    partialFile: tiny_yolo20.partial.caffemodel
+    partialFileSize: 63
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 0
+    isConvLayer: true
+    hasModelFile: true
+  - id: 21
+    name: conv5
+    partialFile: tiny_yolo21.partial.caffemodel
+    partialFileSize: 1179734
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 294912
+    isConvLayer: true
+    hasModelFile: true
+  - id: 22
+    name: conv5_bn
+    partialFile: tiny_yolo22.partial.caffemodel
+    partialFileSize: 2168
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 256
+    isConvLayer: true
+    hasModelFile: true
+  - id: 23
+    name: conv5_scale
+    partialFile: tiny_yolo23.partial.caffemodel
+    partialFileSize: 2139
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 256
+    isConvLayer: true
+    hasModelFile: true
+  - id: 24
+    name: relu5
+    partialFile: tiny_yolo24.partial.caffemodel
+    partialFileSize: 65
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 0
+    isConvLayer: true
+    hasModelFile: true
+  - id: 25
+    name: pool5
+    partialFile: tiny_yolo25.partial.caffemodel
+    partialFileSize: 63
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 0
+    isConvLayer: true
+    hasModelFile: true
+  - id: 26
+    name: conv6
+    partialFile: tiny_yolo26.partial.caffemodel
+    partialFileSize: 4718681
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 1179648
+    isConvLayer: true
+    hasModelFile: true
+  - id: 27
+    name: conv6_bn
+    partialFile: tiny_yolo27.partial.caffemodel
+    partialFileSize: 4216
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 512
+    isConvLayer: true
+    hasModelFile: true
+  - id: 28
+    name: conv6_scale
+    partialFile: tiny_yolo28.partial.caffemodel
+    partialFileSize: 4187
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 512
+    isConvLayer: true
+    hasModelFile: true
+  - id: 29
+    name: relu6
+    partialFile: tiny_yolo29.partial.caffemodel
+    partialFileSize: 65
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 0
+    isConvLayer: true
+    hasModelFile: true
+  - id: 30
+    name: pool6
+    partialFile: tiny_yolo30.partial.caffemodel
+    partialFileSize: 63
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 0
+    isConvLayer: true
+    hasModelFile: true
+  - id: 31
+    name: conv7
+    partialFile: tiny_yolo31.partial.caffemodel
+    partialFileSize: 18874457
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 4718592
+    isConvLayer: true
+    hasModelFile: true
+  - id: 32
+    name: conv7_bn
+    partialFile: tiny_yolo32.partial.caffemodel
+    partialFileSize: 8312
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 1024
+    isConvLayer: true
+    hasModelFile: true
+  - id: 33
+    name: conv7_scale
+    partialFile: tiny_yolo33.partial.caffemodel
+    partialFileSize: 8283
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 1024
+    isConvLayer: true
+    hasModelFile: true
+  - id: 34
+    name: relu7
+    partialFile: tiny_yolo34.partial.caffemodel
+    partialFileSize: 65
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 0
+    isConvLayer: true
+    hasModelFile: true
+  - id: 35
+    name: conv8
+    partialFile: tiny_yolo35.partial.caffemodel
+    partialFileSize: 37748831
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 9437184
+    isConvLayer: true
+    hasModelFile: true
+  - id: 36
+    name: conv8_bn
+    partialFile: tiny_yolo36.partial.caffemodel
+    partialFileSize: 8312
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 1024
+    isConvLayer: true
+    hasModelFile: true
+  - id: 37
+    name: conv8_scale
+    partialFile: tiny_yolo37.partial.caffemodel
+    partialFileSize: 8283
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 1024
+    isConvLayer: true
+    hasModelFile: true
+  - id: 38
+    name: relu8
+    partialFile: tiny_yolo38.partial.caffemodel
+    partialFileSize: 65
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 0
+    isConvLayer: true
+    hasModelFile: true
+  - id: 39
+    name: conv9
+    partialFile: tiny_yolo39.partial.caffemodel
+    partialFileSize: 1742603
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 435200
+    isConvLayer: true
+    hasModelFile: true

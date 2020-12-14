@@ -4,13 +4,26 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 project(ModelSplitter C CXX)
 
-set(CMAKE_BUILD_TYPE Debug)
+#set(CMAKE_BUILD_TYPE Debug)
 set(THREADS_PREFER_PTHREAD_FLAG ON)
 find_package(Threads REQUIRED)
 find_package(PythonLibs 3.6)
 add_definitions(-DBOOST_ALL_DYN_LINK)
 
 macro(LINK_TOOL_TARGET TARGET_NAME)
+    set_target_properties( ${TARGET_NAME}
+            PROPERTIES
+            ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib"
+            LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib"
+            RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin"
+            )
+    install(TARGETS ${TARGET_NAME}
+            COMPONENT EdgeCaffeApp
+            RUNTIME DESTINATION "/opt/edgecaffe/bin"
+            LIBRARY DESTINATION "/opt/edgecaffe/lib"
+            ARCHIVE DESTINATION "/opt/edgecaffe/lib"
+            DESTINATION "${CMAKE_INSTALL_PREFIX}"
+            )
     if (${BUILD_SHARED_LIBS})
 #        MESSAGE(STATUS "Building TOOL ${TARGET_NAME} in shared lib setting")
         #        Make sure not the whole archive is included in linking
@@ -27,9 +40,7 @@ macro(LINK_TOOL_TARGET TARGET_NAME)
         #        The whole archive of caffe needs to be set for static linking
         target_link_libraries(${TARGET_NAME}
                 Threads::Threads
-                -Wl,--whole-archive
                 caffe
-                -Wl,--no-whole-archive
                 EdgeCaffeCore
                 stdc++fs
                 ${YAML_CPP_LINK_LIBRARIES}
