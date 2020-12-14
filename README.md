@@ -1,4 +1,6 @@
 # EdgeCaffe (Ubuntu 18.04)
+[![License](https://img.shields.io/badge/license-BSD-blue.svg)](LICENSE)
+
 
 The EdgeCaffe project aims to run the [Caffe Deep Learning framework](https://github.com/BVLC/caffe) on edge devices. The code has is targeted for Ubuntu 18.04 for both x86-64 and Raspberry Pi machines (ARMv8-A).
 
@@ -10,7 +12,7 @@ Additional documentation can be found at the [wiki](https://gitlab.com/bacox/edg
 
 The project is divided in six sections:
 
-* `./caffe`: This holds the original caffe code.
+* `./caffe`: This holds the original caffe code (includes license of bvlc/caffe).
 * `./Core`: The code extension to facilitate the partial loading and execution.
 * `./networks`: The networks and their descriptive files. Each model to work needs 3 files:
   * `description.yml` file that describes the network for EdgeCaffe
@@ -259,7 +261,7 @@ The folder `analysis` hold two python notebooks that can be used for analysis.
 * `layer-satistics.exp.ipynb`: This notebook can be used to generate the statistic files for each network. It calculates the mean of the loading and execution times of each layer in each network and outputs this to a csv file.
 
 ## Contribute
-
+EdgeCaffe welcomes all contributions.
 The following work-flow is used for contributions:
 
 * Clone repository
