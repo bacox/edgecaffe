@@ -7,7 +7,7 @@
 namespace EdgeCaffe
 {
 
-    void InferenceOutput::initFromLayerVector(const std::vector<std::string> layerNames)
+    void InferenceOutput::initFromLayerVector(const std::vector<std::string>& layerNames)
     {
         int idx = 0;
         for (const auto &layer : layerNames)
@@ -93,6 +93,8 @@ namespace EdgeCaffe
                 case FINISHED_UP:
                     count_finished++;
                     line = std::to_string(e.time) + "," + std::to_string(count_finished) + "," + "finished";
+                    break;
+                case FINISHED_DOWN:
                     break;
             }
             lines.push_back(line);

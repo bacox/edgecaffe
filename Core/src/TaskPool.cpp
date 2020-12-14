@@ -51,11 +51,34 @@ namespace EdgeCaffe
         if (pool.size() == 0)
             return false;
 
-        // Get the first task
-        *task = pool.begin()->second;
-        // Remove the first task from the map
-        pool.erase(pool.begin());
-        return true;
+        for(auto it = pool.begin(); it != pool.end(); ++it)
+        {
+            // Check if task is valid
+            if(!*masaEnabled || this->nr->numActiveNetworks() == 0 || it->second->requiredMemory <= mc->getFreeSpace() || it->second->requiredMemory == 0)
+            {
+                // std::cout << "Task " << it->second->id << " is allowed to run because t:" << it->second->requiredMemory << " <= mc:" << mc->getFreeSpace()  << std::endl;
+                // This task is small enough in terms of memory
+                *task = it->second;
+                mc->lockMemory((*task)->requiredMemory);
+                pool.erase(it);
+                if((*task)->taskType == "init")
+                {
+                    nr->activateNetwork();
+                }
+                return true;
+            }
+        }
+        return false;
+
+//
+//        // Get the first task
+//        *task = pool.begin()->second;
+//
+//
+//
+//        // Remove the first task from the map
+//        pool.erase(pool.begin());
+//        return true;
     }
 
     TaskPool::TaskPool(TaskPool::SCHEDULING_POLICY policy) : policy(policy)

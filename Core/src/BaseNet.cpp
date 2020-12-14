@@ -4,7 +4,7 @@
 
 #include "../include/BaseNet.h"
 #include <yaml-cpp/yaml.h>
-#include <cv.hpp>
+#include <opencv2/opencv.hpp>
 #include <memory>
 
 namespace EdgeCaffe

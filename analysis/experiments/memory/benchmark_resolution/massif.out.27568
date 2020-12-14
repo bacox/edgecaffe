@@ -1,0 +1,1189 @@
+desc: (none)
+cmd: ./bin/Exp_poisson_arrival_rv_nf --read-config=../test.tmp.yaml
+time_unit: i
+#-----------
+snapshot=0
+#-----------
+time=0
+mem_heap_B=0
+mem_heap_extra_B=0
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=1
+#-----------
+time=190017917
+mem_heap_B=37
+mem_heap_extra_B=19
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=2
+#-----------
+time=204747750
+mem_heap_B=1132507
+mem_heap_extra_B=208317
+mem_stacks_B=0
+heap_tree=detailed
+n9: 1132507 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 579240 0x15FE5434: gdcm::Dict::LoadDefault() (in /usr/lib/x86_64-linux-gnu/libgdcmDICT.so.2.8.4)
+  n1: 579240 0x15FE3DF7: gdcm::Dicts::LoadDefaults() (in /usr/lib/x86_64-linux-gnu/libgdcmDICT.so.2.8.4)
+   n1: 579240 0x15FE72F8: gdcm::Global::Global() (in /usr/lib/x86_64-linux-gnu/libgdcmDICT.so.2.8.4)
+    n1: 579240 0x15FE3A9E: ??? (in /usr/lib/x86_64-linux-gnu/libgdcmDICT.so.2.8.4)
+     n1: 579240 0x4010781: _dl_init (dl-init.c:72)
+      n1: 579240 0x40010C8: ??? (in /lib/x86_64-linux-gnu/ld-2.27.so)
+       n1: 579240 0x0: ???
+        n1: 579240 0x1FFEFFFF09: ???
+         n0: 579240 0x1FFEFFFF29: ???
+ n3: 172583 0x15FE506B: ??? (in /usr/lib/x86_64-linux-gnu/libgdcmDICT.so.2.8.4)
+  n1: 96327 0x15FE521E: gdcm::Dict::LoadDefault() (in /usr/lib/x86_64-linux-gnu/libgdcmDICT.so.2.8.4)
+   n1: 96327 0x15FE3DF7: gdcm::Dicts::LoadDefaults() (in /usr/lib/x86_64-linux-gnu/libgdcmDICT.so.2.8.4)
+    n1: 96327 0x15FE72F8: gdcm::Global::Global() (in /usr/lib/x86_64-linux-gnu/libgdcmDICT.so.2.8.4)
+     n1: 96327 0x15FE3A9E: ??? (in /usr/lib/x86_64-linux-gnu/libgdcmDICT.so.2.8.4)
+      n1: 96327 0x4010781: _dl_init (dl-init.c:72)
+       n1: 96327 0x40010C8: ??? (in /lib/x86_64-linux-gnu/ld-2.27.so)
+        n1: 96327 0x0: ???
+         n1: 96327 0x1FFEFFFF09: ???
+          n0: 96327 0x1FFEFFFF29: ???
+  n1: 76206 0x15FE5242: gdcm::Dict::LoadDefault() (in /usr/lib/x86_64-linux-gnu/libgdcmDICT.so.2.8.4)
+   n1: 76206 0x15FE3DF7: gdcm::Dicts::LoadDefaults() (in /usr/lib/x86_64-linux-gnu/libgdcmDICT.so.2.8.4)
+    n1: 76206 0x15FE72F8: gdcm::Global::Global() (in /usr/lib/x86_64-linux-gnu/libgdcmDICT.so.2.8.4)
+     n1: 76206 0x15FE3A9E: ??? (in /usr/lib/x86_64-linux-gnu/libgdcmDICT.so.2.8.4)
+      n1: 76206 0x4010781: _dl_init (dl-init.c:72)
+       n1: 76206 0x40010C8: ??? (in /lib/x86_64-linux-gnu/ld-2.27.so)
+        n1: 76206 0x0: ???
+         n1: 76206 0x1FFEFFFF09: ???
+          n0: 76206 0x1FFEFFFF29: ???
+  n0: 50 in 2 places, all below massif's threshold (1.00%)
+ n2: 141824 0x16BFA17E: ??? (in /usr/lib/x86_64-linux-gnu/libCharLS.so.1.0)
+  n1: 131072 0x16BF8CB3: ??? (in /usr/lib/x86_64-linux-gnu/libCharLS.so.1.0)
+   n1: 131072 0x4010781: _dl_init (dl-init.c:72)
+    n1: 131072 0x40010C8: ??? (in /lib/x86_64-linux-gnu/ld-2.27.so)
+     n1: 131072 0x0: ???
+      n1: 131072 0x1FFEFFFF09: ???
+       n0: 131072 0x1FFEFFFF29: ???
+  n0: 10752 in 3 places, all below massif's threshold (1.00%)
+ n1: 93632 0x271C0735: ??? (in /usr/lib/x86_64-linux-gnu/libtasn1.so.6.5.5)
+  n2: 93632 0x271C1C78: asn1_array2tree (in /usr/lib/x86_64-linux-gnu/libtasn1.so.6.5.5)
+   n1: 81320 0x222ACD13: ??? (in /usr/lib/x86_64-linux-gnu/libgnutls.so.30.14.10)
+    n1: 81320 0x2228B64F: ??? (in /usr/lib/x86_64-linux-gnu/libgnutls.so.30.14.10)
+     n1: 81320 0x4010781: _dl_init (dl-init.c:72)
+      n1: 81320 0x40010C8: ??? (in /lib/x86_64-linux-gnu/ld-2.27.so)
+       n1: 81320 0x0: ???
+        n1: 81320 0x1FFEFFFF09: ???
+         n0: 81320 0x1FFEFFFF29: ???
+   n0: 12312 in 1 place, below massif's threshold (1.00%)
+ n1: 72704 0x5B38424: ??? (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.25)
+  n1: 72704 0x4010781: _dl_init (dl-init.c:72)
+   n1: 72704 0x40010C8: ??? (in /lib/x86_64-linux-gnu/ld-2.27.so)
+    n1: 72704 0x0: ???
+     n1: 72704 0x1FFEFFFF09: ???
+      n0: 72704 0x1FFEFFFF29: ???
+ n0: 24148 in 37 places, all below massif's threshold (1.00%)
+ n2: 17688 0xD596AB7: g_malloc (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.5600.4)
+  n1: 16384 0xD5A162A: ??? (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.5600.4)
+   n1: 16384 0x4010781: _dl_init (dl-init.c:72)
+    n1: 16384 0x40010C8: ??? (in /lib/x86_64-linux-gnu/ld-2.27.so)
+     n1: 16384 0x0: ???
+      n1: 16384 0x1FFEFFFF09: ???
+       n0: 16384 0x1FFEFFFF29: ???
+  n0: 1304 in 5 places, all below massif's threshold (1.00%)
+ n1: 16640 0x608D3AD: __new_exitfn (cxa_atexit.c:109)
+  n1: 16640 0x608D537: __cxa_atexit (cxa_atexit.c:40)
+   n0: 16640 in 7 places, all below massif's threshold (1.00%)
+ n1: 14048 0xD596B0F: g_malloc0 (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.5600.4)
+  n0: 14048 in 15 places, all below massif's threshold (1.00%)
+#-----------
+snapshot=3
+#-----------
+time=232186119
+mem_heap_B=3812643
+mem_heap_extra_B=788789
+mem_stacks_B=0
+heap_tree=detailed
+n8: 3812643 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 1579680 0x15FE5434: gdcm::Dict::LoadDefault() (in /usr/lib/x86_64-linux-gnu/libgdcmDICT.so.2.8.4)
+  n1: 1579680 0x15FE3DF7: gdcm::Dicts::LoadDefaults() (in /usr/lib/x86_64-linux-gnu/libgdcmDICT.so.2.8.4)
+   n1: 1579680 0x15FE72F8: gdcm::Global::Global() (in /usr/lib/x86_64-linux-gnu/libgdcmDICT.so.2.8.4)
+    n1: 1579680 0x15FE3A9E: ??? (in /usr/lib/x86_64-linux-gnu/libgdcmDICT.so.2.8.4)
+     n1: 1579680 0x4010781: _dl_init (dl-init.c:72)
+      n1: 1579680 0x40010C8: ??? (in /lib/x86_64-linux-gnu/ld-2.27.so)
+       n1: 1579680 0x0: ???
+        n1: 1579680 0x1FFEFFFF09: ???
+         n0: 1579680 0x1FFEFFFF29: ???
+ n1: 1239712 0x15FE5C49: gdcm::PrivateDict::LoadDefault() (in /usr/lib/x86_64-linux-gnu/libgdcmDICT.so.2.8.4)
+  n1: 1239712 0x15FE3E00: gdcm::Dicts::LoadDefaults() (in /usr/lib/x86_64-linux-gnu/libgdcmDICT.so.2.8.4)
+   n1: 1239712 0x15FE72F8: gdcm::Global::Global() (in /usr/lib/x86_64-linux-gnu/libgdcmDICT.so.2.8.4)
+    n1: 1239712 0x15FE3A9E: ??? (in /usr/lib/x86_64-linux-gnu/libgdcmDICT.so.2.8.4)
+     n1: 1239712 0x4010781: _dl_init (dl-init.c:72)
+      n1: 1239712 0x40010C8: ??? (in /lib/x86_64-linux-gnu/ld-2.27.so)
+       n1: 1239712 0x0: ???
+        n1: 1239712 0x1FFEFFFF09: ???
+         n0: 1239712 0x1FFEFFFF29: ???
+ n3: 420956 0x15FE506B: ??? (in /usr/lib/x86_64-linux-gnu/libgdcmDICT.so.2.8.4)
+  n1: 232200 0x15FE521E: gdcm::Dict::LoadDefault() (in /usr/lib/x86_64-linux-gnu/libgdcmDICT.so.2.8.4)
+   n1: 232200 0x15FE3DF7: gdcm::Dicts::LoadDefaults() (in /usr/lib/x86_64-linux-gnu/libgdcmDICT.so.2.8.4)
+    n1: 232200 0x15FE72F8: gdcm::Global::Global() (in /usr/lib/x86_64-linux-gnu/libgdcmDICT.so.2.8.4)
+     n1: 232200 0x15FE3A9E: ??? (in /usr/lib/x86_64-linux-gnu/libgdcmDICT.so.2.8.4)
+      n1: 232200 0x4010781: _dl_init (dl-init.c:72)
+       n1: 232200 0x40010C8: ??? (in /lib/x86_64-linux-gnu/ld-2.27.so)
+        n1: 232200 0x0: ???
+         n1: 232200 0x1FFEFFFF09: ???
+          n0: 232200 0x1FFEFFFF29: ???
+  n1: 188756 0x15FE5242: gdcm::Dict::LoadDefault() (in /usr/lib/x86_64-linux-gnu/libgdcmDICT.so.2.8.4)
+   n1: 188756 0x15FE3DF7: gdcm::Dicts::LoadDefaults() (in /usr/lib/x86_64-linux-gnu/libgdcmDICT.so.2.8.4)
+    n1: 188756 0x15FE72F8: gdcm::Global::Global() (in /usr/lib/x86_64-linux-gnu/libgdcmDICT.so.2.8.4)
+     n1: 188756 0x15FE3A9E: ??? (in /usr/lib/x86_64-linux-gnu/libgdcmDICT.so.2.8.4)
+      n1: 188756 0x4010781: _dl_init (dl-init.c:72)
+       n1: 188756 0x40010C8: ??? (in /lib/x86_64-linux-gnu/ld-2.27.so)
+        n1: 188756 0x0: ???
+         n1: 188756 0x1FFEFFFF09: ???
+          n0: 188756 0x1FFEFFFF29: ???
+  n0: 0 in 2 places, all below massif's threshold (1.00%)
+ n3: 191637 0x15FE570B: ??? (in /usr/lib/x86_64-linux-gnu/libgdcmDICT.so.2.8.4)
+  n1: 98951 0x15FE5C7F: gdcm::PrivateDict::LoadDefault() (in /usr/lib/x86_64-linux-gnu/libgdcmDICT.so.2.8.4)
+   n1: 98951 0x15FE3E00: gdcm::Dicts::LoadDefaults() (in /usr/lib/x86_64-linux-gnu/libgdcmDICT.so.2.8.4)
+    n1: 98951 0x15FE72F8: gdcm::Global::Global() (in /usr/lib/x86_64-linux-gnu/libgdcmDICT.so.2.8.4)
+     n1: 98951 0x15FE3A9E: ??? (in /usr/lib/x86_64-linux-gnu/libgdcmDICT.so.2.8.4)
+      n1: 98951 0x4010781: _dl_init (dl-init.c:72)
+       n1: 98951 0x40010C8: ??? (in /lib/x86_64-linux-gnu/ld-2.27.so)
+        n1: 98951 0x0: ???
+         n1: 98951 0x1FFEFFFF09: ???
+          n0: 98951 0x1FFEFFFF29: ???
+  n1: 92620 0x15FE5A1E: gdcm::PrivateDict::LoadDefault() (in /usr/lib/x86_64-linux-gnu/libgdcmDICT.so.2.8.4)
+   n1: 92620 0x15FE3E00: gdcm::Dicts::LoadDefaults() (in /usr/lib/x86_64-linux-gnu/libgdcmDICT.so.2.8.4)
+    n1: 92620 0x15FE72F8: gdcm::Global::Global() (in /usr/lib/x86_64-linux-gnu/libgdcmDICT.so.2.8.4)
+     n1: 92620 0x15FE3A9E: ??? (in /usr/lib/x86_64-linux-gnu/libgdcmDICT.so.2.8.4)
+      n1: 92620 0x4010781: _dl_init (dl-init.c:72)
+       n1: 92620 0x40010C8: ??? (in /lib/x86_64-linux-gnu/ld-2.27.so)
+        n1: 92620 0x0: ???
+         n1: 92620 0x1FFEFFFF09: ???
+          n0: 92620 0x1FFEFFFF29: ???
+  n0: 66 in 4 places, all below massif's threshold (1.00%)
+ n2: 141824 0x16BFA17E: ??? (in /usr/lib/x86_64-linux-gnu/libCharLS.so.1.0)
+  n1: 131072 0x16BF8CB3: ??? (in /usr/lib/x86_64-linux-gnu/libCharLS.so.1.0)
+   n1: 131072 0x4010781: _dl_init (dl-init.c:72)
+    n1: 131072 0x40010C8: ??? (in /lib/x86_64-linux-gnu/ld-2.27.so)
+     n1: 131072 0x0: ???
+      n1: 131072 0x1FFEFFFF09: ???
+       n0: 131072 0x1FFEFFFF29: ???
+  n0: 10752 in 3 places, all below massif's threshold (1.00%)
+ n1: 93632 0x271C0735: ??? (in /usr/lib/x86_64-linux-gnu/libtasn1.so.6.5.5)
+  n2: 93632 0x271C1C78: asn1_array2tree (in /usr/lib/x86_64-linux-gnu/libtasn1.so.6.5.5)
+   n1: 81320 0x222ACD13: ??? (in /usr/lib/x86_64-linux-gnu/libgnutls.so.30.14.10)
+    n1: 81320 0x2228B64F: ??? (in /usr/lib/x86_64-linux-gnu/libgnutls.so.30.14.10)
+     n1: 81320 0x4010781: _dl_init (dl-init.c:72)
+      n1: 81320 0x40010C8: ??? (in /lib/x86_64-linux-gnu/ld-2.27.so)
+       n1: 81320 0x0: ???
+        n1: 81320 0x1FFEFFFF09: ???
+         n0: 81320 0x1FFEFFFF29: ???
+   n0: 12312 in 1 place, below massif's threshold (1.00%)
+ n1: 72704 0x5B38424: ??? (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.25)
+  n1: 72704 0x4010781: _dl_init (dl-init.c:72)
+   n1: 72704 0x40010C8: ??? (in /lib/x86_64-linux-gnu/ld-2.27.so)
+    n1: 72704 0x0: ???
+     n1: 72704 0x1FFEFFFF09: ???
+      n0: 72704 0x1FFEFFFF29: ???
+ n0: 72498 in 40 places, all below massif's threshold (1.00%)
+#-----------
+snapshot=4
+#-----------
+time=253709968
+mem_heap_B=5084613
+mem_heap_extra_B=920187
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=5
+#-----------
+time=276637176
+mem_heap_B=45201849
+mem_heap_extra_B=936039
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=6
+#-----------
+time=296493152
+mem_heap_B=45272621
+mem_heap_extra_B=951219
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=7
+#-----------
+time=321569871
+mem_heap_B=45396006
+mem_heap_extra_B=977290
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=8
+#-----------
+time=338445585
+mem_heap_B=45810856
+mem_heap_extra_B=1001712
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=9
+#-----------
+time=369013837
+mem_heap_B=92735799
+mem_heap_extra_B=1019345
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=10
+#-----------
+time=394521326
+mem_heap_B=92954275
+mem_heap_extra_B=1056845
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=11
+#-----------
+time=428149819
+mem_heap_B=92953219
+mem_heap_extra_B=1056733
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=12
+#-----------
+time=449715264
+mem_heap_B=92952715
+mem_heap_extra_B=1056725
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=13
+#-----------
+time=479293736
+mem_heap_B=94141623
+mem_heap_extra_B=1055529
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=14
+#-----------
+time=503575763
+mem_heap_B=94141671
+mem_heap_extra_B=1055537
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=15
+#-----------
+time=529551559
+mem_heap_B=94140767
+mem_heap_extra_B=1055457
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=16
+#-----------
+time=563661061
+mem_heap_B=94742927
+mem_heap_extra_B=1055481
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=17
+#-----------
+time=582704713
+mem_heap_B=94440447
+mem_heap_extra_B=1055265
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=18
+#-----------
+time=602770524
+mem_heap_B=94440543
+mem_heap_extra_B=1055281
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=19
+#-----------
+time=631690352
+mem_heap_B=94739679
+mem_heap_extra_B=1055081
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=20
+#-----------
+time=649535247
+mem_heap_B=97214719
+mem_heap_extra_B=1055241
+mem_stacks_B=0
+heap_tree=detailed
+n7: 97214719 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n2: 48089360 0x66D274F: caffe::SyncedMemory::mutable_cpu_data() (syncedmem.hpp:30)
+  n3: 48088840 0x65563D1: caffe::Blob<float>::mutable_cpu_data() (blob.cpp:134)
+   n3: 45660192 0x6598D92: caffe::ConstantFiller<float>::Fill(caffe::Blob<float>*) (filler.hpp:36)
+    n1: 39600128 0x660C026: caffe::InnerProductLayer<float>::LayerSetUp(std::vector<caffe::Blob<float>*, std::allocator<caffe::Blob<float>*> > const&, std::vector<caffe::Blob<float>*, std::allocator<caffe::Blob<float>*> > const&) (inner_product_layer.cpp:44)
+     n1: 39600128 0x66A35C9: caffe::Net<float>::Init(caffe::NetParameter const&) (layer.hpp:70)
+      n1: 39600128 0x66A5887: caffe::Net<float>::Net(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, caffe::Phase, int, std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > const*) (net.cpp:42)
+       n1: 39600128 0x4EA10F1: EdgeCaffe::InferenceNetwork::loadNetworkStructure() (InferenceNetwork.cpp:131)
+        n1: 39600128 0x4EE3ABD: EdgeCaffe::InitNetworkTask::run() (InitNetworkTask.cpp:16)
+         n1: 39600128 0x4EE48BC: EdgeCaffe::Task::execute() (Task.cpp:92)
+          n1: 39600128 0x4EE703E: EdgeCaffe::Worker::Execution() (Worker.cpp:65)
+           n1: 39600128 0x5B666DD: ??? (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.25)
+            n1: 39600128 0x79E26D9: start_thread (pthread_create.c:463)
+             n0: 39600128 0x616BA3D: clone (clone.S:95)
+    n1: 6052992 0x659EBED: caffe::BaseConvolutionLayer<float>::LayerSetUp(std::vector<caffe::Blob<float>*, std::allocator<caffe::Blob<float>*> > const&, std::vector<caffe::Blob<float>*, std::allocator<caffe::Blob<float>*> > const&) (base_conv_layer.cpp:169)
+     n1: 6052992 0x66A35C9: caffe::Net<float>::Init(caffe::NetParameter const&) (layer.hpp:70)
+      n1: 6052992 0x66A5887: caffe::Net<float>::Net(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, caffe::Phase, int, std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > const*) (net.cpp:42)
+       n1: 6052992 0x4EA10F1: EdgeCaffe::InferenceNetwork::loadNetworkStructure() (InferenceNetwork.cpp:131)
+        n1: 6052992 0x4EE3ABD: EdgeCaffe::InitNetworkTask::run() (InitNetworkTask.cpp:16)
+         n1: 6052992 0x4EE48BC: EdgeCaffe::Task::execute() (Task.cpp:92)
+          n1: 6052992 0x4EE703E: EdgeCaffe::Worker::Execution() (Worker.cpp:65)
+           n1: 6052992 0x5B666DD: ??? (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.25)
+            n1: 6052992 0x79E26D9: start_thread (pthread_create.c:463)
+             n0: 6052992 0x616BA3D: clone (clone.S:95)
+    n0: 7072 in 2 places, all below massif's threshold (1.00%)
+   n0: 1224424 in 9 places, all below massif's threshold (1.00%)
+   n1: 1204224 0x65BEDEE: caffe::ConvolutionLayer<float>::Forward_cpu(std::vector<caffe::Blob<float>*, std::allocator<caffe::Blob<float>*> > const&, std::vector<caffe::Blob<float>*, std::allocator<caffe::Blob<float>*> > const&) (conv_layer.cpp:30)
+    n1: 1204224 0x4EE33C6: EdgeCaffe::ExecTask::run() (layer.hpp:419)
+     n1: 1204224 0x4EE48BC: EdgeCaffe::Task::execute() (Task.cpp:92)
+      n1: 1204224 0x4EE703E: EdgeCaffe::Worker::Execution() (Worker.cpp:65)
+       n1: 1204224 0x5B666DD: ??? (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.25)
+        n1: 1204224 0x79E26D9: start_thread (pthread_create.c:463)
+         n0: 1204224 0x616BA3D: clone (clone.S:95)
+  n0: 520 in 4 places, all below massif's threshold (1.00%)
+ n1: 40000000 0x4EDE23D: EdgeCaffe::MemCheck::MemCheck() (new_allocator.h:111)
+  n1: 40000000 0x4ED3775: EdgeCaffe::Orchestrator::Orchestrator() (Orchestrator.cpp:10)
+   n1: 40000000 0x18D9E4: EdgeCaffe::LinearOrchestrator::Create() (LinearOrchestrator.h:11)
+    n0: 40000000 0x175C57: main (OrchestratorFactory.h:81)
+ n2: 2457608 0x2038E1: google::protobuf::RepeatedField<float>::Reserve(int) (repeated_field.h:1270)
+  n1: 2457608 0x203B98: bool google::protobuf::internal::WireFormatLite::ReadPackedPrimitive<float, (google::protobuf::internal::WireFormatLite::FieldType)2>(google::protobuf::io::CodedInputStream*, google::protobuf::RepeatedField<float>*) (repeated_field.h:1068)
+   n1: 2457608 0x1EB7A7: caffe::BlobProto::MergePartialFromCodedStream(google::protobuf::io::CodedInputStream*) (caffe.pb.cc:2910)
+    n1: 2457608 0x1F439C: caffe::V1LayerParameter::MergePartialFromCodedStream(google::protobuf::io::CodedInputStream*) (wire_format_lite_inl.h:507)
+     n1: 2457608 0x1F51B6: caffe::NetParameter::MergePartialFromCodedStream(google::protobuf::io::CodedInputStream*) (wire_format_lite_inl.h:507)
+      n1: 2457608 0x5740AD0: google::protobuf::MessageLite::ParseFromCodedStream(google::protobuf::io::CodedInputStream*) (message_lite.cc:116)
+       n1: 2457608 0x66EB85B: caffe::ReadProtoFromBinaryFile(char const*, google::protobuf::Message*) (io.cpp:59)
+        n1: 2457608 0x67003A4: caffe::ReadNetParamsFromBinaryFileOrDie(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, caffe::NetParameter*) (io.hpp:74)
+         n1: 2457608 0x66A0058: caffe::Net<float>::CopyTrainedLayersFromBinaryProto(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (net.cpp:787)
+          n1: 2457608 0x4EE48BC: EdgeCaffe::Task::execute() (Task.cpp:92)
+           n1: 2457608 0x4EE703E: EdgeCaffe::Worker::Execution() (Worker.cpp:65)
+            n1: 2457608 0x5B666DD: ??? (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.25)
+             n1: 2457608 0x79E26D9: start_thread (pthread_create.c:463)
+              n0: 2457608 0x616BA3D: clone (clone.S:95)
+  n0: 0 in 3 places, all below massif's threshold (1.00%)
+ n0: 2335468 in 948 places, all below massif's threshold (1.00%)
+ n1: 1579680 0x15FE5434: gdcm::Dict::LoadDefault() (in /usr/lib/x86_64-linux-gnu/libgdcmDICT.so.2.8.4)
+  n1: 1579680 0x15FE3DF7: gdcm::Dicts::LoadDefaults() (in /usr/lib/x86_64-linux-gnu/libgdcmDICT.so.2.8.4)
+   n1: 1579680 0x15FE72F8: gdcm::Global::Global() (in /usr/lib/x86_64-linux-gnu/libgdcmDICT.so.2.8.4)
+    n1: 1579680 0x15FE3A9E: ??? (in /usr/lib/x86_64-linux-gnu/libgdcmDICT.so.2.8.4)
+     n1: 1579680 0x4010781: _dl_init (dl-init.c:72)
+      n1: 1579680 0x40010C8: ??? (in /lib/x86_64-linux-gnu/ld-2.27.so)
+       n1: 1579680 0x0: ???
+        n1: 1579680 0x1FFEFFFF09: ???
+         n0: 1579680 0x1FFEFFFF29: ???
+ n1: 1511792 0x15FE5C49: gdcm::PrivateDict::LoadDefault() (in /usr/lib/x86_64-linux-gnu/libgdcmDICT.so.2.8.4)
+  n1: 1511792 0x15FE3E00: gdcm::Dicts::LoadDefaults() (in /usr/lib/x86_64-linux-gnu/libgdcmDICT.so.2.8.4)
+   n1: 1511792 0x15FE72F8: gdcm::Global::Global() (in /usr/lib/x86_64-linux-gnu/libgdcmDICT.so.2.8.4)
+    n1: 1511792 0x15FE3A9E: ??? (in /usr/lib/x86_64-linux-gnu/libgdcmDICT.so.2.8.4)
+     n1: 1511792 0x4010781: _dl_init (dl-init.c:72)
+      n1: 1511792 0x40010C8: ??? (in /lib/x86_64-linux-gnu/ld-2.27.so)
+       n1: 1511792 0x0: ???
+        n1: 1511792 0x1FFEFFFF09: ???
+         n0: 1511792 0x1FFEFFFF29: ???
+ n1: 1240811 0x73C9380: cv::fastMalloc(unsigned long) (in /usr/lib/x86_64-linux-gnu/libopencv_core.so.3.2.0)
+  n0: 1240811 in 3 places, all below massif's threshold (1.00%)
+#-----------
+snapshot=21
+#-----------
+time=686571560
+mem_heap_B=94739679
+mem_heap_extra_B=1055081
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=22
+#-----------
+time=709395251
+mem_heap_B=103068895
+mem_heap_extra_B=1057081
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=23
+#-----------
+time=745043462
+mem_heap_B=103068895
+mem_heap_extra_B=1057081
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=24
+#-----------
+time=777449008
+mem_heap_B=103077087
+mem_heap_extra_B=1057089
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=25
+#-----------
+time=800955389
+mem_heap_B=103068895
+mem_heap_extra_B=1057081
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=26
+#-----------
+time=847029013
+mem_heap_B=103077087
+mem_heap_extra_B=1057089
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=27
+#-----------
+time=877143891
+mem_heap_B=95536131
+mem_heap_extra_B=1053885
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=28
+#-----------
+time=897211904
+mem_heap_B=95543419
+mem_heap_extra_B=1053813
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=29
+#-----------
+time=922304840
+mem_heap_B=95535275
+mem_heap_extra_B=1053813
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=30
+#-----------
+time=945767692
+mem_heap_B=95936635
+mem_heap_extra_B=1053821
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=31
+#-----------
+time=980948069
+mem_heap_B=95734603
+mem_heap_extra_B=1053605
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=32
+#-----------
+time=1016149921
+mem_heap_B=95933339
+mem_heap_extra_B=1053397
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=33
+#-----------
+time=1040721190
+mem_heap_B=103023499
+mem_heap_extra_B=1053805
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=34
+#-----------
+time=1073450525
+mem_heap_B=95941579
+mem_heap_extra_B=1053413
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=35
+#-----------
+time=1092410495
+mem_heap_B=98040779
+mem_heap_extra_B=1053421
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=36
+#-----------
+time=1114351145
+mem_heap_B=98040779
+mem_heap_extra_B=1053421
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=37
+#-----------
+time=1144918589
+mem_heap_B=96230383
+mem_heap_extra_B=1052217
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=38
+#-----------
+time=1171292983
+mem_heap_B=96230383
+mem_heap_extra_B=1052217
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=39
+#-----------
+time=1197674818
+mem_heap_B=96229479
+mem_heap_extra_B=1052137
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=40
+#-----------
+time=1233079734
+mem_heap_B=96388231
+mem_heap_extra_B=1052161
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=41
+#-----------
+time=1259827834
+mem_heap_B=134847831
+mem_heap_extra_B=1056121
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=42
+#-----------
+time=1333318623
+mem_heap_B=134856023
+mem_heap_extra_B=1056129
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=43
+#-----------
+time=1359755071
+mem_heap_B=134847831
+mem_heap_extra_B=1056121
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=44
+#-----------
+time=1377362482
+mem_heap_B=134847831
+mem_heap_extra_B=1056121
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=45
+#-----------
+time=1397916126
+mem_heap_B=173386199
+mem_heap_extra_B=1060361
+mem_stacks_B=0
+heap_tree=detailed
+n4: 173386199 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n3: 77072456 0x2038E1: google::protobuf::RepeatedField<float>::Reserve(int) (repeated_field.h:1270)
+  n1: 38537232 0x203B98: bool google::protobuf::internal::WireFormatLite::ReadPackedPrimitive<float, (google::protobuf::internal::WireFormatLite::FieldType)2>(google::protobuf::io::CodedInputStream*, google::protobuf::RepeatedField<float>*) (repeated_field.h:1068)
+   n1: 38537232 0x1EB7A7: caffe::BlobProto::MergePartialFromCodedStream(google::protobuf::io::CodedInputStream*) (caffe.pb.cc:2910)
+    n1: 38537232 0x1F439C: caffe::V1LayerParameter::MergePartialFromCodedStream(google::protobuf::io::CodedInputStream*) (wire_format_lite_inl.h:507)
+     n1: 38537232 0x1F51B6: caffe::NetParameter::MergePartialFromCodedStream(google::protobuf::io::CodedInputStream*) (wire_format_lite_inl.h:507)
+      n1: 38537232 0x5740AD0: google::protobuf::MessageLite::ParseFromCodedStream(google::protobuf::io::CodedInputStream*) (message_lite.cc:116)
+       n1: 38537232 0x66EB85B: caffe::ReadProtoFromBinaryFile(char const*, google::protobuf::Message*) (io.cpp:59)
+        n1: 38537232 0x67003A4: caffe::ReadNetParamsFromBinaryFileOrDie(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, caffe::NetParameter*) (io.hpp:74)
+         n1: 38537232 0x66A0058: caffe::Net<float>::CopyTrainedLayersFromBinaryProto(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (net.cpp:787)
+          n1: 38537232 0x4EE48BC: EdgeCaffe::Task::execute() (Task.cpp:92)
+           n1: 38537232 0x4EE703E: EdgeCaffe::Worker::Execution() (Worker.cpp:65)
+            n1: 38537232 0x5B666DD: ??? (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.25)
+             n1: 38537232 0x79E26D9: start_thread (pthread_create.c:463)
+              n0: 38537232 0x616BA3D: clone (clone.S:95)
+  n2: 38535176 0x1EAE9D: caffe::BlobProto::MergeFrom(caffe::BlobProto const&) (repeated_field.h:1144)
+   n1: 38535176 0x1FBDC2: caffe::V1LayerParameter::MergeFrom(caffe::V1LayerParameter const&) (repeated_field.h:1515)
+    n1: 38535176 0x1FD662: caffe::NetParameter::MergeFrom(caffe::NetParameter const&) (repeated_field.h:1515)
+     n1: 38535176 0x1FDB0B: caffe::NetParameter::NetParameter(caffe::NetParameter const&) (caffe.pb.cc:5476)
+      n1: 38535176 0x66FFEB5: caffe::UpgradeNetAsNeeded(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, caffe::NetParameter*) (upgrade_proto.cpp:57)
+       n1: 38535176 0x67003B3: caffe::ReadNetParamsFromBinaryFileOrDie(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, caffe::NetParameter*) (upgrade_proto.cpp:99)
+        n1: 38535176 0x66A0058: caffe::Net<float>::CopyTrainedLayersFromBinaryProto(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (net.cpp:787)
+         n1: 38535176 0x4EE48BC: EdgeCaffe::Task::execute() (Task.cpp:92)
+          n1: 38535176 0x4EE703E: EdgeCaffe::Worker::Execution() (Worker.cpp:65)
+           n1: 38535176 0x5B666DD: ??? (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.25)
+            n1: 38535176 0x79E26D9: start_thread (pthread_create.c:463)
+             n0: 38535176 0x616BA3D: clone (clone.S:95)
+   n0: 0 in 1 place, below massif's threshold (1.00%)
+  n0: 48 in 2 places, all below massif's threshold (1.00%)
+ n2: 49665776 0x66D274F: caffe::SyncedMemory::mutable_cpu_data() (syncedmem.hpp:30)
+  n3: 49665464 0x65563D1: caffe::Blob<float>::mutable_cpu_data() (blob.cpp:134)
+   n3: 45660192 0x6598D92: caffe::ConstantFiller<float>::Fill(caffe::Blob<float>*) (filler.hpp:36)
+    n1: 39600128 0x660C026: caffe::InnerProductLayer<float>::LayerSetUp(std::vector<caffe::Blob<float>*, std::allocator<caffe::Blob<float>*> > const&, std::vector<caffe::Blob<float>*, std::allocator<caffe::Blob<float>*> > const&) (inner_product_layer.cpp:44)
+     n1: 39600128 0x66A35C9: caffe::Net<float>::Init(caffe::NetParameter const&) (layer.hpp:70)
+      n1: 39600128 0x66A5887: caffe::Net<float>::Net(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, caffe::Phase, int, std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > const*) (net.cpp:42)
+       n1: 39600128 0x4EA10F1: EdgeCaffe::InferenceNetwork::loadNetworkStructure() (InferenceNetwork.cpp:131)
+        n1: 39600128 0x4EE3ABD: EdgeCaffe::InitNetworkTask::run() (InitNetworkTask.cpp:16)
+         n1: 39600128 0x4EE48BC: EdgeCaffe::Task::execute() (Task.cpp:92)
+          n1: 39600128 0x4EE703E: EdgeCaffe::Worker::Execution() (Worker.cpp:65)
+           n1: 39600128 0x5B666DD: ??? (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.25)
+            n1: 39600128 0x79E26D9: start_thread (pthread_create.c:463)
+             n0: 39600128 0x616BA3D: clone (clone.S:95)
+    n1: 6052992 0x659EBED: caffe::BaseConvolutionLayer<float>::LayerSetUp(std::vector<caffe::Blob<float>*, std::allocator<caffe::Blob<float>*> > const&, std::vector<caffe::Blob<float>*, std::allocator<caffe::Blob<float>*> > const&) (base_conv_layer.cpp:169)
+     n1: 6052992 0x66A35C9: caffe::Net<float>::Init(caffe::NetParameter const&) (layer.hpp:70)
+      n1: 6052992 0x66A5887: caffe::Net<float>::Net(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, caffe::Phase, int, std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > const*) (net.cpp:42)
+       n1: 6052992 0x4EA10F1: EdgeCaffe::InferenceNetwork::loadNetworkStructure() (InferenceNetwork.cpp:131)
+        n1: 6052992 0x4EE3ABD: EdgeCaffe::InitNetworkTask::run() (InitNetworkTask.cpp:16)
+         n1: 6052992 0x4EE48BC: EdgeCaffe::Task::execute() (Task.cpp:92)
+          n1: 6052992 0x4EE703E: EdgeCaffe::Worker::Execution() (Worker.cpp:65)
+           n1: 6052992 0x5B666DD: ??? (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.25)
+            n1: 6052992 0x79E26D9: start_thread (pthread_create.c:463)
+             n0: 6052992 0x616BA3D: clone (clone.S:95)
+    n0: 7072 in 2 places, all below massif's threshold (1.00%)
+   n1: 2308096 0x65BEDEE: caffe::ConvolutionLayer<float>::Forward_cpu(std::vector<caffe::Blob<float>*, std::allocator<caffe::Blob<float>*> > const&, std::vector<caffe::Blob<float>*, std::allocator<caffe::Blob<float>*> > const&) (conv_layer.cpp:30)
+    n1: 2308096 0x4EE33C6: EdgeCaffe::ExecTask::run() (layer.hpp:419)
+     n1: 2308096 0x4EE48BC: EdgeCaffe::Task::execute() (Task.cpp:92)
+      n1: 2308096 0x4EE703E: EdgeCaffe::Worker::Execution() (Worker.cpp:65)
+       n1: 2308096 0x5B666DD: ??? (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.25)
+        n1: 2308096 0x79E26D9: start_thread (pthread_create.c:463)
+         n0: 2308096 0x616BA3D: clone (clone.S:95)
+   n0: 1697176 in 9 places, all below massif's threshold (1.00%)
+  n0: 312 in 4 places, all below massif's threshold (1.00%)
+ n1: 40000000 0x4EDE23D: EdgeCaffe::MemCheck::MemCheck() (new_allocator.h:111)
+  n1: 40000000 0x4ED3775: EdgeCaffe::Orchestrator::Orchestrator() (Orchestrator.cpp:10)
+   n1: 40000000 0x18D9E4: EdgeCaffe::LinearOrchestrator::Create() (LinearOrchestrator.h:11)
+    n0: 40000000 0x175C57: main (OrchestratorFactory.h:81)
+ n0: 6647967 in 954 places, all below massif's threshold (1.00%)
+#-----------
+snapshot=46
+#-----------
+time=1429542410
+mem_heap_B=173377599
+mem_heap_extra_B=1060345
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=47
+#-----------
+time=1465779197
+mem_heap_B=211916791
+mem_heap_extra_B=1064641
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=48
+#-----------
+time=1478361984
+mem_heap_B=211949879
+mem_heap_extra_B=1064761
+mem_stacks_B=0
+heap_tree=peak
+n4: 211949879 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n3: 115611792 0x2038E1: google::protobuf::RepeatedField<float>::Reserve(int) (repeated_field.h:1270)
+  n2: 77074464 0x1EAE9D: caffe::BlobProto::MergeFrom(caffe::BlobProto const&) (repeated_field.h:1144)
+   n1: 38537232 0x1FBDC2: caffe::V1LayerParameter::MergeFrom(caffe::V1LayerParameter const&) (repeated_field.h:1515)
+    n1: 38537232 0x1FD662: caffe::NetParameter::MergeFrom(caffe::NetParameter const&) (repeated_field.h:1515)
+     n1: 38537232 0x1FDB0B: caffe::NetParameter::NetParameter(caffe::NetParameter const&) (caffe.pb.cc:5476)
+      n1: 38537232 0x66FFEB5: caffe::UpgradeNetAsNeeded(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, caffe::NetParameter*) (upgrade_proto.cpp:57)
+       n1: 38537232 0x67003B3: caffe::ReadNetParamsFromBinaryFileOrDie(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, caffe::NetParameter*) (upgrade_proto.cpp:99)
+        n1: 38537232 0x66A0058: caffe::Net<float>::CopyTrainedLayersFromBinaryProto(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (net.cpp:787)
+         n1: 38537232 0x4EE48BC: EdgeCaffe::Task::execute() (Task.cpp:92)
+          n1: 38537232 0x4EE703E: EdgeCaffe::Worker::Execution() (Worker.cpp:65)
+           n1: 38537232 0x5B666DD: ??? (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.25)
+            n1: 38537232 0x79E26D9: start_thread (pthread_create.c:463)
+             n0: 38537232 0x616BA3D: clone (clone.S:95)
+   n1: 38537232 0x66F987C: caffe::UpgradeV1LayerParameter(caffe::V1LayerParameter const&, caffe::LayerParameter*) (upgrade_proto.cpp:714)
+    n1: 38537232 0x66FAF56: caffe::UpgradeV1Net(caffe::NetParameter const&, caffe::NetParameter*) (upgrade_proto.cpp:682)
+     n1: 38537232 0x66FFEC0: caffe::UpgradeNetAsNeeded(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, caffe::NetParameter*) (upgrade_proto.cpp:58)
+      n1: 38537232 0x67003B3: caffe::ReadNetParamsFromBinaryFileOrDie(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, caffe::NetParameter*) (upgrade_proto.cpp:99)
+       n1: 38537232 0x66A0058: caffe::Net<float>::CopyTrainedLayersFromBinaryProto(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (net.cpp:787)
+        n1: 38537232 0x4EE48BC: EdgeCaffe::Task::execute() (Task.cpp:92)
+         n1: 38537232 0x4EE703E: EdgeCaffe::Worker::Execution() (Worker.cpp:65)
+          n1: 38537232 0x5B666DD: ??? (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.25)
+           n1: 38537232 0x79E26D9: start_thread (pthread_create.c:463)
+            n0: 38537232 0x616BA3D: clone (clone.S:95)
+  n1: 38537232 0x203B98: bool google::protobuf::internal::WireFormatLite::ReadPackedPrimitive<float, (google::protobuf::internal::WireFormatLite::FieldType)2>(google::protobuf::io::CodedInputStream*, google::protobuf::RepeatedField<float>*) (repeated_field.h:1068)
+   n1: 38537232 0x1EB7A7: caffe::BlobProto::MergePartialFromCodedStream(google::protobuf::io::CodedInputStream*) (caffe.pb.cc:2910)
+    n1: 38537232 0x1F439C: caffe::V1LayerParameter::MergePartialFromCodedStream(google::protobuf::io::CodedInputStream*) (wire_format_lite_inl.h:507)
+     n1: 38537232 0x1F51B6: caffe::NetParameter::MergePartialFromCodedStream(google::protobuf::io::CodedInputStream*) (wire_format_lite_inl.h:507)
+      n1: 38537232 0x5740AD0: google::protobuf::MessageLite::ParseFromCodedStream(google::protobuf::io::CodedInputStream*) (message_lite.cc:116)
+       n1: 38537232 0x66EB85B: caffe::ReadProtoFromBinaryFile(char const*, google::protobuf::Message*) (io.cpp:59)
+        n1: 38537232 0x67003A4: caffe::ReadNetParamsFromBinaryFileOrDie(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, caffe::NetParameter*) (io.hpp:74)
+         n1: 38537232 0x66A0058: caffe::Net<float>::CopyTrainedLayersFromBinaryProto(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (net.cpp:787)
+          n1: 38537232 0x4EE48BC: EdgeCaffe::Task::execute() (Task.cpp:92)
+           n1: 38537232 0x4EE703E: EdgeCaffe::Worker::Execution() (Worker.cpp:65)
+            n1: 38537232 0x5B666DD: ??? (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.25)
+             n1: 38537232 0x79E26D9: start_thread (pthread_create.c:463)
+              n0: 38537232 0x616BA3D: clone (clone.S:95)
+  n0: 96 in 2 places, all below massif's threshold (1.00%)
+ n2: 49665776 0x66D274F: caffe::SyncedMemory::mutable_cpu_data() (syncedmem.hpp:30)
+  n3: 49665464 0x65563D1: caffe::Blob<float>::mutable_cpu_data() (blob.cpp:134)
+   n3: 45660192 0x6598D92: caffe::ConstantFiller<float>::Fill(caffe::Blob<float>*) (filler.hpp:36)
+    n1: 39600128 0x660C026: caffe::InnerProductLayer<float>::LayerSetUp(std::vector<caffe::Blob<float>*, std::allocator<caffe::Blob<float>*> > const&, std::vector<caffe::Blob<float>*, std::allocator<caffe::Blob<float>*> > const&) (inner_product_layer.cpp:44)
+     n1: 39600128 0x66A35C9: caffe::Net<float>::Init(caffe::NetParameter const&) (layer.hpp:70)
+      n1: 39600128 0x66A5887: caffe::Net<float>::Net(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, caffe::Phase, int, std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > const*) (net.cpp:42)
+       n1: 39600128 0x4EA10F1: EdgeCaffe::InferenceNetwork::loadNetworkStructure() (InferenceNetwork.cpp:131)
+        n1: 39600128 0x4EE3ABD: EdgeCaffe::InitNetworkTask::run() (InitNetworkTask.cpp:16)
+         n1: 39600128 0x4EE48BC: EdgeCaffe::Task::execute() (Task.cpp:92)
+          n1: 39600128 0x4EE703E: EdgeCaffe::Worker::Execution() (Worker.cpp:65)
+           n1: 39600128 0x5B666DD: ??? (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.25)
+            n1: 39600128 0x79E26D9: start_thread (pthread_create.c:463)
+             n0: 39600128 0x616BA3D: clone (clone.S:95)
+    n1: 6052992 0x659EBED: caffe::BaseConvolutionLayer<float>::LayerSetUp(std::vector<caffe::Blob<float>*, std::allocator<caffe::Blob<float>*> > const&, std::vector<caffe::Blob<float>*, std::allocator<caffe::Blob<float>*> > const&) (base_conv_layer.cpp:169)
+     n1: 6052992 0x66A35C9: caffe::Net<float>::Init(caffe::NetParameter const&) (layer.hpp:70)
+      n1: 6052992 0x66A5887: caffe::Net<float>::Net(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, caffe::Phase, int, std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > const*) (net.cpp:42)
+       n1: 6052992 0x4EA10F1: EdgeCaffe::InferenceNetwork::loadNetworkStructure() (InferenceNetwork.cpp:131)
+        n1: 6052992 0x4EE3ABD: EdgeCaffe::InitNetworkTask::run() (InitNetworkTask.cpp:16)
+         n1: 6052992 0x4EE48BC: EdgeCaffe::Task::execute() (Task.cpp:92)
+          n1: 6052992 0x4EE703E: EdgeCaffe::Worker::Execution() (Worker.cpp:65)
+           n1: 6052992 0x5B666DD: ??? (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.25)
+            n1: 6052992 0x79E26D9: start_thread (pthread_create.c:463)
+             n0: 6052992 0x616BA3D: clone (clone.S:95)
+    n0: 7072 in 2 places, all below massif's threshold (1.00%)
+   n1: 2308096 0x65BEDEE: caffe::ConvolutionLayer<float>::Forward_cpu(std::vector<caffe::Blob<float>*, std::allocator<caffe::Blob<float>*> > const&, std::vector<caffe::Blob<float>*, std::allocator<caffe::Blob<float>*> > const&) (conv_layer.cpp:30)
+    n1: 2308096 0x4EE33C6: EdgeCaffe::ExecTask::run() (layer.hpp:419)
+     n1: 2308096 0x4EE48BC: EdgeCaffe::Task::execute() (Task.cpp:92)
+      n1: 2308096 0x4EE703E: EdgeCaffe::Worker::Execution() (Worker.cpp:65)
+       n1: 2308096 0x5B666DD: ??? (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.25)
+        n1: 2308096 0x79E26D9: start_thread (pthread_create.c:463)
+         n0: 2308096 0x616BA3D: clone (clone.S:95)
+   n0: 1697176 in 9 places, all below massif's threshold (1.00%)
+  n0: 312 in 4 places, all below massif's threshold (1.00%)
+ n1: 40000000 0x4EDE23D: EdgeCaffe::MemCheck::MemCheck() (new_allocator.h:111)
+  n1: 40000000 0x4ED3775: EdgeCaffe::Orchestrator::Orchestrator() (Orchestrator.cpp:10)
+   n1: 40000000 0x18D9E4: EdgeCaffe::LinearOrchestrator::Create() (LinearOrchestrator.h:11)
+    n0: 40000000 0x175C57: main (OrchestratorFactory.h:81)
+ n0: 6672311 in 956 places, all below massif's threshold (1.00%)
+#-----------
+snapshot=49
+#-----------
+time=1496495327
+mem_heap_B=96303463
+mem_heap_extra_B=1051961
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=50
+#-----------
+time=1509080547
+mem_heap_B=96303415
+mem_heap_extra_B=1051953
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=51
+#-----------
+time=1549401252
+mem_heap_B=96304907
+mem_heap_extra_B=1051925
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=52
+#-----------
+time=1561984848
+mem_heap_B=96304155
+mem_heap_extra_B=1051677
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=53
+#-----------
+time=1574578880
+mem_heap_B=96304251
+mem_heap_extra_B=1051693
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=54
+#-----------
+time=1587167496
+mem_heap_B=96304203
+mem_heap_extra_B=1051685
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=55
+#-----------
+time=1599759323
+mem_heap_B=96303347
+mem_heap_extra_B=1051613
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=56
+#-----------
+time=1612353569
+mem_heap_B=96303299
+mem_heap_extra_B=1051605
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=57
+#-----------
+time=1624939463
+mem_heap_B=96303395
+mem_heap_extra_B=1051621
+mem_stacks_B=0
+heap_tree=detailed
+n6: 96303395 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n2: 49667816 0x66D274F: caffe::SyncedMemory::mutable_cpu_data() (syncedmem.hpp:30)
+  n3: 49667508 0x65563D1: caffe::Blob<float>::mutable_cpu_data() (blob.cpp:134)
+   n3: 45660192 0x6598D92: caffe::ConstantFiller<float>::Fill(caffe::Blob<float>*) (filler.hpp:36)
+    n1: 39600128 0x660C026: caffe::InnerProductLayer<float>::LayerSetUp(std::vector<caffe::Blob<float>*, std::allocator<caffe::Blob<float>*> > const&, std::vector<caffe::Blob<float>*, std::allocator<caffe::Blob<float>*> > const&) (inner_product_layer.cpp:44)
+     n1: 39600128 0x66A35C9: caffe::Net<float>::Init(caffe::NetParameter const&) (layer.hpp:70)
+      n1: 39600128 0x66A5887: caffe::Net<float>::Net(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, caffe::Phase, int, std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > const*) (net.cpp:42)
+       n1: 39600128 0x4EA10F1: EdgeCaffe::InferenceNetwork::loadNetworkStructure() (InferenceNetwork.cpp:131)
+        n1: 39600128 0x4EE3ABD: EdgeCaffe::InitNetworkTask::run() (InitNetworkTask.cpp:16)
+         n1: 39600128 0x4EE48BC: EdgeCaffe::Task::execute() (Task.cpp:92)
+          n1: 39600128 0x4EE703E: EdgeCaffe::Worker::Execution() (Worker.cpp:65)
+           n1: 39600128 0x5B666DD: ??? (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.25)
+            n1: 39600128 0x79E26D9: start_thread (pthread_create.c:463)
+             n0: 39600128 0x616BA3D: clone (clone.S:95)
+    n1: 6052992 0x659EBED: caffe::BaseConvolutionLayer<float>::LayerSetUp(std::vector<caffe::Blob<float>*, std::allocator<caffe::Blob<float>*> > const&, std::vector<caffe::Blob<float>*, std::allocator<caffe::Blob<float>*> > const&) (base_conv_layer.cpp:169)
+     n1: 6052992 0x66A35C9: caffe::Net<float>::Init(caffe::NetParameter const&) (layer.hpp:70)
+      n1: 6052992 0x66A5887: caffe::Net<float>::Net(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, caffe::Phase, int, std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > const*) (net.cpp:42)
+       n1: 6052992 0x4EA10F1: EdgeCaffe::InferenceNetwork::loadNetworkStructure() (InferenceNetwork.cpp:131)
+        n1: 6052992 0x4EE3ABD: EdgeCaffe::InitNetworkTask::run() (InitNetworkTask.cpp:16)
+         n1: 6052992 0x4EE48BC: EdgeCaffe::Task::execute() (Task.cpp:92)
+          n1: 6052992 0x4EE703E: EdgeCaffe::Worker::Execution() (Worker.cpp:65)
+           n1: 6052992 0x5B666DD: ??? (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.25)
+            n1: 6052992 0x79E26D9: start_thread (pthread_create.c:463)
+             n0: 6052992 0x616BA3D: clone (clone.S:95)
+    n0: 7072 in 2 places, all below massif's threshold (1.00%)
+   n1: 2308096 0x65BEDEE: caffe::ConvolutionLayer<float>::Forward_cpu(std::vector<caffe::Blob<float>*, std::allocator<caffe::Blob<float>*> > const&, std::vector<caffe::Blob<float>*, std::allocator<caffe::Blob<float>*> > const&) (conv_layer.cpp:30)
+    n1: 2308096 0x4EE33C6: EdgeCaffe::ExecTask::run() (layer.hpp:419)
+     n1: 2308096 0x4EE48BC: EdgeCaffe::Task::execute() (Task.cpp:92)
+      n1: 2308096 0x4EE703E: EdgeCaffe::Worker::Execution() (Worker.cpp:65)
+       n1: 2308096 0x5B666DD: ??? (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.25)
+        n1: 2308096 0x79E26D9: start_thread (pthread_create.c:463)
+         n0: 2308096 0x616BA3D: clone (clone.S:95)
+   n0: 1699220 in 10 places, all below massif's threshold (1.00%)
+  n0: 308 in 4 places, all below massif's threshold (1.00%)
+ n1: 40000000 0x4EDE23D: EdgeCaffe::MemCheck::MemCheck() (new_allocator.h:111)
+  n1: 40000000 0x4ED3775: EdgeCaffe::Orchestrator::Orchestrator() (Orchestrator.cpp:10)
+   n1: 40000000 0x18D9E4: EdgeCaffe::LinearOrchestrator::Create() (LinearOrchestrator.h:11)
+    n0: 40000000 0x175C57: main (OrchestratorFactory.h:81)
+ n0: 2303296 in 955 places, all below massif's threshold (1.00%)
+ n1: 1579680 0x15FE5434: gdcm::Dict::LoadDefault() (in /usr/lib/x86_64-linux-gnu/libgdcmDICT.so.2.8.4)
+  n1: 1579680 0x15FE3DF7: gdcm::Dicts::LoadDefaults() (in /usr/lib/x86_64-linux-gnu/libgdcmDICT.so.2.8.4)
+   n1: 1579680 0x15FE72F8: gdcm::Global::Global() (in /usr/lib/x86_64-linux-gnu/libgdcmDICT.so.2.8.4)
+    n1: 1579680 0x15FE3A9E: ??? (in /usr/lib/x86_64-linux-gnu/libgdcmDICT.so.2.8.4)
+     n1: 1579680 0x4010781: _dl_init (dl-init.c:72)
+      n1: 1579680 0x40010C8: ??? (in /lib/x86_64-linux-gnu/ld-2.27.so)
+       n1: 1579680 0x0: ???
+        n1: 1579680 0x1FFEFFFF09: ???
+         n0: 1579680 0x1FFEFFFF29: ???
+ n1: 1511792 0x15FE5C49: gdcm::PrivateDict::LoadDefault() (in /usr/lib/x86_64-linux-gnu/libgdcmDICT.so.2.8.4)
+  n1: 1511792 0x15FE3E00: gdcm::Dicts::LoadDefaults() (in /usr/lib/x86_64-linux-gnu/libgdcmDICT.so.2.8.4)
+   n1: 1511792 0x15FE72F8: gdcm::Global::Global() (in /usr/lib/x86_64-linux-gnu/libgdcmDICT.so.2.8.4)
+    n1: 1511792 0x15FE3A9E: ??? (in /usr/lib/x86_64-linux-gnu/libgdcmDICT.so.2.8.4)
+     n1: 1511792 0x4010781: _dl_init (dl-init.c:72)
+      n1: 1511792 0x40010C8: ??? (in /lib/x86_64-linux-gnu/ld-2.27.so)
+       n1: 1511792 0x0: ???
+        n1: 1511792 0x1FFEFFFF09: ???
+         n0: 1511792 0x1FFEFFFF29: ???
+ n1: 1240811 0x73C9380: cv::fastMalloc(unsigned long) (in /usr/lib/x86_64-linux-gnu/libopencv_core.so.3.2.0)
+  n0: 1240811 in 3 places, all below massif's threshold (1.00%)
+#-----------
+snapshot=58
+#-----------
+time=1637527432
+mem_heap_B=96303347
+mem_heap_extra_B=1051613
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=59
+#-----------
+time=1650116660
+mem_heap_B=96302155
+mem_heap_extra_B=1051405
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=60
+#-----------
+time=1662710475
+mem_heap_B=96302107
+mem_heap_extra_B=1051397
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=61
+#-----------
+time=1675294692
+mem_heap_B=96302203
+mem_heap_extra_B=1051413
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=62
+#-----------
+time=1687882811
+mem_heap_B=96302155
+mem_heap_extra_B=1051405
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=63
+#-----------
+time=1700467724
+mem_heap_B=96302943
+mem_heap_extra_B=1051153
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=64
+#-----------
+time=1713051989
+mem_heap_B=96302895
+mem_heap_extra_B=1051129
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=65
+#-----------
+time=1725639368
+mem_heap_B=96302991
+mem_heap_extra_B=1051161
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=66
+#-----------
+time=1738233016
+mem_heap_B=96302943
+mem_heap_extra_B=1051153
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=67
+#-----------
+time=1750817056
+mem_heap_B=96302087
+mem_heap_extra_B=1051081
+mem_stacks_B=0
+heap_tree=detailed
+n6: 96302087 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n2: 49669848 0x66D274F: caffe::SyncedMemory::mutable_cpu_data() (syncedmem.hpp:30)
+  n3: 49669552 0x65563D1: caffe::Blob<float>::mutable_cpu_data() (blob.cpp:134)
+   n3: 45660192 0x6598D92: caffe::ConstantFiller<float>::Fill(caffe::Blob<float>*) (filler.hpp:36)
+    n1: 39600128 0x660C026: caffe::InnerProductLayer<float>::LayerSetUp(std::vector<caffe::Blob<float>*, std::allocator<caffe::Blob<float>*> > const&, std::vector<caffe::Blob<float>*, std::allocator<caffe::Blob<float>*> > const&) (inner_product_layer.cpp:44)
+     n1: 39600128 0x66A35C9: caffe::Net<float>::Init(caffe::NetParameter const&) (layer.hpp:70)
+      n1: 39600128 0x66A5887: caffe::Net<float>::Net(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, caffe::Phase, int, std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > const*) (net.cpp:42)
+       n1: 39600128 0x4EA10F1: EdgeCaffe::InferenceNetwork::loadNetworkStructure() (InferenceNetwork.cpp:131)
+        n1: 39600128 0x4EE3ABD: EdgeCaffe::InitNetworkTask::run() (InitNetworkTask.cpp:16)
+         n1: 39600128 0x4EE48BC: EdgeCaffe::Task::execute() (Task.cpp:92)
+          n1: 39600128 0x4EE703E: EdgeCaffe::Worker::Execution() (Worker.cpp:65)
+           n1: 39600128 0x5B666DD: ??? (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.25)
+            n1: 39600128 0x79E26D9: start_thread (pthread_create.c:463)
+             n0: 39600128 0x616BA3D: clone (clone.S:95)
+    n1: 6052992 0x659EBED: caffe::BaseConvolutionLayer<float>::LayerSetUp(std::vector<caffe::Blob<float>*, std::allocator<caffe::Blob<float>*> > const&, std::vector<caffe::Blob<float>*, std::allocator<caffe::Blob<float>*> > const&) (base_conv_layer.cpp:169)
+     n1: 6052992 0x66A35C9: caffe::Net<float>::Init(caffe::NetParameter const&) (layer.hpp:70)
+      n1: 6052992 0x66A5887: caffe::Net<float>::Net(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, caffe::Phase, int, std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > const*) (net.cpp:42)
+       n1: 6052992 0x4EA10F1: EdgeCaffe::InferenceNetwork::loadNetworkStructure() (InferenceNetwork.cpp:131)
+        n1: 6052992 0x4EE3ABD: EdgeCaffe::InitNetworkTask::run() (InitNetworkTask.cpp:16)
+         n1: 6052992 0x4EE48BC: EdgeCaffe::Task::execute() (Task.cpp:92)
+          n1: 6052992 0x4EE703E: EdgeCaffe::Worker::Execution() (Worker.cpp:65)
+           n1: 6052992 0x5B666DD: ??? (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.25)
+            n1: 6052992 0x79E26D9: start_thread (pthread_create.c:463)
+             n0: 6052992 0x616BA3D: clone (clone.S:95)
+    n0: 7072 in 2 places, all below massif's threshold (1.00%)
+   n1: 2308096 0x65BEDEE: caffe::ConvolutionLayer<float>::Forward_cpu(std::vector<caffe::Blob<float>*, std::allocator<caffe::Blob<float>*> > const&, std::vector<caffe::Blob<float>*, std::allocator<caffe::Blob<float>*> > const&) (conv_layer.cpp:30)
+    n1: 2308096 0x4EE33C6: EdgeCaffe::ExecTask::run() (layer.hpp:419)
+     n1: 2308096 0x4EE48BC: EdgeCaffe::Task::execute() (Task.cpp:92)
+      n1: 2308096 0x4EE703E: EdgeCaffe::Worker::Execution() (Worker.cpp:65)
+       n1: 2308096 0x5B666DD: ??? (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.25)
+        n1: 2308096 0x79E26D9: start_thread (pthread_create.c:463)
+         n0: 2308096 0x616BA3D: clone (clone.S:95)
+   n0: 1701264 in 10 places, all below massif's threshold (1.00%)
+  n0: 296 in 5 places, all below massif's threshold (1.00%)
+ n1: 40000000 0x4EDE23D: EdgeCaffe::MemCheck::MemCheck() (new_allocator.h:111)
+  n1: 40000000 0x4ED3775: EdgeCaffe::Orchestrator::Orchestrator() (Orchestrator.cpp:10)
+   n1: 40000000 0x18D9E4: EdgeCaffe::LinearOrchestrator::Create() (LinearOrchestrator.h:11)
+    n0: 40000000 0x175C57: main (OrchestratorFactory.h:81)
+ n0: 2299956 in 955 places, all below massif's threshold (1.00%)
+ n1: 1579680 0x15FE5434: gdcm::Dict::LoadDefault() (in /usr/lib/x86_64-linux-gnu/libgdcmDICT.so.2.8.4)
+  n1: 1579680 0x15FE3DF7: gdcm::Dicts::LoadDefaults() (in /usr/lib/x86_64-linux-gnu/libgdcmDICT.so.2.8.4)
+   n1: 1579680 0x15FE72F8: gdcm::Global::Global() (in /usr/lib/x86_64-linux-gnu/libgdcmDICT.so.2.8.4)
+    n1: 1579680 0x15FE3A9E: ??? (in /usr/lib/x86_64-linux-gnu/libgdcmDICT.so.2.8.4)
+     n1: 1579680 0x4010781: _dl_init (dl-init.c:72)
+      n1: 1579680 0x40010C8: ??? (in /lib/x86_64-linux-gnu/ld-2.27.so)
+       n1: 1579680 0x0: ???
+        n1: 1579680 0x1FFEFFFF09: ???
+         n0: 1579680 0x1FFEFFFF29: ???
+ n1: 1511792 0x15FE5C49: gdcm::PrivateDict::LoadDefault() (in /usr/lib/x86_64-linux-gnu/libgdcmDICT.so.2.8.4)
+  n1: 1511792 0x15FE3E00: gdcm::Dicts::LoadDefaults() (in /usr/lib/x86_64-linux-gnu/libgdcmDICT.so.2.8.4)
+   n1: 1511792 0x15FE72F8: gdcm::Global::Global() (in /usr/lib/x86_64-linux-gnu/libgdcmDICT.so.2.8.4)
+    n1: 1511792 0x15FE3A9E: ??? (in /usr/lib/x86_64-linux-gnu/libgdcmDICT.so.2.8.4)
+     n1: 1511792 0x4010781: _dl_init (dl-init.c:72)
+      n1: 1511792 0x40010C8: ??? (in /lib/x86_64-linux-gnu/ld-2.27.so)
+       n1: 1511792 0x0: ???
+        n1: 1511792 0x1FFEFFFF09: ???
+         n0: 1511792 0x1FFEFFFF29: ???
+ n1: 1240811 0x73C9380: cv::fastMalloc(unsigned long) (in /usr/lib/x86_64-linux-gnu/libopencv_core.so.3.2.0)
+  n0: 1240811 in 3 places, all below massif's threshold (1.00%)
+#-----------
+snapshot=68
+#-----------
+time=1763403168
+mem_heap_B=96302039
+mem_heap_extra_B=1051073
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=69
+#-----------
+time=1775993506
+mem_heap_B=96302135
+mem_heap_extra_B=1051105
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=70
+#-----------
+time=1788581890
+mem_heap_B=96300895
+mem_heap_extra_B=1050873
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=71
+#-----------
+time=1801165430
+mem_heap_B=96300847
+mem_heap_extra_B=1050865
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=72
+#-----------
+time=1813748251
+mem_heap_B=96309135
+mem_heap_extra_B=1050889
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=73
+#-----------
+time=1826334460
+mem_heap_B=96300895
+mem_heap_extra_B=1050873
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=74
+#-----------
+time=1838921144
+mem_heap_B=96299667
+mem_heap_extra_B=1050589
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=75
+#-----------
+time=1851512949
+mem_heap_B=96299619
+mem_heap_extra_B=1050581
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=76
+#-----------
+time=1864096984
+mem_heap_B=96299715
+mem_heap_extra_B=1050597
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=77
+#-----------
+time=1876680594
+mem_heap_B=96299667
+mem_heap_extra_B=1050589
+mem_stacks_B=0
+heap_tree=detailed
+n6: 96299667 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n2: 49669864 0x66D274F: caffe::SyncedMemory::mutable_cpu_data() (syncedmem.hpp:30)
+  n3: 49669580 0x65563D1: caffe::Blob<float>::mutable_cpu_data() (blob.cpp:134)
+   n3: 45660192 0x6598D92: caffe::ConstantFiller<float>::Fill(caffe::Blob<float>*) (filler.hpp:36)
+    n1: 39600128 0x660C026: caffe::InnerProductLayer<float>::LayerSetUp(std::vector<caffe::Blob<float>*, std::allocator<caffe::Blob<float>*> > const&, std::vector<caffe::Blob<float>*, std::allocator<caffe::Blob<float>*> > const&) (inner_product_layer.cpp:44)
+     n1: 39600128 0x66A35C9: caffe::Net<float>::Init(caffe::NetParameter const&) (layer.hpp:70)
+      n1: 39600128 0x66A5887: caffe::Net<float>::Net(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, caffe::Phase, int, std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > const*) (net.cpp:42)
+       n1: 39600128 0x4EA10F1: EdgeCaffe::InferenceNetwork::loadNetworkStructure() (InferenceNetwork.cpp:131)
+        n1: 39600128 0x4EE3ABD: EdgeCaffe::InitNetworkTask::run() (InitNetworkTask.cpp:16)
+         n1: 39600128 0x4EE48BC: EdgeCaffe::Task::execute() (Task.cpp:92)
+          n1: 39600128 0x4EE703E: EdgeCaffe::Worker::Execution() (Worker.cpp:65)
+           n1: 39600128 0x5B666DD: ??? (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.25)
+            n1: 39600128 0x79E26D9: start_thread (pthread_create.c:463)
+             n0: 39600128 0x616BA3D: clone (clone.S:95)
+    n1: 6052992 0x659EBED: caffe::BaseConvolutionLayer<float>::LayerSetUp(std::vector<caffe::Blob<float>*, std::allocator<caffe::Blob<float>*> > const&, std::vector<caffe::Blob<float>*, std::allocator<caffe::Blob<float>*> > const&) (base_conv_layer.cpp:169)
+     n1: 6052992 0x66A35C9: caffe::Net<float>::Init(caffe::NetParameter const&) (layer.hpp:70)
+      n1: 6052992 0x66A5887: caffe::Net<float>::Net(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, caffe::Phase, int, std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > const*) (net.cpp:42)
+       n1: 6052992 0x4EA10F1: EdgeCaffe::InferenceNetwork::loadNetworkStructure() (InferenceNetwork.cpp:131)
+        n1: 6052992 0x4EE3ABD: EdgeCaffe::InitNetworkTask::run() (InitNetworkTask.cpp:16)
+         n1: 6052992 0x4EE48BC: EdgeCaffe::Task::execute() (Task.cpp:92)
+          n1: 6052992 0x4EE703E: EdgeCaffe::Worker::Execution() (Worker.cpp:65)
+           n1: 6052992 0x5B666DD: ??? (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.25)
+            n1: 6052992 0x79E26D9: start_thread (pthread_create.c:463)
+             n0: 6052992 0x616BA3D: clone (clone.S:95)
+    n0: 7072 in 2 places, all below massif's threshold (1.00%)
+   n1: 2308096 0x65BEDEE: caffe::ConvolutionLayer<float>::Forward_cpu(std::vector<caffe::Blob<float>*, std::allocator<caffe::Blob<float>*> > const&, std::vector<caffe::Blob<float>*, std::allocator<caffe::Blob<float>*> > const&) (conv_layer.cpp:30)
+    n1: 2308096 0x4EE33C6: EdgeCaffe::ExecTask::run() (layer.hpp:419)
+     n1: 2308096 0x4EE48BC: EdgeCaffe::Task::execute() (Task.cpp:92)
+      n1: 2308096 0x4EE703E: EdgeCaffe::Worker::Execution() (Worker.cpp:65)
+       n1: 2308096 0x5B666DD: ??? (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.25)
+        n1: 2308096 0x79E26D9: start_thread (pthread_create.c:463)
+         n0: 2308096 0x616BA3D: clone (clone.S:95)
+   n0: 1701292 in 10 places, all below massif's threshold (1.00%)
+  n0: 284 in 5 places, all below massif's threshold (1.00%)
+ n1: 40000000 0x4EDE23D: EdgeCaffe::MemCheck::MemCheck() (new_allocator.h:111)
+  n1: 40000000 0x4ED3775: EdgeCaffe::Orchestrator::Orchestrator() (Orchestrator.cpp:10)
+   n1: 40000000 0x18D9E4: EdgeCaffe::LinearOrchestrator::Create() (LinearOrchestrator.h:11)
+    n0: 40000000 0x175C57: main (OrchestratorFactory.h:81)
+ n0: 2297520 in 955 places, all below massif's threshold (1.00%)
+ n1: 1579680 0x15FE5434: gdcm::Dict::LoadDefault() (in /usr/lib/x86_64-linux-gnu/libgdcmDICT.so.2.8.4)
+  n1: 1579680 0x15FE3DF7: gdcm::Dicts::LoadDefaults() (in /usr/lib/x86_64-linux-gnu/libgdcmDICT.so.2.8.4)
+   n1: 1579680 0x15FE72F8: gdcm::Global::Global() (in /usr/lib/x86_64-linux-gnu/libgdcmDICT.so.2.8.4)
+    n1: 1579680 0x15FE3A9E: ??? (in /usr/lib/x86_64-linux-gnu/libgdcmDICT.so.2.8.4)
+     n1: 1579680 0x4010781: _dl_init (dl-init.c:72)
+      n1: 1579680 0x40010C8: ??? (in /lib/x86_64-linux-gnu/ld-2.27.so)
+       n1: 1579680 0x0: ???
+        n1: 1579680 0x1FFEFFFF09: ???
+         n0: 1579680 0x1FFEFFFF29: ???
+ n1: 1511792 0x15FE5C49: gdcm::PrivateDict::LoadDefault() (in /usr/lib/x86_64-linux-gnu/libgdcmDICT.so.2.8.4)
+  n1: 1511792 0x15FE3E00: gdcm::Dicts::LoadDefaults() (in /usr/lib/x86_64-linux-gnu/libgdcmDICT.so.2.8.4)
+   n1: 1511792 0x15FE72F8: gdcm::Global::Global() (in /usr/lib/x86_64-linux-gnu/libgdcmDICT.so.2.8.4)
+    n1: 1511792 0x15FE3A9E: ??? (in /usr/lib/x86_64-linux-gnu/libgdcmDICT.so.2.8.4)
+     n1: 1511792 0x4010781: _dl_init (dl-init.c:72)
+      n1: 1511792 0x40010C8: ??? (in /lib/x86_64-linux-gnu/ld-2.27.so)
+       n1: 1511792 0x0: ???
+        n1: 1511792 0x1FFEFFFF09: ???
+         n0: 1511792 0x1FFEFFFF29: ???
+ n1: 1240811 0x73C9380: cv::fastMalloc(unsigned long) (in /usr/lib/x86_64-linux-gnu/libopencv_core.so.3.2.0)
+  n0: 1240811 in 3 places, all below massif's threshold (1.00%)
+#-----------
+snapshot=78
+#-----------
+time=1889469469
+mem_heap_B=46259525
+mem_heap_extra_B=1038187
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=79
+#-----------
+time=2120791244
+mem_heap_B=46260077
+mem_heap_extra_B=1038203
+mem_stacks_B=0
+heap_tree=empty

@@ -10,9 +10,33 @@
 
 namespace EdgeCaffe
 {
+    //    Forward declaration
+    class TaskDependency;
+    class ConditionalDependency;
+
+
+
+
+//    class TaskReference {
+//        bool executed = false;
+//        Task *content = nullptr;
+//    };
+
     class Task
     {
     public:
+
+        enum TYPE {
+            INIT= 2,
+            LOAD= 1,
+            EXEC= 0
+        };
+
+        enum LAYER_TYPE {
+            CONV = 0,
+            FC = 1
+        };
+
         enum TIME {
 //            NET_SUBMIT,
             TO_WAITING,
@@ -38,6 +62,8 @@ namespace EdgeCaffe
         // The estimated memory needed to execution of this task. Can be used for scheduling
         int estimatedNeededMemory = 0;
 
+        double networkExecutionTime = std::numeric_limits<double>::max();
+
         // Describes the task
         std::string taskName;
 
@@ -48,12 +74,24 @@ namespace EdgeCaffe
         std::string networkName = "";
         std::string taskType = "";
 
+        TYPE t_type;
+        LAYER_TYPE layerType;
+
+
         // Information for the scheduler (orchestrator) to use specific taskpools for this task if the poolId is set.
         int assignedPoolId = -1;
 
         // Holds references to the task that are dependencies for this task.
         // If the tasks in this are not executed, this current task is not ready to be run
-        std::vector<Task *> dependsOn;
+//        std::vector<Task *> dependsOn;
+
+        std::vector<TaskDependency> dependsOn;
+        std::vector<ConditionalDependency> dependsOnConditional;
+
+        // Condition to enforce linear behaviour for inter- network dependencies
+        bool * dependencyCondition;
+        double requiredMemory = 0;
+
 
         // To measure the actual execution time
         ProfileLine profileLine;
@@ -74,7 +112,8 @@ namespace EdgeCaffe
 
         bool waitsForOtherTasks();
 
-        std::vector<Task *> getDependencies();
+        [[nodiscard]] std::vector<TaskDependency> getDependencies() const;
+        [[nodiscard]] std::vector<ConditionalDependency> getConditionalDependencies() const;
 
 //        Task(int id, int executionTime);
 //
@@ -82,7 +121,8 @@ namespace EdgeCaffe
 
         Task(int id, int networkId, const std::string &taskName, int estimatedExecutionTime = 0, int estimatedNeededMemory = 0);
 
-        void addTaskDependency(Task *t);
+        void addTaskDependency(TaskDependency t);
+        void addTaskDependency(ConditionalDependency t);
 
         virtual ~Task();
 
@@ -102,6 +142,51 @@ namespace EdgeCaffe
     protected:
 //  Virtual function to implement in subclasses
         virtual void run() = 0;
+    };
+
+
+    class TaskDependency {
+    public:
+        Task * dependency;
+
+    public:
+        explicit
+        TaskDependency(Task *dependency) : dependency(dependency)
+        {}
+
+        [[nodiscard]] bool isExecuted() const
+        {
+            if(dependency == nullptr)
+                return true;
+            return dependency->executed;
+        }
+    };
+
+    class ConditionalDependency{
+        Task * dependency;
+        bool * condition;
+    public:
+        ConditionalDependency(Task *dependency, bool *condition) : dependency(dependency), condition(condition)
+        {
+        }
+
+        [[nodiscard]] bool isExecuted() const
+        {
+            // Assume that the dependency is global and is always set by the system
+            // If the condition is true means that the dependency should be enforces
+            // If the condition is false means that the condition should be ignored
+            if(!*condition)
+                return true; // Ignore the actual value of the dependency because the condition if false
+            // Dependency will be enforced, lets the dependency itself.
+            if(dependency == nullptr)
+                return true;
+            return dependency->executed;
+        }
+
+        static bool compareByNetworkTime(const Task & l, const Task & r) //(2)
+        {
+            return l.networkExecutionTime < r.networkExecutionTime;
+        }
     };
 }
 

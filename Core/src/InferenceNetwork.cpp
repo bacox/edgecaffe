@@ -7,16 +7,18 @@
 #include "../include/Tasks/ExecTask.h"
 #include <yaml-cpp/yaml.h>
 #include <opencv2/imgproc.hpp>
-#include <cv.hpp>
+#include <opencv2/opencv.hpp>
 #include <BaseNet.h>
 #include <caffe/caffe.hpp>
 #include <Tasks/InitNetworkTask.h>
 #include <algorithm>
 #include <string>
+#include <Util/Config.h>
+#include <Tasks/ExecBulkTask.h>
 
 namespace EdgeCaffe
 {
-    InferenceNetwork::InferenceNetwork(const std::string &pathToDescription) : pathToDescription(pathToDescription)
+    InferenceNetwork::InferenceNetwork(const std::string &pathToDescription, bool *dependencyCondition) : pathToDescription(pathToDescription), dependencyCondition(dependencyCondition)
     {}
 
     int InferenceNetwork::TASKID_COUNTER = 0;
@@ -25,17 +27,17 @@ namespace EdgeCaffe
     void InferenceNetwork::init(YAML::Node &description)
     {
         InferenceSubTask *sub = new InferenceSubTask;
-
+        auto &globalConfig = Config::getInstance();
         sub->networkName = description["name"].as<std::string>();
 
         std::string networkFile = description["network-file"].as<std::string>();
         std::string partialsLocation = description["partials-location"].as<std::string>();
         sub->basePath = description["base-path"].as<std::string>();
         sub->modelFileName = networkFile;
-        sub->pathToModelFile = pathToDescription + "/" + networkFile;
-        sub->pathToPartials = pathToDescription + "/" + partialsLocation;
+        sub->pathToModelFile = globalConfig.pathToNetworks() + "/" + pathToDescription + "/" + networkFile;
+        sub->pathToPartials = globalConfig.pathToNetworks() + "/" + pathToDescription + "/" + partialsLocation;
 
-        sub->pathToParamFile = pathToDescription + "/" + description["model-file"].as<std::string>();
+        sub->pathToParamFile = globalConfig.pathToNetworks() + "/" + pathToDescription + "/" + description["model-file"].as<std::string>();
 
         sub->hasInputLayer = description["has-input-layer"].as<bool>();
         sub->num_conv = description["num-conv-layers"].as<int>();
@@ -56,20 +58,22 @@ namespace EdgeCaffe
 
 
 
-        for(auto l_layer : description["conv-layers"])
+        for(const auto& l_layer : description["conv-layers"])
         {
             layerDescriptions.push_back(LayerDescription::FromYaml(l_layer, sub->pathToPartials));
         }
 
-        for(auto l_layer : description["fc-layers"])
+        for(const auto& l_layer : description["fc-layers"])
         {
             layerDescriptions.push_back(LayerDescription::FromYaml(l_layer, sub->pathToPartials));
         }
 
-        for( auto l_layer : layerDescriptions)
+        for( const auto& l_layer : layerDescriptions)
         {
             sub->partialNames.push_back(sub->pathToPartials + "/" + l_layer.partialFileName);
         }
+        std::string memoryKey = globalConfig.memoryKey();
+        maxMemoryUsage = description[memoryKey].as<double>(0);
 
 //        std::cout << "Compare sizes " << sub->net_ptr->layers().size() << " && " << layerDescriptions.size() << std::endl;
 
@@ -176,17 +180,19 @@ namespace EdgeCaffe
             auto layerDescription = layerDescriptions[i];
             Task *load = createLoadTask(dnn, layerDescription);
             // Make sure that all load tasks are dependend on the init task
-            load->addTaskDependency(init);
+            load->addTaskDependency(TaskDependency(init));
+//            bool * valid;
+//            load->addTaskDependency(ConditionalDependency(nullptr, init, valid));
             tasks.push_back(load);
 
             Task *exec = createExecTask(dnn, layerDescription);
             // Set a dependency for the previous exectask
             if (lastTask != nullptr)
             {
-                exec->addTaskDependency(lastTask);
+                exec->addTaskDependency(TaskDependency(lastTask));
             }
             // Set the dependency for this execution task to the last loading task
-            exec->addTaskDependency(load);
+            exec->addTaskDependency(TaskDependency(load));
             // Update the last task to this task
             lastTask = exec;
             tasks.push_back(exec);
@@ -226,14 +232,14 @@ namespace EdgeCaffe
             auto layerDescription = layerDescriptions[i];
             Task *load = createLoadTask(dnn, layerDescription);
             // Make sure the loading task is dependent on the last task
-            load->addTaskDependency(lastTask);
+            load->addTaskDependency(TaskDependency(lastTask));
             // Update the last task
             lastTask = load;
             tasks.push_back(load);
 
             Task *exec = createExecTask(dnn, layerDescription);
             // Make sure the exec task is dependent on the last task
-            exec->addTaskDependency(lastTask);
+            exec->addTaskDependency(TaskDependency(lastTask));
             lastTask = exec;
             tasks.push_back(exec);
         }
@@ -249,8 +255,12 @@ namespace EdgeCaffe
         int numLayers = param.layer_size();
         Task *lastTask = nullptr;
 
+        // Keep track of the taskPool Id; set to pool 0 for now
+        int poolId = 0;
+
         // Important to first create the network initialisation task
         Task *init = createInitTask(dnn);
+        init->assignedPoolId = poolId;
         tasks.push_back(init);
         // Set the init task as the first task of this network for intra-network linking
         dnn->firstTask = init;
@@ -274,8 +284,6 @@ namespace EdgeCaffe
         Task *lastLoadFc = nullptr;
         Task *lastLoadConv = nullptr;
 
-        // Keep track of the taskPool Id; set to pool 0 for now
-        int poolId = 0;
         // Loop for the conv layers
         for(int i = 0; i < numConv; ++i)
         {
@@ -286,11 +294,12 @@ namespace EdgeCaffe
             {
                 // First loading task of the conv layers
                 // This is dependent on the init task
-                load->addTaskDependency(init);
+                bool *valid;
+                load->addTaskDependency(TaskDependency(init));
                 firstLoadConv = load;
             } else
             {
-                load->addTaskDependency(lastTask);
+                load->addTaskDependency(TaskDependency(lastTask));
             }
             lastLoadConv = load;
             tasks.push_back(load);
@@ -298,7 +307,7 @@ namespace EdgeCaffe
 
             Task *exec = createExecTask(dnn, layerDescription);
             exec->assignedPoolId = poolId;
-            exec->addTaskDependency(lastTask);
+            exec->addTaskDependency(TaskDependency(lastTask));
             lastExecConv = exec;
             lastTask = exec;
             tasks.push_back(exec);
@@ -314,11 +323,11 @@ namespace EdgeCaffe
             {
                 // First loading task of the conv layers
                 // This is dependent on the init task
-                load->addTaskDependency(init);
+                load->addTaskDependency(TaskDependency(init));
                 firstLoadFc = load;
             } else
             {
-                load->addTaskDependency(lastLoadFc);
+                load->addTaskDependency(TaskDependency(lastLoadFc));
             }
             lastLoadFc = load;
             tasks.push_back(load);
@@ -326,21 +335,142 @@ namespace EdgeCaffe
 
             Task *exec = createExecTask(dnn, layerDescription);
             exec->assignedPoolId = poolId;
-            exec->addTaskDependency(lastTask);
+            exec->addTaskDependency(TaskDependency(lastTask));
             if(firstExecFc == nullptr)
             {
                 // This is the first exec layer of the fc-layers
                 // Needs to depend in the last exec-layer of conv layers
-                exec->addTaskDependency(lastExecConv);
+                exec->addTaskDependency(TaskDependency(lastExecConv));
                 firstExecFc = exec;
             } else
             {
-                exec->addTaskDependency(lastExecFc);
+                exec->addTaskDependency(TaskDependency(lastExecFc));
             }
             lastExecFc = exec;
             lastTask = exec;
             tasks.push_back(exec);
         }
+        dnn->lastTask = lastTask;
+    }
+
+    void InferenceNetwork::createTasksConvFCV2()
+    {
+        /**
+         * Create the tasks according to the DeepEye paper
+         */
+        InferenceSubTask *dnn = subTasks.front();
+        caffe::NetParameter param;
+        caffe::ReadNetParamsFromTextFileOrDie(dnn->pathToModelFile, &param);
+        int numLayers = param.layer_size();
+        Task *lastTask = nullptr;
+
+        // Keep track of the taskPool Id; set to pool 0 for now
+        int poolId = 0;
+        int numConv = dnn->num_conv;
+        int numFC = dnn->num_fc;
+        Task *lastLoad = nullptr;
+        Task *lastExec = nullptr;
+
+        // Important to first create the network initialisation task
+        Task *init = createInitTask(dnn);
+        init->assignedPoolId = poolId;
+        tasks.push_back(init);
+        // Set the init task as the first task of this network for intra-network linking
+        dnn->firstTask = init;
+        dnn->conv_load_first = init;
+        lastTask = init;
+
+        /**
+         * Paper extract:
+         * "In the convolution-execution thread, the convolution filter parameters of all models are loaded into
+         * the memory and the convolution operations begin on the pre-processed input data for each model"
+         *
+         * This means that we first load all the convolutional layers of all models and then execute them one model at
+         * a time.
+         */
+
+        // Loop over all the conv layers
+        for(int i = 0; i < numConv; ++i)
+        {
+            auto layerDescription = layerDescriptions[i];
+            Task *load = createLoadTask(dnn, layerDescription);
+            load->assignedPoolId = poolId;
+            if(i == 0)
+                load->addTaskDependency(TaskDependency(init));
+            else
+                load->addTaskDependency(TaskDependency(lastLoad));
+            lastLoad = load;
+            tasks.push_back(load);
+            lastTask = load;
+            dnn->conv_load_last = load;
+
+
+            Task *exec = createExecTask(dnn, layerDescription);
+            exec->assignedPoolId = poolId;
+            if(i == 0)
+                dnn->conv_exec_first = exec;
+            else
+                exec->addTaskDependency(TaskDependency(lastExec));
+            dnn->conv_exec_last = exec;
+            lastExec = exec;
+            lastTask = exec;
+            tasks.push_back(exec);
+        }
+
+        /**
+         * Paper extract:
+         * "The data-loading thread which is spawned in parallel with the convolution thread is responsible for
+         * loading the FC layer parameters for all models into the mem- ory, again in a pipelined manner
+         * (i.e., one model after the other). The objective of the convolution-execution thread is to perform
+         * all convolutions on the input image, and pass the results of the final convolution layer of
+         * each model to the data-loading thread. When the data-loading thread finishes loading the FC layer
+         * parameters for a model, it can use the pre-computed convolution outputs from the
+         * convolution-execution and proceed to obtain the final classification results."
+         *
+         * This means we continue to load the fc layers of all networks.
+         * When the fc layers of a network is loaded and the conv layers of that same network are executed, we can
+         * start with the execution of the fc layers. If the conv layers are not ready yet, continue to preload
+         * the other models.
+         */
+
+        poolId = 1;
+        // Loop over all the fc layers
+        for (int i = numConv; i < numLayers; ++i)
+        {
+            auto layerDescription = layerDescriptions[i];
+            Task *load = createLoadTask(dnn, layerDescription);
+            load->assignedPoolId = poolId;
+            if(i == numConv)
+            {
+                load->addTaskDependency(TaskDependency(init));
+                dnn->fc_load_first = load;
+            }
+            else
+                load->addTaskDependency(TaskDependency(lastLoad));
+            lastLoad = load;
+            dnn->fc_load_last = load;
+            tasks.push_back(load);
+            lastTask = load;
+
+            Task *exec = createExecTask(dnn, layerDescription);
+            exec->assignedPoolId = poolId;
+            exec->addTaskDependency(TaskDependency(lastTask));
+            if(i == numConv)
+            {
+                exec->addTaskDependency(TaskDependency(lastLoad));
+                exec->addTaskDependency(TaskDependency(dnn->conv_exec_last));
+                dnn->fc_exec_first = exec;
+            }
+            else
+                exec->addTaskDependency(TaskDependency(lastExec));
+            lastExec = exec;
+            dnn->fc_exec_last = exec;
+            lastTask = exec;
+            tasks.push_back(exec);
+        }
+        // Edge case for TinyYolo where there do not exist any fully connected layers
+        if(numFC > 0)
+            dnn->fc_exec_first->addTaskDependency(TaskDependency(dnn->fc_load_last));
         dnn->lastTask = lastTask;
     }
 
@@ -354,6 +484,9 @@ namespace EdgeCaffe
 
         // Important to first create the network initialisation task
         Task *init = createInitTask(dnn);
+
+        if(dnn->lastTask != nullptr)
+            init->addTaskDependency(TaskDependency(dnn->lastTask));
         tasks.push_back(init);
         // Set the init task as the first task of this network for intra-network linking
         dnn->firstTask = init;
@@ -381,11 +514,11 @@ namespace EdgeCaffe
             if(firstLoadingTask == nullptr)
             {
                 // Dependency on init
-                load->addTaskDependency(init);
+                load->addTaskDependency(TaskDependency(init));
                 firstLoadingTask = load;
             } else {
                 // Dependency on previous loading task
-                load->addTaskDependency(lastLoadingTask);
+                load->addTaskDependency(TaskDependency(lastLoadingTask));
             }
             // Update the last loading task
             lastLoadingTask = load;
@@ -402,7 +535,7 @@ namespace EdgeCaffe
             } else {
                 // Not the first exec task
                 // Needs to depend on the previous exec task
-                exec->addTaskDependency(lastExecTask);
+                exec->addTaskDependency(TaskDependency(lastExecTask));
             }
             lastExecTask = exec;
             lastTask = exec;
@@ -411,9 +544,43 @@ namespace EdgeCaffe
         }
         // Set the missing dependency between the last loading task and the first execution task
         if (firstExecTask != nullptr)
-            firstExecTask->addTaskDependency(lastLoadingTask);
+            firstExecTask->addTaskDependency(TaskDependency(lastLoadingTask));
         // Update the last task of the network for intra-network linking
         dnn->lastTask = lastExecTask;
+    }
+
+    void InferenceNetwork::createTasksBulkV2()
+    {
+        InferenceSubTask *dnn = subTasks.front();
+        caffe::NetParameter param;
+        caffe::ReadNetParamsFromTextFileOrDie(dnn->pathToModelFile, &param);
+        int numLayers = param.layer_size();
+
+
+        // Create init task
+        Task *lastTask = nullptr;
+        // Important to first create the network initialisation task
+        Task *init = createInitTask(dnn);
+
+        if(dnn->lastTask != nullptr)
+            init->addTaskDependency(TaskDependency(dnn->lastTask));
+        tasks.push_back(init);
+        // Set the init task as the first task of this network for intra-network linking
+        dnn->firstTask = init;
+
+        // Create bulk load task
+        std::string loadDescription = "Bulk loading";
+        LoadTask *load = (LoadTask *) createLoadTask(dnn, layerDescriptions[0]);
+        load->addTaskDependency(TaskDependency(init));
+        load->pathToPartial = dnn->pathToParamFile;
+        load->needsLoading = true;
+        tasks.push_back(load);
+
+
+        Task * execBulk = createExecTask(dnn, layerDescriptions[0], true);
+        execBulk->addTaskDependency(TaskDependency(load));
+        tasks.push_back(execBulk);
+        dnn->lastTask = execBulk;
     }
 
     bool InferenceNetwork::isFinished()
@@ -430,39 +597,86 @@ namespace EdgeCaffe
         return finished;
     }
 
-
-    void InferenceNetwork::createTasks(int splittingPolicy)
+    void InferenceNetwork::createTasks(Type::MODE_TYPE mode)
     {
-        std::string policyName = "";
-        if (splittingPolicy == 0)
+        switch(mode)
         {
-            policyName = "Bulk";
-        } else if (splittingPolicy == 1)
-        {
-            policyName = "DeepEye";
-        } else if (splittingPolicy == 3)
-        {
-            policyName = "Linear";
-        } else
-        {
-            policyName = "Partial";
-        }
+            case Type::MODE_TYPE::DEEPEYE:
+//                createTasksConvFC();
+                createTasksConvFCV2();
+                break;
+            case Type::MODE_TYPE::DEEPEYE_FRUGAL:
+                createTasksConvFCV2();
+                break;
+            case Type::MODE_TYPE::LINEAR:
+                createTasksLinear();
+                break;
+            case Type::MODE_TYPE::PARTIAL:
+                createPartialTasks();
+                break;
+            case Type::MODE_TYPE::MASA:
+                createPartialTasks();
+                break;
+            case Type::MODE_TYPE::EXECPRIO:
+                createPartialTasks();
+                break;
+            case Type::MODE_TYPE::EXECPRIO_INTER:
+                createPartialTasks();
+                break;
+            case Type::MODE_TYPE::MULTI_BULK:
+                createTasksBulkV2();
+                break;
+            default: // Default case is bulk
+//                createTasksBulk();
+                createTasksBulkV2();
+                break;
 
-        if (splittingPolicy == 0) // bulk
-        {
-            createTasksBulk();
-        } else if (splittingPolicy == 1)
-        { // conv-fc | deepeye
-            createTasksConvFC();
-        } else if (splittingPolicy == 3)
-        { // Linear
-            createTasksLinear();
-        } else
-        { // Partial
-            createPartialTasks();
         }
-//        NETWORKID_COUNTER++;
     }
+//    void InferenceNetwork::createTasks(int splittingPolicy)
+//    {
+//        std::string policyName = "";
+//        if (splittingPolicy == 0)
+//        {
+//            policyName = "Bulk";
+//        } else if (splittingPolicy == 1)
+//        {
+//            policyName = "DeepEye";
+//        } else if (splittingPolicy == 3)
+//        {
+//            policyName = "Linear";
+//        } else if (splittingPolicy == 4)
+//        {
+//            policyName = "execprio";
+//        }else if (splittingPolicy == 5)
+//        {
+//            policyName = "execprio-inter";
+//        } else
+//        {
+//            policyName = "Partial";
+//        }
+//
+//        if (splittingPolicy == 0) // bulk
+//        {
+//            createTasksBulk();
+//        } else if (splittingPolicy == 1)
+//        { // conv-fc | deepeye
+//            createTasksConvFC();
+//        } else if (splittingPolicy == 3)
+//        { // Linear
+//            createTasksLinear();
+//        } else if (splittingPolicy == 4)
+//        { // Linear
+//            createPartialTasks();
+//        }else if (splittingPolicy == 5)
+//        { // Linear
+//            createPartialTasks();
+//        } else
+//        { // Partial
+//            createPartialTasks();
+//        }
+////        NETWORKID_COUNTER++;
+//    }
 
     void InferenceNetwork::showResult()
     {
@@ -506,24 +720,24 @@ namespace EdgeCaffe
                 delete subtask;
 
         // Delete tasks is needed
-        for (auto task : tasks)
-        {
-            // Check if task is alive somewhere else
-            bool taskFoundElsewhere = false;
-            for(auto tmp_pool : taskpools)
-                if(tmp_pool->hasTask(task->id))
-                    taskFoundElsewhere = true;
-
-            for(auto tmp_t : (*bagOfTasks_ptr))
-                if(tmp_t->id == task->id)
-                    taskFoundElsewhere = true;
-
-            if(taskFoundElsewhere)
-                std::cerr << "This will be an invalid pointer to free!" << std::endl;
-            if (task != nullptr)
-                delete task;
-
-        }
+//        for (auto task : tasks)
+//        {
+//            // Check if task is alive somewhere else
+//            bool taskFoundElsewhere = false;
+//            for(auto tmp_pool : taskpools)
+//                if(tmp_pool->hasTask(task->id))
+//                    taskFoundElsewhere = true;
+//
+//            for(auto tmp_t : (*bagOfTasks_ptr))
+//                if(tmp_t->id == task->id)
+//                    taskFoundElsewhere = true;
+//
+//            if(taskFoundElsewhere)
+//                std::cerr << "This will be an invalid pointer to free!" << std::endl;
+//            if (task != nullptr)
+//                delete task;
+//
+//        }
     }
 
     Task *InferenceNetwork::createInitTask(InferenceSubTask *dnn)
@@ -532,13 +746,16 @@ namespace EdgeCaffe
                 TASKID_COUNTER++,
                 networkId,
                 dnn->networkName + "-init-network");
-
+        init->networkExecutionTime = this->meanExecutionTime;
         init->inet = this;
+        init->t_type = Task::INIT;
         init->networkName = dnn->networkName;
         init->taskType = "init";
         init->layerName = "net-init";
         init->use_scales = this->use_scales;
-        init->pathToInput = this->dataPath;
+        init->pathToInput =  this->dataPath;
+        init->dependencyCondition = this->dependencyCondition;
+        init->requiredMemory = this->maxMemoryUsage;
         return init;
     }
 
@@ -549,6 +766,8 @@ namespace EdgeCaffe
                 networkId,
                 dnn->networkName + "-exec-" + descr.name
         );
+        load->networkExecutionTime = this->meanExecutionTime;
+        load->t_type = Task::LOAD;
         load->network_ptr = &(dnn->net_ptr);
         load->layerId = descr.layerId;
         load->networkName = dnn->networkName;
@@ -556,21 +775,36 @@ namespace EdgeCaffe
         load->layerName = descr.name;
         load->needsLoading = descr.hasModelFile;
         load->pathToPartial = descr.partialFileName;
+        load->dependencyCondition = this->dependencyCondition;
         return load;
     }
 
-    Task *InferenceNetwork::createExecTask(InferenceSubTask *dnn, const LayerDescription &descr)
+    Task *InferenceNetwork::createExecTask(InferenceSubTask *dnn, const LayerDescription &descr, bool bulk)
     {
-        ExecTask *exec = new ExecTask(
-                TASKID_COUNTER++,
-                networkId,
-                dnn->networkName + "-exec-" + descr.name
-        );
+        ExecTask *exec = nullptr;
+        if(bulk)
+        {
+            exec = new ExecBulkTask(
+                    TASKID_COUNTER++,
+                    networkId,
+                    dnn->networkName + "-exec-" + descr.name
+            );
+        } else {
+            exec = new ExecTask(
+                    TASKID_COUNTER++,
+                    networkId,
+                    dnn->networkName + "-exec-" + descr.name
+            );
+        }
+
+        exec->networkExecutionTime = this->meanExecutionTime;
         exec->networkName = dnn->networkName;
+        exec->t_type = Task::EXEC;
         exec->taskType = "exec";
         exec->layerName = descr.name;
         exec->network_ptr = &(dnn->net_ptr);
         exec->layerId = descr.layerId;
+        exec->dependencyCondition = this->dependencyCondition;
         return exec;
     }
 
@@ -591,8 +825,9 @@ namespace EdgeCaffe
         {
             std::string node = std::to_string(task->id) + "[label = \"" + "("+std::to_string(task->networkId)+") " + task->getTaskDescription() + "\"];";
             allNodes.push_back(node);
-            for (auto dep : task->dependsOn)
+            for (auto taskDependency : task->dependsOn)
             {
+                auto dep = taskDependency.dependency;
                 std::string depNode = std::to_string(dep->id) + "[label = \"" + "("+std::to_string(dep->networkId)+") " + dep->getTaskDescription() + "\"];";
                 allNodes.push_back(depNode);
             }
@@ -609,12 +844,20 @@ namespace EdgeCaffe
 
         // Create the edges between the nodes that represent the dependencies
         for(auto task : tasks)
-            for(auto dep : task->dependsOn)
+            for(auto taskDependency : task->dependsOn)
+            {
+                auto dep = taskDependency.dependency;
                 dotContent << std::to_string(task->id) << " -> " << std::to_string(dep->id) << std::endl;
+            }
         // End of the dotfile
         dotContent << "}" << std::endl;
 
         return dotContent.str();
+    }
+
+    void InferenceNetwork::createTasksExecPrio()
+    {
+
     }
 
 }

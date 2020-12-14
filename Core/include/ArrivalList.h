@@ -138,20 +138,57 @@ namespace EdgeCaffe
         double getRandom(std::default_random_engine &generator) override;
     };
 
+    /**
+     * Exponential distribution
+     */
+    class ConstantValue : public Distribution {
+        std::uniform_int_distribution<int> distribution;
+        double constantValue = 0;
+    public:
+        /**
+         * Constructor
+         * @param params    DistParam - hold the lambda (first) parameter of the exponential distribution. For example NormalDist({lambda})
+         */
+        ConstantValue(const DistParam &params);
+
+        /**
+         * Generates a random value depending on the exponential distribution
+         * @param generator
+         * @return double - generated random value
+         */
+        double getRandom(std::default_random_engine &generator) override;
+    };
+
+    struct ArrivalNetwork {
+        std::string pathToNetwork;
+        std::string networkName;
+    };
+
+
 
     /**
      * Data structure used in the ArrivalList to describe an Arrival
      * It hold a location to input data and the location of the network to be used.
      */
     struct Arrival {
+        std::vector<ArrivalNetwork> networks;
         std::string pathToData;
-        std::string pathToNetwork;
-        std::string networkName;
         long time = 0;
 
         std::string toString(){
             return "Arrival<time: " + std::to_string(time)+ ">";
         }
+
+        Arrival(const ArrivalNetwork &network, const std::string &pathToData, long time = 0) : pathToData(pathToData), time(time)
+        {
+            networks = {network};
+        }
+
+        Arrival(const std::vector<ArrivalNetwork> &networks, const std::string &pathToData, long time = 0) : networks(networks),
+                                                                                              pathToData(pathToData),
+                                                                                              time(time)
+        {}
+
     };
 
     /**
@@ -174,8 +211,13 @@ namespace EdgeCaffe
             UNIFORM,
             NORMAL,
             EXPONENTIAL,
-            POISSON
+            POISSON,
+            CONSTANT
         };
+
+        void loadFromYaml(std::string pathToYaml);
+
+
         /**
          * Generate a `numberOfArrivals` based on a stochastic distribution
          * The distribution will generate the time between arrivals.
@@ -198,10 +240,13 @@ namespace EdgeCaffe
 
         std::vector<std::string> allowedNetworks;
 
+        std::vector<std::vector<std::string>> allowedBatches;
+
         std::vector<std::string> getKeysAvailableNetworks();
 
         bool isEmpty();
 
+        void setEnabledNetworks(std::vector<std::vector<std::string>> networks);
         void setAllowedNetworks(std::vector<std::string> keys);
 
         void printArrivals();

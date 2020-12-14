@@ -375,7 +375,7 @@ ifeq ($(WITH_PYTHON_LAYER), 1)
 endif
 
 # BLAS configuration (default = ATLAS)
-BLAS ?= atlas
+BLAS ?= open
 ifeq ($(BLAS), mkl)
 	# MKL
 	LIBRARIES += mkl_rt
@@ -429,7 +429,11 @@ LINKFLAGS += -pthread -fPIC $(COMMON_FLAGS) $(WARNINGS)
 
 USE_PKG_CONFIG ?= 0
 ifeq ($(USE_PKG_CONFIG), 1)
-	PKG_CONFIG := $(shell pkg-config opencv --libs)
+	ifeq ($(OPENCV_VERSION), 4)
+		PKG_CONFIG := $(shell pkg-config opencv4 --libs)
+	else
+		PKG_CONFIG := $(shell pkg-config opencv --libs)
+	endif
 else
 	PKG_CONFIG :=
 endif
