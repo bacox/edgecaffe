@@ -58,9 +58,11 @@ int main(int argc, char *argv[])
     // Create arrival
     int delay = 0;
     EdgeCaffe::Arrival arr{{networkPath, networkKey}, "", delay};
-
+    auto &globalConfig = EdgeCaffe::Config::getInstance();
+    globalConfig.pathToNetworks.configItem = ".";
     std::vector<std::pair<EdgeCaffe::Type::MODE_TYPE, std::string>> modes = {
-            {EdgeCaffe::Type::MODE_TYPE::PARTIAL,  "partial"}
+//            {EdgeCaffe::Type::MODE_TYPE::PARTIAL,  "partial"}
+            {EdgeCaffe::Type::MODE_TYPE::MASA,  "masa"}
             ,{EdgeCaffe::Type::MODE_TYPE::BULK,    "bulk"}
             ,{EdgeCaffe::Type::MODE_TYPE::DEEPEYE, "deepeye"}
             ,{EdgeCaffe::Type::MODE_TYPE::LINEAR,  "linear"}

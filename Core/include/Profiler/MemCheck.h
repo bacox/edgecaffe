@@ -10,6 +10,8 @@
 
 namespace EdgeCaffe
 {
+
+
     class MemCheck
     {
         double getRSS();

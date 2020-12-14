@@ -200,11 +200,12 @@ def parse_name(path: str) -> str:
 def cmd_configs_to_queue_file(dry_run=False, filename: str = 'experiments.tmp.txt'):
     if filename is None:
         filename = 'experiments.tmp.txt'
-    glob_str = './experiments/infocom/stochastic-thesis/*rpi-4*/configs/*/*.yaml'
+    # glob_str = './experiments/infocom/stochastic-thesis/*rpi-4*/configs/*/*.yaml'
+    glob_str = './experiments/infocom/stochastic-thesis/quadcopter/configs/*/*.yaml'
     # For RPI-1
-    glob_str = './experiments/infocom/profile-baseline/*/configs/*G/*.yaml'
+    # glob_str = './experiments/infocom/profile-baseline/*/configs/*G/*.yaml'
     # For RPI-2 and RPI-4
-    glob_str = './experiments/infocom/profile-baseline/*/configs/*/*.yaml'
+    # glob_str = './experiments/infocom/profile-baseline/*/configs/*/*.yaml'
     files = glob.glob(glob_str)
     files = [parse_name(f) + ' ' + f for f in files]
     queue = ExperimentQueue.load_from_lines(files)

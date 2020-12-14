@@ -10,6 +10,7 @@
 #include <Util/Config.h>
 #include <Orchestrator/Orchestrator.h>
 #include <Orchestrator/OrchestratorFactory.h>
+#include <Profiler/Memory.h>
 
 int main(int argc, char *argv[])
 {
@@ -20,6 +21,7 @@ int main(int argc, char *argv[])
     /**
      * Start parsing input parameters
      */
+    int numMajorPagefaults = EdgeCaffe::Memory::numMajPageFaults();
 
     EdgeCaffe::Config &c_config = EdgeCaffe::Config::getInstance();
 
@@ -102,6 +104,7 @@ int main(int argc, char *argv[])
     auto startTime = std::chrono::high_resolution_clock::now();
     orchest->start();
     orchest->processTasks();
+
     orchest->waitForStop();
 
     auto endTime = std::chrono::high_resolution_clock::now();
@@ -151,5 +154,11 @@ int main(int argc, char *argv[])
     }
 
     output.toCSV(c_config.defaultOutPath() + "cc-networks.csv", orchest->getNr()->toCSV(), EdgeCaffe::Output::CONCURRENT_NETWORKS);
+
+
+    numMajorPagefaults = EdgeCaffe::Memory::numMajPageFaults() - numMajorPagefaults;
+
+    std::cout << "Number of major page faults during this run is: " << numMajorPagefaults << std::endl;
+
     return 0;
 }

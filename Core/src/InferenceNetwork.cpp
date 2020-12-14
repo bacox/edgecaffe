@@ -817,24 +817,29 @@ namespace EdgeCaffe
 
         std::stringstream dotContent;
         // Define beginning of the dot file
-        dotContent << "digraph " << name << " {" << std::endl;
+        dotContent << "digraph " << name << " {" << std::endl << "\tnode[colorscheme=pastel28];" << std::endl;
 
         // Get all the definitions of the nodes
         std::vector<std::string> allNodes;
         for(auto task : tasks)
         {
-            std::string node = std::to_string(task->id) + "[label = \"" + "("+std::to_string(task->networkId)+") " + task->getTaskDescription() + "\"];";
+            int color = 1 + task->t_type;
+            std::string node = std::to_string(task->id) + "[color=\""+ std::to_string(color) +"\",style=filled, label = \""
+                    + "("+std::to_string(task->networkId)+") " + task->getTaskDescription() + "\"];";
             allNodes.push_back(node);
             for (auto taskDependency : task->dependsOn)
             {
                 auto dep = taskDependency.dependency;
-                std::string depNode = std::to_string(dep->id) + "[label = \"" + "("+std::to_string(dep->networkId)+") " + dep->getTaskDescription() + "\"];";
+                int color = 1 + dep->t_type;
+
+                std::string depNode = std::to_string(dep->id) + "[color=\""+ std::to_string(color) +"\",style=filled, label = \""
+                        + "("+std::to_string(dep->networkId)+") " + dep->getTaskDescription() + "\"];";
                 allNodes.push_back(depNode);
             }
         }
 
         // Create a lit of unique lines
-        std::sort(allNodes.begin(), allNodes.end());
+        std::sort(allNodes.rbegin(), allNodes.rend());
         auto last = std::unique(allNodes.begin(), allNodes.end());
         allNodes.erase(last, allNodes.end());
 

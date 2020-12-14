@@ -94,7 +94,7 @@ def generate_quad_copter(device: str, mem_limit: str, duration_df: pd.DataFrame,
     return arrivals
 
 
-def generate_arrivals_random_composition(device: str, mem_limit: str, duration_df: pd.DataFrame, n: int, batch_size: int = 1):
+def generate_arrivals_all_random(device: str, mem_limit: str, duration_df: pd.DataFrame, n: int, batch_size: int = 1):
 
     networks_to_use = duration_df['network'].unique()
     num_networks = len(networks_to_use)
@@ -138,7 +138,7 @@ def generate_arrivals_random_composition(device: str, mem_limit: str, duration_d
 
     return arrivals
 
-def generate_arrivals_all_random(device: str, mem_limit: str, duration_df: pd.DataFrame, n: int, batch_size: int = 1):
+def generate_arrivals_random_composition(device: str, mem_limit: str, duration_df: pd.DataFrame, n: int, batch_size: int = 1):
     local_df = duration_df[(duration_df['device'] == device) & (duration_df['mem_limit'] == mem_limit)]
     average_duration = local_df['duration'].mean()
     # arrival_times = np.random.poisson(average_duration, n)
@@ -286,9 +286,9 @@ def generate_variations(config, network_values):
 
     for memory_constraint in memory_constraints:
         batch_size = 3
-        base_arrivals = generate_arrivals_random_composition(device, memory_constraint, network_values, base_config.n_arrivals, batch_size)
+        # base_arrivals = generate_arrivals_random_composition(device, memory_constraint, network_values, base_config.n_arrivals, batch_size)
         base_arrivals = generate_quad_copter(device, memory_constraint, network_values, base_config.n_arrivals, batch_size)
-        base_arrivals = generate_arrivals_all_random(device, memory_constraint, network_values, base_config.n_arrivals, batch_size)
+        # base_arrivals = generate_arrivals_all_random(device, memory_constraint, network_values, base_config.n_arrivals, batch_size)
         variations = list(itertools.product(*[modes, n_workers_list, ait_multipliers]))
         for mode, n_workers, ait in variations:
             arrivals_copy = copy.deepcopy(base_arrivals)

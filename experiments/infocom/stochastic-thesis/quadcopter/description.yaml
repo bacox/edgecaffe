@@ -6,5 +6,5 @@ ait-multiplier: [0.8, 1, 1.2]
 modes: [masa, bulk, deepeye-frugal]
 memory-constraints: [2G, 1G, 512M]
 networks: [FaceNet, ObjectNet, EmotionNet, MemNet, AgeNet, GenderNet, TinyYolo, SceneNet, SoS]
-experiment-tag: random-composition-rpi-4
+experiment-tag: quadcopter-rpi-4
 device: rpi-4
