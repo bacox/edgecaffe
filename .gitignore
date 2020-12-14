@@ -24,3 +24,10 @@ cmake/toolchain-rpi.cmake
 networks/GeneratedNet_1
 .Doxyfile
 *.tmp.cpp
+venv
+*.log
+networks_export
+archive
+*.tar
+*.tmp.txt
+*.tmp.yaml
