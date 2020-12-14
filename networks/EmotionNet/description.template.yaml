@@ -1,0 +1,18 @@
+---
+name: "EmotionNet"
+network-file: "deploy.prototxt"
+model-file: "EmotiW_VGG_S.caffemodel"
+mean-scalar: [78.4263377603, 87.7689143744, 114.895847746]
+result-vector: ["(0-2)", "(4-6)", "(8-12)", "(15-20)", "(25-32)", "(38-43)", "(48-53)", "(60-100)"]
+uses-result-vector: false
+input-scale: [224, 224]
+base-path: "networks/EmotionNet/"
+partials-location: "EmotiW_VGG_S_partials"
+layer-statistics: EmotionNet.stats.csv
+layer-parameters-stats: parameters-layers.stat.csv
+has-input-layer: true
+num-conv-layers: 15
+num-fc-layers: 8
+mean-execution-time: 1057
+max-memory-valgrind: 672
+max-memory-rss: 845

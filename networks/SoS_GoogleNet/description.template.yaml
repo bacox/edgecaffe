@@ -8,6 +8,7 @@ input-scale: [227, 227]
 base-path: "networks/SoS_GoogleNet/"
 partials-location: "GoogleNet_SOS_partials"
 layer-statistics: Salient-Object-Subitizing_google.stats.csv
+layer-parameters-stats: parameters-layers.stat.csv
 excluded-partials: [1,152,154]
 has-input-layer: true
 num-conv-layers: 10

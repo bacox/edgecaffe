@@ -1,0 +1,433 @@
+name: ObjectNet
+network-file: VGG_ILSVRC_19_layers_deploy.prototxt
+model-file: VGG_ILSVRC_19_layers.caffemodel
+mean-scalar: [104, 117, 123]
+uses-result-vector: false
+input-scale: [227, 227]
+base-path: networks/ObjectNet/
+partials-location: VGG_ILSVRC_19_layers_partials
+excluded-partials: []
+layer-statistics: Salient-Object-Subitizing.stats.csv
+layer-parameters-stats: parameters-layers.stat.csv
+has-input-layer: false
+num-conv-layers: 36
+num-fc-layers: 9
+mean-execution-time: 13138
+max-memory-valgrind: 1700
+max-memory-rss: 1805
+conv-layers:
+  - id: 0
+    name: input
+    partialFile: ""
+    partialFileSize: 0
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 0
+    isConvLayer: true
+    hasModelFile: false
+  - id: 1
+    name: conv1_1
+    partialFile: VGG_ILSVRC_19_layers00.partial.caffemodel
+    partialFileSize: 7257
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 1728
+    isConvLayer: true
+    hasModelFile: true
+  - id: 2
+    name: relu1_1
+    partialFile: VGG_ILSVRC_19_layers01.partial.caffemodel
+    partialFileSize: 55
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 0
+    isConvLayer: true
+    hasModelFile: true
+  - id: 3
+    name: conv1_2
+    partialFile: VGG_ILSVRC_19_layers02.partial.caffemodel
+    partialFileSize: 147807
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 36864
+    isConvLayer: true
+    hasModelFile: true
+  - id: 4
+    name: relu1_2
+    partialFile: VGG_ILSVRC_19_layers03.partial.caffemodel
+    partialFileSize: 55
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 0
+    isConvLayer: true
+    hasModelFile: true
+  - id: 5
+    name: pool1
+    partialFile: VGG_ILSVRC_19_layers04.partial.caffemodel
+    partialFileSize: 60
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 0
+    isConvLayer: true
+    hasModelFile: true
+  - id: 6
+    name: conv2_1
+    partialFile: VGG_ILSVRC_19_layers05.partial.caffemodel
+    partialFileSize: 295520
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 73728
+    isConvLayer: true
+    hasModelFile: true
+  - id: 7
+    name: relu2_1
+    partialFile: VGG_ILSVRC_19_layers06.partial.caffemodel
+    partialFileSize: 55
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 0
+    isConvLayer: true
+    hasModelFile: true
+  - id: 8
+    name: conv2_2
+    partialFile: VGG_ILSVRC_19_layers07.partial.caffemodel
+    partialFileSize: 590435
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 147456
+    isConvLayer: true
+    hasModelFile: true
+  - id: 9
+    name: relu2_2
+    partialFile: VGG_ILSVRC_19_layers08.partial.caffemodel
+    partialFileSize: 55
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 0
+    isConvLayer: true
+    hasModelFile: true
+  - id: 10
+    name: pool2
+    partialFile: VGG_ILSVRC_19_layers09.partial.caffemodel
+    partialFileSize: 60
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 0
+    isConvLayer: true
+    hasModelFile: true
+  - id: 11
+    name: conv3_1
+    partialFile: VGG_ILSVRC_19_layers10.partial.caffemodel
+    partialFileSize: 1180769
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 294912
+    isConvLayer: true
+    hasModelFile: true
+  - id: 12
+    name: relu3_1
+    partialFile: VGG_ILSVRC_19_layers11.partial.caffemodel
+    partialFileSize: 55
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 0
+    isConvLayer: true
+    hasModelFile: true
+  - id: 13
+    name: conv3_2
+    partialFile: VGG_ILSVRC_19_layers12.partial.caffemodel
+    partialFileSize: 2360422
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 589824
+    isConvLayer: true
+    hasModelFile: true
+  - id: 14
+    name: relu3_2
+    partialFile: VGG_ILSVRC_19_layers13.partial.caffemodel
+    partialFileSize: 55
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 0
+    isConvLayer: true
+    hasModelFile: true
+  - id: 15
+    name: conv3_3
+    partialFile: VGG_ILSVRC_19_layers14.partial.caffemodel
+    partialFileSize: 2360422
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 589824
+    isConvLayer: true
+    hasModelFile: true
+  - id: 16
+    name: relu3_3
+    partialFile: VGG_ILSVRC_19_layers15.partial.caffemodel
+    partialFileSize: 55
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 0
+    isConvLayer: true
+    hasModelFile: true
+  - id: 17
+    name: conv3_4
+    partialFile: VGG_ILSVRC_19_layers16.partial.caffemodel
+    partialFileSize: 2360422
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 589824
+    isConvLayer: true
+    hasModelFile: true
+  - id: 18
+    name: relu3_4
+    partialFile: VGG_ILSVRC_19_layers17.partial.caffemodel
+    partialFileSize: 55
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 0
+    isConvLayer: true
+    hasModelFile: true
+  - id: 19
+    name: pool3
+    partialFile: VGG_ILSVRC_19_layers18.partial.caffemodel
+    partialFileSize: 60
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 0
+    isConvLayer: true
+    hasModelFile: true
+  - id: 20
+    name: conv4_1
+    partialFile: VGG_ILSVRC_19_layers19.partial.caffemodel
+    partialFileSize: 4720740
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 1179648
+    isConvLayer: true
+    hasModelFile: true
+  - id: 21
+    name: relu4_1
+    partialFile: VGG_ILSVRC_19_layers20.partial.caffemodel
+    partialFileSize: 55
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 0
+    isConvLayer: true
+    hasModelFile: true
+  - id: 22
+    name: conv4_2
+    partialFile: VGG_ILSVRC_19_layers21.partial.caffemodel
+    partialFileSize: 9439334
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 2359296
+    isConvLayer: true
+    hasModelFile: true
+  - id: 23
+    name: relu4_2
+    partialFile: VGG_ILSVRC_19_layers22.partial.caffemodel
+    partialFileSize: 55
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 0
+    isConvLayer: true
+    hasModelFile: true
+  - id: 24
+    name: conv4_3
+    partialFile: VGG_ILSVRC_19_layers23.partial.caffemodel
+    partialFileSize: 9439334
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 2359296
+    isConvLayer: true
+    hasModelFile: true
+  - id: 25
+    name: relu4_3
+    partialFile: VGG_ILSVRC_19_layers24.partial.caffemodel
+    partialFileSize: 55
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 0
+    isConvLayer: true
+    hasModelFile: true
+  - id: 26
+    name: conv4_4
+    partialFile: VGG_ILSVRC_19_layers25.partial.caffemodel
+    partialFileSize: 9439334
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 2359296
+    isConvLayer: true
+    hasModelFile: true
+  - id: 27
+    name: relu4_4
+    partialFile: VGG_ILSVRC_19_layers26.partial.caffemodel
+    partialFileSize: 55
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 0
+    isConvLayer: true
+    hasModelFile: true
+  - id: 28
+    name: pool4
+    partialFile: VGG_ILSVRC_19_layers27.partial.caffemodel
+    partialFileSize: 60
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 0
+    isConvLayer: true
+    hasModelFile: true
+  - id: 29
+    name: conv5_1
+    partialFile: VGG_ILSVRC_19_layers28.partial.caffemodel
+    partialFileSize: 9439332
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 2359296
+    isConvLayer: true
+    hasModelFile: true
+  - id: 30
+    name: relu5_1
+    partialFile: VGG_ILSVRC_19_layers29.partial.caffemodel
+    partialFileSize: 55
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 0
+    isConvLayer: true
+    hasModelFile: true
+  - id: 31
+    name: conv5_2
+    partialFile: VGG_ILSVRC_19_layers30.partial.caffemodel
+    partialFileSize: 9439334
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 2359296
+    isConvLayer: true
+    hasModelFile: true
+  - id: 32
+    name: relu5_2
+    partialFile: VGG_ILSVRC_19_layers31.partial.caffemodel
+    partialFileSize: 55
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 0
+    isConvLayer: true
+    hasModelFile: true
+  - id: 33
+    name: conv5_3
+    partialFile: VGG_ILSVRC_19_layers32.partial.caffemodel
+    partialFileSize: 9439334
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 2359296
+    isConvLayer: true
+    hasModelFile: true
+  - id: 34
+    name: relu5_3
+    partialFile: VGG_ILSVRC_19_layers33.partial.caffemodel
+    partialFileSize: 55
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 0
+    isConvLayer: true
+    hasModelFile: true
+  - id: 35
+    name: conv5_4
+    partialFile: VGG_ILSVRC_19_layers34.partial.caffemodel
+    partialFileSize: 9439334
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 2359296
+    isConvLayer: true
+    hasModelFile: true
+  - id: 36
+    name: relu5_4
+    partialFile: VGG_ILSVRC_19_layers35.partial.caffemodel
+    partialFileSize: 55
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 0
+    isConvLayer: true
+    hasModelFile: true
+fc-layers:
+  - id: 37
+    name: pool5
+    partialFile: VGG_ILSVRC_19_layers36.partial.caffemodel
+    partialFileSize: 60
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 0
+    isConvLayer: false
+    hasModelFile: true
+  - id: 38
+    name: fc6
+    partialFile: VGG_ILSVRC_19_layers37.partial.caffemodel
+    partialFileSize: 411058271
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 102760448
+    isConvLayer: false
+    hasModelFile: true
+  - id: 39
+    name: relu6
+    partialFile: VGG_ILSVRC_19_layers38.partial.caffemodel
+    partialFileSize: 45
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 0
+    isConvLayer: false
+    hasModelFile: true
+  - id: 40
+    name: drop6
+    partialFile: VGG_ILSVRC_19_layers39.partial.caffemodel
+    partialFileSize: 52
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 0
+    isConvLayer: false
+    hasModelFile: true
+  - id: 41
+    name: fc7
+    partialFile: VGG_ILSVRC_19_layers40.partial.caffemodel
+    partialFileSize: 67125337
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 16777216
+    isConvLayer: false
+    hasModelFile: true
+  - id: 42
+    name: relu7
+    partialFile: VGG_ILSVRC_19_layers41.partial.caffemodel
+    partialFileSize: 45
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 0
+    isConvLayer: false
+    hasModelFile: true
+  - id: 43
+    name: drop7
+    partialFile: VGG_ILSVRC_19_layers42.partial.caffemodel
+    partialFileSize: 52
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 0
+    isConvLayer: false
+    hasModelFile: true
+  - id: 44
+    name: fc8
+    partialFile: VGG_ILSVRC_19_layers43.partial.caffemodel
+    partialFileSize: 16388087
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 4096000
+    isConvLayer: false
+    hasModelFile: true
+  - id: 45
+    name: prob
+    partialFile: VGG_ILSVRC_19_layers44.partial.caffemodel
+    partialFileSize: 45
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 0
+    isConvLayer: false
+    hasModelFile: true

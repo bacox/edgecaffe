@@ -13,7 +13,9 @@ namespace EdgeCaffe
     {
         if (needsLoading)
         {
+//            std::cout << "Attempting to load the file " << pathToPartial << std::endl;
             (*network_ptr)->CopyTrainedLayersFrom(pathToPartial); // layer 12
+//            std::cout << "Done loading file " << pathToPartial << std::endl;
         } else
         {
             std::cout << "Running the loading task (Dummy not actual loading)" << std::endl;

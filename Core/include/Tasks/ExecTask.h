@@ -19,7 +19,6 @@ namespace EdgeCaffe
                 , int estimatedNeededMemory = 0
         );
 
-
         std::string getTaskDescription() override;
     };
 }

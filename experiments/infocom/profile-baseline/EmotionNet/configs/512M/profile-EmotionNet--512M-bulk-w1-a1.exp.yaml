@@ -1,0 +1,65 @@
+cmd_base: bin/Exp_poisson_arrival_rv_nf
+build_folder: .
+tag: profile-EmotionNet--512M-bulk-w1-a1
+mem_limit: 512M
+mode: bulk
+memory-key: valgrind
+n-arrivals: 10
+n-workers: 1
+network-path: networks
+resources-path: resources
+output-path: ../analysis/experiments/infocom/profile-baseline/profile-EmotionNet-
+arrival-mode: batch
+arrival-list: ./experiments/infocom/profile-baseline/EmotionNet/configs/512M/profile-EmotionNet--512M-bulk-w1-a1.exp.yaml
+output-prefix: profile-EmotionNet--512M-bulk-w1-a1
+arrivals:
+- networks:
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
+  pathToData: test_1.jpg
+  time: 0
+- networks:
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
+  pathToData: test_1.jpg
+  time: 0
+- networks:
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
+  pathToData: test_1.jpg
+  time: 0
+- networks:
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
+  pathToData: test_1.jpg
+  time: 0
+- networks:
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
+  pathToData: test_1.jpg
+  time: 0
+- networks:
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
+  pathToData: test_1.jpg
+  time: 0
+- networks:
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
+  pathToData: test_1.jpg
+  time: 0
+- networks:
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
+  pathToData: test_1.jpg
+  time: 0
+- networks:
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
+  pathToData: test_1.jpg
+  time: 0
+- networks:
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
+  pathToData: test_1.jpg
+  time: 0

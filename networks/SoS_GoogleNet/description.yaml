@@ -7,6 +7,7 @@ input-scale: [227, 227]
 base-path: networks/SoS_GoogleNet/
 partials-location: GoogleNet_SOS_partials
 layer-statistics: Salient-Object-Subitizing_google.stats.csv
+layer-parameters-stats: parameters-layers.stat.csv
 excluded-partials: [1, 152, 154]
 has-input-layer: true
 num-conv-layers: 10
@@ -15,1065 +16,1369 @@ conv-layers:
   - id: 0
     name: data
     partialFile: GoogleNet_SOS00.partial.caffemodel
-    estimated_time_loading: 72
-    estimated_time_execution: 11
+    partialFileSize: 261
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 0
     isConvLayer: true
     hasModelFile: true
   - id: 1
     name: conv1/7x7_s2
     partialFile: GoogleNet_SOS02.partial.caffemodel
-    estimated_time_loading: 313
-    estimated_time_execution: 265161
+    partialFileSize: 38048
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 9408
     isConvLayer: true
     hasModelFile: true
   - id: 2
     name: conv1/relu_7x7
     partialFile: GoogleNet_SOS03.partial.caffemodel
-    estimated_time_loading: 89
-    estimated_time_execution: 71353
+    partialFileSize: 72
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 0
     isConvLayer: true
     hasModelFile: true
   - id: 3
     name: pool1/3x3_s2
     partialFile: GoogleNet_SOS04.partial.caffemodel
-    estimated_time_loading: 79
-    estimated_time_execution: 134770
+    partialFileSize: 82
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 0
     isConvLayer: true
     hasModelFile: true
   - id: 4
     name: pool1/norm1
     partialFile: GoogleNet_SOS05.partial.caffemodel
-    estimated_time_loading: 86
-    estimated_time_execution: 65716
+    partialFileSize: 82
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 0
     isConvLayer: true
     hasModelFile: true
   - id: 5
     name: conv2/3x3_reduce
     partialFile: GoogleNet_SOS06.partial.caffemodel
-    estimated_time_loading: 203
-    estimated_time_execution: 20783
+    partialFileSize: 16811
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 4096
     isConvLayer: true
     hasModelFile: true
   - id: 6
     name: conv2/relu_3x3_reduce
     partialFile: GoogleNet_SOS07.partial.caffemodel
-    estimated_time_loading: 89
-    estimated_time_execution: 17955
+    partialFileSize: 87
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 0
     isConvLayer: true
     hasModelFile: true
   - id: 7
     name: conv2/3x3
     partialFile: GoogleNet_SOS08.partial.caffemodel
-    estimated_time_loading: 2435
-    estimated_time_execution: 515712
+    partialFileSize: 443303
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 110592
     isConvLayer: true
     hasModelFile: true
   - id: 8
     name: conv2/relu_3x3
     partialFile: GoogleNet_SOS09.partial.caffemodel
-    estimated_time_loading: 87
-    estimated_time_execution: 53666
+    partialFileSize: 66
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 0
     isConvLayer: true
     hasModelFile: true
   - id: 9
     name: conv2/norm2
     partialFile: GoogleNet_SOS10.partial.caffemodel
-    estimated_time_loading: 76
-    estimated_time_execution: 213636
+    partialFileSize: 79
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 0
     isConvLayer: true
     hasModelFile: true
 fc-layers:
   - id: 10
     name: pool2/3x3_s2
     partialFile: GoogleNet_SOS11.partial.caffemodel
-    estimated_time_loading: 98
-    estimated_time_execution: 103388
+    partialFileSize: 81
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 0
     isConvLayer: false
     hasModelFile: true
   - id: 11
     name: pool2/3x3_s2_pool2/3x3_s2_0_split
     partialFile: GoogleNet_SOS12.partial.caffemodel
-    estimated_time_loading: 87
-    estimated_time_execution: 14
+    partialFileSize: 227
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 0
     isConvLayer: false
     hasModelFile: true
   - id: 12
     name: inception_3a/1x1
     partialFile: GoogleNet_SOS13.partial.caffemodel
-    estimated_time_loading: 347
-    estimated_time_execution: 11895
+    partialFileSize: 49604
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 12288
     isConvLayer: false
     hasModelFile: true
   - id: 13
     name: inception_3a/relu_1x1
     partialFile: GoogleNet_SOS14.partial.caffemodel
-    estimated_time_loading: 87
-    estimated_time_execution: 4589
+    partialFileSize: 87
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 0
     isConvLayer: false
     hasModelFile: true
   - id: 14
     name: inception_3a/3x3_reduce
     partialFile: GoogleNet_SOS15.partial.caffemodel
-    estimated_time_loading: 482
-    estimated_time_execution: 17229
+    partialFileSize: 74322
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 18432
     isConvLayer: false
     hasModelFile: true
   - id: 15
     name: inception_3a/relu_3x3_reduce
     partialFile: GoogleNet_SOS16.partial.caffemodel
-    estimated_time_loading: 88
-    estimated_time_execution: 6932
+    partialFileSize: 108
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 0
     isConvLayer: false
     hasModelFile: true
   - id: 16
     name: inception_3a/3x3
     partialFile: GoogleNet_SOS17.partial.caffemodel
-    estimated_time_loading: 2401
-    estimated_time_execution: 144072
+    partialFileSize: 443068
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 110592
     isConvLayer: false
     hasModelFile: true
   - id: 17
     name: inception_3a/relu_3x3
     partialFile: GoogleNet_SOS18.partial.caffemodel
-    estimated_time_loading: 90
-    estimated_time_execution: 9245
+    partialFileSize: 87
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 0
     isConvLayer: false
     hasModelFile: true
   - id: 18
     name: inception_3a/5x5_reduce
     partialFile: GoogleNet_SOS19.partial.caffemodel
-    estimated_time_loading: 156
-    estimated_time_execution: 4198
+    partialFileSize: 12557
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 3072
     isConvLayer: false
     hasModelFile: true
   - id: 19
     name: inception_3a/relu_5x5_reduce
     partialFile: GoogleNet_SOS20.partial.caffemodel
-    estimated_time_loading: 81
-    estimated_time_execution: 1156
+    partialFileSize: 108
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 0
     isConvLayer: false
     hasModelFile: true
   - id: 20
     name: inception_3a/5x5
     partialFile: GoogleNet_SOS21.partial.caffemodel
-    estimated_time_loading: 374
-    estimated_time_execution: 33490
+    partialFileSize: 51513
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 12800
     isConvLayer: false
     hasModelFile: true
   - id: 21
     name: inception_3a/relu_5x5
     partialFile: GoogleNet_SOS22.partial.caffemodel
-    estimated_time_loading: 78
-    estimated_time_execution: 2277
+    partialFileSize: 87
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 0
     isConvLayer: false
     hasModelFile: true
   - id: 22
     name: inception_3a/pool
     partialFile: GoogleNet_SOS23.partial.caffemodel
-    estimated_time_loading: 60
-    estimated_time_execution: 103746
+    partialFileSize: 117
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 0
     isConvLayer: false
     hasModelFile: true
   - id: 23
     name: inception_3a/pool_proj
     partialFile: GoogleNet_SOS24.partial.caffemodel
-    estimated_time_loading: 256
-    estimated_time_execution: 7106
+    partialFileSize: 24894
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 6144
     isConvLayer: false
     hasModelFile: true
   - id: 24
     name: inception_3a/relu_pool_proj
     partialFile: GoogleNet_SOS25.partial.caffemodel
-    estimated_time_loading: 87
-    estimated_time_execution: 2228
+    partialFileSize: 105
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 0
     isConvLayer: false
     hasModelFile: true
   - id: 25
     name: inception_3a/output
     partialFile: GoogleNet_SOS26.partial.caffemodel
-    estimated_time_loading: 58
-    estimated_time_execution: 4318
+    partialFileSize: 151
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 0
     isConvLayer: false
     hasModelFile: true
   - id: 26
     name: inception_3a/output_inception_3a/output_0_split
     partialFile: GoogleNet_SOS27.partial.caffemodel
-    estimated_time_loading: 93
-    estimated_time_execution: 14
+    partialFileSize: 304
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 0
     isConvLayer: false
     hasModelFile: true
   - id: 27
     name: inception_3b/1x1
     partialFile: GoogleNet_SOS28.partial.caffemodel
-    estimated_time_loading: 771
-    estimated_time_execution: 33428
+    partialFileSize: 131797
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 32768
     isConvLayer: false
     hasModelFile: true
   - id: 28
     name: inception_3b/relu_1x1
     partialFile: GoogleNet_SOS29.partial.caffemodel
-    estimated_time_loading: 88
-    estimated_time_execution: 8696
+    partialFileSize: 87
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 0
     isConvLayer: false
     hasModelFile: true
   - id: 29
     name: inception_3b/3x3_reduce
     partialFile: GoogleNet_SOS30.partial.caffemodel
-    estimated_time_loading: 778
-    estimated_time_execution: 32938
+    partialFileSize: 131811
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 32768
     isConvLayer: false
     hasModelFile: true
   - id: 30
     name: inception_3b/relu_3x3_reduce
     partialFile: GoogleNet_SOS31.partial.caffemodel
-    estimated_time_loading: 88
-    estimated_time_execution: 9223
+    partialFileSize: 108
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 0
     isConvLayer: false
     hasModelFile: true
   - id: 31
     name: inception_3b/3x3
     partialFile: GoogleNet_SOS32.partial.caffemodel
-    estimated_time_loading: 5110
-    estimated_time_execution: 256797
+    partialFileSize: 885693
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 221184
     isConvLayer: false
     hasModelFile: true
   - id: 32
     name: inception_3b/relu_3x3
     partialFile: GoogleNet_SOS33.partial.caffemodel
-    estimated_time_loading: 89
-    estimated_time_execution: 13090
+    partialFileSize: 87
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 0
     isConvLayer: false
     hasModelFile: true
   - id: 33
     name: inception_3b/5x5_reduce
     partialFile: GoogleNet_SOS34.partial.caffemodel
-    estimated_time_loading: 267
-    estimated_time_execution: 10119
+    partialFileSize: 33120
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 8192
     isConvLayer: false
     hasModelFile: true
   - id: 34
     name: inception_3b/relu_5x5_reduce
     partialFile: GoogleNet_SOS35.partial.caffemodel
-    estimated_time_loading: 90
-    estimated_time_execution: 2275
+    partialFileSize: 108
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 0
     isConvLayer: false
     hasModelFile: true
   - id: 35
     name: inception_3b/5x5
     partialFile: GoogleNet_SOS36.partial.caffemodel
-    estimated_time_loading: 1689
-    estimated_time_execution: 108865
+    partialFileSize: 307769
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 76800
     isConvLayer: false
     hasModelFile: true
   - id: 36
     name: inception_3b/relu_5x5
     partialFile: GoogleNet_SOS37.partial.caffemodel
-    estimated_time_loading: 89
-    estimated_time_execution: 6643
+    partialFileSize: 87
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 0
     isConvLayer: false
     hasModelFile: true
   - id: 37
     name: inception_3b/pool
     partialFile: GoogleNet_SOS38.partial.caffemodel
-    estimated_time_loading: 64
-    estimated_time_execution: 140355
+    partialFileSize: 131
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 0
     isConvLayer: false
     hasModelFile: true
   - id: 38
     name: inception_3b/pool_proj
     partialFile: GoogleNet_SOS39.partial.caffemodel
-    estimated_time_loading: 460
-    estimated_time_execution: 16719
+    partialFileSize: 65982
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 16384
     isConvLayer: false
     hasModelFile: true
   - id: 39
     name: inception_3b/relu_pool_proj
     partialFile: GoogleNet_SOS40.partial.caffemodel
-    estimated_time_loading: 91
-    estimated_time_execution: 4454
+    partialFileSize: 105
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 0
     isConvLayer: false
     hasModelFile: true
   - id: 40
     name: inception_3b/output
     partialFile: GoogleNet_SOS41.partial.caffemodel
-    estimated_time_loading: 62
-    estimated_time_execution: 6896
+    partialFileSize: 151
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 0
     isConvLayer: false
     hasModelFile: true
   - id: 41
     name: pool3/3x3_s2
     partialFile: GoogleNet_SOS42.partial.caffemodel
-    estimated_time_loading: 93
-    estimated_time_execution: 76904
+    partialFileSize: 89
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 0
     isConvLayer: false
     hasModelFile: true
   - id: 42
     name: pool3/3x3_s2_pool3/3x3_s2_0_split
     partialFile: GoogleNet_SOS43.partial.caffemodel
-    estimated_time_loading: 87
-    estimated_time_execution: 13
+    partialFileSize: 227
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 0
     isConvLayer: false
     hasModelFile: true
   - id: 43
     name: inception_4a/1x1
     partialFile: GoogleNet_SOS44.partial.caffemodel
-    estimated_time_loading: 2011
-    estimated_time_execution: 21938
+    partialFileSize: 369607
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 92160
     isConvLayer: false
     hasModelFile: true
   - id: 44
     name: inception_4a/relu_1x1
     partialFile: GoogleNet_SOS45.partial.caffemodel
-    estimated_time_loading: 87
-    estimated_time_execution: 3410
+    partialFileSize: 87
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 0
     isConvLayer: false
     hasModelFile: true
   - id: 45
     name: inception_4a/3x3_reduce
     partialFile: GoogleNet_SOS46.partial.caffemodel
-    estimated_time_loading: 1079
-    estimated_time_execution: 11217
+    partialFileSize: 184914
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 46080
     isConvLayer: false
     hasModelFile: true
   - id: 46
     name: inception_4a/relu_3x3_reduce
     partialFile: GoogleNet_SOS47.partial.caffemodel
-    estimated_time_loading: 86
-    estimated_time_execution: 1776
+    partialFileSize: 108
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 0
     isConvLayer: false
     hasModelFile: true
   - id: 47
     name: inception_4a/3x3
     partialFile: GoogleNet_SOS48.partial.caffemodel
-    estimated_time_loading: 3957
-    estimated_time_execution: 50473
+    partialFileSize: 719868
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 179712
     isConvLayer: false
     hasModelFile: true
   - id: 48
     name: inception_4a/relu_3x3
     partialFile: GoogleNet_SOS49.partial.caffemodel
-    estimated_time_loading: 88
-    estimated_time_execution: 3632
+    partialFileSize: 87
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 0
     isConvLayer: false
     hasModelFile: true
   - id: 49
     name: inception_4a/5x5_reduce
     partialFile: GoogleNet_SOS50.partial.caffemodel
-    estimated_time_loading: 252
-    estimated_time_execution: 2704
+    partialFileSize: 30992
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 7680
     isConvLayer: false
     hasModelFile: true
   - id: 50
     name: inception_4a/relu_5x5_reduce
     partialFile: GoogleNet_SOS51.partial.caffemodel
-    estimated_time_loading: 77
-    estimated_time_execution: 302
+    partialFileSize: 108
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 0
     isConvLayer: false
     hasModelFile: true
   - id: 51
     name: inception_4a/5x5
     partialFile: GoogleNet_SOS52.partial.caffemodel
-    estimated_time_loading: 492
-    estimated_time_execution: 9156
+    partialFileSize: 77177
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 19200
     isConvLayer: false
     hasModelFile: true
   - id: 52
     name: inception_4a/relu_5x5
     partialFile: GoogleNet_SOS53.partial.caffemodel
-    estimated_time_loading: 64
-    estimated_time_execution: 878
+    partialFileSize: 87
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 0
     isConvLayer: false
     hasModelFile: true
   - id: 53
     name: inception_4a/pool
     partialFile: GoogleNet_SOS54.partial.caffemodel
-    estimated_time_loading: 63
-    estimated_time_execution: 74372
+    partialFileSize: 117
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 0
     isConvLayer: false
     hasModelFile: true
   - id: 54
     name: inception_4a/pool_proj
     partialFile: GoogleNet_SOS55.partial.caffemodel
-    estimated_time_loading: 755
-    estimated_time_execution: 7667
+    partialFileSize: 123326
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 30720
     isConvLayer: false
     hasModelFile: true
   - id: 55
     name: inception_4a/relu_pool_proj
     partialFile: GoogleNet_SOS56.partial.caffemodel
-    estimated_time_loading: 84
-    estimated_time_execution: 1215
+    partialFileSize: 105
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 0
     isConvLayer: false
     hasModelFile: true
   - id: 56
     name: inception_4a/output
     partialFile: GoogleNet_SOS57.partial.caffemodel
-    estimated_time_loading: 61
-    estimated_time_execution: 1012
+    partialFileSize: 151
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 0
     isConvLayer: false
     hasModelFile: true
   - id: 57
     name: inception_4a/output_inception_4a/output_0_split
     partialFile: GoogleNet_SOS58.partial.caffemodel
-    estimated_time_loading: 91
-    estimated_time_execution: 13
+    partialFileSize: 304
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 0
     isConvLayer: false
     hasModelFile: true
   - id: 58
     name: inception_4b/1x1
     partialFile: GoogleNet_SOS59.partial.caffemodel
-    estimated_time_loading: 2006
-    estimated_time_execution: 19834
+    partialFileSize: 328533
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 81920
     isConvLayer: false
     hasModelFile: true
   - id: 59
     name: inception_4b/relu_1x1
     partialFile: GoogleNet_SOS60.partial.caffemodel
-    estimated_time_loading: 88
-    estimated_time_execution: 3074
+    partialFileSize: 87
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 0
     isConvLayer: false
     hasModelFile: true
   - id: 60
     name: inception_4b/3x3_reduce
     partialFile: GoogleNet_SOS61.partial.caffemodel
-    estimated_time_loading: 1270
-    estimated_time_execution: 14076
+    partialFileSize: 230048
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 57344
     isConvLayer: false
     hasModelFile: true
   - id: 61
     name: inception_4b/relu_3x3_reduce
     partialFile: GoogleNet_SOS62.partial.caffemodel
-    estimated_time_loading: 87
-    estimated_time_execution: 2168
+    partialFileSize: 108
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 0
     isConvLayer: false
     hasModelFile: true
   - id: 62
     name: inception_4b/3x3
     partialFile: GoogleNet_SOS63.partial.caffemodel
-    estimated_time_loading: 5061
-    estimated_time_execution: 63041
+    partialFileSize: 904252
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 225792
     isConvLayer: false
     hasModelFile: true
   - id: 63
     name: inception_4b/relu_3x3
     partialFile: GoogleNet_SOS64.partial.caffemodel
-    estimated_time_loading: 88
-    estimated_time_execution: 4225
+    partialFileSize: 87
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 0
     isConvLayer: false
     hasModelFile: true
   - id: 64
     name: inception_4b/5x5_reduce
     partialFile: GoogleNet_SOS65.partial.caffemodel
-    estimated_time_loading: 348
-    estimated_time_execution: 4243
+    partialFileSize: 49470
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 12288
     isConvLayer: false
     hasModelFile: true
   - id: 65
     name: inception_4b/relu_5x5_reduce
     partialFile: GoogleNet_SOS66.partial.caffemodel
-    estimated_time_loading: 80
-    estimated_time_execution: 453
+    partialFileSize: 108
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 0
     isConvLayer: false
     hasModelFile: true
   - id: 66
     name: inception_4b/5x5
     partialFile: GoogleNet_SOS67.partial.caffemodel
-    estimated_time_loading: 882
-    estimated_time_execution: 15885
+    partialFileSize: 154041
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 38400
     isConvLayer: false
     hasModelFile: true
   - id: 67
     name: inception_4b/relu_5x5
     partialFile: GoogleNet_SOS68.partial.caffemodel
-    estimated_time_loading: 65
-    estimated_time_execution: 1237
+    partialFileSize: 87
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 0
     isConvLayer: false
     hasModelFile: true
   - id: 68
     name: inception_4b/pool
     partialFile: GoogleNet_SOS69.partial.caffemodel
-    estimated_time_loading: 59
-    estimated_time_execution: 80104
+    partialFileSize: 131
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 0
     isConvLayer: false
     hasModelFile: true
   - id: 69
     name: inception_4b/pool_proj
     partialFile: GoogleNet_SOS70.partial.caffemodel
-    estimated_time_loading: 805
-    estimated_time_execution: 8426
+    partialFileSize: 131518
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 32768
     isConvLayer: false
     hasModelFile: true
   - id: 70
     name: inception_4b/relu_pool_proj
     partialFile: GoogleNet_SOS71.partial.caffemodel
-    estimated_time_loading: 85
-    estimated_time_execution: 1238
+    partialFileSize: 105
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 0
     isConvLayer: false
     hasModelFile: true
   - id: 71
     name: inception_4b/output
     partialFile: GoogleNet_SOS72.partial.caffemodel
-    estimated_time_loading: 69
-    estimated_time_execution: 865
+    partialFileSize: 151
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 0
     isConvLayer: false
     hasModelFile: true
   - id: 72
     name: inception_4b/output_inception_4b/output_0_split
     partialFile: GoogleNet_SOS73.partial.caffemodel
-    estimated_time_loading: 90
-    estimated_time_execution: 13
+    partialFileSize: 304
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 0
     isConvLayer: false
     hasModelFile: true
   - id: 73
     name: inception_4c/1x1
     partialFile: GoogleNet_SOS74.partial.caffemodel
-    estimated_time_loading: 1597
-    estimated_time_execution: 16724
+    partialFileSize: 262869
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 65536
     isConvLayer: false
     hasModelFile: true
   - id: 74
     name: inception_4c/relu_1x1
     partialFile: GoogleNet_SOS75.partial.caffemodel
-    estimated_time_loading: 88
-    estimated_time_execution: 2408
+    partialFileSize: 87
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 0
     isConvLayer: false
     hasModelFile: true
   - id: 75
     name: inception_4c/3x3_reduce
     partialFile: GoogleNet_SOS76.partial.caffemodel
-    estimated_time_loading: 1470
-    estimated_time_execution: 16591
+    partialFileSize: 262883
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 65536
     isConvLayer: false
     hasModelFile: true
   - id: 76
     name: inception_4c/relu_3x3_reduce
     partialFile: GoogleNet_SOS77.partial.caffemodel
-    estimated_time_loading: 86
-    estimated_time_execution: 2400
+    partialFileSize: 108
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 0
     isConvLayer: false
     hasModelFile: true
   - id: 77
     name: inception_4c/3x3
     partialFile: GoogleNet_SOS78.partial.caffemodel
-    estimated_time_loading: 6631
-    estimated_time_execution: 79775
+    partialFileSize: 1180861
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 294912
     isConvLayer: false
     hasModelFile: true
   - id: 78
     name: inception_4c/relu_3x3
     partialFile: GoogleNet_SOS79.partial.caffemodel
-    estimated_time_loading: 91
-    estimated_time_execution: 4791
+    partialFileSize: 87
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 0
     isConvLayer: false
     hasModelFile: true
   - id: 79
     name: inception_4c/5x5_reduce
     partialFile: GoogleNet_SOS80.partial.caffemodel
-    estimated_time_loading: 348
-    estimated_time_execution: 4192
+    partialFileSize: 49470
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 12288
     isConvLayer: false
     hasModelFile: true
   - id: 80
     name: inception_4c/relu_5x5_reduce
     partialFile: GoogleNet_SOS81.partial.caffemodel
-    estimated_time_loading: 81
-    estimated_time_execution: 476
+    partialFileSize: 108
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 0
     isConvLayer: false
     hasModelFile: true
   - id: 81
     name: inception_4c/5x5
     partialFile: GoogleNet_SOS82.partial.caffemodel
-    estimated_time_loading: 887
-    estimated_time_execution: 16073
+    partialFileSize: 154041
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 38400
     isConvLayer: false
     hasModelFile: true
   - id: 82
     name: inception_4c/relu_5x5
     partialFile: GoogleNet_SOS83.partial.caffemodel
-    estimated_time_loading: 64
-    estimated_time_execution: 1284
+    partialFileSize: 87
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 0
     isConvLayer: false
     hasModelFile: true
   - id: 83
     name: inception_4c/pool
     partialFile: GoogleNet_SOS84.partial.caffemodel
-    estimated_time_loading: 56
-    estimated_time_execution: 94547
+    partialFileSize: 131
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 0
     isConvLayer: false
     hasModelFile: true
   - id: 84
     name: inception_4c/pool_proj
     partialFile: GoogleNet_SOS85.partial.caffemodel
-    estimated_time_loading: 801
-    estimated_time_execution: 8566
+    partialFileSize: 131518
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 32768
     isConvLayer: false
     hasModelFile: true
   - id: 85
     name: inception_4c/relu_pool_proj
     partialFile: GoogleNet_SOS86.partial.caffemodel
-    estimated_time_loading: 86
-    estimated_time_execution: 1189
+    partialFileSize: 105
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 0
     isConvLayer: false
     hasModelFile: true
   - id: 86
     name: inception_4c/output
     partialFile: GoogleNet_SOS87.partial.caffemodel
-    estimated_time_loading: 62
-    estimated_time_execution: 869
+    partialFileSize: 151
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 0
     isConvLayer: false
     hasModelFile: true
   - id: 87
     name: inception_4c/output_inception_4c/output_0_split
     partialFile: GoogleNet_SOS88.partial.caffemodel
-    estimated_time_loading: 91
-    estimated_time_execution: 13
+    partialFileSize: 304
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 0
     isConvLayer: false
     hasModelFile: true
   - id: 88
     name: inception_4d/1x1
     partialFile: GoogleNet_SOS89.partial.caffemodel
-    estimated_time_loading: 1404
-    estimated_time_execution: 14426
+    partialFileSize: 230034
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 57344
     isConvLayer: false
     hasModelFile: true
   - id: 89
     name: inception_4d/relu_1x1
     partialFile: GoogleNet_SOS90.partial.caffemodel
-    estimated_time_loading: 88
-    estimated_time_execution: 2081
+    partialFileSize: 87
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 0
     isConvLayer: false
     hasModelFile: true
   - id: 90
     name: inception_4d/3x3_reduce
     partialFile: GoogleNet_SOS91.partial.caffemodel
-    estimated_time_loading: 1647
-    estimated_time_execution: 17600
+    partialFileSize: 295715
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 73728
     isConvLayer: false
     hasModelFile: true
   - id: 91
     name: inception_4d/relu_3x3_reduce
     partialFile: GoogleNet_SOS92.partial.caffemodel
-    estimated_time_loading: 89
-    estimated_time_execution: 2639
+    partialFileSize: 108
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 0
     isConvLayer: false
     hasModelFile: true
   - id: 92
     name: inception_4d/3x3
     partialFile: GoogleNet_SOS93.partial.caffemodel
-    estimated_time_loading: 8402
-    estimated_time_execution: 99053
+    partialFileSize: 1494333
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 373248
     isConvLayer: false
     hasModelFile: true
   - id: 93
     name: inception_4d/relu_3x3
     partialFile: GoogleNet_SOS94.partial.caffemodel
-    estimated_time_loading: 103
-    estimated_time_execution: 5210
+    partialFileSize: 87
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 0
     isConvLayer: false
     hasModelFile: true
   - id: 94
     name: inception_4d/5x5_reduce
     partialFile: GoogleNet_SOS95.partial.caffemodel
-    estimated_time_loading: 441
-    estimated_time_execution: 5300
+    partialFileSize: 65888
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 16384
     isConvLayer: false
     hasModelFile: true
   - id: 95
     name: inception_4d/relu_5x5_reduce
     partialFile: GoogleNet_SOS96.partial.caffemodel
-    estimated_time_loading: 81
-    estimated_time_execution: 607
+    partialFileSize: 108
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 0
     isConvLayer: false
     hasModelFile: true
   - id: 96
     name: inception_4d/5x5
     partialFile: GoogleNet_SOS97.partial.caffemodel
-    estimated_time_loading: 1152
-    estimated_time_execution: 21541
+    partialFileSize: 205241
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 51200
     isConvLayer: false
     hasModelFile: true
   - id: 97
     name: inception_4d/relu_5x5
     partialFile: GoogleNet_SOS98.partial.caffemodel
-    estimated_time_loading: 77
-    estimated_time_execution: 1215
+    partialFileSize: 87
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 0
     isConvLayer: false
     hasModelFile: true
   - id: 98
     name: inception_4d/pool
     partialFile: GoogleNet_SOS99.partial.caffemodel
-    estimated_time_loading: 62
-    estimated_time_execution: 90832
+    partialFileSize: 131
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 0
     isConvLayer: false
     hasModelFile: true
   - id: 99
     name: inception_4d/pool_proj
     partialFile: GoogleNet_SOS100.partial.caffemodel
-    estimated_time_loading: 833
-    estimated_time_execution: 8532
+    partialFileSize: 131519
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 32768
     isConvLayer: false
     hasModelFile: true
   - id: 100
     name: inception_4d/relu_pool_proj
     partialFile: GoogleNet_SOS101.partial.caffemodel
-    estimated_time_loading: 85
-    estimated_time_execution: 1140
+    partialFileSize: 106
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 0
     isConvLayer: false
     hasModelFile: true
   - id: 101
     name: inception_4d/output
     partialFile: GoogleNet_SOS102.partial.caffemodel
-    estimated_time_loading: 60
-    estimated_time_execution: 956
+    partialFileSize: 152
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 0
     isConvLayer: false
     hasModelFile: true
   - id: 102
     name: inception_4d/output_inception_4d/output_0_split
     partialFile: GoogleNet_SOS103.partial.caffemodel
-    estimated_time_loading: 94
-    estimated_time_execution: 14
+    partialFileSize: 305
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 0
     isConvLayer: false
     hasModelFile: true
   - id: 103
     name: inception_4e/1x1
     partialFile: GoogleNet_SOS104.partial.caffemodel
-    estimated_time_loading: 3180
-    estimated_time_execution: 31217
+    partialFileSize: 541910
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 135168
     isConvLayer: false
     hasModelFile: true
   - id: 104
     name: inception_4e/relu_1x1
     partialFile: GoogleNet_SOS105.partial.caffemodel
-    estimated_time_loading: 86
-    estimated_time_execution: 4611
+    partialFileSize: 88
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 0
     isConvLayer: false
     hasModelFile: true
   - id: 105
     name: inception_4e/3x3_reduce
     partialFile: GoogleNet_SOS106.partial.caffemodel
-    estimated_time_loading: 1874
-    estimated_time_execution: 19905
+    partialFileSize: 338788
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 84480
     isConvLayer: false
     hasModelFile: true
   - id: 106
     name: inception_4e/relu_3x3_reduce
     partialFile: GoogleNet_SOS107.partial.caffemodel
-    estimated_time_loading: 100
-    estimated_time_execution: 3030
+    partialFileSize: 109
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 0
     isConvLayer: false
     hasModelFile: true
   - id: 107
     name: inception_4e/3x3
     partialFile: GoogleNet_SOS108.partial.caffemodel
-    estimated_time_loading: 10492
-    estimated_time_execution: 119740
+    partialFileSize: 1844670
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 460800
     isConvLayer: false
     hasModelFile: true
   - id: 108
     name: inception_4e/relu_3x3
     partialFile: GoogleNet_SOS109.partial.caffemodel
-    estimated_time_loading: 92
-    estimated_time_execution: 5595
+    partialFileSize: 88
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 0
     isConvLayer: false
     hasModelFile: true
   - id: 109
     name: inception_4e/5x5_reduce
     partialFile: GoogleNet_SOS110.partial.caffemodel
-    estimated_time_loading: 447
-    estimated_time_execution: 4876
+    partialFileSize: 67937
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 16896
     isConvLayer: false
     hasModelFile: true
   - id: 110
     name: inception_4e/relu_5x5_reduce
     partialFile: GoogleNet_SOS111.partial.caffemodel
-    estimated_time_loading: 83
-    estimated_time_execution: 602
+    partialFileSize: 109
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 0
     isConvLayer: false
     hasModelFile: true
   - id: 111
     name: inception_4e/5x5
     partialFile: GoogleNet_SOS112.partial.caffemodel
-    estimated_time_loading: 2239
-    estimated_time_execution: 32924
+    partialFileSize: 410301
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 102400
     isConvLayer: false
     hasModelFile: true
   - id: 112
     name: inception_4e/relu_5x5
     partialFile: GoogleNet_SOS113.partial.caffemodel
-    estimated_time_loading: 82
-    estimated_time_execution: 2240
+    partialFileSize: 88
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 0
     isConvLayer: false
     hasModelFile: true
   - id: 113
     name: inception_4e/pool
     partialFile: GoogleNet_SOS114.partial.caffemodel
-    estimated_time_loading: 65
-    estimated_time_execution: 87222
+    partialFileSize: 132
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 0
     isConvLayer: false
     hasModelFile: true
   - id: 114
     name: inception_4e/pool_proj
     partialFile: GoogleNet_SOS115.partial.caffemodel
-    estimated_time_loading: 1520
-    estimated_time_execution: 15912
+    partialFileSize: 271042
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 67584
     isConvLayer: false
     hasModelFile: true
   - id: 115
     name: inception_4e/relu_pool_proj
     partialFile: GoogleNet_SOS116.partial.caffemodel
-    estimated_time_loading: 88
-    estimated_time_execution: 2331
+    partialFileSize: 106
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 0
     isConvLayer: false
     hasModelFile: true
   - id: 116
     name: inception_4e/output
     partialFile: GoogleNet_SOS117.partial.caffemodel
-    estimated_time_loading: 63
-    estimated_time_execution: 2560
+    partialFileSize: 152
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 0
     isConvLayer: false
     hasModelFile: true
   - id: 117
     name: pool4/3x3_s2
     partialFile: GoogleNet_SOS118.partial.caffemodel
-    estimated_time_loading: 94
-    estimated_time_execution: 53452
+    partialFileSize: 90
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 0
     isConvLayer: false
     hasModelFile: true
   - id: 118
     name: pool4/3x3_s2_pool4/3x3_s2_0_split
     partialFile: GoogleNet_SOS119.partial.caffemodel
-    estimated_time_loading: 88
-    estimated_time_execution: 13
+    partialFileSize: 228
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 0
     isConvLayer: false
     hasModelFile: true
   - id: 119
     name: inception_5a/1x1
     partialFile: GoogleNet_SOS120.partial.caffemodel
-    estimated_time_loading: 4692
-    estimated_time_execution: 15200
+    partialFileSize: 853192
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 212992
     isConvLayer: false
     hasModelFile: true
   - id: 120
     name: inception_5a/relu_1x1
     partialFile: GoogleNet_SOS121.partial.caffemodel
-    estimated_time_loading: 77
-    estimated_time_execution: 1195
+    partialFileSize: 88
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 0
     isConvLayer: false
     hasModelFile: true
   - id: 121
     name: inception_5a/3x3_reduce
     partialFile: GoogleNet_SOS122.partial.caffemodel
-    estimated_time_loading: 2878
-    estimated_time_execution: 9860
+    partialFileSize: 533334
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 133120
     isConvLayer: false
     hasModelFile: true
   - id: 122
     name: inception_5a/relu_3x3_reduce
     partialFile: GoogleNet_SOS123.partial.caffemodel
-    estimated_time_loading: 70
-    estimated_time_execution: 763
+    partialFileSize: 109
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 0
     isConvLayer: false
     hasModelFile: true
   - id: 123
     name: inception_5a/3x3
     partialFile: GoogleNet_SOS124.partial.caffemodel
-    estimated_time_loading: 10413
-    estimated_time_execution: 37136
+    partialFileSize: 1844670
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 460800
     isConvLayer: false
     hasModelFile: true
   - id: 124
     name: inception_5a/relu_3x3
     partialFile: GoogleNet_SOS125.partial.caffemodel
-    estimated_time_loading: 90
-    estimated_time_execution: 1414
+    partialFileSize: 88
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 0
     isConvLayer: false
     hasModelFile: true
   - id: 125
     name: inception_5a/5x5_reduce
     partialFile: GoogleNet_SOS126.partial.caffemodel
-    estimated_time_loading: 642
-    estimated_time_execution: 2133
+    partialFileSize: 106835
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 26624
     isConvLayer: false
     hasModelFile: true
   - id: 126
     name: inception_5a/relu_5x5_reduce
     partialFile: GoogleNet_SOS127.partial.caffemodel
-    estimated_time_loading: 63
-    estimated_time_execution: 155
+    partialFileSize: 109
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 0
     isConvLayer: false
     hasModelFile: true
   - id: 127
     name: inception_5a/5x5
     partialFile: GoogleNet_SOS128.partial.caffemodel
-    estimated_time_loading: 2227
-    estimated_time_execution: 9669
+    partialFileSize: 410301
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 102400
     isConvLayer: false
     hasModelFile: true
   - id: 128
     name: inception_5a/relu_5x5
     partialFile: GoogleNet_SOS129.partial.caffemodel
-    estimated_time_loading: 64
-    estimated_time_execution: 611
+    partialFileSize: 88
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 0
     isConvLayer: false
     hasModelFile: true
   - id: 129
     name: inception_5a/pool
     partialFile: GoogleNet_SOS130.partial.caffemodel
-    estimated_time_loading: 69
-    estimated_time_execution: 53644
+    partialFileSize: 118
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 0
     isConvLayer: false
     hasModelFile: true
   - id: 130
     name: inception_5a/pool_proj
     partialFile: GoogleNet_SOS131.partial.caffemodel
-    estimated_time_loading: 2336
-    estimated_time_execution: 7644
+    partialFileSize: 426690
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 106496
     isConvLayer: false
     hasModelFile: true
   - id: 131
     name: inception_5a/relu_pool_proj
     partialFile: GoogleNet_SOS132.partial.caffemodel
-    estimated_time_loading: 69
-    estimated_time_execution: 586
+    partialFileSize: 106
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 0
     isConvLayer: false
     hasModelFile: true
   - id: 132
     name: inception_5a/output
     partialFile: GoogleNet_SOS133.partial.caffemodel
-    estimated_time_loading: 57
-    estimated_time_execution: 325
+    partialFileSize: 152
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 0
     isConvLayer: false
     hasModelFile: true
   - id: 133
     name: inception_5a/output_inception_5a/output_0_split
     partialFile: GoogleNet_SOS134.partial.caffemodel
-    estimated_time_loading: 79
-    estimated_time_execution: 12
+    partialFileSize: 305
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 0
     isConvLayer: false
     hasModelFile: true
   - id: 134
     name: inception_5b/1x1
     partialFile: GoogleNet_SOS135.partial.caffemodel
-    estimated_time_loading: 7366
-    estimated_time_execution: 22974
+    partialFileSize: 1279702
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 319488
     isConvLayer: false
     hasModelFile: true
   - id: 135
     name: inception_5b/relu_1x1
     partialFile: GoogleNet_SOS136.partial.caffemodel
-    estimated_time_loading: 87
-    estimated_time_execution: 1819
+    partialFileSize: 88
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 0
     isConvLayer: false
     hasModelFile: true
   - id: 136
     name: inception_5b/3x3_reduce
     partialFile: GoogleNet_SOS137.partial.caffemodel
-    estimated_time_loading: 3503
-    estimated_time_execution: 11686
+    partialFileSize: 639972
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 159744
     isConvLayer: false
     hasModelFile: true
   - id: 137
     name: inception_5b/relu_3x3_reduce
     partialFile: GoogleNet_SOS138.partial.caffemodel
-    estimated_time_loading: 75
-    estimated_time_execution: 962
+    partialFileSize: 109
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 0
     isConvLayer: false
     hasModelFile: true
   - id: 138
     name: inception_5b/3x3
     partialFile: GoogleNet_SOS139.partial.caffemodel
-    estimated_time_loading: 14951
-    estimated_time_execution: 52119
+    partialFileSize: 2655937
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 663552
     isConvLayer: false
     hasModelFile: true
   - id: 139
     name: inception_5b/relu_3x3
     partialFile: GoogleNet_SOS140.partial.caffemodel
-    estimated_time_loading: 91
-    estimated_time_execution: 1910
+    partialFileSize: 88
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 0
     isConvLayer: false
     hasModelFile: true
   - id: 140
     name: inception_5b/5x5_reduce
     partialFile: GoogleNet_SOS141.partial.caffemodel
-    estimated_time_loading: 959
-    estimated_time_execution: 3380
+    partialFileSize: 160161
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 39936
     isConvLayer: false
     hasModelFile: true
   - id: 141
     name: inception_5b/relu_5x5_reduce
     partialFile: GoogleNet_SOS142.partial.caffemodel
-    estimated_time_loading: 81
-    estimated_time_execution: 260
+    partialFileSize: 109
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 0
     isConvLayer: false
     hasModelFile: true
   - id: 142
     name: inception_5b/5x5
     partialFile: GoogleNet_SOS143.partial.caffemodel
-    estimated_time_loading: 3442
-    estimated_time_execution: 14737
+    partialFileSize: 615101
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 153600
     isConvLayer: false
     hasModelFile: true
   - id: 143
     name: inception_5b/relu_5x5
     partialFile: GoogleNet_SOS144.partial.caffemodel
-    estimated_time_loading: 78
-    estimated_time_execution: 630
+    partialFileSize: 88
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 0
     isConvLayer: false
     hasModelFile: true
   - id: 144
     name: inception_5b/pool
     partialFile: GoogleNet_SOS145.partial.caffemodel
-    estimated_time_loading: 62
-    estimated_time_execution: 53751
+    partialFileSize: 132
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 0
     isConvLayer: false
     hasModelFile: true
   - id: 145
     name: inception_5b/pool_proj
     partialFile: GoogleNet_SOS146.partial.caffemodel
-    estimated_time_loading: 2362
-    estimated_time_execution: 7819
+    partialFileSize: 426690
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 106496
     isConvLayer: false
     hasModelFile: true
   - id: 146
     name: inception_5b/relu_pool_proj
     partialFile: GoogleNet_SOS147.partial.caffemodel
-    estimated_time_loading: 69
-    estimated_time_execution: 612
+    partialFileSize: 106
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 0
     isConvLayer: false
     hasModelFile: true
   - id: 147
     name: inception_5b/output
     partialFile: GoogleNet_SOS148.partial.caffemodel
-    estimated_time_loading: 59
-    estimated_time_execution: 575
+    partialFileSize: 152
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 0
     isConvLayer: false
     hasModelFile: true
   - id: 148
     name: pool5/7x7_s1
     partialFile: GoogleNet_SOS149.partial.caffemodel
-    estimated_time_loading: 75
-    estimated_time_execution: 23348
+    partialFileSize: 90
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 0
     isConvLayer: false
     hasModelFile: true
   - id: 149
     name: pool5/drop_7x7_s1
     partialFile: GoogleNet_SOS150.partial.caffemodel
-    estimated_time_loading: 73
-    estimated_time_execution: 45
+    partialFileSize: 87
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 0
     isConvLayer: false
     hasModelFile: true
   - id: 150
     name: loss3/classifier-sos
     partialFile: GoogleNet_SOS151.partial.caffemodel
-    estimated_time_loading: 193
-    estimated_time_execution: 54
+    partialFileSize: 20680
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 5120
     isConvLayer: false
     hasModelFile: true
   - id: 151
     name: loss3/loss3
     partialFile: GoogleNet_SOS153.partial.caffemodel
-    estimated_time_loading: 62
-    estimated_time_execution: 23
+    partialFileSize: 142
+    estimated_time_loading: 0
+    estimated_time_execution: 0
+    number-of-paramters: 0
     isConvLayer: false
     hasModelFile: true
