@@ -109,7 +109,7 @@ DEP_EXISTS(THREADS)
 set(BLAS "open")
 
 add_subdirectory(caffe)
-# Set path to caffe's original onclude files
+# Set path to caffe's original include files
 set(INCLUDE_ORIG_CAFFE ${CMAKE_CURRENT_SOURCE_DIR}/caffe/include)
 add_subdirectory(Core)
 add_subdirectory(tools)
@@ -163,15 +163,11 @@ macro(ADD_BINARY_TARGET TARGET_NAME)
 endmacro()
 
 # ---[ Set all the targets to be build
-#ADD_BINARY_TARGET(ScheduledPipeline)
-#ADD_BINARY_TARGET(RunPipeline)
-#ADD_BINARY_TARGET(Exp_const_arrivals)
-#ADD_BINARY_TARGET(Exp_poisson_arrival_baseline)
 ADD_BINARY_TARGET(Exp_poisson_arrival_rv_nf)
 
 # ---[ Copy resourcess
 file(COPY ${CMAKE_SOURCE_DIR}/networks DESTINATION ${CMAKE_BINARY_DIR})
-file(COPY ${CMAKE_SOURCE_DIR}/config DESTINATION ${CMAKE_BINARY_DIR})
+#file(COPY ${CMAKE_SOURCE_DIR}/config DESTINATION ${CMAKE_BINARY_DIR})
 file(COPY ${CMAKE_SOURCE_DIR}/scripts DESTINATION ${CMAKE_BINARY_DIR})
 file(COPY ${CMAKE_SOURCE_DIR}/resources DESTINATION ${CMAKE_BINARY_DIR})
 file(COPY ${CMAKE_SOURCE_DIR}/experiments DESTINATION ${CMAKE_BINARY_DIR})
@@ -185,10 +181,9 @@ add_custom_target(EdgeCaffe_build_all
         )
 
 add_dependencies(EdgeCaffe_build_all
+        Exp_poisson_arrival_rv_nf
         caffe
         EdgeCaffeCore
-#        RunPipeline
-#        Exp_const_arrivals
         ModelSplitter
         GenerateNetwork
         ExtendNetworkDescription

@@ -1,0 +1,24 @@
+cmd_base: bin/Exp_poisson_arrival_rv_nf
+build_folder: .
+tag: deepeye-example
+mem_limit: 2G
+mode: deepeye
+memory-key: valgrind
+n-arrivals: 1
+n-workers: 2
+network-path: networks
+resources-path: resources
+output-path: ../analysis/experiments/example/deepeye-example
+arrival-mode: batch
+arrival-list: ./experiments/example/configs/2G/deepeye-example.yaml
+output-prefix: deepeye-example
+arrivals:
+  - networks:
+      - networkName: GenderNet
+        pathToNetwork: GenderNet
+      - networkName: FaceNet
+        pathToNetwork: FaceNet
+      - networkName: AgeNet
+        pathToNetwork: AgeNet
+    pathToData: test_1.jpg
+    time: 0
