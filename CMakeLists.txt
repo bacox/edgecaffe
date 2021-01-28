@@ -257,8 +257,8 @@ install(
         DESTINATION /opt/edgecaffe
         FILES_MATCHING
         PATTERN "*"
-        PATTERN "*.caffemodel" EXCLUDE
-        PATTERN "*_partials" EXCLUDE
+#        PATTERN "*.caffemodel" EXCLUDE
+#        PATTERN "*_partials" EXCLUDE
 )
 
 set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
