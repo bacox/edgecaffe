@@ -15,7 +15,7 @@ fi
 echo "$LOG_PREFIX Extracting models"
 tar -zxf ./$MODEL_FILE
 echo "$LOG_PREFIX Moving models"
-cp -r $MODEL_FILE_NAME/* ./networks_extracted
+cp -r $MODEL_FILE_NAME/* ./networks
 echo "$LOG_PREFIX Removing temporary folder"
 rm -rf $MODEL_FILE_NAME
 echo "$LOG_PREFIX Done"

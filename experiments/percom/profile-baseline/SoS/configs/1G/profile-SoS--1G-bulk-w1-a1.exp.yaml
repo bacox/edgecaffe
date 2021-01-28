@@ -1,0 +1,65 @@
+cmd_base: bin/Exp_poisson_arrival_rv_nf
+build_folder: .
+tag: profile-SoS--1G-bulk-w1-a1
+mem_limit: 1G
+mode: bulk
+memory-key: valgrind
+n-arrivals: 10
+n-workers: 1
+network-path: networks
+resources-path: resources
+output-path: ../analysis/experiments/percom/profile-baseline/profile-SoS-
+arrival-mode: batch
+arrival-list: ./experiments/percom/profile-baseline/SoS/configs/1G/profile-SoS--1G-bulk-w1-a1.exp.yaml
+output-prefix: profile-SoS--1G-bulk-w1-a1
+arrivals:
+- networks:
+  - networkName: SoS
+    pathToNetwork: SoS
+  pathToData: test_1.jpg
+  time: 0
+- networks:
+  - networkName: SoS
+    pathToNetwork: SoS
+  pathToData: test_1.jpg
+  time: 0
+- networks:
+  - networkName: SoS
+    pathToNetwork: SoS
+  pathToData: test_1.jpg
+  time: 0
+- networks:
+  - networkName: SoS
+    pathToNetwork: SoS
+  pathToData: test_1.jpg
+  time: 0
+- networks:
+  - networkName: SoS
+    pathToNetwork: SoS
+  pathToData: test_1.jpg
+  time: 0
+- networks:
+  - networkName: SoS
+    pathToNetwork: SoS
+  pathToData: test_1.jpg
+  time: 0
+- networks:
+  - networkName: SoS
+    pathToNetwork: SoS
+  pathToData: test_1.jpg
+  time: 0
+- networks:
+  - networkName: SoS
+    pathToNetwork: SoS
+  pathToData: test_1.jpg
+  time: 0
+- networks:
+  - networkName: SoS
+    pathToNetwork: SoS
+  pathToData: test_1.jpg
+  time: 0
+- networks:
+  - networkName: SoS
+    pathToNetwork: SoS
+  pathToData: test_1.jpg
+  time: 0

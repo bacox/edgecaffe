@@ -1,0 +1,15 @@
+#The base configuration for all batch experiments
+network-path: networks
+resources-path: resources
+output-path-base: ../analysis/experiments/percom/baseline
+memory-constraints: [2G]
+modes: [linear]
+repetitions: 1
+arrival-mode: batch
+n_workers: [1]
+cmd-base: bin/Exp_poisson_arrival_rv_nf
+build-folder: cmake-build-release
+
+experiments:
+#  - baseline
+  - baseline-single
