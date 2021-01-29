@@ -1,8 +1,9 @@
 
 LOG_PREFIX=">>>"
-MODEL_FILE_NAME=edgecaffe-models-v1.0
+VERSION="v1.1"
+MODEL_FILE_NAME=edgecaffe-models-$VERSION
 MODEL_FILE=$MODEL_FILE_NAME.tar.gz
-URL=https://gitlab.com/bacox/edgecaffe-models/-/archive/v1.0/$MODEL_FILE
+URL=https://gitlab.com/bacox/edgecaffe-models/-/archive/$VERSION/$MODEL_FILE
 
 if [[ ! -f "$MODEL_FILE" ]]; then
     echo "$LOG_PREFIX Model archive missing."

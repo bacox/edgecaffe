@@ -6,7 +6,7 @@ The EdgeCaffe project aims to run the [Caffe Deep Learning framework](https://gi
 
 The main codebase is written in C++, although there are limited bindings to Python.
 
-Additional documentation can be found at the [wiki](https://gitlab.com/bacox/edgecaffe/-/wikis/home).
+Additional documentation can be found at the [wiki](https://github.com/bacox/edgecaffe/wiki).
 
 ## Project organization
 
@@ -22,106 +22,46 @@ The project is divided in six sections:
 * `./analysis`: This folder is empty on initialization of the project but will hold the output data of executable `RunPipeline`.
 * `./resources`: Holds the test data files.
 
-## Install dependencies
-
-Cmake (VERSION  >= 3.13.0)
-
+## Quick Setup
+Install dependencies:
 ```bash
-sudo apt-get install -y cmake
+bash ./setup.sh
 ```
-
-GCC (VERSION >= 8)
-
+Download and setup prepared models:
 ```bash
-sudo apt-get update
-sudo apt-get install -y gcc-8 g++-8
-# Make sure to set the priority
-sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-8 80 --slave /usr/bin/g++ g++ /usr/bin/g++-8 --slave /usr/bin/gcov gcov /usr/bin/gcov-8
-sudo update-alternatives --config gcc
+bash install_models.sh
 ```
 
-OpenCV
-
+### Compile
 ```bash
-sudo apt install -y python3-opencv
+mkdir -p cmake-build-release
+cd cmake-build-release
+cmake -DCMAKE_BUILD_TYPE=Release ..
+make
+sudo make install 
 ```
 
-Blas
+### Run Example
 
-```bash
-sudo apt-get install -y libopenblas-dev # OpenBLAS
-```
-
-Other
-
-```bash
-# Other dependencies
-sudo apt-get install -y libprotobuf-dev libleveldb-dev libsnappy-dev libopencv-dev libhdf5-serial-dev libboost-all-dev protobuf-compiler
-sudo apt-get install -y —-no-install-recommends libboost-all-dev
-sudo apt-get install -y libgflags-dev libgoogle-glog-dev liblmdb-dev
-pip3 install protobuf
-sudo apt-get install -y python3-dev
-sudo apt-get install -y libatlas-base-dev doxygen libyaml-cpp-dev
-```
-
-## Compile (Laptop)
-
-#### Generate protobuf bindings
-This step should be run before compiling
-
-```bash
-protoc caffe/src/caffe/proto/caffe.proto --cpp_out=.
-mkdir caffe/include/caffe/proto
-mv caffe/src/caffe/proto/caffe.pb.h caffe/include/caffe/proto
-```
-
-
-#### RunPipeline
-
-```bash
-mkdir build
-cd build
-cmake ..
-make RunPipeline
-```
-
-#### EdgeCaffe Library
-
-```bash
-mkdir build
-cd build
-cmake ..
-make EdgeCaffeCore
-```
-
-#### PyEdgeCaffe
-
-```
-mkdir build
-cd build
-cmake ..
-make py_edge_caffe
-```
-
-#### Modelsplitter
-
-```bash
-mkdir build
-cd build
-cmake ..
-make ModelSplitter
-```
-#### ExtendNetworkDescription
-
-```bash
-mkdir build
-cd build
-cmake ..
-make ExtendNetworkDescription
-```
+* Call via python script to set environment paramters
+  ```bash
+  # Move to build directory
+  cd cmake-build-release
+  # Use python 
+  sudo python3 scripts/percom/run_single_exp.py experiments/example/configs/2G/masa-example.yaml scripts/percom/exp_base_no_limit.sh
+  # Or use 
+  ```
+* Or call directly
+  ```bash
+  export OPENBLAS_NUM_THREADS=2
+  ./bin/Exp_poisson_arrival_rv_nf --read-config=experiments/example/configs/2G/masa-example.yaml
+  ```
+## Manual setup
+If you want to setup everything manually, instructions can be found on this [wiki page](https://github.com/bacox/edgecaffe/wiki/Installation-(Manual)).
 
 ## Prepare before running
 ### Download models
+**Note:** This is not needed when `install_models.sh is used`.
 
 The model files of the networks can be downloaded using the following link: https://bartcox.stackstorage.com/s/GmO0bKJb4JV5Qvd
 
@@ -152,11 +92,8 @@ ExtendNetworkDescription ../../networks/AgeNet ../../networks/GenderNet
 
 ### C++
 
-The targets can be build with `Cmake`. There 3 binary examples in this project:
+The targets can be build with `Cmake`. There 4 binary examples in this project:
 
-* **RunPipeline**: The main executable to run and profile DNNs. Note: It is important that the models are split (With the `ModelSplitter`) before running this executable.
-  * Build: `make RunPipeline`
-  * Usage: `./RunPipeline <mode> [outputfile.csv]`. The mode can be one of the scheduling policies: `linear`, `bulk`, `deepeye` or `partial`. The output file argument is optional and can be set to define the name of the output file used to write the profiling data towards. The default value of the output file is `output.csv` in the analysis folder.
 * **Modelsplitter**: A tool used to split caffemodel files in smaller model files.
   * Build: `make ModelSplitter`
   * Usage: `./ModelSplitter pathToModel1 [pathToModel2] ...`
@@ -165,37 +102,55 @@ The targets can be build with `Cmake`. There 3 binary examples in this project:
   * Build: `make ExtendNetworkDescription`
   * Usage: `./ExtendNetworkDescription pathToNetworkDir [pathToNetworkDir2] ...`
   * Example: `ExtendNetworkDescription ../../networks/AgeNet ../../networks/GenderNet`
-* **ScheduledPipeline**: Provides almost the same functionality as **RunPipeline** but the implementation is more exposed. Note: It is important that the models are split (With the `ModelSplitter`) before running this executable. 
-  * Build: `make ScheduledPipeline`
-  * Usage: `./ScheduledPipeline`
-* **Exp_const_arrivals**: Almost same example as `RunPipeline` but it uses a distribution of arrivals instead of submitting everything at the beginning instantly. Note: It is important that the models are split (With the `ModelSplitter`) before running this executable.
-  * Build: `make Exp_const_arrivals`
-  * Help: `./Exp_const_arrivals --help`
+* **Exp_poisson_arrival_rv_nf**: Main executable for executing multiple DNN models. Note: It is important that the models are split (With the `ModelSplitter`) before running this executable.
+  * Build: `make Exp_poisson_arrival_rv_nf`
+  * Help: `./Exp_poisson_arrival_rv_nf --help`
 ```
 Usage:
-  Exp_const_arrivals [OPTION...]
+Exp_const_arrivals executes DNN's using the EdgeCaffe framework based on different arrivals.
+Arrivals arrive at the system based on the generated inter-arrival time.
+Note: some cli options are not yet implemented
+Usage:
+  EdgeCaffe [OPTION...]
 
-  -m, --mode arg            Mode to split and run the networks. Values
-                            [partial|linear|deepeye|bulk]
-      --mem_limit arg       The memory limit given by the OS to EdgeCaffe.
-                            NOTE: this does not limit the memory for this
-                            process but is used in output generation and in
-                            scheduling.
-      --seed arg            Seed for random number generator
-  -V, --verbose             Verbose
-  -N, --num-arrivals arg    Number of arrivals to be generated
-  -a, --arrival-list arg    NOT_YET_IMPLEMENTED. Use this arrival list to
-                            inject arrivals instead of the generated one
-  -p, --output-prefix arg   Prefix for all output files to make it them
-                            unique for a certain run
-      --output-path arg     Define the path to store all output files
-      --network-path arg    Define the path to store all output files
-      --resources-path arg  Define the path to store all output files
-  -s, --sched-alg arg       The scheduling algorithm to be used: [FCFS|SJF]
-  -c, --read-config arg     Use a yaml config file to configure this run
-                            instead of the cli. This will overrule all other
-                            arguments. Example 'config/pipeline-template.yaml'
-  -h, --help                Print help message
+  -m, --mode arg              Mode to split and run the networks. Values
+                              [partial|linear|deepeye|bulk]
+      --mem_limit arg         The memory limit given by the OS to EdgeCaffe.
+                              NOTE: this does not limit the memory for this
+                              process but is used in output generation and in
+                              scheduling.
+      --seed arg              Seed for random number generator
+  -V, --verbose               Verbose
+  -N, --n-arrivals arg        Number of arrivals to be generated
+      --arrival-mode arg      How arrivals should be handled: batch or
+                              stochastic
+  -a, --arrival-list arg      Use this arrival list to inject arrivals
+                              instead of the generated one
+  -p, --output-prefix arg     Prefix for all output files to make it them
+                              unique for a certain run
+      --output-path arg       Define the path to store all output files
+      --network-path arg      Define the path to store all output files
+      --resources-path arg    Define the path to store all output files
+      --memory-key arg        Define the key to be used in the config for
+                              reading the required memory for the network.
+                              Options: one of ['valgrind', 'rss'] Default is
+                              'valgrind'
+  -s, --sched-alg arg         The scheduling algorithm to be used: [FCFS|SJF]
+  -c, --read-config arg       Use a yaml config file to configure this run
+                              instead of the cli. This will overrule all other
+                              arguments. Example
+                              'config/pipeline-template.yaml'
+      --network arg           The network(s) to run
+      --rho arg               Set the Rho value to use
+      --mst arg               Set the mean service time to use
+      --iat arg               Set the inter arrival time to use
+      --n-workers arg         Set the number of workers to be used for
+                              execution of the tasks. This only has effect on
+                              algorithms that do not use a fixed number of workers
+      --poisson-distribution  enable or disable poisson distribution as the
+                              arrival process. With this flag disabled, a
+                              constant distribution will be used.
+  -h, --help                  Print help message
 ```
 * **NetworkDependencyGraph**: A tool used to generate dependency graphs for all the modes (partial|linear|bulk|deepeye) for the specified network. The NetworkDependencyGraph tool will create `.dot` files that can be used to generate a png or another image format. The script `dot2png.sh` can be used to automate the conversion of dot files to images. The use of the `dot` command might require `sudo apt-get install graphviz`. Example of `.dot` files conversion: `dot -Tpng AgeNet0-partial.dot -o AgeNet0-partial.png`. For more informatio about dot and graphviz see [https://renenyffenegger.ch/notes/tools/Graphviz/examples/index](https://renenyffenegger.ch/notes/tools/Graphviz/examples/index)
   * Build: `make ndg`
@@ -217,13 +172,13 @@ $ python3
 >>> import edgecaffe
 ```
 
-### Examples
+#### Python Examples
 
 The examples folder at `python/examples` holds some basic python example scripts.
 
 ## Memory swapping
 Memory swapping is an important feature to enable to prevent EdgeCaffe from being killed when is uses too much memory.
-A more deailted description can be found [here](https://gitlab.com/bacox/edgecaffe/-/wikis/Memory-Swapping)
+A more detailed description can be found [here](https://github.com/bacox/edgecaffe/wiki/Memory-Swapping)
 ### Create swap file
 
 If necessary, you can increase the size of the swap file. To check the current size of the swap file `grep SwapTotal /proc/meminfo`.
