@@ -51,7 +51,7 @@ sudo make install
   sudo python3 scripts/percom/run_single_exp.py experiments/example/configs/2G/masa-example.yaml scripts/percom/exp_base_no_limit.sh
   # Or use 
   ```
-* Or call directly
+* Or call directly (some environment parameters are omitted)
   ```bash
   export OPENBLAS_NUM_THREADS=2
   ./bin/Exp_poisson_arrival_rv_nf --read-config=experiments/example/configs/2G/masa-example.yaml

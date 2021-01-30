@@ -1,4 +1,4 @@
-
+#!/bin/bash
 LOG_PREFIX=">>>"
 VERSION="v1.1"
 MODEL_FILE_NAME=edgecaffe-models-$VERSION

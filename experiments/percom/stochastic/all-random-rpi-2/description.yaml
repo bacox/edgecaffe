@@ -1,7 +1,7 @@
 #Experiment goal: Show the effect of batch arrivals with 3 small networks in the batch
 # The networks are: AgeNet, GenderNet, FaceNet
 
-n_workers: [1]
+n_workers: [2]
 ait-multiplier: [0.8, 1, 1.2]
 modes: [masa, bulk, deepeye]
 memory-constraints: [2G, 1G, 512M]

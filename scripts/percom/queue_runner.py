@@ -14,6 +14,19 @@ available_commands = [
     , 'run'
     , 'config2queue'
 ]
+
+available_devices = [
+    'rpi-1',
+    'rpi-2',
+    'rpi-4'
+]
+
+available_exp_types = [
+    'batch',
+    'stochastic',
+    'stochastic-thesis'
+]
+
 current_path = Path(__file__).parent
 
 queue_file = str(current_path / 'queue.tmp.txt')
@@ -108,9 +121,9 @@ def append_queue(eq: ExperimentQueue, filename: str):
     write_queue(eq, filename, append=True)
 
 
-def save_queue(eq: ExperimentQueue, filename: str):
+def save_queue(eq: ExperimentQueue, filename: str, append=False):
     assert isinstance(filename, str), f'Argument of wrong type, should be a string and is a {type(filename)}!'
-    write_queue(eq, filename, append=False)
+    write_queue(eq, filename, append=append)
 
 
 def clear_file_contents(filename: str):
@@ -146,7 +159,7 @@ def exp_call(qi: QueueItem, dry_run: bool = False):
     run_single_exp(exp_file, base_script, dry_run=dry_run, build_folder=build_folder, record_thermal=record_thermal)
 
 
-def cmd_run(dry_run=False):
+def cmd_run(dry_run=False, **kwargs):
     queue = load_queue(queue_file)
     total = count = queue.size()
     print(f'There are {queue.size()} experiments to be run')
@@ -173,42 +186,43 @@ def cmd_run(dry_run=False):
         save_queue(dry_run_queue, queue_file)
 
 
-def cmd_halt(dry_run=False):
+def cmd_halt(dry_run=False, **kwargs):
     queue = load_queue(queue_file)
     append_queue(queue, pre_queue_file)
     clear_file_contents(queue_file)
     print(f'{queue.size()} experiments are set back to the pre-queue')
 
 
-def cmd_add(dry_run=False, filename: str = pre_queue_file):
+def cmd_add(dry_run=False, filename: str = pre_queue_file, **kwargs):
     pre_queue = load_queue(filename)
     append_queue(pre_queue, queue_file)
     clear_file_contents(filename)
     print(f'{pre_queue.size()} experiments are added to the queue')
 
 
-def cmd_list(dry_run=False):
+def cmd_list(dry_run=False, **kwargs):
     queue = load_queue(queue_file)
     count = queue.size()
     save_queue(queue, queue_file)
     print(f'Number of queued experiments is {count}')
 
-def parse_name(path: str) -> str:
+def parse_name(path: str, **kwargs) -> str:
     parts = path.split('/')
     return '-'.join([parts[3], parts[4], parts[6]])
 
-def cmd_configs_to_queue_file(dry_run=False, filename: str = 'experiments.tmp.txt'):
+def cmd_configs_to_queue_file(dry_run=False, filename: str = 'experiments.tmp.txt', device: str = available_devices[0], exp_type: str= available_exp_types[0], append = False, **kwargs):
     if filename is None:
         filename = 'experiments.tmp.txt'
-    glob_str = './experiments/percom/stochastic-thesis/*rpi-4*/configs/*/*.yaml'
-    # For RPI-1
-    glob_str = './experiments/percom/profile-baseline/*/configs/*G/*.yaml'
-    # For RPI-2 and RPI-4
-    glob_str = './experiments/percom/profile-baseline/*/configs/*/*.yaml'
+    if device is None:
+        device = available_devices[0]
+    if exp_type == 'batch':
+        glob_str = f'./experiments/percom/{exp_type}/*?*/configs/*/*.yaml'
+    else:
+        glob_str = f'./experiments/percom/{exp_type}/*{device}*/configs/*/*.yaml'
     files = glob.glob(glob_str)
     files = [parse_name(f) + ' ' + f for f in files]
     queue = ExperimentQueue.load_from_lines(files)
-    save_queue(queue, filename)
+    save_queue(queue, filename, append=append)
     print(f'Saved {queue.size()} experiments to the file: \'{filename}\'')
 
 def exec_sumcommand(cmd, **kwargs):
@@ -230,12 +244,15 @@ def exec_sumcommand(cmd, **kwargs):
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser("percom Experiment runner. Use this tool to run multiple experiments")
+    parser = argparse.ArgumentParser("Percom Experiment runner. Use this tool to run multiple experiments")
     parser.add_argument("subcommand", type=str, help="Command to execute", choices=available_commands)
     parser.add_argument("--file", type=str, help="File to be used. The usage depends on the subcommand. 'list' and "
                                                  "'size' do not use the file command, while 'add' uses the file "
                                                  "arguments to point to the correct file to add to the queue")
     parser.add_argument("--dry-run", help="Do a dry run; No calling the generated command", action='store_true')
+    parser.add_argument("--append", help="Append to existing queue file instead of overwriting", action='store_true')
+    parser.add_argument("--device", help="Select device to filter the configs. Applicable to subcommand 'config2queue'", choices=available_devices)
+    parser.add_argument("--exp-type", help="Select experiment type to filter configs. Applicable to subcommand 'config2queue'", choices=available_exp_types)
     args = parser.parse_args()
     ensure_files_exists()
-    exec_sumcommand(args.subcommand, dry_run=args.dry_run, filename=args.file)
+    exec_sumcommand(args.subcommand, dry_run=args.dry_run, filename=args.file, device=args.device, exp_type=args.exp_type, append=args.append)
