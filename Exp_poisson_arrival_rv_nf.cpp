@@ -39,7 +39,7 @@ int main(int argc, char *argv[])
 
     EdgeCaffe::Type::MODE_TYPE mode =  c_config.modeAsType();
     std::string modeAsString = c_config.mode();
-    std::string outputFile = "output.csv";
+    std::string outputFile = "layers.csv";
 
     {
         EdgeCaffe::Output output;
