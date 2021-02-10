@@ -61,7 +61,7 @@ If you want to setup everything manually, instructions can be found on this [wik
 
 ## Prepare before running
 ### Download models
-**Note:** This is not needed when `install_models.sh is used`.
+**Note:** This is not needed when `install_models.sh` is used.
 
 The model files of the networks can be downloaded using the following link: https://bartcox.stackstorage.com/s/GmO0bKJb4JV5Qvd
 
