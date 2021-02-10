@@ -14,8 +14,10 @@ else
 fi
 
 echo "$LOG_PREFIX Extracting models"
-tar -zxf ./$MODEL_FILE
+echo "$LOG_PREFIX This can take a while..."
+tar -zvxf ./$MODEL_FILE
 echo "$LOG_PREFIX Moving models"
+echo "$LOG_PREFIX This can take a while..."
 cp -r $MODEL_FILE_NAME/* ./networks
 echo "$LOG_PREFIX Removing temporary folder"
 rm -rf $MODEL_FILE_NAME
