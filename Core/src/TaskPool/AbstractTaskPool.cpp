@@ -3,6 +3,3 @@
 //
 
 #include "../../include/TaskPool/AbstractTaskPool.h"
-
-
-

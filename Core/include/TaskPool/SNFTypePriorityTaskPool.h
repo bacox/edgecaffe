@@ -23,18 +23,9 @@ namespace EdgeCaffe {
         }
     };
 
-    class SNFTypePriorityTaskPool : public AbstractTaskPool {
+    class SNFTypePriorityTaskPool : public AbstractTaskPool<SNFPriorityKey> {
     public:
-        std::map<SNFPriorityKey, Task*> pool;
         void addTask(Task *t_ptr) override;
-
-        bool hasTask(int taskId) override;
-//        AbstractTaskPool<PriorityKey> & get();
-//        TypePriorityTaskPool(const std::shared_ptr<MemoryCounter> &mc, const std::shared_ptr<NetworkRegistry> &nr);
-
-        bool isEmpty() override;
-
-        bool getNext(Task **task) override;
     };
 }
 #endif //EDGECAFFE_SNFTYPEPRIORITYTASKPOOL_H

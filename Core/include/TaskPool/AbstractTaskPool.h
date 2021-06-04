@@ -7,70 +7,92 @@
 
 #include <mutex>
 #include <map>
+#include <any>
+#include <boost/any.hpp>
 #include "Tasks/Task.h"
 #include "MemoryCounter.h"
 #include "NetworkRegistry.h"
 
 namespace EdgeCaffe {
-//    template<typename T>
-    class AbstractTaskPool {
+
+    class AbstractTaskPoolBase {
+    public:
+        virtual ~AbstractTaskPoolBase() {};
+
+        // Empty check
+        virtual bool isEmpty() = 0;
+
+        // Existence check, meant for debugging
+        virtual bool hasTask(int taskId) = 0;
+
+        // Insertion, should be implemented by concrete implementation
+        virtual void addTask(Task *t_ptr) = 0;
+
+        // Iterator implementation, should also perform existence check.
+        virtual bool getNext(Task **task) = 0;
+    };
+
+    template<typename T>
+    class AbstractTaskPool : public AbstractTaskPoolBase {
 
     public:
-//        AbstractTaskPool(const std::shared_ptr<MemoryCounter> &mc, const std::shared_ptr<NetworkRegistry> &nr) : mc(mc),
-//                                                                                                                 nr(nr)
-//        {}
 
-//        std::shared_ptr<MemoryCounter> mc;
-//        std::shared_ptr<NetworkRegistry> nr;
-
-
-
+        std::map<T, Task *> pool;
         int poolId = -1;
 
         /**
-         * We use a map as the datastructure to hold the tasks.
-         * std::maps are sorted by the used key so we can change the ordering by changing the key in the map.
-         * Map is chosen in favor of deque because std::map doesn't need std::sort.
-         *
-         * std::sort causes memory corruption in the specifc case and should therefor not be used.
-         * Use use pointers for tasks to prevent copying of memory.
-         */
-//        std::map<T, Task*> pool;
-
-        virtual bool hasTask(int taskId) = 0;
-
-        /**
-         * Add a reference of a task to the taskpool
+         * @brief Add a reference of a task to the taskpool.
          * @param t_ptr     Task pointer
          */
         virtual void addTask(Task *t_ptr) = 0;
 
         /**
+         * @brief Function to test for presence of task within the taskpool, based on checking TaskID of a Task in the
+         * taskpool
+         * @param taskId
+         * @return Boolean indicating the presence of a task in the Taskpool.
+         */
+        bool hasTask(int taskId) {
+            // We iterate over all object because the key used depends on the scheduling policy and is not
+            // always the taskid.
+#if __cplusplus >= 201103L
+            // If C++ 11 or newer, we can benefit from the any functions
+            return std::any_of(pool.begin(), pool.end(), [taskId](const std::pair<const T, Task *> &task) {
+                return task.second->id == taskId;
+            });
+#else
+            // Otherwise, we explicitly create and iterator and loop over the objects.
+            for (std::pair<T, Task*> taskPair : pool) {
+                if (taskPair.second->id == taskId) {
+                    return true;
+                }
+            }
+            return false;
+#endif
+        }
+
+        /**
          * Checks if the taskpool is empty
          * @return Boolean      True if empty, false if not empty
          */
-        virtual bool isEmpty() = 0;
-//        {
-//            // Use lock-guard for the mutex in the same way as a smart pointer
-//            // The mutex will be released when the lock-guard goes out of scope (end of function)
-////            std::lock_guard guard(mtx);
-//            return pool.empty();
-//        }
+        bool isEmpty() {
+            return pool.empty();
+        }
 
         /**
          * Gets the next task from the task pool and binds it to the provided pointer in the argument
          * @param task      Double pointer to store the reference to the task in.
-         * @return Boolan   Returns false if the pool is empty and true if a task was bound to the given pointer
+         * @return Boolean   Returns false if the pool is empty and true if a task was bound to the given pointer
          */
-        virtual bool getNext(Task **task) = 0;
-//        {
-//            if (pool.size() == 0)
-//                return false;
-//            auto it = pool.begin();
-//            *task = it->second;
-//            pool.erase(it);
-//            return true;
-//        }
+        bool getNext(EdgeCaffe::Task **task) {
+            if (pool.empty())
+                return false;
+            auto it = pool.begin();
+            *task = it->second;
+            pool.erase(it);
+            return true;
+        }
+
     };
 }
 #endif //EDGECAFFE_ABSTRACTTASKPOOL_H

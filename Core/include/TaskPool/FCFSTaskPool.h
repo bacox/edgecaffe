@@ -8,21 +8,12 @@
 #include "AbstractTaskPool.h"
 
 namespace EdgeCaffe {
-    class FCFSTaskPool : public AbstractTaskPool
+    class FCFSTaskPool : public AbstractTaskPool<int>
     {
-//    public:
-//        FCFSTaskPool(const std::shared_ptr<MemoryCounter> &mc, const std::shared_ptr<NetworkRegistry> &nr);
 
-    protected:
-        std::map<int, Task*> pool;
     public:
         void addTask(Task *t_ptr) override;
 
-        bool isEmpty() override;
-
-        bool getNext(Task **task) override;
-
-        bool hasTask(int taskId) override;
     };
 }
 
