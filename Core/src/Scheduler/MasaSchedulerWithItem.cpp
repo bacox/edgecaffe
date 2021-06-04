@@ -23,7 +23,7 @@ bool EdgeCaffe::MasaSchedulerWithItem::getNext(Task **t_ptr)
     // Use lock-guard for the mutex in the same way as a smart pointer
     // The mutex will be released when the lock-guard goes out of scope (end of function)
     // Should use empty?
-    if(execTasks.pool.size() > 0)
+    if(!execTasks.pool.empty())
     {
         // Get the first exec task
         *t_ptr = execTasks.pool.begin()->second;
