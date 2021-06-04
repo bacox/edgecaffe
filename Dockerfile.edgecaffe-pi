@@ -1,0 +1,30 @@
+FROM cross-pi as builder
+COPY ./ /code/
+ENV BIN_DIR /tmp/bin
+ENV BUILD_DIR /code/build
+
+RUN mkdir -p $BIN_DIR && \
+  mkdir -p $BUILD_DIR
+RUN apt install -y libyaml-cpp-dev wget libssl-dev libopenblas-dev libprotobuf-dev libleveldb-dev libsnappy-dev libopencv-dev libhdf5-serial-dev libboost-all-dev protobuf-compiler libgflags-dev libgoogle-glog-dev liblmdb-dev libatlas-base-dev doxygen libyaml-cpp-dev
+
+RUN apt install -y libgoogle-glog-dev
+RUN apt install -y --no-install-recommends libboost-all-dev libboost-filesystem-dev libboost-system-dev libboost-thread-dev
+
+RUN apt install -y  build-essential libboost-program-options1.62-dev
+RUN  protoc code/caffe/src/caffe/proto/caffe.proto --cpp_out=/code/
+
+ENV BOOST_INCLUDEDIR /usr/include
+ENV BOOST_LIBRARYDIR /usr/lib
+# TODO: Add boost compilation
+RUN cd $BUILD_DIR && \
+  cmake -DCMAKE_TOOLCHAIN_FILE=$CROSS_TOOLCHAIN \
+    -DCMAKE_INSTALL_PREFIX=$CROSS_INSTALL_PREFIX \
+    -DBOOST_INCLUDEDIR=${BOOST_INCLUDEDIR} \
+    -DBOOST_LIBRARYDIR=${BOOST_LIBRARYDIR} \
+    -DPYTHON_INCLUDE_DIR=$(python -c "from distutils.sysconfig import get_python_inc; print(get_python_inc())")  \
+    -DPYTHON_LIBRARY=$(python -c "import distutils.sysconfig as sysconfig; print(sysconfig.get_config_var('LIBDIR'))") \
+    ..  && \
+  make -j `nproc`
+
+FROM scratch
+COPY --from=builder /tmp/bin /

@@ -1,0 +1,8 @@
+experiments/*
+cmake-build-debug/*
+docker-build/*
+bin/*
+cmake-build-release/*
+networks/*
+edgecaffe-models-v1.1.tar.gz
+Dockerfile.edgecaffe-pi

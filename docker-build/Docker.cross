@@ -1,0 +1,47 @@
+FROM debian:stretch
+
+ENV GNU_HOST=arm-linux-gnueabihf
+ENV C_COMPILER_ARM_LINUX=$GNU_HOST-gcc
+ENV CXX_COMPILER_ARM_LINUX=$GNU_HOST-g++
+
+ENV CROSS_INSTALL_PREFIX=/usr/$GNU_HOST
+ENV CROSS_TOOLCHAIN=/arm.toolchain.cmake
+
+# https://cmake.org/cmake/help/v3.16/manual/cmake-toolchains.7.html#cross-compiling-for-linux
+# https://cmake.org/cmake/help/v2.8.11/cmake.html#variable%3aCMAKE_PREFIX_PATH
+RUN echo "set(CMAKE_SYSTEM_NAME Linux)" >> $CROSS_TOOLCHAIN && \
+  echo "set(CMAKE_SYSTEM_PROCESSOR arm)" >> $CROSS_TOOLCHAIN && \
+  echo "set(CMAKE_C_COMPILER /usr/bin/$C_COMPILER_ARM_LINUX)" >> $CROSS_TOOLCHAIN && \
+  echo "set(CMAKE_CXX_COMPILER /usr/bin/$CXX_COMPILER_ARM_LINUX)" >> $CROSS_TOOLCHAIN && \
+  echo "set(CMAKE_PREFIX_PATH $CROSS_INSTALL_PREFIX)" >> $CROSS_TOOLCHAIN
+
+RUN apt-get update && \
+  apt-get --no-install-recommends install -y autoconf \
+    automake \
+    build-essential \
+    ca-certificates \
+    curl \
+    # C/C++ cross compilers
+    gcc-$GNU_HOST \
+    g++-$GNU_HOST \
+    git \
+    gnupg \
+    libssl-dev \
+    openssh-client \
+    pkg-config \
+    software-properties-common \
+    wget && \
+  rm -rf /var/lib/apt/lists/*
+
+ENV CMAKE_VERSION 3.16.4
+
+RUN export CMAKE_DIR=cmake-$CMAKE_VERSION && \
+  export CMAKE_ARCH=$CMAKE_DIR.tar.gz && \
+  wget --progress=bar:force:noscroll https://github.com/Kitware/CMake/releases/download/v$CMAKE_VERSION/$CMAKE_ARCH && \
+  tar -xzf $CMAKE_ARCH && \
+  cd $CMAKE_DIR && \
+  ./bootstrap --parallel=`nproc` && \
+  make -j `nproc` && \
+  make install && \
+  rm -rf ../$CMAKE_ARCH \
+    ../$CMAKE_DIR

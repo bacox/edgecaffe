@@ -57,7 +57,7 @@ int main(int argc, char *argv[])
 
     // Create arrival
     int delay = 0;
-    EdgeCaffe::Arrival arr{{networkPath, networkKey}, "", delay};
+    EdgeCaffe::Arrival arr{{networkPath, networkKey}, {""}, delay};
 
     std::vector<std::pair<EdgeCaffe::Type::MODE_TYPE, std::string>> modes = {
             {EdgeCaffe::Type::MODE_TYPE::PARTIAL,  "partial"}
