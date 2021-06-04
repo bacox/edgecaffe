@@ -10,9 +10,14 @@ void EdgeCaffe::InitNetworkTask::run()
     // Subtract memory usage from free memory space
 //    inet->mc->lockMemory(inet->maxMemoryUsage);
     inet->networkProfile.measure(NetworkProfile::START);
-    std::cout << "Loading input from " << pathToInput << std::endl;
-    cv::Mat input_img = cv::imread(pathToInput);
-    inet->setInput(input_img, use_scales);
+    std::vector<cv::Mat> images;
+//    std::cout << "Loading input from " << inputPaths << std::endl;
+    for (std::string & path : inputPaths) {
+        std::cout << "Loading image from: " << path << std::endl;
+        images.push_back(cv::imread(path));
+    }
+
+    inet->setInput(images, use_scales);
     inet->loadNetworkStructure();
     inet->loadInputToNetwork();
 }

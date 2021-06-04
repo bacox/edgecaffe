@@ -19,10 +19,8 @@
 #include <yaml-cpp/yaml.h>
 #include <TaskPool/AbstractTaskPool.h>
 
-namespace EdgeCaffe
-{
-    struct LayerDescription
-    {
+namespace EdgeCaffe {
+    struct LayerDescription {
         int layerId = 0;
         std::string type = "";
         std::string name = "";
@@ -32,8 +30,8 @@ namespace EdgeCaffe
         bool isConv = true;
         bool hasModelFile = true;
 
-        friend std::ostream &operator<<(std::ostream &os, const LayerDescription &description)
-        {
+        friend std::ostream &operator<<(std::ostream &os, const LayerDescription &description) {
+            // TODO: Switch out for fmt, instead of logging with os. Alternatively, switch to CPP 20 and use std::fmt
             os << "layerId: " << description.layerId << " type: " << description.type << " name: " << description.name
                << " partialFileName: " << description.partialFileName << " estimated_loading: "
                << description.estimated_loading << " estimated_execution: " << description.estimated_execution
@@ -41,8 +39,7 @@ namespace EdgeCaffe
             return os;
         }
 
-        YAML::Node toYaml()
-        {
+        YAML::Node toYaml() {
             YAML::Node node;
             node["id"] = layerId;
             node["name"] = name;
@@ -54,8 +51,7 @@ namespace EdgeCaffe
             return node;
         }
 
-        static LayerDescription FromYaml(YAML::Node node, std::string pathPrefix = ".")
-        {
+        static LayerDescription FromYaml(YAML::Node node, std::string pathPrefix = ".") {
             LayerDescription rhs;
             rhs.layerId = node["id"].as<int>();
             rhs.name = node["name"].as<std::string>();
@@ -68,8 +64,7 @@ namespace EdgeCaffe
         }
     };
 
-    class InferenceNetwork
-    {
+    class InferenceNetwork {
     private:
         std::vector<LayerDescription> layerDescriptions;
     public:
@@ -77,11 +72,13 @@ namespace EdgeCaffe
         double meanExecutionTime = std::numeric_limits<double>::max();
         std::vector<Task *> tasks;
         bool use_scales = false;
-        std::string dataPath;
+        std::vector<std::string> dataPath;
+
         const std::vector<Task *> &getTasks() const;
+
         NetworkProfile networkProfile;
 //        std::vector<TaskPool*> taskpools;
-        std::vector<std::shared_ptr<AbstractTaskPool>> taskpools;
+        std::vector<std::shared_ptr<AbstractTaskPoolBase>> taskpools;
         std::vector<Task *> *bagOfTasks_ptr;
         int networkId;
 
@@ -89,7 +86,7 @@ namespace EdgeCaffe
     protected:
 
         std::string pathToDescription;
-        bool * dependencyCondition;
+        bool *dependencyCondition;
 
         void preprocess(bool use_scales = false);
 
@@ -104,28 +101,32 @@ namespace EdgeCaffe
         virtual ~InferenceNetwork();
 
         /**
-     *  @Brief: The data transform from OpenCV to caffe Blob
-     *
-     *  @param image: OpenCV Mat data vector
-     *  @Warning: Template function must be defined in the .hpp file to avoid
-     *            linking error
-     */
+         *  @Brief: The data transform from OpenCV to caffe Blob
+         *
+         *  @param image: OpenCV Mat data vector
+         *  @Warning: Template function must be defined in the .hpp file to avoid
+         *            linking error
+         */
         template<typename DType>
-
         void OpenCV2Blob(
-                const std::vector<cv::Mat> &channels, caffe::Net<DType> &net
-        )
-//                     std::shared_ptr<caffe::Net<DType>> &net)
-        {
+                const std::vector<std::vector<cv::Mat>> &input_channels, caffe::Net<DType> &net
+        ) {
+            // Get input layer of the model.
             caffe::Blob<DType> *input_layer = net.input_blobs()[0];
-            DType *input_data = input_layer->mutable_cpu_data();
+            // Reshape input to batch size, other dimensions are kept equal.
+            // As such, other tasks first need to re-shape to input, as otherwise, the expect a single input image.
+            const std::size_t batch_size = input_channels.size();
+            input_layer->Reshape(batch_size, input_layer->channels(), input_layer->width(), input_layer->height());
 
-            for (const cv::Mat &ch: channels)
-            {
-                for (auto i = 0; i != ch.rows; ++i)
-                {
-                    std::memcpy(input_data, ch.ptr<DType>(i), sizeof(DType) * ch.cols);
-                    input_data += ch.cols;
+            DType *input_data = input_layer->mutable_cpu_data();
+            // TODO: Do this the other way around? I.e. first get the opencv matrixes, then fill them with data?
+            for (std::size_t batch_indx = 0; batch_indx < batch_size; batch_indx++) {
+                std::vector<cv::Mat> channels = input_channels.at(batch_indx);
+                for (const cv::Mat &ch: channels) {
+                    for (auto i = 0; i != ch.rows; ++i) {
+                        std::memcpy(input_data, ch.ptr<DType>(i), sizeof(DType) * ch.cols);
+                        input_data += ch.cols;
+                    }
                 }
             }
         }
@@ -134,9 +135,10 @@ namespace EdgeCaffe
         InferenceNetwork(const std::string &pathToDescription, bool *dependencyCondition);
 
         virtual void init(YAML::Node &description);
+
         virtual void init();
 
-        virtual void setInput(cv::Mat &input, bool use_scales = false);
+        virtual void setInput(std::vector<cv::Mat> &input, bool use_scales = false);
 
         virtual void loadInputToNetwork();
 
@@ -145,12 +147,15 @@ namespace EdgeCaffe
         virtual void createPartialTasks();
 
         void createTasksConvFC();
+
         void createTasksConvFCV2();
 
         void createTasksBulk();
+
         void createTasksBulkV2();
 
         void createTasksLinear();
+
         void createTasksExecPrio();
 
 //        virtual void createTasks(int splittingPolicy);
@@ -162,9 +167,11 @@ namespace EdgeCaffe
 
         std::string tasksToDotDebug();
 
-        Task * createInitTask(InferenceSubTask *dnn);
-        Task * createLoadTask(InferenceSubTask *dnn, const LayerDescription &descr);
-        Task * createExecTask(InferenceSubTask *dnn, const LayerDescription &descr, bool bulk = false);
+        Task *createInitTask(InferenceSubTask *dnn);
+
+        Task *createLoadTask(InferenceSubTask *dnn, const LayerDescription &descr);
+
+        Task *createExecTask(InferenceSubTask *dnn, const LayerDescription &descr, bool bulk = false);
     };
 }
 

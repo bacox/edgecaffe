@@ -20,7 +20,7 @@ namespace EdgeCaffe
                 , int estimatedNeededMemory = 0
         );
 
-        std::string pathToInput;
+        std::vector<std::string> inputPaths;
         std::string pathToDescription;
 
         // Quick and dirty way to test

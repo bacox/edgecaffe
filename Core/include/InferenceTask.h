@@ -17,7 +17,7 @@ namespace EdgeCaffe
     struct InferenceTask
     {
         std::string pathToNetwork;
-        std::string pathToData;
+        std::vector<std::string> pathToData;
         InferenceNetwork *net;
 
         bool finished = false;

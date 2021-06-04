@@ -33,8 +33,8 @@ namespace EdgeCaffe
         int num_fc;
         std::vector<std::string> partialNames;
         std::vector<std::string> resultVector;
-        cv::Mat inputData;
-        cv::Mat origInputData;
+        std::vector<cv::Mat> inputData;
+        std::vector<cv::Mat> origInputData;
         std::vector<Task *> tasks;
 
         virtual ~InferenceSubTask();

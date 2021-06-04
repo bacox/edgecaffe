@@ -57,7 +57,7 @@ namespace EdgeCaffe {
     protected:
         bool verbose = true;
         bool enforceInterDependencies = false;
-        std::vector<std::shared_ptr<AbstractTaskPool>> taskPools;
+        std::vector<std::shared_ptr<AbstractTaskPoolBase>> taskPools;
         std::shared_ptr<TaskPool> outPool = std::make_shared<TaskPool>();
         std::vector<Task *> bagOfTasks;
         std::vector<InferenceTask *> inferenceTasks;

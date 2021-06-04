@@ -8,6 +8,7 @@
 #include <cxxopts.h>
 #include <iostream>
 #include <iomanip>
+#include <optional>
 #include <Orchestrator/Orchestrator.h>
 
 #ifndef EDGECAFFE_CONFIG_H

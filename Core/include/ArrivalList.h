@@ -172,19 +172,19 @@ namespace EdgeCaffe
      */
     struct Arrival {
         std::vector<ArrivalNetwork> networks;
-        std::string pathToData;
+        std::vector<std::string> pathToData;
         long time = 0;
 
         std::string toString(){
             return "Arrival<time: " + std::to_string(time)+ ">";
         }
 
-        Arrival(const ArrivalNetwork &network, const std::string &pathToData, long time = 0) : pathToData(pathToData), time(time)
+        Arrival(const ArrivalNetwork &network, const std::vector<std::string> &pathToData, long time = 0) : pathToData(pathToData), time(time)
         {
             networks = {network};
         }
 
-        Arrival(const std::vector<ArrivalNetwork> &networks, const std::string &pathToData, long time = 0) : networks(networks),
+        Arrival(const std::vector<ArrivalNetwork> &networks, const std::vector<std::string> &pathToData, long time = 0) : networks(networks),
                                                                                               pathToData(pathToData),
                                                                                               time(time)
         {}
