@@ -1,0 +1,33 @@
+#Experiment goal: Show the effect of batch arrivals with 3 small networks in the batch
+# The networks are: AgeNet, GenderNet, FaceNet
+
+n_workers: [2]
+ait-multiplier: [1]
+modes: [masa]
+memory-constraints: [2G]
+success-label-prob: [0.0, 0.02, 0.04, 0.06, 0.08, 0.1, 0.12, 0.14, 0.16, 0.18, 0.2, 0.22, 0.24, 0.26, 0.28, 0.3, 0.32, 0.34, 0.36, 0.38, 0.4, 0.42, 0.44, 0.46, 0.48, 0.5, 0.52, 0.54, 0.56, 0.58, 0.6, 0.62, 0.64, 0.66, 0.68, 0.70, 0.72, 0.74, 0.76, 0.78, 0.8, 0.82, 0.84, 0.86, 0.88, 0.9, 0.92, 0.94, 0.96, 0.98, 1.0]
+networks: [GenderNet, FaceNet, AgeNet]
+network-set: fga-small-step
+experiment-tag: fga-small-step
+n_arrivals: 20
+network-stub:
+  - networkName: FaceNet
+    pathToNetwork: FaceNet
+    data-label:
+      num-faces: 1
+  - networkName: GenderNet
+    pathToNetwork: GenderNet
+    relation:
+      depends:
+        FaceNet
+      condition:
+        num-faces:
+          gt: 0
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
+    relation:
+      depends:
+        FaceNet
+      condition:
+        num-faces:
+          gt: 0

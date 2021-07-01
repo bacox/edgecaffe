@@ -1,0 +1,797 @@
+tag: yfgae-heavy-opportunistic-force-first-1G-0.0
+mode: masa
+memory-key: valgrind
+n-arrivals: 20
+n-workers: 2
+force-input-label: true
+network-path: networks
+resources-path: resources
+output-path: ../analysis/experiments/sipmc/yfgae-heavy-opportunistic-force-first-1G-0.0
+arrival-mode: batch
+arrival-list: experiments/sipmc/conditional/yfgae-heavy-opportunistic-force-first/configs/1G/yfgae-heavy-opportunistic-force-first-1G-0.0.exp.yaml
+output-prefix: yfgae-heavy-opportunistic-force-first-1G-0.0
+force-first-layer-nr-first: true
+arrivals:
+- networks:
+  - networkName: TinyYolo
+    pathToNetwork: TinyYolo
+    data-label:
+      num-persons: 1
+  - networkName: FaceNet
+    pathToNetwork: FaceNet
+    data-label:
+      num-faces: 0
+    relation:
+      depends: TinyYolo
+      condition:
+        num-persons:
+          gt: 0
+  - networkName: GenderNet
+    pathToNetwork: GenderNet
+    relation:
+      depends: FaceNet
+      condition:
+        num-faces:
+          gt: 0
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
+    relation:
+      depends: FaceNet
+      condition:
+        num-faces:
+          gt: 0
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
+    relation:
+      depends: FaceNet
+      condition:
+        num-faces:
+          gt: 0
+  - networkName: MemNet
+    pathToNetwork: MemNet
+  pathToData: test_1.jpg
+  time: 0
+- networks:
+  - networkName: TinyYolo
+    pathToNetwork: TinyYolo
+    data-label:
+      num-persons: 1
+  - networkName: FaceNet
+    pathToNetwork: FaceNet
+    data-label:
+      num-faces: 0
+    relation:
+      depends: TinyYolo
+      condition:
+        num-persons:
+          gt: 0
+  - networkName: GenderNet
+    pathToNetwork: GenderNet
+    relation:
+      depends: FaceNet
+      condition:
+        num-faces:
+          gt: 0
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
+    relation:
+      depends: FaceNet
+      condition:
+        num-faces:
+          gt: 0
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
+    relation:
+      depends: FaceNet
+      condition:
+        num-faces:
+          gt: 0
+  - networkName: MemNet
+    pathToNetwork: MemNet
+  pathToData: test_1.jpg
+  time: 0
+- networks:
+  - networkName: TinyYolo
+    pathToNetwork: TinyYolo
+    data-label:
+      num-persons: 1
+  - networkName: FaceNet
+    pathToNetwork: FaceNet
+    data-label:
+      num-faces: 0
+    relation:
+      depends: TinyYolo
+      condition:
+        num-persons:
+          gt: 0
+  - networkName: GenderNet
+    pathToNetwork: GenderNet
+    relation:
+      depends: FaceNet
+      condition:
+        num-faces:
+          gt: 0
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
+    relation:
+      depends: FaceNet
+      condition:
+        num-faces:
+          gt: 0
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
+    relation:
+      depends: FaceNet
+      condition:
+        num-faces:
+          gt: 0
+  - networkName: MemNet
+    pathToNetwork: MemNet
+  pathToData: test_1.jpg
+  time: 0
+- networks:
+  - networkName: TinyYolo
+    pathToNetwork: TinyYolo
+    data-label:
+      num-persons: 1
+  - networkName: FaceNet
+    pathToNetwork: FaceNet
+    data-label:
+      num-faces: 0
+    relation:
+      depends: TinyYolo
+      condition:
+        num-persons:
+          gt: 0
+  - networkName: GenderNet
+    pathToNetwork: GenderNet
+    relation:
+      depends: FaceNet
+      condition:
+        num-faces:
+          gt: 0
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
+    relation:
+      depends: FaceNet
+      condition:
+        num-faces:
+          gt: 0
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
+    relation:
+      depends: FaceNet
+      condition:
+        num-faces:
+          gt: 0
+  - networkName: MemNet
+    pathToNetwork: MemNet
+  pathToData: test_1.jpg
+  time: 0
+- networks:
+  - networkName: TinyYolo
+    pathToNetwork: TinyYolo
+    data-label:
+      num-persons: 1
+  - networkName: FaceNet
+    pathToNetwork: FaceNet
+    data-label:
+      num-faces: 0
+    relation:
+      depends: TinyYolo
+      condition:
+        num-persons:
+          gt: 0
+  - networkName: GenderNet
+    pathToNetwork: GenderNet
+    relation:
+      depends: FaceNet
+      condition:
+        num-faces:
+          gt: 0
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
+    relation:
+      depends: FaceNet
+      condition:
+        num-faces:
+          gt: 0
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
+    relation:
+      depends: FaceNet
+      condition:
+        num-faces:
+          gt: 0
+  - networkName: MemNet
+    pathToNetwork: MemNet
+  pathToData: test_1.jpg
+  time: 0
+- networks:
+  - networkName: TinyYolo
+    pathToNetwork: TinyYolo
+    data-label:
+      num-persons: 1
+  - networkName: FaceNet
+    pathToNetwork: FaceNet
+    data-label:
+      num-faces: 0
+    relation:
+      depends: TinyYolo
+      condition:
+        num-persons:
+          gt: 0
+  - networkName: GenderNet
+    pathToNetwork: GenderNet
+    relation:
+      depends: FaceNet
+      condition:
+        num-faces:
+          gt: 0
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
+    relation:
+      depends: FaceNet
+      condition:
+        num-faces:
+          gt: 0
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
+    relation:
+      depends: FaceNet
+      condition:
+        num-faces:
+          gt: 0
+  - networkName: MemNet
+    pathToNetwork: MemNet
+  pathToData: test_1.jpg
+  time: 0
+- networks:
+  - networkName: TinyYolo
+    pathToNetwork: TinyYolo
+    data-label:
+      num-persons: 1
+  - networkName: FaceNet
+    pathToNetwork: FaceNet
+    data-label:
+      num-faces: 0
+    relation:
+      depends: TinyYolo
+      condition:
+        num-persons:
+          gt: 0
+  - networkName: GenderNet
+    pathToNetwork: GenderNet
+    relation:
+      depends: FaceNet
+      condition:
+        num-faces:
+          gt: 0
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
+    relation:
+      depends: FaceNet
+      condition:
+        num-faces:
+          gt: 0
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
+    relation:
+      depends: FaceNet
+      condition:
+        num-faces:
+          gt: 0
+  - networkName: MemNet
+    pathToNetwork: MemNet
+  pathToData: test_1.jpg
+  time: 0
+- networks:
+  - networkName: TinyYolo
+    pathToNetwork: TinyYolo
+    data-label:
+      num-persons: 1
+  - networkName: FaceNet
+    pathToNetwork: FaceNet
+    data-label:
+      num-faces: 0
+    relation:
+      depends: TinyYolo
+      condition:
+        num-persons:
+          gt: 0
+  - networkName: GenderNet
+    pathToNetwork: GenderNet
+    relation:
+      depends: FaceNet
+      condition:
+        num-faces:
+          gt: 0
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
+    relation:
+      depends: FaceNet
+      condition:
+        num-faces:
+          gt: 0
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
+    relation:
+      depends: FaceNet
+      condition:
+        num-faces:
+          gt: 0
+  - networkName: MemNet
+    pathToNetwork: MemNet
+  pathToData: test_1.jpg
+  time: 0
+- networks:
+  - networkName: TinyYolo
+    pathToNetwork: TinyYolo
+    data-label:
+      num-persons: 1
+  - networkName: FaceNet
+    pathToNetwork: FaceNet
+    data-label:
+      num-faces: 0
+    relation:
+      depends: TinyYolo
+      condition:
+        num-persons:
+          gt: 0
+  - networkName: GenderNet
+    pathToNetwork: GenderNet
+    relation:
+      depends: FaceNet
+      condition:
+        num-faces:
+          gt: 0
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
+    relation:
+      depends: FaceNet
+      condition:
+        num-faces:
+          gt: 0
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
+    relation:
+      depends: FaceNet
+      condition:
+        num-faces:
+          gt: 0
+  - networkName: MemNet
+    pathToNetwork: MemNet
+  pathToData: test_1.jpg
+  time: 0
+- networks:
+  - networkName: TinyYolo
+    pathToNetwork: TinyYolo
+    data-label:
+      num-persons: 1
+  - networkName: FaceNet
+    pathToNetwork: FaceNet
+    data-label:
+      num-faces: 0
+    relation:
+      depends: TinyYolo
+      condition:
+        num-persons:
+          gt: 0
+  - networkName: GenderNet
+    pathToNetwork: GenderNet
+    relation:
+      depends: FaceNet
+      condition:
+        num-faces:
+          gt: 0
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
+    relation:
+      depends: FaceNet
+      condition:
+        num-faces:
+          gt: 0
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
+    relation:
+      depends: FaceNet
+      condition:
+        num-faces:
+          gt: 0
+  - networkName: MemNet
+    pathToNetwork: MemNet
+  pathToData: test_1.jpg
+  time: 0
+- networks:
+  - networkName: TinyYolo
+    pathToNetwork: TinyYolo
+    data-label:
+      num-persons: 1
+  - networkName: FaceNet
+    pathToNetwork: FaceNet
+    data-label:
+      num-faces: 0
+    relation:
+      depends: TinyYolo
+      condition:
+        num-persons:
+          gt: 0
+  - networkName: GenderNet
+    pathToNetwork: GenderNet
+    relation:
+      depends: FaceNet
+      condition:
+        num-faces:
+          gt: 0
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
+    relation:
+      depends: FaceNet
+      condition:
+        num-faces:
+          gt: 0
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
+    relation:
+      depends: FaceNet
+      condition:
+        num-faces:
+          gt: 0
+  - networkName: MemNet
+    pathToNetwork: MemNet
+  pathToData: test_1.jpg
+  time: 0
+- networks:
+  - networkName: TinyYolo
+    pathToNetwork: TinyYolo
+    data-label:
+      num-persons: 1
+  - networkName: FaceNet
+    pathToNetwork: FaceNet
+    data-label:
+      num-faces: 0
+    relation:
+      depends: TinyYolo
+      condition:
+        num-persons:
+          gt: 0
+  - networkName: GenderNet
+    pathToNetwork: GenderNet
+    relation:
+      depends: FaceNet
+      condition:
+        num-faces:
+          gt: 0
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
+    relation:
+      depends: FaceNet
+      condition:
+        num-faces:
+          gt: 0
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
+    relation:
+      depends: FaceNet
+      condition:
+        num-faces:
+          gt: 0
+  - networkName: MemNet
+    pathToNetwork: MemNet
+  pathToData: test_1.jpg
+  time: 0
+- networks:
+  - networkName: TinyYolo
+    pathToNetwork: TinyYolo
+    data-label:
+      num-persons: 1
+  - networkName: FaceNet
+    pathToNetwork: FaceNet
+    data-label:
+      num-faces: 0
+    relation:
+      depends: TinyYolo
+      condition:
+        num-persons:
+          gt: 0
+  - networkName: GenderNet
+    pathToNetwork: GenderNet
+    relation:
+      depends: FaceNet
+      condition:
+        num-faces:
+          gt: 0
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
+    relation:
+      depends: FaceNet
+      condition:
+        num-faces:
+          gt: 0
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
+    relation:
+      depends: FaceNet
+      condition:
+        num-faces:
+          gt: 0
+  - networkName: MemNet
+    pathToNetwork: MemNet
+  pathToData: test_1.jpg
+  time: 0
+- networks:
+  - networkName: TinyYolo
+    pathToNetwork: TinyYolo
+    data-label:
+      num-persons: 1
+  - networkName: FaceNet
+    pathToNetwork: FaceNet
+    data-label:
+      num-faces: 0
+    relation:
+      depends: TinyYolo
+      condition:
+        num-persons:
+          gt: 0
+  - networkName: GenderNet
+    pathToNetwork: GenderNet
+    relation:
+      depends: FaceNet
+      condition:
+        num-faces:
+          gt: 0
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
+    relation:
+      depends: FaceNet
+      condition:
+        num-faces:
+          gt: 0
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
+    relation:
+      depends: FaceNet
+      condition:
+        num-faces:
+          gt: 0
+  - networkName: MemNet
+    pathToNetwork: MemNet
+  pathToData: test_1.jpg
+  time: 0
+- networks:
+  - networkName: TinyYolo
+    pathToNetwork: TinyYolo
+    data-label:
+      num-persons: 1
+  - networkName: FaceNet
+    pathToNetwork: FaceNet
+    data-label:
+      num-faces: 0
+    relation:
+      depends: TinyYolo
+      condition:
+        num-persons:
+          gt: 0
+  - networkName: GenderNet
+    pathToNetwork: GenderNet
+    relation:
+      depends: FaceNet
+      condition:
+        num-faces:
+          gt: 0
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
+    relation:
+      depends: FaceNet
+      condition:
+        num-faces:
+          gt: 0
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
+    relation:
+      depends: FaceNet
+      condition:
+        num-faces:
+          gt: 0
+  - networkName: MemNet
+    pathToNetwork: MemNet
+  pathToData: test_1.jpg
+  time: 0
+- networks:
+  - networkName: TinyYolo
+    pathToNetwork: TinyYolo
+    data-label:
+      num-persons: 1
+  - networkName: FaceNet
+    pathToNetwork: FaceNet
+    data-label:
+      num-faces: 0
+    relation:
+      depends: TinyYolo
+      condition:
+        num-persons:
+          gt: 0
+  - networkName: GenderNet
+    pathToNetwork: GenderNet
+    relation:
+      depends: FaceNet
+      condition:
+        num-faces:
+          gt: 0
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
+    relation:
+      depends: FaceNet
+      condition:
+        num-faces:
+          gt: 0
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
+    relation:
+      depends: FaceNet
+      condition:
+        num-faces:
+          gt: 0
+  - networkName: MemNet
+    pathToNetwork: MemNet
+  pathToData: test_1.jpg
+  time: 0
+- networks:
+  - networkName: TinyYolo
+    pathToNetwork: TinyYolo
+    data-label:
+      num-persons: 1
+  - networkName: FaceNet
+    pathToNetwork: FaceNet
+    data-label:
+      num-faces: 0
+    relation:
+      depends: TinyYolo
+      condition:
+        num-persons:
+          gt: 0
+  - networkName: GenderNet
+    pathToNetwork: GenderNet
+    relation:
+      depends: FaceNet
+      condition:
+        num-faces:
+          gt: 0
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
+    relation:
+      depends: FaceNet
+      condition:
+        num-faces:
+          gt: 0
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
+    relation:
+      depends: FaceNet
+      condition:
+        num-faces:
+          gt: 0
+  - networkName: MemNet
+    pathToNetwork: MemNet
+  pathToData: test_1.jpg
+  time: 0
+- networks:
+  - networkName: TinyYolo
+    pathToNetwork: TinyYolo
+    data-label:
+      num-persons: 1
+  - networkName: FaceNet
+    pathToNetwork: FaceNet
+    data-label:
+      num-faces: 0
+    relation:
+      depends: TinyYolo
+      condition:
+        num-persons:
+          gt: 0
+  - networkName: GenderNet
+    pathToNetwork: GenderNet
+    relation:
+      depends: FaceNet
+      condition:
+        num-faces:
+          gt: 0
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
+    relation:
+      depends: FaceNet
+      condition:
+        num-faces:
+          gt: 0
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
+    relation:
+      depends: FaceNet
+      condition:
+        num-faces:
+          gt: 0
+  - networkName: MemNet
+    pathToNetwork: MemNet
+  pathToData: test_1.jpg
+  time: 0
+- networks:
+  - networkName: TinyYolo
+    pathToNetwork: TinyYolo
+    data-label:
+      num-persons: 1
+  - networkName: FaceNet
+    pathToNetwork: FaceNet
+    data-label:
+      num-faces: 0
+    relation:
+      depends: TinyYolo
+      condition:
+        num-persons:
+          gt: 0
+  - networkName: GenderNet
+    pathToNetwork: GenderNet
+    relation:
+      depends: FaceNet
+      condition:
+        num-faces:
+          gt: 0
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
+    relation:
+      depends: FaceNet
+      condition:
+        num-faces:
+          gt: 0
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
+    relation:
+      depends: FaceNet
+      condition:
+        num-faces:
+          gt: 0
+  - networkName: MemNet
+    pathToNetwork: MemNet
+  pathToData: test_1.jpg
+  time: 0
+- networks:
+  - networkName: TinyYolo
+    pathToNetwork: TinyYolo
+    data-label:
+      num-persons: 1
+  - networkName: FaceNet
+    pathToNetwork: FaceNet
+    data-label:
+      num-faces: 0
+    relation:
+      depends: TinyYolo
+      condition:
+        num-persons:
+          gt: 0
+  - networkName: GenderNet
+    pathToNetwork: GenderNet
+    relation:
+      depends: FaceNet
+      condition:
+        num-faces:
+          gt: 0
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
+    relation:
+      depends: FaceNet
+      condition:
+        num-faces:
+          gt: 0
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
+    relation:
+      depends: FaceNet
+      condition:
+        num-faces:
+          gt: 0
+  - networkName: MemNet
+    pathToNetwork: MemNet
+  pathToData: test_1.jpg
+  time: 0
+cmd_base: bin/Exp_poisson_arrival_rv_nf
+build_folder: .
+mem_limit: 1G

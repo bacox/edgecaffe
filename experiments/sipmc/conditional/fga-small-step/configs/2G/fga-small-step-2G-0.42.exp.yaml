@@ -1,0 +1,436 @@
+tag: fga-small-step-2G-0.42
+mode: masa
+memory-key: valgrind
+n-arrivals: 20
+n-workers: 2
+force-input-label: true
+network-path: networks
+resources-path: resources
+output-path: ../analysis/experiments/sipmc/fga-small-step-2G-0.42
+arrival-mode: batch
+arrival-list: experiments/sipmc/conditional/fga-small-step/configs/2G/fga-small-step-2G-0.42.exp.yaml
+output-prefix: fga-small-step-2G-0.42
+arrivals:
+- networks:
+  - networkName: FaceNet
+    pathToNetwork: FaceNet
+    data-label:
+      num-faces: 1
+  - networkName: GenderNet
+    pathToNetwork: GenderNet
+    relation:
+      depends: FaceNet
+      condition:
+        num-faces:
+          gt: 0
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
+    relation:
+      depends: FaceNet
+      condition:
+        num-faces:
+          gt: 0
+  pathToData: test_1.jpg
+  time: 0
+- networks:
+  - networkName: FaceNet
+    pathToNetwork: FaceNet
+    data-label:
+      num-faces: 0
+  - networkName: GenderNet
+    pathToNetwork: GenderNet
+    relation:
+      depends: FaceNet
+      condition:
+        num-faces:
+          gt: 0
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
+    relation:
+      depends: FaceNet
+      condition:
+        num-faces:
+          gt: 0
+  pathToData: test_1.jpg
+  time: 0
+- networks:
+  - networkName: FaceNet
+    pathToNetwork: FaceNet
+    data-label:
+      num-faces: 0
+  - networkName: GenderNet
+    pathToNetwork: GenderNet
+    relation:
+      depends: FaceNet
+      condition:
+        num-faces:
+          gt: 0
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
+    relation:
+      depends: FaceNet
+      condition:
+        num-faces:
+          gt: 0
+  pathToData: test_1.jpg
+  time: 0
+- networks:
+  - networkName: FaceNet
+    pathToNetwork: FaceNet
+    data-label:
+      num-faces: 1
+  - networkName: GenderNet
+    pathToNetwork: GenderNet
+    relation:
+      depends: FaceNet
+      condition:
+        num-faces:
+          gt: 0
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
+    relation:
+      depends: FaceNet
+      condition:
+        num-faces:
+          gt: 0
+  pathToData: test_1.jpg
+  time: 0
+- networks:
+  - networkName: FaceNet
+    pathToNetwork: FaceNet
+    data-label:
+      num-faces: 1
+  - networkName: GenderNet
+    pathToNetwork: GenderNet
+    relation:
+      depends: FaceNet
+      condition:
+        num-faces:
+          gt: 0
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
+    relation:
+      depends: FaceNet
+      condition:
+        num-faces:
+          gt: 0
+  pathToData: test_1.jpg
+  time: 0
+- networks:
+  - networkName: FaceNet
+    pathToNetwork: FaceNet
+    data-label:
+      num-faces: 1
+  - networkName: GenderNet
+    pathToNetwork: GenderNet
+    relation:
+      depends: FaceNet
+      condition:
+        num-faces:
+          gt: 0
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
+    relation:
+      depends: FaceNet
+      condition:
+        num-faces:
+          gt: 0
+  pathToData: test_1.jpg
+  time: 0
+- networks:
+  - networkName: FaceNet
+    pathToNetwork: FaceNet
+    data-label:
+      num-faces: 1
+  - networkName: GenderNet
+    pathToNetwork: GenderNet
+    relation:
+      depends: FaceNet
+      condition:
+        num-faces:
+          gt: 0
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
+    relation:
+      depends: FaceNet
+      condition:
+        num-faces:
+          gt: 0
+  pathToData: test_1.jpg
+  time: 0
+- networks:
+  - networkName: FaceNet
+    pathToNetwork: FaceNet
+    data-label:
+      num-faces: 0
+  - networkName: GenderNet
+    pathToNetwork: GenderNet
+    relation:
+      depends: FaceNet
+      condition:
+        num-faces:
+          gt: 0
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
+    relation:
+      depends: FaceNet
+      condition:
+        num-faces:
+          gt: 0
+  pathToData: test_1.jpg
+  time: 0
+- networks:
+  - networkName: FaceNet
+    pathToNetwork: FaceNet
+    data-label:
+      num-faces: 0
+  - networkName: GenderNet
+    pathToNetwork: GenderNet
+    relation:
+      depends: FaceNet
+      condition:
+        num-faces:
+          gt: 0
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
+    relation:
+      depends: FaceNet
+      condition:
+        num-faces:
+          gt: 0
+  pathToData: test_1.jpg
+  time: 0
+- networks:
+  - networkName: FaceNet
+    pathToNetwork: FaceNet
+    data-label:
+      num-faces: 0
+  - networkName: GenderNet
+    pathToNetwork: GenderNet
+    relation:
+      depends: FaceNet
+      condition:
+        num-faces:
+          gt: 0
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
+    relation:
+      depends: FaceNet
+      condition:
+        num-faces:
+          gt: 0
+  pathToData: test_1.jpg
+  time: 0
+- networks:
+  - networkName: FaceNet
+    pathToNetwork: FaceNet
+    data-label:
+      num-faces: 0
+  - networkName: GenderNet
+    pathToNetwork: GenderNet
+    relation:
+      depends: FaceNet
+      condition:
+        num-faces:
+          gt: 0
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
+    relation:
+      depends: FaceNet
+      condition:
+        num-faces:
+          gt: 0
+  pathToData: test_1.jpg
+  time: 0
+- networks:
+  - networkName: FaceNet
+    pathToNetwork: FaceNet
+    data-label:
+      num-faces: 0
+  - networkName: GenderNet
+    pathToNetwork: GenderNet
+    relation:
+      depends: FaceNet
+      condition:
+        num-faces:
+          gt: 0
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
+    relation:
+      depends: FaceNet
+      condition:
+        num-faces:
+          gt: 0
+  pathToData: test_1.jpg
+  time: 0
+- networks:
+  - networkName: FaceNet
+    pathToNetwork: FaceNet
+    data-label:
+      num-faces: 1
+  - networkName: GenderNet
+    pathToNetwork: GenderNet
+    relation:
+      depends: FaceNet
+      condition:
+        num-faces:
+          gt: 0
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
+    relation:
+      depends: FaceNet
+      condition:
+        num-faces:
+          gt: 0
+  pathToData: test_1.jpg
+  time: 0
+- networks:
+  - networkName: FaceNet
+    pathToNetwork: FaceNet
+    data-label:
+      num-faces: 1
+  - networkName: GenderNet
+    pathToNetwork: GenderNet
+    relation:
+      depends: FaceNet
+      condition:
+        num-faces:
+          gt: 0
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
+    relation:
+      depends: FaceNet
+      condition:
+        num-faces:
+          gt: 0
+  pathToData: test_1.jpg
+  time: 0
+- networks:
+  - networkName: FaceNet
+    pathToNetwork: FaceNet
+    data-label:
+      num-faces: 1
+  - networkName: GenderNet
+    pathToNetwork: GenderNet
+    relation:
+      depends: FaceNet
+      condition:
+        num-faces:
+          gt: 0
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
+    relation:
+      depends: FaceNet
+      condition:
+        num-faces:
+          gt: 0
+  pathToData: test_1.jpg
+  time: 0
+- networks:
+  - networkName: FaceNet
+    pathToNetwork: FaceNet
+    data-label:
+      num-faces: 0
+  - networkName: GenderNet
+    pathToNetwork: GenderNet
+    relation:
+      depends: FaceNet
+      condition:
+        num-faces:
+          gt: 0
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
+    relation:
+      depends: FaceNet
+      condition:
+        num-faces:
+          gt: 0
+  pathToData: test_1.jpg
+  time: 0
+- networks:
+  - networkName: FaceNet
+    pathToNetwork: FaceNet
+    data-label:
+      num-faces: 0
+  - networkName: GenderNet
+    pathToNetwork: GenderNet
+    relation:
+      depends: FaceNet
+      condition:
+        num-faces:
+          gt: 0
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
+    relation:
+      depends: FaceNet
+      condition:
+        num-faces:
+          gt: 0
+  pathToData: test_1.jpg
+  time: 0
+- networks:
+  - networkName: FaceNet
+    pathToNetwork: FaceNet
+    data-label:
+      num-faces: 0
+  - networkName: GenderNet
+    pathToNetwork: GenderNet
+    relation:
+      depends: FaceNet
+      condition:
+        num-faces:
+          gt: 0
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
+    relation:
+      depends: FaceNet
+      condition:
+        num-faces:
+          gt: 0
+  pathToData: test_1.jpg
+  time: 0
+- networks:
+  - networkName: FaceNet
+    pathToNetwork: FaceNet
+    data-label:
+      num-faces: 0
+  - networkName: GenderNet
+    pathToNetwork: GenderNet
+    relation:
+      depends: FaceNet
+      condition:
+        num-faces:
+          gt: 0
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
+    relation:
+      depends: FaceNet
+      condition:
+        num-faces:
+          gt: 0
+  pathToData: test_1.jpg
+  time: 0
+- networks:
+  - networkName: FaceNet
+    pathToNetwork: FaceNet
+    data-label:
+      num-faces: 0
+  - networkName: GenderNet
+    pathToNetwork: GenderNet
+    relation:
+      depends: FaceNet
+      condition:
+        num-faces:
+          gt: 0
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
+    relation:
+      depends: FaceNet
+      condition:
+        num-faces:
+          gt: 0
+  pathToData: test_1.jpg
+  time: 0
+cmd_base: bin/Exp_poisson_arrival_rv_nf
+build_folder: .
+mem_limit: 2G
