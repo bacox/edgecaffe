@@ -24,12 +24,15 @@ message(STATUS "CMAKE BUILD TYPE IS ${CMAKE_BUILD_TYPE}")
 SET(CMAKE_INSTALL_PREFIX /opt/edgecaffe)
 set(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib")
 
+option(INSTALL_NETWORKS "Install the networks found in the build folder" OFF)
+
+
 # ---[ Main Target
 project(EdgeCaffe_Networks C CXX)
 
 
 file(COPY ${CMAKE_CURRENT_SOURCE_DIR} DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
-
+if (${INSTALL_NETWORKS})
 install(
         DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
         COMPONENT EdgeCaffeNetworks
@@ -37,6 +40,7 @@ install(
         FILES_MATCHING
         PATTERN "*"
 )
+endif()
 
 set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 
