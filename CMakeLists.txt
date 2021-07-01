@@ -5,7 +5,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 
 # Make sure the build type is set to Debug if not set upfront with 'cmake -DCMAKE_BUILD_TYPE=Debug ..'
-set(default_build_type "Debug")
+set(default_build_type "Release")
+
 if (NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
     message(STATUS "Setting build type to '${default_build_type}' as none was specified.")
     set(CMAKE_BUILD_TYPE "${default_build_type}" CACHE
@@ -41,8 +42,8 @@ set(EDGECAFFE_LINK "")
 SET(CPACK_PACKAGE_VERSION_MAJOR "1")
 SET(CPACK_PACKAGE_VERSION_MINOR "3")
 SET(CPACK_PACKAGE_VERSION_PATCH "9")
-set(EDGECAFFE_TARGET_VERSION "1.3.9" CACHE STRING "EdgeCaffe logical version")
-set(EDGECAFFE_TARGET_SOVERSION "1.3.9" CACHE STRING "EdgeCaffe soname version")
+set(EDGECAFFE_TARGET_VERSION "${CPACK_PACKAGE_VERSION_MAJOR}.${CPACK_PACKAGE_VERSION_MINOR}.${CPACK_PACKAGE_VERSION_PATCH}" CACHE STRING "EdgeCaffe logical version")
+set(EDGECAFFE_TARGET_SOVERSION "${CPACK_PACKAGE_VERSION_MAJOR}.${CPACK_PACKAGE_VERSION_MINOR}.${CPACK_PACKAGE_VERSION_PATCH}" CACHE STRING "EdgeCaffe soname version")
 add_definitions(-DEDGECAFFE_VERSION=${EDGECAFFE_TARGET_VERSION})
 
 # ---[ Flags
@@ -114,6 +115,7 @@ set(INCLUDE_ORIG_CAFFE ${CMAKE_CURRENT_SOURCE_DIR}/caffe/include)
 add_subdirectory(Core)
 add_subdirectory(tools)
 add_subdirectory(python)
+add_subdirectory(networks)
 
 macro(ADD_BINARY_TARGET TARGET_NAME)
     add_executable(${TARGET_NAME}
@@ -166,7 +168,6 @@ endmacro()
 ADD_BINARY_TARGET(Exp_poisson_arrival_rv_nf)
 
 # ---[ Copy resourcess
-file(COPY ${CMAKE_SOURCE_DIR}/networks DESTINATION ${CMAKE_BINARY_DIR})
 #file(COPY ${CMAKE_SOURCE_DIR}/config DESTINATION ${CMAKE_BINARY_DIR})
 file(COPY ${CMAKE_SOURCE_DIR}/scripts DESTINATION ${CMAKE_BINARY_DIR})
 file(COPY ${CMAKE_SOURCE_DIR}/resources DESTINATION ${CMAKE_BINARY_DIR})
@@ -240,13 +241,13 @@ endif()
 #        )
 
 #INSTALL(DIRECTORY ${CMAKE_BINARY_DIR}/config DESTINATION /opt/edgecaffe COMPONENT EdgeCaffeApp)
-INSTALL(DIRECTORY ${CMAKE_BINARY_DIR}/experiments DESTINATION /opt/edgecaffe COMPONENT EdgeCaffeApp)
+INSTALL(DIRECTORY ${CMAKE_BINARY_DIR}/experiments DESTINATION /opt/edgecaffe COMPONENT EdgeCaffeApp PATTERN "EDUB-Seg" EXCLUDE)
 #INSTALL(DIRECTORY ${CMAKE_SOURCE_DIR}/resources DESTINATION /opt/edgecaffe COMPONENT EdgeCaffeApp)
 if (${INSTALL_RESOURCES})
 #    INSTALL(DIRECTORY ${CMAKE_SOURCE_DIR}/resources DESTINATION ${CMAKE_INSTALL_PREFIX})
-    INSTALL(DIRECTORY ${CMAKE_SOURCE_DIR}/resources DESTINATION /opt/edgecaffe COMPONENT EdgeCaffeApp)
+    INSTALL(DIRECTORY ${CMAKE_SOURCE_DIR}/resources DESTINATION /opt/edgecaffe COMPONENT EdgeCaffeApp PATTERN "EDUB-Seg" EXCLUDE)
 endif ()
-INSTALL(DIRECTORY ${CMAKE_SOURCE_DIR}/resources DESTINATION /opt/edgecaffe COMPONENT EdgeCaffeApp)
+INSTALL(DIRECTORY ${CMAKE_SOURCE_DIR}/resources DESTINATION /opt/edgecaffe COMPONENT EdgeCaffeApp PATTERN "EDUB-Seg" EXCLUDE)
 
 # Install experiment configs
 INSTALL(DIRECTORY ${CMAKE_SOURCE_DIR}/experiments DESTINATION /opt/edgecaffe COMPONENT EdgeCaffeApp)
@@ -264,15 +265,15 @@ install(FILES ${CMAKE_SOURCE_DIR}/thermal/temperature.timer DESTINATION /etc/sys
 # Make sure /opt/analysis exists
 INSTALL(CODE "EXECUTE_PROCESS(COMMAND mkdir -p /opt/analysis)" COMPONENT EdgeCaffeApp)
 
-install(
-        DIRECTORY ${CMAKE_SOURCE_DIR}/networks
-        COMPONENT EdgeCaffeApp
-        DESTINATION /opt/edgecaffe
-        FILES_MATCHING
-        PATTERN "*"
-#        PATTERN "*.caffemodel" EXCLUDE
-#        PATTERN "*_partials" EXCLUDE
-)
+#install(
+#        DIRECTORY ${CMAKE_SOURCE_DIR}/networks
+#        COMPONENT EdgeCaffeNetworks
+#        DESTINATION /opt/edgecaffe
+#        FILES_MATCHING
+#        PATTERN "*"
+##        PATTERN "*.caffemodel" EXCLUDE
+##        PATTERN "*_partials" EXCLUDE
+#)
 
 set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 
@@ -283,7 +284,7 @@ set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 SET(CPACK_GENERATOR "DEB")
 set(CPACK_DEBIAN_PACKAGE_SHLIBDEPS ON)
 SET(CPACK_DEBIAN_PACKAGE_MAINTAINER "bacox") #required
-set(CPACK_COMPONENTS_ALL EdgeCaffeApp)
+set(CPACK_COMPONENTS_ALL EdgeCaffeApp EdgeCaffeNetworks)
 set(CPACK_SET_DESTDIR true)
 set(CPACK_INSTALL_PREFIX /opt/edgecaffe)
 set(CPACK_ARCHIVE_COMPONENT_INSTALL ON)
@@ -292,6 +293,9 @@ set(CPACK_DEB_COMPONENT_INSTALL ON)
 set(CPACK_DEBIAN_PACKAGE_GENERATE_SHLIBS ON)
 SET(CPACK_PACKAGE_DESCRIPTION_SUMMARY "DNN Inference for Edge Devices")
 SET(CPACK_PACKAGE_VENDOR "Bart Cox")
+SET(CPACK_PACKAGE_VERSION_MAJOR ${CPACK_PACKAGE_VERSION_MAJOR})
+SET(CPACK_PACKAGE_VERSION_MINOR ${CPACK_PACKAGE_VERSION_MINOR})
+SET(CPACK_PACKAGE_VERSION_PATCH ${CPACK_PACKAGE_VERSION_PATCH})
 
 set(CPACK_DEBIAN_PACKAGE_CONTROL_EXTRA "systemctl daemon-reload;mkdir -p /opt/analysis/thermal;")
 INCLUDE(CPack)
