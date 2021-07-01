@@ -32,7 +32,7 @@ def write_progress_to_log(idx: int, total: int, exp_file: str, log_file: str = '
 
 def main(path_base: str = './experiments/percom/batch', mem_limit: str = '*', reverse: bool = False,
          dry_run: bool = False, logging: bool = False, build_folder='.', record_thermal: bool = True,
-         exp_name: str = "*"):
+         exp_name: str = "*", verbose = None):
     list_of_mem = mem_limit.split('|')
     list_config_directory = ['{}/{}/configs/{}/*.exp.yaml'.format(path_base, exp_name, x) for x in list_of_mem]
     exp_config_files = [glob.glob(f) for f in list_config_directory]
@@ -45,7 +45,7 @@ def main(path_base: str = './experiments/percom/batch', mem_limit: str = '*', re
         if logging:
             write_progress_to_log(idx, total_files, exp_file, started=True)
         print_progress(idx, total_files)
-        run_single_exp(exp_file, base_script, dry_run=dry_run, build_folder=build_folder, record_thermal=record_thermal)
+        run_single_exp(exp_file, base_script, dry_run=dry_run, build_folder=build_folder, record_thermal=record_thermal, verbose=verbose)
         if logging:
             write_progress_to_log(idx, total_files, exp_file)
 
@@ -61,6 +61,7 @@ if __name__ == "__main__":
     parser.add_argument("--record-thermal", type=bool,
                         help="Enable or disable temperature recording. Default is enabled; recording only works in RPI")
     parser.add_argument("--exp-name", type=str, help="Argument to run a single experiment. For example 'small-3'")
+    parser.add_argument("--verbose", type=bool, help="Verbose")
     args = parser.parse_args()
     args_dict = {
         'dry_run': False,
@@ -84,5 +85,9 @@ if __name__ == "__main__":
         args_dict['build_folder'] = args.build_folder
     if args.exp_name:
         args_dict['exp_name'] = args.exp_name
+    if args.verbose:
+        args_dict['verbose'] = bool(args.verbose)
+    else:
+        args_dict['verbose'] = None
 
     main(**args_dict)

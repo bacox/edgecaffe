@@ -4,12 +4,15 @@ from typing import List
 import yaml
 import itertools
 
-def gen_cmd_config_call(cmd_base: str, pathToConfig: str) -> str :
-    cmd_str = 'nice -n -15 ./{} --read-config={}'.format(cmd_base, pathToConfig)
+def gen_cmd_config_call(cmd_base: str, pathToConfig: str, verbose = None) -> str :
+    if verbose is not None:
+        cmd_str = f'nice -n -15 ./{cmd_base} --read-config={pathToConfig} --verbose={verbose}'
+    else:
+        cmd_str = f'nice -n -15 ./{cmd_base} --read-config={pathToConfig}'
     return cmd_str
 
 
-def run_single_exp(config_file, base_script, dry_run : bool = False, build_folder='.', record_thermal: bool = True):
+def run_single_exp(config_file, base_script, dry_run : bool = False, build_folder='.', record_thermal: bool = True, verbose = None):
     config = None
     with open(config_file, 'r') as stream:
         try:
@@ -23,7 +26,7 @@ def run_single_exp(config_file, base_script, dry_run : bool = False, build_folde
     # build_folder = config['build_folder']
     n_workers = config['n-workers']
     cmd_base = config['cmd_base']
-    CMD = gen_cmd_config_call(cmd_base, config_file)
+    CMD = gen_cmd_config_call(cmd_base, config_file, verbose)
 
     # Get data to construct a output file for thermal measurements
     exp_output_base_path = config['output-path']
