@@ -86,6 +86,7 @@ namespace EdgeCaffe
 
     void Task::execute()
     {
+//        std::cout << "Running task " << this->id << " <|> " << this->layerId << " <|> " << this->networkId << " <|> " << this->networkName << std::endl;
         // Start measuring time
         profileLine.start();
         measureTime(TIME::START);
@@ -93,6 +94,10 @@ namespace EdgeCaffe
         // End measuring time
         measureTime(TIME::STOP);
         profileLine.stop();
+        if(saveResults)
+        {
+            saveNetworkResults();
+        }
     }
 
     void Task::measureTime(Task::TIME type)
@@ -121,5 +126,20 @@ namespace EdgeCaffe
         }
 
         (*tp_ptr) = std::chrono::high_resolution_clock::now();
+    }
+
+    void Task::saveNetworkResults() {
+        if(itask != nullptr)
+        {
+            itask->saveNetworkResult();
+        }
+    }
+
+    void Task::invalidate() {
+        invalid = true;
+    }
+
+    bool Task::isValid() {
+        return !invalid;
     }
 }

@@ -8,10 +8,11 @@
 
 #include <Profiler/NetworkProfiler.h>
 #include <opencv2/core/types.hpp>
-#include <Tasks/Task.h>
+#include <map>
 
 namespace EdgeCaffe
 {
+    class Task;
     struct OutputData
     {
         int rows = 0;
@@ -31,8 +32,9 @@ namespace EdgeCaffe
         size_t inputSize = 0;
         std::vector<LayerProfile> networkProfile;
         std::vector<TaskProfile> taskProfile;
-
     public:
+
+        std::map<std::string, double> networkData;
 
         NetworkProfile netProfile;
 

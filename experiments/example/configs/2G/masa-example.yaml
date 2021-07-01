@@ -6,6 +6,7 @@ mode: masa
 memory-key: valgrind
 n-arrivals: 1
 n-workers: 2
+force-input-label: true
 network-path: networks
 resources-path: resources
 output-path: ../analysis/experiments/example/masa-example
@@ -14,11 +15,25 @@ arrival-list: ./experiments/example/configs/2G/masa-example.yaml
 output-prefix: masa-example
 arrivals:
   - networks:
-      - networkName: GenderNet
-        pathToNetwork: GenderNet
       - networkName: FaceNet
         pathToNetwork: FaceNet
+        data-label:
+          num-faces: 1
+      - networkName: GenderNet
+        pathToNetwork: GenderNet
+        relation:
+          depends:
+            FaceNet
+          condition:
+            num-faces:
+              gt: 0
       - networkName: AgeNet
         pathToNetwork: AgeNet
+        relation:
+          depends:
+            FaceNet
+          condition:
+            num-faces:
+              gt: 0
     pathToData: test_1.jpg
     time: 0

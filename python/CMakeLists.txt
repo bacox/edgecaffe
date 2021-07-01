@@ -3,6 +3,11 @@ if (NOT HAVE_PYTHON)
     return()
 endif ()
 
+if(NOT ${BUILD_SHARED_LIBS})
+    message(STATUS "Cannot build python bindings with BUILD_SHARED_LIBS=off")
+    return()
+endif()
+
 file(GLOB_RECURSE python_caffe_srcs ${PROJECT_SOURCE_DIR}/python/caffe/*.cpp)
 file(GLOB_RECURSE python_edgecaffe_srcs ${PROJECT_SOURCE_DIR}/python/edgecaffe/*.cpp)
 

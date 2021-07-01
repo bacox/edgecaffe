@@ -63,6 +63,9 @@ namespace EdgeCaffe {
         std::vector<InferenceTask *> inferenceTasks;
         ArrivalList arrivals;
         Task * last = nullptr;
+        bool overideWithDataLabel{false};
+        bool waitForNetworkFinish{false};
+        bool forceFirstLayerNetworkRelationFirst{false};
 
         std::chrono::time_point<std::chrono::system_clock> previousTimePoint;
 #ifdef MEMORY_CHECK_ON

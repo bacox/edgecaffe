@@ -40,3 +40,4 @@ archive
 *.tar
 *.stat.csv
 *.tmp.txt
+tmp_data

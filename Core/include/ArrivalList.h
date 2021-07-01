@@ -8,6 +8,7 @@
 #include <deque>
 #include <random>
 #include <map>
+#include <NetworkRelation.h>
 
 namespace EdgeCaffe
 {
@@ -162,6 +163,8 @@ namespace EdgeCaffe
     struct ArrivalNetwork {
         std::string pathToNetwork;
         std::string networkName;
+        NetworkRelation relation;
+        DataLabel datalabel;
     };
 
 

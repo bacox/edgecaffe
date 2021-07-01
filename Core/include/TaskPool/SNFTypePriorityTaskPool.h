@@ -6,9 +6,8 @@
 #define EDGECAFFE_SNFTYPEPRIORITYTASKPOOL_H
 
 #include "AbstractTaskPool.h"
-
+#include <Tasks/Task.h>
 namespace EdgeCaffe {
-
     struct SNFPriorityKey {
         double networkExecutionTime;
         Task::TYPE type;

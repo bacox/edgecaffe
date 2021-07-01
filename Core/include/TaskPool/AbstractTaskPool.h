@@ -7,11 +7,12 @@
 
 #include <mutex>
 #include <map>
-#include "Tasks/Task.h"
+//#include "Tasks/Task.h"
 #include "MemoryCounter.h"
 #include "NetworkRegistry.h"
 
 namespace EdgeCaffe {
+    class Task;
 //    template<typename T>
     class AbstractTaskPool {
 

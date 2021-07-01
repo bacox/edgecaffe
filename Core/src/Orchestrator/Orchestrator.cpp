@@ -21,6 +21,10 @@ EdgeCaffe::Orchestrator::Orchestrator()
     // Lock the 'memory footprint' of EdgeCaffe
     mc->lockMemory(4.87);
 
+    overideWithDataLabel = config.overideWithDataLabel.valueOrDefault();
+    waitForNetworkFinish = config.waitForNetworkOutput.valueOrDefault();
+    forceFirstLayerNetworkRelationFirst = config.forceFirstLayerNetworkRelationFirst.valueOrDefault();
+
 //    setup();
 
 
@@ -125,6 +129,7 @@ void EdgeCaffe::Orchestrator::checkFinishedNetworks()
             // deallocate
             inferenceTask->output.policy = modeAsString;
             auto netId = inferenceTask->net->networkId;
+            inferenceTask->saveNetworkResult();
             inferenceTask->dealloc();
 //                std::cout << "DEALLOC network id: " << netId << std::endl;
 
@@ -155,9 +160,27 @@ bool EdgeCaffe::Orchestrator::allFinished()
 
 void EdgeCaffe::Orchestrator::submitInferenceTask(const EdgeCaffe::Arrival arrivalTask, bool use_scales)
 {
+    /**
+     * @brief
+     * Restructure notes
+     * Keep everything in a map or vector node
+     */
+
+    std::vector<InferenceTask*> itasks;
+
     for(const auto& arrivalNetwork : arrivalTask.networks)
     {
         InferenceTask *iTask = new InferenceTask;
+        iTask->overideWithDataLabel = overideWithDataLabel;
+        itasks.push_back(iTask);
+        if(arrivalNetwork.datalabel.isSet)
+        {
+            iTask->dataLabel = arrivalNetwork.datalabel;
+        }
+        if(arrivalNetwork.relation.isSet)
+        {
+            iTask->relation = arrivalNetwork.relation;
+        }
 //            iTask->pathToNetwork = arrivalTask.pathToNetwork;
         auto &globalConfig = Config::getInstance();
         iTask->pathToNetwork = arrivalNetwork.pathToNetwork;
@@ -228,11 +251,70 @@ void EdgeCaffe::Orchestrator::submitInferenceTask(const EdgeCaffe::Arrival arriv
             task->measureTime(Task::TIME::TO_WAITING);
 //            last = listOfTasks.back();
         last = iTask->net->subTasks.front()->lastTask;
+        last->saveResults = true;
 
 
         bagOfTasks.reserve(listOfTasks.size()); // preallocate memory
         bagOfTasks.insert(bagOfTasks.end(), listOfTasks.begin(), listOfTasks.end());
     }
+
+    // Create network relations
+    for(auto t1: itasks)
+    {
+        if(t1->relation.isSet)
+        {
+            std::string dependsOn = t1->relation.depends;
+            for(auto t2: itasks)
+            {
+                if(t2->net->subTasks.front()->networkName == dependsOn)
+                {
+                    // Depend of this network
+                    // Create dependency between last and first task
+                    auto dep = t2->net->subTasks.front()->lastTask;
+                    auto dep_first_layer = t2->net->subTasks.front()->firstTask;
+
+
+                    if(forceFirstLayerNetworkRelationFirst)
+                    {
+                      // Wait for the first layer of your dependent network to finish
+                      if( verbose) {
+                        std::cout << "[DEPENDENCY] >> Adding dep for " << t1->net->subTasks.front()->networkName
+                                  << " to depend on first task of " << dep_first_layer->networkName << std::endl;
+                      }
+                      t1->net->subTasks.front()->firstTask->addTaskDependency(TaskDependency(dep_first_layer));
+                    }
+
+                    if(waitForNetworkFinish) {
+                      // Wait for all the layers of your dependent network to finish
+                      t1->net->subTasks.front()->firstTask->addTaskDependency(TaskDependency(dep));
+                    }
+                    t2->dependents.push_back(t1);
+                }
+            }
+        }
+    }
+
+    // @TODO: Make sure the first layer of the network relation starts first
+
+    // Continue network relations
+    for(const auto& arrivalNetwork : arrivalTask.networks)
+    {
+        if(arrivalNetwork.relation.isSet)
+        {
+            std::string dependsOn = arrivalNetwork.relation.depends;
+            for(auto it: itasks)
+            {
+                if(it->net->subTasks.front()->networkName == dependsOn)
+                {
+                    // Depend of this network
+                    // Create dependency between last and first task
+
+                }
+            }
+
+        }
+    }
+
     if(mode == Type::MODE_TYPE::DEEPEYE || mode == Type::MODE_TYPE::DEEPEYE_FRUGAL)
     {
 

@@ -154,6 +154,7 @@ void EdgeCaffe::ArrivalList::setEnabledNetworks(std::vector<std::vector<std::str
 
 void EdgeCaffe::ArrivalList::loadFromYaml(std::string pathToYaml)
 {
+    std::cout << "Loading yaml " << pathToYaml << std::endl;
     YAML::Node config = YAML::LoadFile(pathToYaml);
 
     for (YAML::const_iterator it = config["arrivals"].begin(); it != config["arrivals"].end(); ++it){
@@ -166,7 +167,45 @@ void EdgeCaffe::ArrivalList::loadFromYaml(std::string pathToYaml)
             const YAML::Node& networkNode = *networkIter;
             std::string networkName = networkNode["networkName"].as<std::string>();
             std::string pathToNetwork = networkNode["pathToNetwork"].as<std::string>();
-            batch.push_back({pathToNetwork, networkName});
+            DataLabel dl;
+            if(networkNode["data-label"].IsDefined()){
+                for(const auto& dataLabel : networkNode["data-label"]) {
+                    dl = {dataLabel.first.as<std::string>(), dataLabel.second.as<double>(), true};
+                    break;
+                }
+            }
+            if(networkNode["relation"].IsDefined()){
+//                std::cout << "Got a relation obj" << std::endl;
+//                std::cout << "Obj: " << networkNode["relation"] << std::endl;
+                /**
+                 * Check for proprties:
+                 * depends
+                 * condition
+                 */
+                NetworkRelation nr;
+                if(networkNode["relation"]["condition"].IsDefined()){
+                    for(const auto& n: networkNode["relation"]["condition"]){
+                        nr.depends = n.first.as<std::string>();
+                        for(const auto& n2: n.second){
+                            nr.condition.op = stringToRelOp(n2.first.as<std::string>());
+                            nr.condition.value = n2.second.as<double>();
+                            nr.condition.valueName = n.first.as<std::string>();
+                        }
+
+
+                    }
+                }
+                if(networkNode["relation"]["depends"].IsDefined()) {
+                    auto depends = networkNode["relation"]["depends"].as<std::string>();
+                    nr.depends = depends;
+                }
+
+//                std::cout << "Parsed relation" << std::endl;
+                nr.isSet = true;
+                batch.push_back({pathToNetwork, networkName, nr, dl});
+            } else {
+                batch.push_back({pathToNetwork, networkName, {}, dl});
+            }
         }
         arrivals.emplace_back(Arrival{batch,pathToImg, delay});
     }

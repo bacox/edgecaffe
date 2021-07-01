@@ -3,7 +3,7 @@
 //
 
 #include "InferenceOutput.h"
-
+#include <Tasks/Task.h>
 namespace EdgeCaffe
 {
 

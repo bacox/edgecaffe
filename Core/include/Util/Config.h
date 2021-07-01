@@ -9,6 +9,10 @@
 #include <iostream>
 #include <iomanip>
 #include <Orchestrator/Orchestrator.h>
+#include <iostream>
+#include <sstream>
+#include <fstream>
+#include <filesystem>
 
 #ifndef EDGECAFFE_CONFIG_H
 #define EDGECAFFE_CONFIG_H
@@ -77,6 +81,10 @@ namespace EdgeCaffe {
         ConfigOption<std::string> schedAlg = ConfigOption<std::string>("FCFS");
         ConfigOption<bool> poissonDistribution = ConfigOption<bool>(true);
         ConfigOption<bool> help = ConfigOption<bool>(false);
+        ConfigOption<bool> overideWithDataLabel = ConfigOption<bool>(false);
+        ConfigOption<bool> waitForNetworkOutput = ConfigOption<bool>(false);
+        ConfigOption<bool> forceFirstLayerNetworkRelationFirst = ConfigOption<bool>(false);
+
         ConfigOption<double> iat = ConfigOption<double>(100);
         ConfigOption<std::vector<std::string>> networks = ConfigOption<std::vector<std::string>>({});
         ConfigOption<std::string> arrivalMode= ConfigOption<std::string>("batch");
@@ -139,10 +147,36 @@ namespace EdgeCaffe {
                     configFile.configItem = YAML::LoadFile(pathToConfig.value());
                     // Update parameters if found
 
-                } catch(...)
+                } catch(YAML::Exception& e)
                 {
                     std::cerr << "Error while attempting to read yaml file!" << std::endl;
                     std::cerr << "Yaml file: " << pathToConfig.value() << std::endl;
+                    std::cerr << "Read from dir: " << std::filesystem::current_path() << std::endl;
+
+//                    std::ifstream t(pathToConfig.value());
+//
+//                    std::stringstream buffer;
+//                    buffer << t.rdbuf();
+
+                    std::ifstream inFile;
+                    inFile.open(std::filesystem::current_path().string() + pathToConfig.value());//open the input file
+
+                    std::ostringstream strStream;
+                    strStream << inFile.rdbuf();//read the file
+//                    return strStream.str();//str holds the content of the file
+
+                    std::cerr << "File contents: " << strStream.str()<< strStream.rdbuf()->str() << std::endl;
+                    std::cerr << "Exception" << e.what() << std::endl;
+
+                    std::cout << "Loadig file with ifstream: " << pathToConfig.value() << std::endl;
+                    std::ifstream infile(pathToConfig.value());
+                    std::cout << infile.bad() << std::endl;
+                    std::string line;
+                    std::stringstream sstr;
+
+                    while(infile >> sstr.rdbuf());
+
+                    std::cout << "::> " << sstr.str() << std::endl;
                 }
 
             }
@@ -205,6 +239,14 @@ namespace EdgeCaffe {
             configAsText["network"] = networksAsString;
             parseArg(result, "ait", iat);
             configAsText["ait"] = std::to_string(iat.valueOrDefault());
+
+            parseArg(result, "force-input-label", overideWithDataLabel);
+            configAsText["force-input-label"] = std::to_string(overideWithDataLabel.valueOrDefault());
+            parseArg(result, "wait-for-network-output", waitForNetworkOutput);
+            configAsText["wait-for-network-output"] = std::to_string(waitForNetworkOutput.valueOrDefault());
+            parseArg(result, "force-first-layer-nr-first", forceFirstLayerNetworkRelationFirst);
+            configAsText["force-first-layer-nr-first"] = std::to_string(forceFirstLayerNetworkRelationFirst.valueOrDefault());
+
         }
 
         std::string defaultOutPath()

@@ -7,14 +7,16 @@
 
 #include <vector>
 //#include <net.hpp>
-#include "Tasks/Task.h"
-#include "InferenceSubTask.h"
-#include "TaskPool.h"
+//#include "Tasks/Task.h"
+//#include "InferenceSubTask.h"
+//#include "TaskPool.h"
 #include "MemoryCounter.h"
 #include "Types.h"
+#include "InferenceSubTask.h"
 #include <string>
 #include <opencv2/core/mat.hpp>
 //#include "../thirdparty/caffe/include/caffe/caffe.hpp"
+#include <Profiler/NetworkProfiler.h>
 #include <memory>
 #include <yaml-cpp/yaml.h>
 #include <TaskPool/AbstractTaskPool.h>

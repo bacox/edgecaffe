@@ -34,35 +34,44 @@ namespace EdgeCaffe
             Task *task = nullptr;
             if (scheduler->getNext(&task))
             {
-                measureBusyTime();
-                #ifdef MEMORY_CHECK_ON
-                // This will only be used when the MEMORY_CHECK_ON is set in CMAKE
-                std::this_thread::sleep_for(std::chrono::milliseconds(100 ));
-                #endif
-                if(verbose)
+                if(task->isValid())
                 {
-                    std::cout << std::this_thread::get_id() << " [" << workerId << "]" << " -> Running task ("
-                              << task->networkId << "|t:"<< task->layerName << ") | " << task->id
-                              << " = '" << task->getTaskDescription() << "'" << std::endl;
-                }
-                #ifdef MEMORY_CHECK_ON
-                // This will only be used when the MEMORY_CHECK_ON is set in CMAKE
-                if(perf != nullptr){
-                    perf->networkId = task->networkId;
-                    perf->layerId = task->layerId;
-                    perf->taskId = task->id;
-                    if(task->layerId > -1)
+                    measureBusyTime();
+                    #ifdef MEMORY_CHECK_ON
+                    // This will only be used when the MEMORY_CHECK_ON is set in CMAKE
+                    std::this_thread::sleep_for(std::chrono::milliseconds(100 ));
+                    #endif
+                    if(verbose)
                     {
-                        perf->layerType = (*task->network_ptr)->layers()[task->layerId]->type();
-                    } else
-                    {
-                        perf->layerType = "net-init";
+                        std::cout << std::this_thread::get_id() << " [" << workerId << "]" << " -> Running task ("
+                                  << task->networkId << "|t:"<< task->layerName  << "|n:" <<task->networkName << ") | " << task->id
+                                  << " = '" << task->getTaskDescription() << "'" << std::endl;
                     }
-                    perf->network = task->networkName;
-                    perf->taskType = task->taskType;
+                    #ifdef MEMORY_CHECK_ON
+                    // This will only be used when the MEMORY_CHECK_ON is set in CMAKE
+                    if(perf != nullptr){
+                        perf->networkId = task->networkId;
+                        perf->layerId = task->layerId;
+                        perf->taskId = task->id;
+                        if(task->layerId > -1)
+                        {
+                            perf->layerType = (*task->network_ptr)->layers()[task->layerId]->type();
+                        } else
+                        {
+                            perf->layerType = "net-init";
+                        }
+                        perf->network = task->networkName;
+                        perf->taskType = task->taskType;
+                    }
+                    #endif
+                    task->execute();
+                } else {
+                    if(verbose) {
+                    std::cout << std::this_thread::get_id() << " [" << workerId << "]" << " -> Skipping task ("
+                        << task->networkId << "|t:" << task->layerName << "|n:" <<task->networkName <<") | " << task->id
+                                           << " = '" << task->getTaskDescription() << "'" << std::endl;
+                    }
                 }
-                #endif
-                task->execute();
                 // Move task to finished taskpool
                 outpool->addTask(task);
                 // Set task executed to true for the task dependency check

@@ -10,10 +10,12 @@
 #include <string>
 #include <opencv2/core/types.hpp>
 #include <opencv2/core/mat.hpp>
-#include "Tasks/Task.h"
+#include <caffe/net.hpp>
+
 
 namespace EdgeCaffe
 {
+    class Task;
     class InferenceSubTask
     {
     public:

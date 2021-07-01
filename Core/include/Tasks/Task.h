@@ -5,12 +5,12 @@
 #ifndef PIPELINE_TASK_H
 #define PIPELINE_TASK_H
 
+#include <InferenceTask.h>
 #include <caffe/net.hpp>
 #include <Profiler/NetworkProfiler.h>
 
 namespace EdgeCaffe
 {
-    //    Forward declaration
     class TaskDependency;
     class ConditionalDependency;
 
@@ -77,6 +77,9 @@ namespace EdgeCaffe
         TYPE t_type;
         LAYER_TYPE layerType;
 
+        bool saveResults{false};
+        InferenceTask* itask= {nullptr};
+        bool invalid = false;
 
         // Information for the scheduler (orchestrator) to use specific taskpools for this task if the poolId is set.
         int assignedPoolId = -1;
@@ -108,7 +111,7 @@ namespace EdgeCaffe
         std::chrono::time_point<std::chrono::system_clock> networkFinished;
 
         void measureTime(TIME type);
-
+        void saveNetworkResults();
 
         bool waitsForOtherTasks();
 
@@ -129,6 +132,8 @@ namespace EdgeCaffe
         bool hasPoolAssigned();
 
         int getAssignedPoolId();
+        void invalidate();
+        bool isValid();
 
         virtual std::string getTaskDescription();
 

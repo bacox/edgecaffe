@@ -4,6 +4,8 @@
 
 #ifndef EDGECAFFE_TYPES_H
 #define EDGECAFFE_TYPES_H
+#include <map>
+#include <unordered_map>
 
 namespace EdgeCaffe
 {

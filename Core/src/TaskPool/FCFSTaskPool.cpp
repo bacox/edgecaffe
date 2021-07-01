@@ -3,7 +3,7 @@
 //
 
 #include "../../include/TaskPool/FCFSTaskPool.h"
-
+#include <Tasks/Task.h>
 void EdgeCaffe::FCFSTaskPool::addTask(EdgeCaffe::Task *t_ptr)
 {
 //    // Use lock-guard for the mutex in the same way as a smart pointer

@@ -4,7 +4,7 @@
 
 #ifndef EDGECAFFE_TYPEPRIORITYTASKPOOL_H
 #define EDGECAFFE_TYPEPRIORITYTASKPOOL_H
-
+#include <Tasks/Task.h>
 #include "AbstractTaskPool.h"
 
 namespace EdgeCaffe {

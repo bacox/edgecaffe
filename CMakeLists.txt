@@ -27,7 +27,7 @@ set(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib")
 # ---[ Install settings
 option(INSTALL_NETWORKS "Install the networks found in the build folder" OFF)
 option(INSTALL_RESOURCES "Install the input files found in the build folder" ON)
-option(BUILD_SHARED_LIBS "Build shared libraries" ON)
+option(BUILD_SHARED_LIBS "Build shared libraries" OFF)
 
 # ---[ Main Target
 project(EdgeCaffe C CXX)
@@ -179,7 +179,7 @@ add_custom_target(EdgeCaffe_build_all
         ${CMAKE_COMMAND} -E echo Finished building build_all targets
         VERBATIM
         )
-
+if(${BUILD_SHARED_LIBS})
 add_dependencies(EdgeCaffe_build_all
         Exp_poisson_arrival_rv_nf
         caffe
@@ -198,6 +198,23 @@ install(TARGETS caffe __pycaffe pycaffe caffeproto
         LIBRARY DESTINATION "/opt/edgecaffe/lib"
         ARCHIVE DESTINATION "/opt/edgecaffe/lib"
         )
+else()
+    add_dependencies(EdgeCaffe_build_all
+            Exp_poisson_arrival_rv_nf
+            caffe
+            EdgeCaffeCore
+            ModelSplitter
+            GenerateNetwork
+            ExtendNetworkDescription
+            ndg
+            )
+    install(TARGETS caffe caffeproto
+            COMPONENT EdgeCaffeApp
+            RUNTIME DESTINATION "/opt/edgecaffe/bin"
+            LIBRARY DESTINATION "/opt/edgecaffe/lib"
+            ARCHIVE DESTINATION "/opt/edgecaffe/lib"
+            )
+endif()
 
 ##############################################################
 # Configuration for installing EdgeCaffe                     #
