@@ -8,6 +8,26 @@ The main codebase is written in C++, although there are limited bindings to Pyth
 
 Additional documentation can be found at the [wiki](https://github.com/bacox/edgecaffe/wiki).
 
+## Publication
+Please cite with the following Bibtex code:
+
+```
+@INPROCEEDINGS{9439111,
+  author={Cox, Bart and Galjaard, Jeroen and Ghiassi, Amirmasoud and Birke, Robert and Chen, Lydia Y.},
+  booktitle={2021 IEEE International Conference on Pervasive Computing and Communications (PerCom)}, 
+  title={Masa: Responsive Multi-DNN Inference on the Edge}, 
+  year={2021},
+  volume={},
+  number={},
+  pages={1-10},
+  doi={10.1109/PERCOM50583.2021.9439111}}
+
+```
+You may also want to refer to our publication with the more human-friendly style:
+
+*B. Cox, J. Galjaard, A. Ghiassi, R. Birke and L. Y. Chen, "Masa: Responsive Multi-DNN Inference on the Edge," 2021 IEEE International Conference on Pervasive Computing and Communications (PerCom), 2021, pp. 1-10, doi: 10.1109/PERCOM50583.2021.9439111.*
+
+
 ## Project organization
 
 The project is divided in six sections:
