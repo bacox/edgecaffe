@@ -15,7 +15,7 @@ namespace EdgeCaffe {
                 switch (relation.condition.op) {
                     case RelationOperator::GT:
                     {
-                        std::cout << "OP-GT: " << result << " > " << relation.condition.value << std::endl;
+//                        std::cout << "OP-GT: " << result << " > " << relation.condition.value << std::endl;
                         valid = result > relation.condition.value;
                         break;
                     }
@@ -38,8 +38,15 @@ namespace EdgeCaffe {
         if(valid)
         {
             // Invalidate the tasks in this network:
-            std::cout << "Invalidate all the tasks in this network" << std::endl;
+//            std::cout << "Invalidate all the tasks in this network" << std::endl;
+            std::cout << "Invalidate all the tasks in this network: " + this->net->subTasks.front()->networkName << std::endl;
+
             for(auto task : this->net->tasks){
+
+//                if(!task || task == nullptr)
+//                {
+//                  std::cout << "Invalid ptr" << std::endl;
+//                }
                 task->invalidate();
             }
         }
@@ -85,19 +92,19 @@ namespace EdgeCaffe {
         for (auto task : net->tasks)
         {
             task->measureTime(Task::TIME::FINISHED);
-            if (dynamic_cast<LoadTask *>(task))
+            if (std::dynamic_pointer_cast<LoadTask>(task))
             {
 //                // Load Task
                 output.setLoadingTime(task);
                 output.addTaskProfile(task, true);
             }
-            if (dynamic_cast<ExecTask *>(task))
+            if (std::dynamic_pointer_cast<ExecTask>(task))
             {
 //                // Load Task
                 output.setExecutionTime(task);
                 output.addTaskProfile(task, false);
             }
-            if (auto dt = dynamic_cast<DummyTask *>(task))
+            if (std::shared_ptr<DummyTask> dt = std::dynamic_pointer_cast<DummyTask>(task))
             {
                 if (dt->isLoadingTask)
                 {
@@ -112,10 +119,10 @@ namespace EdgeCaffe {
         }
         MemoryCounter *mc = net->mc;
         double networkMemoryUsage = net->maxMemoryUsage;
-        delete net;
+//        delete net;
+//       std::cout << net->subTasks.front()->networkName <<  ": net.use_count() == " << net.use_count() << '\n';
 
         mc->releaseMemory(networkMemoryUsage);
-
     }
 
 

@@ -4,7 +4,7 @@
 
 #include "../../include/TaskPool/TypePriorityTaskPool.h"
 
-void EdgeCaffe::TypePriorityTaskPool::addTask(EdgeCaffe::Task *t_ptr)
+void EdgeCaffe::TypePriorityTaskPool::addTask(std::shared_ptr<Task> t_ptr)
 {
     // Use lock-guard for the mutex in the same way as a smart pointer
     // The mutex will be released when the lock-guard goes out of scope (end of function)
@@ -30,7 +30,7 @@ bool EdgeCaffe::TypePriorityTaskPool::isEmpty()
     return pool.empty();
 }
 
-bool EdgeCaffe::TypePriorityTaskPool::getNext(EdgeCaffe::Task **task)
+bool EdgeCaffe::TypePriorityTaskPool::getNext(std::shared_ptr<Task> *task)
 {
     if (pool.size() == 0)
         return false;

@@ -10,6 +10,8 @@
 //#include "Tasks/Task.h"
 #include "MemoryCounter.h"
 #include "NetworkRegistry.h"
+#include <memory>
+
 
 namespace EdgeCaffe {
     class Task;
@@ -44,7 +46,7 @@ namespace EdgeCaffe {
          * Add a reference of a task to the taskpool
          * @param t_ptr     Task pointer
          */
-        virtual void addTask(Task *t_ptr) = 0;
+        virtual void addTask(std::shared_ptr<Task> t_ptr) = 0;
 
         /**
          * Checks if the taskpool is empty
@@ -63,7 +65,7 @@ namespace EdgeCaffe {
          * @param task      Double pointer to store the reference to the task in.
          * @return Boolan   Returns false if the pool is empty and true if a task was bound to the given pointer
          */
-        virtual bool getNext(Task **task) = 0;
+        virtual bool getNext(std::shared_ptr<Task> *task) = 0;
 //        {
 //            if (pool.size() == 0)
 //                return false;

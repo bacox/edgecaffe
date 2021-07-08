@@ -51,11 +51,11 @@ namespace EdgeCaffe
             long time;
             EVENT type;
         };
-        void setLoadingTime(Task *task);
+        void setLoadingTime(std::shared_ptr<Task> task);
 
-        void setExecutionTime(Task *task);
+        void setExecutionTime(std::shared_ptr<Task> task);
 
-        void addTaskProfile(Task *task, bool isLoading = false);
+        void addTaskProfile(std::shared_ptr<Task> task, bool isLoading = false);
 
         std::vector<std::string> toCsvLines();
 

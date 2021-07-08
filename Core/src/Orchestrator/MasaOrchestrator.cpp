@@ -20,14 +20,14 @@ void EdgeCaffe::MasaOrchestrator::setup()
 void EdgeCaffe::MasaOrchestrator::checkBagOfTasks()
 {
     const int bufferSize = 10;
-    std::vector<Task *> buffer;
+    std::vector<std::shared_ptr<Task>> buffer;
     buffer.reserve(bufferSize);
     int initCount = 0;
     // Check if new tasks are available to insert in the taskpool
     for (auto it = bagOfTasks.begin(); it != bagOfTasks.end(); it++)
     {
         // remove odd numbers
-        Task *task = *it;
+        std::shared_ptr<Task> task = *it;
         if (!task->waitsForOtherTasks())
         {
             bagOfTasks.erase(it--);
@@ -45,7 +45,7 @@ void EdgeCaffe::MasaOrchestrator::checkBagOfTasks()
         return;
     // Make sure the init tasks are inserted in correct order to ensure SNF
     std::sort(buffer.begin(), buffer.end(), Task::compByEstTime);
-    for(Task *task : buffer){
+    for(std::shared_ptr<Task> task : buffer){
         schedulers.front()->addTask(task);
         task->measureTime(Task::TIME::TO_READY);
     }

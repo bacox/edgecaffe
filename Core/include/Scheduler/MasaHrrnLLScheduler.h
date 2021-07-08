@@ -17,7 +17,7 @@ namespace EdgeCaffe
         public:
             Task::TYPE *type;
             int *id;
-            HrrnItem(Task::TYPE &type, int &id, int serviceTime, Task *tPtr, int waitingTime = 1, float rr = 0) : type(&type),
+            HrrnItem(Task::TYPE &type, int &id, int serviceTime, std::shared_ptr<Task> tPtr, int waitingTime = 1, float rr = 0) : type(&type),
                                                                                                                   id(&id),
                                                                                                                   serviceTime(
                                                                                                                           serviceTime
@@ -29,7 +29,7 @@ namespace EdgeCaffe
 
             int serviceTime = 0;
 //            int *elapsed_time = nullptr;
-            Task *t_ptr = nullptr;
+            std::shared_ptr<Task> t_ptr = nullptr;
             int waitingTime = 1; // Use initial wait time of 1ms to ensure that SJF works even when no time has passed
             float rr = 0; //Response ratio
 
@@ -55,7 +55,7 @@ namespace EdgeCaffe
         void setElapsedTime(int elapsedTime);
 
     public:
-        void addTask(Task *t_ptr) override;
+        void addTask(std::shared_ptr<Task> t_ptr) override;
 
         void updateTime();
 
@@ -68,7 +68,7 @@ namespace EdgeCaffe
 
         void updateTaskTime();
 
-        bool getNext(Task **t_ptr) override;
+        bool getNext(std::shared_ptr<Task> *t_ptr) override;
 
         MasaHrrnLLScheduler(const std::shared_ptr<MemoryCounter> &mc, const std::shared_ptr<NetworkRegistry> &nr);
 

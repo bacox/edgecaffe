@@ -32,9 +32,9 @@ namespace EdgeCaffe
         std::mutex mtx;
     private:
         SCHEDULING_POLICY policy;
-        void add_FCFS(Task *t_ptr);
+        void add_FCFS(std::shared_ptr<Task> t_ptr);
 
-        void add_SJF(Task *t_ptr);
+        void add_SJF(std::shared_ptr<Task> t_ptr);
     public:
 
         MemoryCounter *mc = nullptr;
@@ -57,13 +57,13 @@ namespace EdgeCaffe
          * std::sort causes memory corruption in the specifc case and should therefor not be used.
          * Use use pointers for taks to prevent copying of memory.
          */
-        std::map<int, Task*> pool;
+        std::map<int, std::shared_ptr<Task>> pool;
 
         /**
          * Add a reference of a task to the taskpool
          * @param t_ptr     Task pointer
          */
-        virtual void addTask(Task *t_ptr);
+        virtual void addTask(std::shared_ptr<Task> t_ptr);
 
         /**
          * Checks if the taskpool is empty
@@ -76,7 +76,7 @@ namespace EdgeCaffe
          * @param task      Double pointer to store the reference to the task in.
          * @return Boolan   Returns false if the pool is empty and true if a task was bound to the given pointer
          */
-        virtual bool getNext(Task **task);
+        virtual bool getNext(std::shared_ptr<Task> *task);
     };
 }
 

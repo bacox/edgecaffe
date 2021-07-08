@@ -18,9 +18,9 @@ namespace EdgeCaffe
     {
         std::string pathToNetwork;
         std::string pathToData;
-        InferenceNetwork *net;
+        std::shared_ptr<InferenceNetwork> net;
         NetworkRelation relation;
-        std::vector<InferenceTask*> dependents;
+        std::vector<std::shared_ptr<InferenceTask>> dependents;
         DataLabel dataLabel;
         bool overideWithDataLabel{false};
 

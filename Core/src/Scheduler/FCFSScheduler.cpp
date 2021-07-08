@@ -5,7 +5,7 @@
 #include <Tasks/Task.h>
 #include "../../include/Scheduler/FCFSScheduler.h"
 
-void EdgeCaffe::FCFSScheduler::addTask(Task *t_ptr)
+void EdgeCaffe::FCFSScheduler::addTask(std::shared_ptr<Task> t_ptr)
 {
     // Use lock-guard for the mutex in the same way as a smart pointer
     // The mutex will be released when the lock-guard goes out of scope (end of function)
@@ -13,7 +13,7 @@ void EdgeCaffe::FCFSScheduler::addTask(Task *t_ptr)
     taskPool.addTask(t_ptr);
 }
 
-bool EdgeCaffe::FCFSScheduler::getNext(Task **t_ptr)
+bool EdgeCaffe::FCFSScheduler::getNext(std::shared_ptr<Task> *t_ptr)
 {
     // Use lock-guard for the mutex in the same way as a smart pointer
     // The mutex will be released when the lock-guard goes out of scope (end of function)

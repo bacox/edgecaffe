@@ -37,22 +37,22 @@ namespace EdgeCaffe
         std::vector<std::string> resultVector;
         cv::Mat inputData;
         cv::Mat origInputData;
-        std::vector<Task *> tasks;
+        std::vector<std::shared_ptr<Task>> tasks;
 
         virtual ~InferenceSubTask();
 
-        Task *lastTask = nullptr;
-        Task *firstTask = nullptr;
+        std::shared_ptr<Task> lastTask = nullptr;
+        std::shared_ptr<Task> firstTask = nullptr;
 
         // Task linking values
-        Task *conv_load_first = nullptr;
-        Task *conv_load_last = nullptr;
-        Task *conv_exec_first = nullptr;
-        Task *conv_exec_last = nullptr;
-        Task *fc_load_first = nullptr;
-        Task *fc_load_last = nullptr;
-        Task *fc_exec_first = nullptr;
-        Task *fc_exec_last = nullptr;
+        std::shared_ptr<Task> conv_load_first = nullptr;
+        std::shared_ptr<Task> conv_load_last = nullptr;
+        std::shared_ptr<Task> conv_exec_first = nullptr;
+        std::shared_ptr<Task> conv_exec_last = nullptr;
+        std::shared_ptr<Task> fc_load_first = nullptr;
+        std::shared_ptr<Task> fc_load_last = nullptr;
+        std::shared_ptr<Task> fc_exec_first = nullptr;
+        std::shared_ptr<Task> fc_exec_last = nullptr;
     };
 }
 

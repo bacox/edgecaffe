@@ -77,14 +77,15 @@ namespace EdgeCaffe
     public:
         double maxMemoryUsage = 0;
         double meanExecutionTime = std::numeric_limits<double>::max();
-        std::vector<Task *> tasks;
+//        std::vector<Task *> tasks;
+        std::vector<std::shared_ptr<Task>> tasks;
         bool use_scales = false;
         std::string dataPath;
-        const std::vector<Task *> &getTasks() const;
+        [[nodiscard]] const std::vector<std::shared_ptr<Task>> &getTasks() const;
         NetworkProfile networkProfile;
 //        std::vector<TaskPool*> taskpools;
         std::vector<std::shared_ptr<AbstractTaskPool>> taskpools;
-        std::vector<Task *> *bagOfTasks_ptr;
+        std::vector<std::shared_ptr<Task>> bagOfTasks_ptr;
         int networkId;
 
         std::vector<InferenceSubTask *> subTasks;
@@ -164,9 +165,9 @@ namespace EdgeCaffe
 
         std::string tasksToDotDebug();
 
-        Task * createInitTask(InferenceSubTask *dnn);
-        Task * createLoadTask(InferenceSubTask *dnn, const LayerDescription &descr);
-        Task * createExecTask(InferenceSubTask *dnn, const LayerDescription &descr, bool bulk = false);
+        std::shared_ptr<Task> createInitTask(InferenceSubTask *dnn);
+        std::shared_ptr<Task> createLoadTask(InferenceSubTask *dnn, const LayerDescription &descr);
+        std::shared_ptr<Task> createExecTask(InferenceSubTask *dnn, const LayerDescription &descr, bool bulk = false);
     };
 }
 

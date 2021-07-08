@@ -15,15 +15,15 @@ namespace EdgeCaffe {
 
         bool hasTask(int taskId) override;
 
-        void addTask(Task *t_ptr) override;
+        void addTask(std::shared_ptr<Task> t_ptr) override;
 
         bool isEmpty() override;
 
-        bool getNext(Task **task) override;
+        bool getNext(std::shared_ptr<Task> *task) override;
 
     private:
-        std::map<int, Task*> loadTasks;
-        std::map<int, Task*> execTasks;
+        std::map<int, std::shared_ptr<Task>> loadTasks;
+        std::map<int, std::shared_ptr<Task>> execTasks;
 
 
     };

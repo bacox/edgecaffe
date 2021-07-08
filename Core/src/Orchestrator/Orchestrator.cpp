@@ -6,6 +6,7 @@
 #include <Orchestrator/Orchestrator.h>
 #include <Util/Config.h>
 #include <GeneratedNetwork.h>
+#include <Scheduler/MasaScheduler.h>
 
 EdgeCaffe::Orchestrator::Orchestrator()
 {
@@ -65,14 +66,15 @@ void EdgeCaffe::Orchestrator::processTasks()
 
 void EdgeCaffe::Orchestrator::waitForStop()
 {
-    for(const auto worker : workers)
+    for(const auto &worker : workers)
     {
         worker->allowed_to_stop = true;
     }
     std::cout << "Waiting for workers to stop" << std::endl;
-    for (const auto worker : workers)
+    for (const auto& worker : workers)
     {
         worker->_thread.join();
+        std::cout << "Worker stopped" << std::endl;
     }
 
     #ifdef MEMORY_CHECK_ON
@@ -118,25 +120,65 @@ void EdgeCaffe::Orchestrator::checkArrivals()
 void EdgeCaffe::Orchestrator::checkFinishedNetworks()
 {
     // Check if networks are done and can be deallocated fully
-    for (auto inferenceTask : inferenceTasks)
-    {
-        if (!inferenceTask->finished && inferenceTask->net->isFinished())
-        {
-            // Create results obj
-            nr->deactivateNetwork();
-            inferenceTask->finished = true;
+//    for (auto inferenceTask : inferenceTasks)
+//    {
+//        if (!inferenceTask->finished && inferenceTask->net->isFinished())
+//        {
+//            // Create results obj
+//            nr->deactivateNetwork();
+//            inferenceTask->finished = true;
+//
+//            // deallocate
+//            inferenceTask->output.policy = modeAsString;
+//            auto netId = inferenceTask->net->networkId;
+//            inferenceTask->saveNetworkResult();
+//            inferenceTask->dealloc();
+//
+////                std::cout << "DEALLOC network id: " << netId << std::endl;
+//
+//            // Remove reference from list?
+//
+//
+//
+//        }
+//    }
 
-            // deallocate
-            inferenceTask->output.policy = modeAsString;
-            auto netId = inferenceTask->net->networkId;
-            inferenceTask->saveNetworkResult();
-            inferenceTask->dealloc();
+
+  inferenceTasks.erase(std::remove_if(inferenceTasks.begin(), inferenceTasks.end(),
+                         [this](const std::shared_ptr<InferenceTask>& inferenceTask) {
+                             if (!inferenceTask->finished && inferenceTask->net->isFinished())
+                             {
+                               // Create results obj
+                               nr->deactivateNetwork();
+                               inferenceTask->finished = true;
+
+                               // deallocate
+                               inferenceTask->output.policy = modeAsString;
+                               auto netId = inferenceTask->net->networkId;
+                               inferenceTask->saveNetworkResult();
+                               inferenceTask->dealloc();
+
 //                std::cout << "DEALLOC network id: " << netId << std::endl;
 
+                               // Remove reference from list?
+
+//                               for(auto sched: this->schedulers) {
+//                                 std::shared_ptr<EdgeCaffe::MasaScheduler> sched_ = std::dynamic_pointer_cast<EdgeCaffe::MasaScheduler>(sched);
+//                                 std::cout << "[DEBUG] >>> size loadtasks: " << sched_->loadTasks.pool.size() << " >> size execTasks: " << sched_->execTasks.pool.size() << std::endl;
+////    std::cout << "[DEBUG] >>> tp is empty=" << taskpool->isEmpty() << std::endl;
+//                               }
+//
+//                               std::cout << "[DEBUG] >>> size outpool=" << this->outPool->pool.size() << std::endl;
 
 
-        }
-    }
+                                return true;
+                             } else {
+                               return false;
+                             }
+
+  }), inferenceTasks.end());
+
+
 
     if(allFinished())
         last = nullptr;
@@ -166,11 +208,11 @@ void EdgeCaffe::Orchestrator::submitInferenceTask(const EdgeCaffe::Arrival arriv
      * Keep everything in a map or vector node
      */
 
-    std::vector<InferenceTask*> itasks;
+    std::vector<std::shared_ptr<InferenceTask>> itasks;
 
     for(const auto& arrivalNetwork : arrivalTask.networks)
     {
-        InferenceTask *iTask = new InferenceTask;
+        std::shared_ptr<InferenceTask> iTask = std::make_shared<InferenceTask>();
         iTask->overideWithDataLabel = overideWithDataLabel;
         itasks.push_back(iTask);
         if(arrivalNetwork.datalabel.isSet)
@@ -201,12 +243,14 @@ void EdgeCaffe::Orchestrator::submitInferenceTask(const EdgeCaffe::Arrival arriv
         {
             // Generated network
 //                iTask->net = new GeneratedNetwork(arrivalTask.pathToNetwork);
-            iTask->net = new GeneratedNetwork(arrivalNetwork.pathToNetwork, &this->enforceInterDependencies);
+            iTask->net = std::make_shared<GeneratedNetwork>(arrivalNetwork.pathToNetwork, &this->enforceInterDependencies);
+//            iTask->net = new GeneratedNetwork(arrivalNetwork.pathToNetwork, &this->enforceInterDependencies);
             iTask->net->init(description);
             iTask->output.networkName = iTask->net->subTasks.front()->networkName;
         } else {
             // Default network
-            iTask->net = new InferenceNetwork(arrivalNetwork.pathToNetwork, &this->enforceInterDependencies);
+//            iTask->net = new InferenceNetwork(arrivalNetwork.pathToNetwork, &this->enforceInterDependencies);
+            iTask->net = std::make_shared<InferenceNetwork>(arrivalNetwork.pathToNetwork, &this->enforceInterDependencies);
             iTask->net->init(description);
             iTask->net->use_scales = description["use-scales"].as<bool>(false);
             iTask->net->dataPath = globalConfig.pathToResources() + "/" + arrivalTask.pathToData;
@@ -217,13 +261,13 @@ void EdgeCaffe::Orchestrator::submitInferenceTask(const EdgeCaffe::Arrival arriv
 
         for(auto tp : taskPools)
             iTask->net->taskpools.push_back(tp);
-        iTask->net->bagOfTasks_ptr = &bagOfTasks;
+        iTask->net->bagOfTasks_ptr = bagOfTasks;
         iTask->net->networkId = EdgeCaffe::InferenceNetwork::NETWORKID_COUNTER;
         EdgeCaffe::InferenceNetwork::NETWORKID_COUNTER++;
         iTask->net->networkProfile.measure(NetworkProfile::ARRIVAL);
         inferenceTasks.push_back(iTask);
         iTask->net->createTasks(mode);
-        std::vector<Task *> listOfTasks = iTask->net->getTasks();
+        std::vector<std::shared_ptr<Task>> listOfTasks = iTask->net->getTasks();
 
         /**
          * Do not use the conditional constraints for. Just force linearity with hard constraints
@@ -256,6 +300,7 @@ void EdgeCaffe::Orchestrator::submitInferenceTask(const EdgeCaffe::Arrival arriv
 
         bagOfTasks.reserve(listOfTasks.size()); // preallocate memory
         bagOfTasks.insert(bagOfTasks.end(), listOfTasks.begin(), listOfTasks.end());
+//        std::cout << "[DEBUG] >>> Bag of tasks size=" << bagOfTasks.size() << std::endl;
     }
 
     // Create network relations
@@ -331,8 +376,8 @@ void EdgeCaffe::Orchestrator::submitInferenceTask(const EdgeCaffe::Arrival arriv
         ++it;
 
         // Keep track to the last load task for fc layers during this batch
-        Task *local_fc_load_last = nullptr;
-        Task *local_fc_exec_last = nullptr;
+        std::shared_ptr<Task> local_fc_load_last = nullptr;
+        std::shared_ptr<Task>local_fc_exec_last = nullptr;
 
 
         for (auto end=std::end(inferenceTasks); it!=end; ++it)
@@ -348,9 +393,9 @@ void EdgeCaffe::Orchestrator::submitInferenceTask(const EdgeCaffe::Arrival arriv
                     TaskDependency(previous->net->subTasks.front()->conv_exec_last));
 
             // Link fc load tasks
-            Task * tmp_fc_load_first = iTask->net->subTasks.front()->fc_load_first;
-            Task * tmp_fc_load_last = previous->net->subTasks.front()->fc_load_last;
-            Task * tmp_fc_exec_last = previous->net->subTasks.front()->fc_exec_last;
+            std::shared_ptr<Task> tmp_fc_load_first = iTask->net->subTasks.front()->fc_load_first;
+            std::shared_ptr<Task> tmp_fc_load_last = previous->net->subTasks.front()->fc_load_last;
+            std::shared_ptr<Task>tmp_fc_exec_last = previous->net->subTasks.front()->fc_exec_last;
             // Make sure to use the last known reference is this one does not exist
             if(tmp_fc_load_last != nullptr)
                 local_fc_load_last = tmp_fc_load_last;
@@ -420,7 +465,7 @@ const std::shared_ptr<EdgeCaffe::NetworkRegistry> &EdgeCaffe::Orchestrator::getN
     return nr;
 }
 
-const std::vector<EdgeCaffe::InferenceTask *> &EdgeCaffe::Orchestrator::getInferenceTasks() const
+const std::vector<std::shared_ptr<EdgeCaffe::InferenceTask>> &EdgeCaffe::Orchestrator::getInferenceTasks() const
 {
     return inferenceTasks;
 }

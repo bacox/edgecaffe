@@ -21,9 +21,9 @@ namespace EdgeCaffe {
         bool *masaEnabled = nullptr;
 
     public:
-        virtual void addTask(Task *t_ptr) = 0;
+        virtual void addTask(std::shared_ptr<Task> t_ptr) = 0;
 
-        virtual bool getNext(Task **t_ptr) = 0;
+        virtual bool getNext(std::shared_ptr<Task> *t_ptr) = 0;
         virtual bool isEmpty() = 0;
 
         Scheduler(const std::shared_ptr<MemoryCounter> &mc, const std::shared_ptr<NetworkRegistry> &nr) : mc(mc), nr(nr)

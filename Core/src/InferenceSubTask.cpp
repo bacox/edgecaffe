@@ -9,6 +9,7 @@ namespace EdgeCaffe
 
     InferenceSubTask::~InferenceSubTask()
     {
+//      std::cout << "[DEALLOC] >>> Removing inference InferenceSubTask" << std::endl;
         if (net_ptr != nullptr)
             delete net_ptr;
     }

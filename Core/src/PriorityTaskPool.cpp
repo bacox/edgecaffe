@@ -24,7 +24,7 @@ bool EdgeCaffe::PriorityTaskPool::hasTask(int taskId)
     return false;
 }
 
-void EdgeCaffe::PriorityTaskPool::addTask(EdgeCaffe::Task *t_ptr)
+void EdgeCaffe::PriorityTaskPool::addTask(std::shared_ptr<Task> t_ptr)
 {
     std::lock_guard guard(mtx);
     if(t_ptr->taskType == "exec")
@@ -39,7 +39,7 @@ bool EdgeCaffe::PriorityTaskPool::isEmpty()
     return loadTasks.size() <= 0 && execTasks.size() <= 0;
 }
 
-bool EdgeCaffe::PriorityTaskPool::getNext(EdgeCaffe::Task **task)
+bool EdgeCaffe::PriorityTaskPool::getNext(std::shared_ptr<Task> *task)
 {
     std::lock_guard guard(mtx);
     // Use lock-guard for the mutex in the same way as a smart pointer

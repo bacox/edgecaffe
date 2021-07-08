@@ -14,13 +14,13 @@ namespace EdgeCaffe {
 //        FCFSTaskPool(const std::shared_ptr<MemoryCounter> &mc, const std::shared_ptr<NetworkRegistry> &nr);
 
     protected:
-        std::map<int, Task*> pool;
+        std::map<int, std::shared_ptr<Task>> pool;
     public:
-        void addTask(Task *t_ptr) override;
+        void addTask(std::shared_ptr<Task> t_ptr) override;
 
         bool isEmpty() override;
 
-        bool getNext(Task **task) override;
+        bool getNext(std::shared_ptr<Task> *task) override;
 
         bool hasTask(int taskId) override;
     };

@@ -4,7 +4,7 @@
 
 #include "../../include/Scheduler/MasaSchedulerWithItem.h"
 
-void EdgeCaffe::MasaSchedulerWithItem::addTask(Task *t_ptr)
+void EdgeCaffe::MasaSchedulerWithItem::addTask(std::shared_ptr<Task> t_ptr)
 {
     // Use lock-guard for the mutex in the same way as a smart pointer
     // The mutex will be released when the lock-guard goes out of scope (end of function)
@@ -15,7 +15,7 @@ void EdgeCaffe::MasaSchedulerWithItem::addTask(Task *t_ptr)
         loadTasks.addTask(t_ptr);
 }
 
-bool EdgeCaffe::MasaSchedulerWithItem::getNext(Task **t_ptr)
+bool EdgeCaffe::MasaSchedulerWithItem::getNext(std::shared_ptr<Task> *t_ptr)
 {
     // Use lock-guard for the mutex in the same way as a smart pointer
     // The mutex will be released when the lock-guard goes out of scope (end of function)

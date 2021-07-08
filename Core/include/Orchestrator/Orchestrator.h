@@ -59,10 +59,10 @@ namespace EdgeCaffe {
         bool enforceInterDependencies = false;
         std::vector<std::shared_ptr<AbstractTaskPool>> taskPools;
         std::shared_ptr<TaskPool> outPool = std::make_shared<TaskPool>();
-        std::vector<Task *> bagOfTasks;
-        std::vector<InferenceTask *> inferenceTasks;
+        std::vector<std::shared_ptr<Task>> bagOfTasks;
+        std::vector<std::shared_ptr<InferenceTask>> inferenceTasks;
         ArrivalList arrivals;
-        Task * last = nullptr;
+        std::shared_ptr<Task> last = nullptr;
         bool overideWithDataLabel{false};
         bool waitForNetworkFinish{false};
         bool forceFirstLayerNetworkRelationFirst{false};
@@ -92,7 +92,7 @@ namespace EdgeCaffe {
         /* Data export functions */
         void processResults();
 
-        const std::vector<InferenceTask *> &getInferenceTasks() const;
+        const std::vector<std::shared_ptr<InferenceTask>> &getInferenceTasks() const;
 
         void processLayerData(const std::string &pathToFile);
         void processEventData(const std::string &pathToFile, std::chrono::time_point<std::chrono::system_clock> start);

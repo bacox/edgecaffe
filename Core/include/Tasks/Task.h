@@ -7,6 +7,7 @@
 
 #include <InferenceTask.h>
 #include <caffe/net.hpp>
+#include <utility>
 #include <Profiler/NetworkProfiler.h>
 
 namespace EdgeCaffe
@@ -139,7 +140,7 @@ namespace EdgeCaffe
 
         void execute();
 
-        static bool compByEstTime(const Task* a, const Task *b)
+        static bool compByEstTime(const std::shared_ptr<Task> a, const std::shared_ptr<Task> b)
         {
             return (a->estimatedExecutionTime) < (b->estimatedExecutionTime);
         }
@@ -152,11 +153,11 @@ namespace EdgeCaffe
 
     class TaskDependency {
     public:
-        Task * dependency;
+        std::shared_ptr<Task> dependency;
 
     public:
         explicit
-        TaskDependency(Task *dependency) : dependency(dependency)
+        TaskDependency(std::shared_ptr<Task> dependency) : dependency(std::move(dependency))
         {}
 
         [[nodiscard]] bool isExecuted() const
@@ -168,10 +169,10 @@ namespace EdgeCaffe
     };
 
     class ConditionalDependency{
-        Task * dependency;
+        std::shared_ptr<Task> dependency;
         bool * condition;
     public:
-        ConditionalDependency(Task *dependency, bool *condition) : dependency(dependency), condition(condition)
+        ConditionalDependency(std::shared_ptr<Task> dependency, bool *condition) : dependency(dependency), condition(condition)
         {
         }
 

@@ -9,7 +9,7 @@ namespace EdgeCaffe
      * Add a reference of a task to the taskpool
      * @param t_ptr     Task pointer
      */
-    void TaskPool::addTask(Task *t_ptr)
+    void TaskPool::addTask(std::shared_ptr<Task> t_ptr)
     {
         // Use lock-guard for the mutex in the same way as a smart pointer
         // The mutex will be released when the lock-guard goes out of scope (end of function)
@@ -42,7 +42,7 @@ namespace EdgeCaffe
      * @param task      Double pointer to store the reference to the task in.
      * @return Boolan   Returns false if the pool is empty and true if a task was bound to the given pointer
      */
-    bool TaskPool::getNext(Task **task)
+    bool TaskPool::getNext(std::shared_ptr<Task> *task)
     {
         // Use lock-guard for the mutex in the same way as a smart pointer
         // The mutex will be released when the lock-guard goes out of scope (end of function)
@@ -85,12 +85,12 @@ namespace EdgeCaffe
     {
     }
 
-    void TaskPool::add_FCFS(Task *t_ptr)
+    void TaskPool::add_FCFS(std::shared_ptr<Task> t_ptr)
     {
         pool[t_ptr->id] = t_ptr;
     }
 
-    void TaskPool::add_SJF(Task *t_ptr)
+    void TaskPool::add_SJF(std::shared_ptr<Task> t_ptr)
     {
         /*
          * This can be optimized later by using insertion sort instead of sorting the whole vector again and again!

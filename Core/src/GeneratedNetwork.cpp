@@ -34,12 +34,13 @@ void EdgeCaffe::GeneratedNetwork::createTasks(Type::MODE_TYPE splittingPolicy)
 {
     InferenceSubTask *dnn = subTasks.front();
     int numberOfLayers  = dnn->num_conv + dnn->num_fc;
-    Task *lastTask = nullptr;
+    std::shared_ptr<Task> lastTask = nullptr;
 
     for(auto layer : layers)
     {
         // Dummytask needs a taskId, networkId, and a description
-        DummyTask *loading = new DummyTask(TASKID_COUNTER++, -1, "dummy-loading", layer.loadingDuration);
+//        DummyTask *loading = new DummyTask(TASKID_COUNTER++, -1, "dummy-loading", layer.loadingDuration);
+        std::shared_ptr<DummyTask> loading = std::make_shared<DummyTask>(TASKID_COUNTER++, -1, "dummy-loading", layer.loadingDuration);
         loading->layerId = layer.id;
         loading->taskName = dnn->networkName + "-dummy-loading-layer" + std::to_string(loading->layerId);
         loading->isLoadingTask = true;
@@ -53,7 +54,9 @@ void EdgeCaffe::GeneratedNetwork::createTasks(Type::MODE_TYPE splittingPolicy)
         }
         tasks.push_back(loading);
 
-        DummyTask *exec = new DummyTask(TASKID_COUNTER++, -1, "dummy-loading", layer.executionDuration);
+
+        std::shared_ptr<DummyTask> exec = std::make_shared<DummyTask>(TASKID_COUNTER++, -1, "dummy-loading", layer.executionDuration);
+//        DummyTask *exec = new DummyTask(TASKID_COUNTER++, -1, "dummy-loading", layer.executionDuration);
         exec->layerId = layer.id;
         exec->taskName = dnn->networkName + "-dummy-executing-layer" + std::to_string(exec->layerId);
         if(lastTask != nullptr)
@@ -70,5 +73,5 @@ void EdgeCaffe::GeneratedNetwork::createTasks(Type::MODE_TYPE splittingPolicy)
 
 EdgeCaffe::GeneratedNetwork::~GeneratedNetwork()
 {
-    std::cout << "Deallocating GeneratedNetwork" << std::endl;
+//    std::cout << "Deallocating GeneratedNetwork" << std::endl;
 }

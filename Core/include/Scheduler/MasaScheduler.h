@@ -13,16 +13,16 @@
 namespace EdgeCaffe {
     class MasaScheduler : public Scheduler
     {
+    public:
         SNFTypePriorityTaskPool execTasks;
         SNFTypePriorityTaskPool loadTasks;
-    public:
-        void addTask(Task *t_ptr) override;
+        void addTask(std::shared_ptr<Task> t_ptr) override;
 
 
         bool isEmpty() override;
 
 
-        bool getNext(Task **t_ptr) override;
+        bool getNext(std::shared_ptr<Task> *t_ptr) override;
 
         MasaScheduler(const std::shared_ptr<MemoryCounter> &mc, const std::shared_ptr<NetworkRegistry> &nr);
     };

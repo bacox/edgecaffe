@@ -25,7 +25,7 @@ void EdgeCaffe::LinearOrchestrator::checkBagOfTasks()
     for (auto it = bagOfTasks.begin(); it != bagOfTasks.end(); it++)
     {
         // remove odd numbers
-        Task *task = *it;
+        std::shared_ptr<Task> task = *it;
         if (!task->waitsForOtherTasks())
         {
             bagOfTasks.erase(it--);

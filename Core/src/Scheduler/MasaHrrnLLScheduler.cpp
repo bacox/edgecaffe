@@ -10,7 +10,7 @@ void EdgeCaffe::MasaHrrnLLScheduler::setElapsedTime(int elapsedTime)
 
 }
 
-void EdgeCaffe::MasaHrrnLLScheduler::addTask(EdgeCaffe::Task *t_ptr)
+void EdgeCaffe::MasaHrrnLLScheduler::addTask(std::shared_ptr<Task> t_ptr)
 {
 // Use lock-guard for the mutex in the same way as a smart pointer
     // The mutex will be released when the lock-guard goes out of scope (end of function)
@@ -54,7 +54,7 @@ void EdgeCaffe::MasaHrrnLLScheduler::updateTaskTime()
     updateTime();
 }
 
-bool EdgeCaffe::MasaHrrnLLScheduler::getNext(EdgeCaffe::Task **t_ptr)
+bool EdgeCaffe::MasaHrrnLLScheduler::getNext(std::shared_ptr<Task> *t_ptr)
 {
     // Use lock-guard for the mutex in the same way as a smart pointer
     // The mutex will be released when the lock-guard goes out of scope (end of function)

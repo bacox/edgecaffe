@@ -82,6 +82,7 @@ namespace EdgeCaffe
     }
 
     Task::~Task(){
+//      std::cout << "[DEALLOC] >>> Deallocating Task: " << this->id << " <|> " << this->layerId << " <|> " << this->networkId << " <|> " << this->networkName << std::endl;
     }
 
     void Task::execute()

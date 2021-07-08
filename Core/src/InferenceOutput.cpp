@@ -19,13 +19,13 @@ namespace EdgeCaffe
         }
     }
 
-    void InferenceOutput::setLoadingTime(Task *task)
+    void InferenceOutput::setLoadingTime(std::shared_ptr<Task> task)
     {
         int layerId = task->layerId;
         networkProfile[layerId].loading = task->profileLine;
     }
 
-    void InferenceOutput::setExecutionTime(Task *task)
+    void InferenceOutput::setExecutionTime(std::shared_ptr<Task> task)
     {
         networkProfile[task->layerId].executing = task->profileLine;
     }
@@ -45,7 +45,7 @@ namespace EdgeCaffe
         return lines;
     }
 
-    void InferenceOutput::addTaskProfile(Task *task, bool isLoading)
+    void InferenceOutput::addTaskProfile(std::shared_ptr<Task> task, bool isLoading)
     {
         taskProfile.push_back({
             task->id,

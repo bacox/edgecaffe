@@ -31,7 +31,7 @@ namespace EdgeCaffe
         while (!action_stop && !AllowedToStop())
         {
             // Checking the pool to execute a new task
-            Task *task = nullptr;
+            std::shared_ptr<Task> task = nullptr;
             if (scheduler->getNext(&task))
             {
                 if(task->isValid())
@@ -73,7 +73,7 @@ namespace EdgeCaffe
                     }
                 }
                 // Move task to finished taskpool
-                outpool->addTask(task);
+//                outpool->addTask(task);
                 // Set task executed to true for the task dependency check
                 task->executed = true;
 
@@ -168,4 +168,9 @@ namespace EdgeCaffe
             const std::shared_ptr<TaskPool> &outpool, const std::shared_ptr<Scheduler> &scheduler, int workerId
     ) : outpool(outpool), scheduler(scheduler), workerId(workerId)
     {}
+
+    Worker::~Worker() {
+//      std::cout << "[DEALLOC] >>> Deallocating worker " << this->workerId << std::endl;
+
+    }
 }

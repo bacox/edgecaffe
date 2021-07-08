@@ -5,7 +5,7 @@
 #include "../../include/Scheduler/MasaHrrnScheduler.h"
 #include <algorithm>
 
-void EdgeCaffe::MasaHrrnScheduler::addTask(EdgeCaffe::Task *t_ptr)
+void EdgeCaffe::MasaHrrnScheduler::addTask(std::shared_ptr<Task> t_ptr)
 {
     // Use lock-guard for the mutex in the same way as a smart pointer
     // The mutex will be released when the lock-guard goes out of scope (end of function)
@@ -23,7 +23,7 @@ bool EdgeCaffe::MasaHrrnScheduler::isEmpty()
     return this->pool.empty();
 }
 
-bool EdgeCaffe::MasaHrrnScheduler::getNext(EdgeCaffe::Task **t_ptr)
+bool EdgeCaffe::MasaHrrnScheduler::getNext(std::shared_ptr<Task> *t_ptr)
 {
     // Use lock-guard for the mutex in the same way as a smart pointer
     // The mutex will be released when the lock-guard goes out of scope (end of function)
@@ -91,7 +91,7 @@ EdgeCaffe::MasaHrrnScheduler::MasaHrrnScheduler(
 }
 
 //const std::vector<EdgeCaffe::MasaHrrnScheduler::HrrnItem> &EdgeCaffe::MasaHrrnScheduler::getPool() const
-const std::vector<EdgeCaffe::Task*> &EdgeCaffe::MasaHrrnScheduler::getPool() const
+const std::vector<std::shared_ptr<EdgeCaffe::Task>> &EdgeCaffe::MasaHrrnScheduler::getPool() const
 {
     return pool;
 }
@@ -120,7 +120,7 @@ void EdgeCaffe::MasaHrrnScheduler::sortTasks()
     updateTaskTime();
     // Sort the pool of tasks
 //    std::sort(this->pool.begin(), this->pool.end(), std::greater<HrrnItem>());
-    std::sort(this->pool.begin(), this->pool.end(), std::greater<EdgeCaffe::Task*>());
+    std::sort(this->pool.begin(), this->pool.end(), std::greater<std::shared_ptr<Task>>());
 }
 
 void EdgeCaffe::MasaHrrnScheduler::updateTaskTime()

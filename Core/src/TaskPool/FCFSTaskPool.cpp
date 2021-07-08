@@ -4,7 +4,7 @@
 
 #include "../../include/TaskPool/FCFSTaskPool.h"
 #include <Tasks/Task.h>
-void EdgeCaffe::FCFSTaskPool::addTask(EdgeCaffe::Task *t_ptr)
+void EdgeCaffe::FCFSTaskPool::addTask(std::shared_ptr<Task> t_ptr)
 {
 //    // Use lock-guard for the mutex in the same way as a smart pointer
 //    // The mutex will be released when the lock-guard goes out of scope (end of function)
@@ -35,7 +35,7 @@ bool EdgeCaffe::FCFSTaskPool::isEmpty()
     return pool.empty();
 }
 
-bool EdgeCaffe::FCFSTaskPool::getNext(EdgeCaffe::Task **task)
+bool EdgeCaffe::FCFSTaskPool::getNext(std::shared_ptr<Task> *task)
 {
     if (pool.size() == 0)
         return false;

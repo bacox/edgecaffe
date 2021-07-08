@@ -69,6 +69,8 @@ namespace EdgeCaffe
 //        std::shared_ptr<AbstractTaskPool> pool;
         std::shared_ptr<Scheduler> scheduler;
 
+        virtual ~Worker();
+
         int workerId = -1;
 
         /**
