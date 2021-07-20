@@ -1,0 +1,55 @@
+#Experiment goal: Show the effect of batch arrivals with 3 small networks in the batch
+# The networks are: AgeNet, GenderNet, FaceNet
+
+n_workers: [2]
+ait-multiplier: [1]
+modes: [masa]
+memory-constraints: [512M]
+success-label-prob: [0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1]
+networks: [GenderNet, FaceNet, AgeNet, TinyYolo, EmotionNet, MemNet]
+network-set: ca-yfgae-250-opp-force-first-rpi-4
+experiment-tag: ca-yfgae-250-opp-force-first-rpi-4
+force-first-layer-nr-first: true
+wait-for-network-output: false
+n_arrivals: 250
+network-stub:
+  - networkName: TinyYolo
+    pathToNetwork: TinyYolo
+    data-label:
+      num-persons: 1
+  - networkName: FaceNet
+    pathToNetwork: FaceNet
+    data-label:
+      num-faces: 1
+    relation:
+      depends:
+        TinyYolo
+      condition:
+        num-persons:
+          gt: 0
+  - networkName: GenderNet
+    pathToNetwork: GenderNet
+    relation:
+      depends:
+        FaceNet
+      condition:
+        num-faces:
+          gt: 0
+  - networkName: AgeNet
+    pathToNetwork: AgeNet
+    relation:
+      depends:
+        FaceNet
+      condition:
+        num-faces:
+          gt: 0
+  - networkName: EmotionNet
+    pathToNetwork: EmotionNet
+    relation:
+      depends:
+        FaceNet
+      condition:
+        num-faces:
+          gt: 0
+  - networkName: MemNet
+    pathToNetwork: MemNet
