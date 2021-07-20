@@ -1,7 +1,7 @@
 //
 // Created by bacox on 12/04/2020.
 //
-
+#include <memory>
 #include "InferenceOutput.h"
 #include <Tasks/Task.h>
 namespace EdgeCaffe

@@ -9,7 +9,7 @@
 #include <Profiler/NetworkProfiler.h>
 #include <opencv2/core/types.hpp>
 #include <map>
-
+#include <memory>
 namespace EdgeCaffe
 {
     class Task;

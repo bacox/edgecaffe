@@ -1,7 +1,7 @@
 //
 // Created by bacox on 19/04/2020.
 //
-
+#include <memory>
 #include <Tasks/DummyTask.h>
 #include "GeneratedNetwork.h"
 
