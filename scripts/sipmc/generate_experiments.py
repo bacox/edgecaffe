@@ -31,6 +31,7 @@ class Experiment:
     network_set: str
     n_arrivals: int
     network_stub: dict
+    wait_for_network_output: bool
     arrivals = []
 
     @classmethod
@@ -58,6 +59,7 @@ class ExpVariation:
     arrival_list: str = './experiments/sipmc/conditional/fga-single/configs/2G/fga-single-2G-1.exp.yaml'
     output_prefix: str = 'fga-single-2G-1'
     force_first_layer_nr_first: bool = False
+    wait_for_network_output: bool = False
     arrivals= []
 
 def parse_nr_stub(path: Path, filename: str):
@@ -75,13 +77,26 @@ def generate_arrivals(stub: dict, n: int, p: float, config):
     print(prob_list)
     for prob in prob_list:
         stub_copy = copy.deepcopy(stub)
-        stub_copy = alter_network_prob(stub_copy, prob, 'FaceNet', 'num-faces')
+        try:
+            # stub_copy = alter_network_prob(stub_copy, prob, 'TinyYolo', 'num-persons')
+            stub_copy = alter_network_prob_all_labels(stub_copy, prob, 'TinyYolo', 'num-persons')
+        except:
+            pass
+            # print("[1] Cannot find a prob")
+        try:
+            # stub_copy = alter_network_prob(stub_copy, prob, 'FaceNet', 'num-faces')
+            stub_copy = alter_network_prob_all_labels(stub_copy, prob, 'FaceNet', 'num-faces')
+        except:
+            pass
+            # print("[2] Cannot find a prob")
         extended_stub = {'networks': stub_copy, 'pathToData': 'test_1.jpg', 'time': 0}
         arrivals.append(copy.deepcopy(extended_stub))
     return arrivals
 
 def gen_prob_list(p: float, n: int) -> List[int]:
-    return np.random.choice([0,1], n, p=[1-p, p])
+    amount = int(p*n)
+    return ([1]*amount) + ([0] * (n - amount))
+    # return np.random.choice([0,1], n, p=[1-p, p])
 
 def gen_prob_deterministic(config):
     # print(config)
@@ -90,7 +105,7 @@ def gen_prob_deterministic(config):
 
 def create_variation(exp: Experiment, memory: str, label_prob: float, mode: str, n_workers: int, path: str):
     tag = f'{exp.experiment_tag}-{memory}-{label_prob}'
-    variation = ExpVariation(tag=tag, output_prefix=tag, mem_limit=memory, mode=mode, n_workers=n_workers, n_arrivals=exp.n_arrivals, force_first_layer_nr_first= exp.force_first_layer_nr_first)
+    variation = ExpVariation(tag=tag, output_prefix=tag, mem_limit=memory, mode=mode, n_workers=n_workers, n_arrivals=exp.n_arrivals, force_first_layer_nr_first= exp.force_first_layer_nr_first, wait_for_network_output=exp.wait_for_network_output)
     output_path = f'../analysis/experiments/sipmc/{tag}'
     filename = f'{tag}.exp.yaml'
     arrival_list= f'{path}/configs/{memory}/{filename}'
@@ -116,6 +131,15 @@ def alter_network_prob(data: dict, value: int, network: str, data_label: str):
             continue
         item['data-label'][copy.deepcopy(data_label)] = value
     return copy.deepcopy(data)
+
+def alter_network_prob_all_labels(data: dict, value: int, network: str, data_label: str):
+    value = int(value)
+    for item in data:
+        if item['networkName'] != network:
+            continue
+        item['data-label'][copy.deepcopy(data_label)] = value
+    return copy.deepcopy(data)
+
 
 def parse_experiment(path: Path):
     print(f'Experiment: {path}')
@@ -152,13 +176,14 @@ def main():
     print('Generating experiments')
     tag = 'conditional-exp1'
 
-    base_path = 'experiments/sipmc/conditional'
+    base_path = 'experiments/sipmc/context-aware'
     path = Path(base_path)
     print(list(path.glob('*')))
     for item in path.iterdir():
         # parse_experiment(item)
-        if item.name not in ['yfgae-heavy-opportunistic', 'yfgae-heavy-opportunistic-force-first']:
-            continue
+        # if item.name not in ['yfgae-heavy-opportunistic', 'yfgae-heavy-opportunistic-force-first']:
+        # if item.name not in ['ca-fga-middle-250-rpi-1']:
+        #     continue
         # print(f' Item: {item}')
         tmp_path = str(item)
         print(f'Path: {tmp_path}')

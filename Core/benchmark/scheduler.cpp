@@ -40,10 +40,10 @@ void benchmark_scheduler(std::vector<std::shared_ptr<EdgeCaffe::Task>>& listOfTa
     for(auto task : listOfTasks)
     {
         auto *ptr = new std::vector<int>();
-        scheduler->addTask(task.get());
+        scheduler->addTask(task);
         delete ptr;
     }
-    EdgeCaffe::Task * next;
+    std::shared_ptr<EdgeCaffe::Task> next;
     int idx = 0;
     int total = listOfTasks.size();
 
@@ -72,7 +72,7 @@ void benchmark_scheduler_batch(std::vector<std::shared_ptr<EdgeCaffe::Task>>& li
 
     int idx = 0;
     int total = listOfTasks.size();
-    EdgeCaffe::Task *next;
+    std::shared_ptr<EdgeCaffe::Task> next;
     auto start_tp = std::chrono::high_resolution_clock::now();
 
     while(idx < total)
@@ -82,7 +82,7 @@ void benchmark_scheduler_batch(std::vector<std::shared_ptr<EdgeCaffe::Task>>& li
             if(idx == total)
                 continue;
             auto *ptr = new std::vector<int>();
-            scheduler->addTask(listOfTasks[idx++].get());
+            scheduler->addTask(listOfTasks[idx++]);
             delete ptr;
         }
         while(!scheduler->isEmpty())
@@ -103,7 +103,7 @@ void benchmark_addTask(std::vector<std::shared_ptr<EdgeCaffe::Task>>& listOfTask
     auto start_tp = std::chrono::high_resolution_clock::now();
     for(auto task : listOfTasks)
     {
-        scheduler->addTask(task.get());
+        scheduler->addTask(task);
     }
     auto end_tp = std::chrono::high_resolution_clock::now();
 
@@ -118,11 +118,11 @@ void benchmark_getNet(std::vector<std::shared_ptr<EdgeCaffe::Task>>& listOfTasks
 {
     std::shared_ptr<EdgeCaffe::Scheduler> scheduler = sd.scheduler;
     int total = listOfTasks.size();
-    EdgeCaffe::Task *next;
+    std::shared_ptr<EdgeCaffe::Task> next;
     auto start_tp = std::chrono::high_resolution_clock::now();
     for(auto task : listOfTasks)
     {
-        scheduler->addTask(task.get());
+        scheduler->addTask(task);
     }
 
     while(!scheduler->isEmpty())
