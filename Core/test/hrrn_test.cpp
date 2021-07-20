@@ -37,10 +37,10 @@ protected:
 TEST_F(HrrnTest, ListShoudBeSorted) {
     for(auto t : tasks)
     {
-        scheduler->addTask(t.get());
+        scheduler->addTask(t);
     }
 
-    EdgeCaffe::Task *ptr;
+    std::shared_ptr<EdgeCaffe::Task> ptr;
     scheduler->getNext(&ptr);
     EXPECT_EQ (1, ptr->id);
     scheduler->getNext(&ptr);
@@ -57,7 +57,7 @@ TEST_F(HrrnTest, ListShoudBeSorted) {
 TEST_F(HrrnTest, NotSortedBeforeUse)
 {
     for(auto t : tasks)
-        scheduler->addTask(t.get());
+        scheduler->addTask(t);
 
     int idx = 0;
     for(auto&& item : scheduler->getPool())
@@ -70,7 +70,7 @@ TEST_F(HrrnTest, NotSortedBeforeUse)
  */
 TEST_F(HrrnTest, EmptyList)
 {
-    EdgeCaffe::Task * t_ptr;
+    std::shared_ptr<EdgeCaffe::Task> t_ptr;
     EXPECT_EQ(false, scheduler->getNext(&t_ptr));
 }
 
@@ -79,8 +79,8 @@ TEST_F(HrrnTest, EmptyList)
  */
 TEST_F(HrrnTest, SingleTask)
 {
-    scheduler->addTask(tasks.front().get());
-    EdgeCaffe::Task * t_ptr;
+    scheduler->addTask(tasks.front());
+    std::shared_ptr<EdgeCaffe::Task> t_ptr;
     EXPECT_EQ(true, scheduler->getNext(&t_ptr));
     EXPECT_EQ(tasks.front()->id, t_ptr->id);
 }
@@ -91,8 +91,8 @@ TEST_F(HrrnTest, SingleTask)
 TEST_F(HrrnTest, NoTimePast)
 {
     for(const auto& t : tasks)
-        scheduler->addTask(t.get());
-    EdgeCaffe::Task *ptr;
+        scheduler->addTask(t);
+    std::shared_ptr<EdgeCaffe::Task> ptr;
     scheduler->getNext(&ptr);
     EXPECT_EQ (1, ptr->id);
     scheduler->getNext(&ptr);
@@ -108,16 +108,16 @@ TEST_F(HrrnTest, NoTimePast)
  */
 TEST_F(HrrnTest, LongFirst)
 {
-    scheduler->addTask(tasks[3].get());
+    scheduler->addTask(tasks[3]);
     std::this_thread::sleep_for(std::chrono::milliseconds(200));
 //    // Make sure the passed time has been registered and processed.
 //    scheduler->calcElapsedTime();
 //    scheduler->updateTime();
-    scheduler->addTask(tasks[0].get());
-    scheduler->addTask(tasks[1].get());
-    scheduler->addTask(tasks[2].get());
+    scheduler->addTask(tasks[0]);
+    scheduler->addTask(tasks[1]);
+    scheduler->addTask(tasks[2]);
 
-    EdgeCaffe::Task *ptr;
+    std::shared_ptr<EdgeCaffe::Task> ptr;
     scheduler->getNext(&ptr);
     EXPECT_EQ (4, ptr->id);
     scheduler->getNext(&ptr);
@@ -141,14 +141,14 @@ TEST_F(HrrnTest, LongFirst)
  */
 TEST_F(HrrnTest, ShortKeepOrder)
 {
-    scheduler->addTask(tasks[3].get());
+    scheduler->addTask(tasks[3]);
     std::this_thread::sleep_for(std::chrono::milliseconds(5));
 //    // Make sure the passed time has been registered and processed.
 //    scheduler->calcElapsedTime();
 //    scheduler->updateTime();
-    scheduler->addTask(tasks[0].get());
-    scheduler->addTask(tasks[1].get());
-    scheduler->addTask(tasks[2].get());
+    scheduler->addTask(tasks[0]);
+    scheduler->addTask(tasks[1]);
+    scheduler->addTask(tasks[2]);
 
 
     scheduler->sortTasks();

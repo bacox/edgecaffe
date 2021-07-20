@@ -4,6 +4,7 @@
 
 #ifndef EDGECAFFE_SCHEDULER_H
 #define EDGECAFFE_SCHEDULER_H
+#include <memory>
 #include <map>
 #include <mutex>
 #include <NetworkRegistry.h>

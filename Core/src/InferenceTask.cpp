@@ -1,6 +1,7 @@
 //
 // Created by bacox on 27-05-21.
 //
+#include <memory>
 #include <Tasks/LoadTask.h>
 #include <Tasks/ExecTask.h>
 #include <Tasks/DummyTask.h>
