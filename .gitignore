@@ -41,3 +41,5 @@ archive
 *.stat.csv
 *.tmp.txt
 tmp_data
+analysis/*.pdf
+/analysis/notebooks/output/batch10/*.pdf
