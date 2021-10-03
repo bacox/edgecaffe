@@ -1,5 +1,6 @@
 import os
 import sys
+from pathlib import Path
 from typing import List
 import yaml
 import itertools
@@ -36,7 +37,12 @@ def run_single_exp(config_file, base_script, dry_run : bool = False, build_folde
     thermal_file_path = '{}/{}-{}'.format(exp_output_base_path, exp_tag, thermal_filename)
 
     script_cmd = '{} {} {} \'{}\' {}'.format(base_script, memory_constraint, build_folder, CMD, n_workers)
-
+    perf_out_file = f'{exp_output_base_path}/perf-{exp_tag}.csv'
+    path = Path(perf_out_file)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.touch(exist_ok=True)
+    script_prefix = f'sudo perf stat -d -x, -o {perf_out_file} -e cache-references,cache-misses,cycles,instructions,branches,faults,migrations'
+    script_cmd = f'{script_prefix} {script_cmd}'
     print(script_cmd)
     if record_thermal:
         ##

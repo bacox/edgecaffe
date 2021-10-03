@@ -13,27 +13,10 @@ output-path: ../analysis/experiments/example/masa-example
 arrival-mode: batch
 arrival-list: ./experiments/example/configs/2G/masa-example.yaml
 output-prefix: masa-example
+batch-size: 4
 arrivals:
   - networks:
       - networkName: FaceNet
         pathToNetwork: FaceNet
-        data-label:
-          num-faces: 1
-      - networkName: GenderNet
-        pathToNetwork: GenderNet
-        relation:
-          depends:
-            FaceNet
-          condition:
-            num-faces:
-              gt: 0
-      - networkName: AgeNet
-        pathToNetwork: AgeNet
-        relation:
-          depends:
-            FaceNet
-          condition:
-            num-faces:
-              gt: 0
     pathToData: test_1.jpg
     time: 0

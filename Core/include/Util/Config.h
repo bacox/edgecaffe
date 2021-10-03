@@ -91,6 +91,8 @@ namespace EdgeCaffe {
         ConfigOption<std::string> memoryKey= ConfigOption<std::string>("valgrind");
         ConfigOption<Type::ARRIVAL_MODE> arrivalModeAsType= ConfigOption<Type::ARRIVAL_MODE>(Type::ARRIVAL_MODE::BATCH);
 
+        ConfigOption<int> batchSize = ConfigOption<int>(1);
+
         ConfigOption<YAML::Node> configFile = YAML::Node();
         std::map<std::string, std::string> configAsText;
 
@@ -239,6 +241,8 @@ namespace EdgeCaffe {
             configAsText["network"] = networksAsString;
             parseArg(result, "ait", iat);
             configAsText["ait"] = std::to_string(iat.valueOrDefault());
+            parseArg(result, "batch-size", batchSize);
+            configAsText["batch-size"] = std::to_string(batchSize.valueOrDefault());
 
             parseArg(result, "force-input-label", overideWithDataLabel);
             configAsText["force-input-label"] = std::to_string(overideWithDataLabel.valueOrDefault());

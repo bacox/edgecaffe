@@ -63,6 +63,7 @@ conv-layers:
     estimated_time_loading: 142
     estimated_time_execution: 3215
     number-of-paramters: 0
+
     isConvLayer: true
     hasModelFile: true
   - id: 5

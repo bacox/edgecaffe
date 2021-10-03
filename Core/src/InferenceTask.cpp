@@ -36,12 +36,11 @@ namespace EdgeCaffe {
             }
 
         }
-        if(valid)
+        if(valid && this->net)
         {
             // Invalidate the tasks in this network:
 //            std::cout << "Invalidate all the tasks in this network" << std::endl;
             std::cout << "Invalidate all the tasks in this network: " + this->net->subTasks.front()->networkName << std::endl;
-
             for(auto task : this->net->tasks){
 
 //                if(!task || task == nullptr)
@@ -62,7 +61,7 @@ namespace EdgeCaffe {
 
         }
         // Check dependents!!
-        for(auto dependent : dependents)
+        for(const auto& dependent : dependents)
         {
             dependent->applyDependencyResult(net->subTasks.front()->networkName, dataLabel.name, output.networkData[dataLabel.name]);
         }
@@ -80,7 +79,7 @@ namespace EdgeCaffe {
             layerNames = net->subTasks.front()->net_ptr->layer_names();
         } else
         {
-            for (auto t : net->tasks)
+            for (const auto& t : net->tasks)
             {
                 std::string layerName = "layer-" + std::to_string(t->layerId);
                 layerNames.push_back(layerName);
@@ -90,7 +89,7 @@ namespace EdgeCaffe {
         }
         output.initFromLayerVector(layerNames);
 //
-        for (auto task : net->tasks)
+        for (const auto& task : net->tasks)
         {
             task->measureTime(Task::TIME::FINISHED);
             if (std::dynamic_pointer_cast<LoadTask>(task))

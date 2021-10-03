@@ -41,6 +41,7 @@ bool EdgeCaffe::MasaScheduler::getNext(std::shared_ptr<Task> *t_ptr)
             *t_ptr = it->second;
             auto requiredMem = (*t_ptr)->requiredMemory;
             mc->lockMemory(requiredMem);
+//            std::cout << "Memory left ::>> " << mc->getFreeSpace() << " , " << mc->getRealFreeSpace() << std::endl;
             loadTasks.pool.erase(it);
             if((*t_ptr)->t_type == Task::INIT)
             {

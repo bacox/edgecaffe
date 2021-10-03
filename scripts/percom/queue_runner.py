@@ -18,13 +18,17 @@ available_commands = [
 available_devices = [
     'rpi-1',
     'rpi-2',
-    'rpi-4'
+    'rpi-4',
+    'laptop',
+    'laptop-2'
 ]
 
 available_exp_types = [
     'batch',
     'stochastic',
-    'stochastic-thesis'
+    'stochastic-thesis',
+    'context-aware',
+    'conditional'
 ]
 
 current_path = Path(__file__).parent
@@ -216,9 +220,9 @@ def cmd_configs_to_queue_file(dry_run=False, filename: str = 'experiments.tmp.tx
     if device is None:
         device = available_devices[0]
     if exp_type == 'batch':
-        glob_str = f'./experiments/percom/{exp_type}/*?*/configs/*/*.yaml'
+        glob_str = f'./experiments/sipmc/{exp_type}/*?*/configs/*/*.yaml'
     else:
-        glob_str = f'./experiments/percom/{exp_type}/*{device}*/configs/*/*.yaml'
+        glob_str = f'./experiments/sipmc/{exp_type}/*{device}*/configs/*/*.yaml'
     files = glob.glob(glob_str)
     files = [parse_name(f) + ' ' + f for f in files]
     queue = ExperimentQueue.load_from_lines(files)

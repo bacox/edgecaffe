@@ -120,63 +120,65 @@ void EdgeCaffe::Orchestrator::checkArrivals()
 void EdgeCaffe::Orchestrator::checkFinishedNetworks()
 {
     // Check if networks are done and can be deallocated fully
-//    for (auto inferenceTask : inferenceTasks)
-//    {
-//        if (!inferenceTask->finished && inferenceTask->net->isFinished())
-//        {
-//            // Create results obj
-//            nr->deactivateNetwork();
-//            inferenceTask->finished = true;
-//
-//            // deallocate
-//            inferenceTask->output.policy = modeAsString;
-//            auto netId = inferenceTask->net->networkId;
-//            inferenceTask->saveNetworkResult();
-//            inferenceTask->dealloc();
-//
-////                std::cout << "DEALLOC network id: " << netId << std::endl;
-//
-//            // Remove reference from list?
-//
-//
-//
-//        }
-//    }
+    for (const auto& inferenceTask : inferenceTasks)
+    {
+        if (!inferenceTask->finished && inferenceTask->net->isFinished())
+        {
+            // Create results obj
+            nr->deactivateNetwork();
+            inferenceTask->finished = true;
 
-
-  inferenceTasks.erase(std::remove_if(inferenceTasks.begin(), inferenceTasks.end(),
-                         [this](const std::shared_ptr<InferenceTask>& inferenceTask) {
-                             if (!inferenceTask->finished && inferenceTask->net->isFinished())
-                             {
-                               // Create results obj
-                               nr->deactivateNetwork();
-                               inferenceTask->finished = true;
-
-                               // deallocate
-                               inferenceTask->output.policy = modeAsString;
-                               auto netId = inferenceTask->net->networkId;
-                               inferenceTask->saveNetworkResult();
-                               inferenceTask->dealloc();
+            // deallocate
+            inferenceTask->output.policy = modeAsString;
+            auto netId = inferenceTask->net->networkId;
+            inferenceTask->saveNetworkResult();
+            inferenceTask->dealloc();
+            inferenceTask->dependents.clear();
+          inferenceTask->net.reset();
 
 //                std::cout << "DEALLOC network id: " << netId << std::endl;
 
-                               // Remove reference from list?
+            // Remove reference from list?
 
-//                               for(auto sched: this->schedulers) {
-//                                 std::shared_ptr<EdgeCaffe::MasaScheduler> sched_ = std::dynamic_pointer_cast<EdgeCaffe::MasaScheduler>(sched);
-//                                 std::cout << "[DEBUG] >>> size loadtasks: " << sched_->loadTasks.pool.size() << " >> size execTasks: " << sched_->execTasks.pool.size() << std::endl;
-////    std::cout << "[DEBUG] >>> tp is empty=" << taskpool->isEmpty() << std::endl;
-//                               }
+
+
+        }
+    }
+
+
+//  inferenceTasks.erase(std::remove_if(inferenceTasks.begin(), inferenceTasks.end(),
+//                         [this](const std::shared_ptr<InferenceTask>& inferenceTask) {
+//                             if (!inferenceTask->finished && inferenceTask->net->isFinished())
+//                             {
+//                               // Create results obj
+//                               nr->deactivateNetwork();
+//                               inferenceTask->finished = true;
 //
-//                               std::cout << "[DEBUG] >>> size outpool=" << this->outPool->pool.size() << std::endl;
-
-
-                                return true;
-                             } else {
-                               return false;
-                             }
-
-  }), inferenceTasks.end());
+//                               // deallocate
+//                               inferenceTask->output.policy = modeAsString;
+//                               auto netId = inferenceTask->net->networkId;
+//                               inferenceTask->saveNetworkResult();
+//                               inferenceTask->dealloc();
+//
+////                std::cout << "DEALLOC network id: " << netId << std::endl;
+//
+//                               // Remove reference from list?
+//
+////                               for(auto sched: this->schedulers) {
+////                                 std::shared_ptr<EdgeCaffe::MasaScheduler> sched_ = std::dynamic_pointer_cast<EdgeCaffe::MasaScheduler>(sched);
+////                                 std::cout << "[DEBUG] >>> size loadtasks: " << sched_->loadTasks.pool.size() << " >> size execTasks: " << sched_->execTasks.pool.size() << std::endl;
+//////    std::cout << "[DEBUG] >>> tp is empty=" << taskpool->isEmpty() << std::endl;
+////                               }
+////
+////                               std::cout << "[DEBUG] >>> size outpool=" << this->outPool->pool.size() << std::endl;
+//
+//
+//                                return true;
+//                             } else {
+//                               return false;
+//                             }
+//
+//  }), inferenceTasks.end());
 
 
 
@@ -192,7 +194,7 @@ bool EdgeCaffe::Orchestrator::allowedToStop()
 bool EdgeCaffe::Orchestrator::allFinished()
 {
     bool finished = true;
-    for (auto inferenceTask : inferenceTasks)
+    for (const auto& inferenceTask : inferenceTasks)
     {
         if (!inferenceTask->finished)
             finished = false;
@@ -450,10 +452,10 @@ void EdgeCaffe::Orchestrator::processNetworkData(
 {
     std::vector<std::string> networkLines;
     int networkId = 0;
-    for (auto inferenceTasks : inferenceTasks)
+    for (const auto& inferenceTask : inferenceTasks)
     {
-        std::string networkName = inferenceTasks->pathToNetwork;
-        std::string line = inferenceTasks->output.netProfile.durationAsCSVLine(networkId, networkName, start);
+        std::string networkName = inferenceTask->pathToNetwork;
+        std::string line = inferenceTask->output.netProfile.durationAsCSVLine(networkId, networkName, start);
         networkLines.push_back(line);
         networkId++;
     }

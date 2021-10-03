@@ -33,7 +33,8 @@ namespace EdgeCaffe
         std::string networkFile = description["network-file"].as<std::string>();
         std::string partialsLocation = description["partials-location"].as<std::string>();
         sub->basePath = description["base-path"].as<std::string>();
-        sub->modelFileName = networkFile;
+        auto batchSize = globalConfig.batchSize();
+        sub->modelFileName = "b" + std::to_string(batchSize) + + "_" + networkFile;
         sub->pathToModelFile = globalConfig.pathToNetworks() + "/" + pathToDescription + "/" + networkFile;
         sub->pathToPartials = globalConfig.pathToNetworks() + "/" + pathToDescription + "/" + partialsLocation;
 
@@ -90,7 +91,14 @@ namespace EdgeCaffe
 //            sub->partialNames.push_back(sub->pathToPartials + "/" + partialName);
 //        }
 
-        subTasks.push_back(sub);
+      // Increase estimated memory by batchsize
+      for(auto subtask : subTasks){
+        for(const auto& task : subtask->tasks) {
+          task->requiredMemory *= (double) globalConfig.batchSize();
+        }
+      }
+
+      subTasks.push_back(sub);
     }
     void InferenceNetwork::init()
     {
@@ -714,7 +722,7 @@ namespace EdgeCaffe
      */
     InferenceNetwork::~InferenceNetwork()
     {
-//      std::cout << "[DEALLOC] >>> Deallocating network: " << subTasks.front()->networkName << std::endl;
+      std::cout << "[DEALLOC] >>> Deallocating network: " << subTasks.front()->networkName << std::endl;
         // Delete all the subtasks
         for (auto subtask : subTasks)
             if (subtask != nullptr)

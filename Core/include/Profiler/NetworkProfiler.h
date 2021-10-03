@@ -9,6 +9,7 @@
 #include <string>
 #include <chrono>
 #include <vector>
+//#include <iostream>
 
 namespace EdgeCaffe
 {
@@ -68,8 +69,10 @@ namespace EdgeCaffe
         std::string durationAsCSVLine(int networkId, const std::string &networkName, const std::chrono::time_point<std::chrono::system_clock> &reference)
         {
           std::string line;
-          long waitingTime = std::chrono::duration_cast<std::chrono::nanoseconds>(startExecution - arrivalTime).count();
-          long executionTime = std::chrono::duration_cast<std::chrono::nanoseconds>(stopExecution - startExecution).count();
+//          std::cout << "Start execution=" << startExecution.time_since_epoch().count() << std::endl;
+          auto startExecTime = startExecution.time_since_epoch().count();
+          long waitingTime = startExecTime ? std::chrono::duration_cast<std::chrono::nanoseconds>(startExecution - arrivalTime).count(): 0;
+          long executionTime = startExecTime ? std::chrono::duration_cast<std::chrono::nanoseconds>(stopExecution - startExecution).count() : 0;
           long arrivalTimestamp = std::chrono::duration_cast<std::chrono::nanoseconds>(arrivalTime - reference).count();
           line = std::to_string(networkId) + "," + networkName + "," + std::to_string(arrivalTimestamp) + "," + std::to_string(waitingTime) + "," + std::to_string(executionTime);
           return line;

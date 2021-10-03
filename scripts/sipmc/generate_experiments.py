@@ -176,7 +176,7 @@ def main():
     print('Generating experiments')
     tag = 'conditional-exp1'
 
-    base_path = 'experiments/sipmc/context-aware'
+    base_path = 'experiments/sipmc/25-context-aware'
     path = Path(base_path)
     print(list(path.glob('*')))
     for item in path.iterdir():

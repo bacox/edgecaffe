@@ -31,7 +31,7 @@ option(INSTALL_NETWORKS "Install the networks found in the build folder" OFF)
 project(EdgeCaffe_Networks C CXX)
 
 
-file(COPY ${CMAKE_CURRENT_SOURCE_DIR} DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+file(COPY ${CMAKE_CURRENT_SOURCE_DIR} DESTINATION ${CMAKE_BINARY_DIR})
 if (${INSTALL_NETWORKS})
 install(
         DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
