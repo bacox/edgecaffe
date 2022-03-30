@@ -39,7 +39,7 @@ The project is divided in six sections:
   * `.prototxt` file that describes the network architecture
   * `.caffemodel` file that holds all the trained parameters
 * `./tools`: Code for the tools: `ModelSplitter`, `ExtendNetworkDescription`, `NetworkDependencyGraph`
-* `./analysis`: This folder is empty on initialization of the project but will hold the output data of executable `RunPipeline`.
+* `./analysis`: This folder is empty on initialization of the project but will hold the output data of executable `Exp_poisson_arrival_rv_nf`.
 * `./resources`: Holds the test data files.
 
 ## Quick Setup
